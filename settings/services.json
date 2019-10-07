@@ -1,0 +1,103 @@
+{
+	"services": [
+		{
+			"service_id": "235",
+			"service_name": "Cocos Analytics",
+			"service_icon": "https://account.cocos.com/client/3f8f31ccf66995e183044f167c092395.png",
+			"service_desc": "提供最核心最基本的数据、标准化界面功能简洁易用、数据准确性最好",
+			"service_title": "精准了解游戏的新增、活跃、留存、付费等数据",
+			"service_guide_url": "https://n-analytics.cocos.com/docs/",
+			"service_sample_url": "https://github.com/cocos-creator/tutorial-dark-slash/tree/analytics",
+			"service_dev_url": "http://analytics.cocos.com/realtime/jump_to/<app_id>",
+			"service_type": "3",
+			"service_type_zh": "公司和个人游戏",
+			"support_platform": [
+				"Android",
+				"iOS",
+				"HTML5"
+			],
+			"package_download_url": "https://download.cocos.com/CocosServices/plugins/service-analytics/1.2.0_2.1.0.zip",
+			"package_version_desc": "<b>更新日期：</b>2019/6/10<br>\n<br><b>更新说明：</b><br>\n1、优化SDK，修复H5-SDK 与多个小游戏平台适配问题，删除和优化init事件无用接口<br>\n2、如有相关问题咨询或者需求， 可以联系我们技术支持邮箱 <a href=' '>support-cocos@cocos.com</a>",
+			"service_component_name": "service-analytics",
+			"package_versions": [
+				"1.2.1_2.1.0",
+				"1.2.0_2.1.0",
+				"1.1.7_2.0.3",
+				"1.1.6_2.0.1_2.0.2",
+				"1.1.5_2.0.1",
+				"1.1.4_2.0.1",
+				"1.1.3_2.0.1",
+				"1.1.2_2.0.0",
+				"1.0.0_1.0.5"
+			],
+			"build_platform": [],
+			"require_verify": 0,
+			"service_price": "",
+			"service_protocol": "游戏首次开启该服务时，Cocos会后台通知服务方为游戏开通服务并初始化参数，服务方根据需要可能会获取您的Cocos账户信息，包括账户基本资料、游戏基本资料、账户余额等，点击确认开通按钮即视为您同意该服务访问您的账户信息，详见<a href='http://auth.cocos.com/CocosServiceAgreement.html'>《Cocos用户服务协议》</a>和<a href='http://auth.cocos.com/PrivacyPolicy.html'>《Cocos隐私政策》</a>"
+		},
+		{
+			"service_id": "241",
+			"service_name": "Matchvs",
+			"service_icon": "https://account.cocos.com/client/14406719a07eb3d714d36e5edc6e06fa.png",
+			"service_desc": "通过SDK接入快速实现联网功能、帧同步、国内外多节点、服务器独立部署、gameServer自定义游戏服务端逻辑。",
+			"service_title": "专业成熟的移动游戏联网与服务端解决方案",
+			"service_guide_url": "http://doc.matchvs.com/QuickStart/QuickStart-CocosCreator",
+			"service_sample_url": "http://www.matchvs.com/serviceCourse",
+			"service_dev_url": "http://www.matchvs.com/cocosLogin",
+			"service_type": "3",
+			"service_type_zh": "公司和个人游戏",
+			"support_platform": [
+				"Android",
+				"iOS",
+				"HTML5"
+			],
+			"package_download_url": "https://download.cocos.com/CocosServices/plugins/service-matchvs/1.0.10_3.7.9.10.zip",
+			"package_version_desc": "<p><strong>更新日期：</strong> 2019/9/12\n<strong>更新内容：</strong>\n1.多语言支持\n2.SDK日常更新</p>",
+			"service_component_name": "service-matchvs",
+			"package_versions": [
+				"1.0.9_3.7.9.9",
+				"1.0.7_3.7.9.6",
+				"1.0.6_3.7.9.2",
+				"1.0.5_3.7.7.3",
+				"1.0.3_3.7.6.4",
+				"1.0.10_3.7.9.10"
+			],
+			"build_platform": [],
+			"require_verify": 0,
+			"service_price": "该服务按使用量计费，<a href='https://www.matchvs.com/price'><font color='#dddddd'>计费规则</font></a>，所产生的费用将由第三方从您的 <a href='https://account.cocos.com/#/finance/finance_list'><font color='#dddddd'>Cocos 账户余额</font></a> 中扣除。",
+			"service_protocol": "游戏首次开启该服务时，Cocos会后台通知服务方为游戏开通服务并初始化参数，服务方根据需要可能会获取您的Cocos账户信息，包括账户基本资料、游戏基本资料、账户余额等，点击确认开通按钮即视为您同意该服务访问您的账户信息，详见<a href='http://auth.cocos.com/CocosServiceAgreement.html'>《Cocos用户服务协议》</a>和<a href='http://auth.cocos.com/PrivacyPolicy.html'>《Cocos隐私政策》</a>"
+		},
+		{
+			"service_id": "242",
+			"service_name": "Agora Voice",
+			"service_icon": "https://account.cocos.com/uploads/client_icon/2019-07-16/273952d155b4cdb72d2b1bc61de91ade.png",
+			"service_desc": "稳定、低耗、76ms超低延时、全球200+数据中心覆盖；变声器、超高音质、听声辩位等丰富玩法极速接入；全平台支持：Android、iOS、Web。",
+			"service_title": "游戏内置实时语音",
+			"service_guide_url": "https://docs.agora.io/cn/Interactive Gaming/game_c?platform=Cocos Creator",
+			"service_sample_url": "https://github.com/AgoraIO/Voice-Call-for-Mobile-Gaming/tree/master/Basic-Voice-Call-for-Gaming/Hello-CocosCreator-Voice-Agora",
+			"service_dev_url": "https://sso.agora.io/api/oauth/cocos/login",
+			"service_type": "3",
+			"service_type_zh": "公司和个人游戏",
+			"support_platform": [
+				"Android",
+				"iOS",
+				"HTML5"
+			],
+			"package_download_url": "https://download.cocos.com/CocosServices/plugins/service-agora/1.0.2_2.2.3.20_2.5.2.zip",
+			"package_version_desc": "<b>更新日期：<b>2019/06/27<br>\n<br><b>更新内容：</b><br>\n1、修复部分BUG<br>\n2、代码优化",
+			"service_component_name": "service-agora",
+			"package_versions": [
+				"1.0.2_2.2.3.20_2.5.2",
+				"1.0.1_2.2.3.20_2.5.2"
+			],
+			"build_platform": [],
+			"require_verify": 1,
+			"service_price": "该服务按使用量计费，<a href='https://www.agora.io/cn/price/'><font color='#dddddd'>计费规则</font></a>，所产生的费用将由第三方从您的 <a href='https://account.cocos.com/#/finance/finance_list'><font color='#dddddd'>Cocos 账户余额</font></a> 中扣除。",
+			"service_protocol": "游戏首次开启该服务时，Cocos会后台通知服务方为游戏开通服务并初始化参数，服务方根据需要可能会获取您的Cocos账户信息，包括账户基本资料、游戏基本资料、账户余额等，点击确认开通按钮即视为您同意该服务访问您的账户信息，详见<a href='http://auth.cocos.com/CocosServiceAgreement.html'>《Cocos用户服务协议》</a>和<a href='http://auth.cocos.com/PrivacyPolicy.html'>《Cocos隐私政策》</a>"
+		}
+	],
+	"game": {
+		"name": "未知游戏",
+		"appid": "UNKNOW"
+	}
+}

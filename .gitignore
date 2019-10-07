@@ -1,3 +1,6 @@
 /local
 /temp
 /library
+/.vscode
+/packages
+.DS_Store

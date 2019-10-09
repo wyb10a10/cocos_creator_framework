@@ -58,22 +58,26 @@ export class NetNode {
         this._networkTips = networkTips;
     }
 
-    public connect(host: string, port: number, auotReconnect: boolean = true, connType: NetNodeConnectType = NetNodeConnectType.Normal) {
+    public connect(host: string, port: number, auotReconnect: boolean = true, connType: NetNodeConnectType = NetNodeConnectType.Normal): boolean {
         if (this._socket && this._state == NetNodeState.Closed) {
             if (!this._isSocketInit) {
                 this.initSocket();
             }
             this._state = NetNodeState.Connecting;
             this._isAutoReconnect = auotReconnect;
-            this._socket.connect({ip : host, port});
+            if (!this._socket.connect({ ip: host, port })) {
+                return false;
+            }
             this._connType = connType;
             if (connType == NetNodeConnectType.Normal) {
                 this._host = host;
                 this._port = port;
             }
             console.log(`NetNode connect to ${host}:${port}`);
+            return true;
         } else {
             console.error(`NetNode connect error! should init socket! state ${this._state}`);
+            return false;
         }
     }
 
@@ -96,7 +100,7 @@ export class NetNode {
         } else {
             this.onChecked();
         }
-        console.log("NetNode onConnected! state ="+this._state);
+        console.log("NetNode onConnected! state =" + this._state);
     }
 
     // 连接验证成功，进入工作状态
@@ -223,10 +227,10 @@ export class NetNode {
     }
 
     // 发起请求，如果当前处于重连中，进入缓存列表等待重连完成后发送
-    public send(buf: NetData, force: boolean = false) {
+    public send(buf: NetData, force: boolean = false): boolean {
         if (this._state == NetNodeState.Working || force) {
             console.log(`socket send ...`);
-            this._socket.send(buf);
+            return this._socket.send(buf);
         } else if (this._state == NetNodeState.Checking ||
             this._state == NetNodeState.Connecting) {
             this._requests.push({
@@ -235,13 +239,15 @@ export class NetNode {
                 rspObject: null
             });
             console.log("NetNode socket is busy, push to send buffer, current state is " + this._state);
+            return true;
         } else {
             console.error("NetNode request error! current state is " + this._state);
+            return false;
         }
     }
 
     // 发起请求，并进入缓存列表，
-    public sendWithTimeout(buf: NetData, rspCmd: number, rspObject: CallbackObject, showTips: boolean = true, force: boolean = false) {
+    public request(buf: NetData, rspCmd: number, rspObject: CallbackObject, showTips: boolean = true, force: boolean = false) {
         if (this._state == NetNodeState.Working || force) {
             this._socket.send(buf);
         }
@@ -340,7 +346,7 @@ export class NetNode {
         }
     }
 
-    public rejectReConnect(){
+    public rejectReConnect() {
         this._isAutoReconnect = false;
         this.clearTimer();
     }

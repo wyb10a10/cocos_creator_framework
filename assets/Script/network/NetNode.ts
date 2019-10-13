@@ -55,14 +55,17 @@ export class NetNode {
     protected _receiveTime: number = 6000000;                               // 多久没收到数据断开
     protected _reconnetTimeOut: number = 8000000;                           // 重连间隔
     protected _requests: RequestObject[] = Array<RequestObject>();          // 请求列表
-    protected _
     protected _listener: { [key: number]: CallbackObject[] } = {}           // 监听者列表
 
     /********************** 网络相关处理 *********************/
-    public init(socket: ISocket, networkTips: any = null) {
+    public init(socket: ISocket, protocol: IProtocolHelper, networkTips: any = null, execFunc : ExecuterFunc = null) {
         console.log(`NetNode init socket`);
         this._socket = socket;
+        this._protocolHelper = protocol;
         this._networkTips = networkTips;
+        this._callbackExecuter = execFunc ? execFunc : (callback: CallbackObject, buffer: NetData) => {
+            callback.callback.call(callback.target, 0, buffer);
+        }
     }
 
     public connect(options: NetConnectOptions): boolean {
@@ -275,7 +278,7 @@ export class NetNode {
     }
 
     // 唯一request，确保没有同一响应的请求（避免一个请求重复发送，netTips界面的屏蔽也是一个好的方法）
-    public requestUnique(buf: NetData, rspCmd: number, rspObject: CallbackObject, showTips: boolean = true, force: boolean = false):boolean {
+    public requestUnique(buf: NetData, rspCmd: number, rspObject: CallbackObject, showTips: boolean = true, force: boolean = false): boolean {
         for (let i = 0; i < this._requests.length; ++i) {
             if (this._requests[i].rspCmd == rspCmd) {
                 console.log(`NetNode requestUnique faile for ${rspCmd}`);

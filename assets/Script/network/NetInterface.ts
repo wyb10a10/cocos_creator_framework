@@ -6,7 +6,7 @@
 */
 
 export type NetData = (string | ArrayBufferLike | Blob | ArrayBufferView);
-export type NetCallFunc = (mainCmd: number, subCmd: number, data: any) => void;
+export type NetCallFunc = (cmd: number, data: any) => void;
 
 // 回调对象
 export interface CallbackObject {
@@ -27,6 +27,22 @@ export interface IProtocolHelper {
     getHearbeat(): NetData;                 // 返回一个心跳包
     checkHead(msg: NetData): boolean;       // 检查数据头部是否合法
     checkCmd(msg: NetData): number;         // 获取协议类型或id
+}
+
+// 默认字符串协议对象
+export class DefStringProtocol implements IProtocolHelper {
+    getHeadlen(): number {
+        return 0;
+    }
+    getHearbeat(): NetData {
+        return "";
+    }
+    checkHead(msg: NetData): boolean {
+        return true;
+    }
+    checkCmd(msg: NetData): number {
+        return 0;
+    }
 }
 
 // Socket对象

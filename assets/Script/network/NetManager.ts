@@ -19,7 +19,7 @@ export class NetManager {
     }
 
     // 添加Node，返回ChannelID
-    public setNetNode(channelId: number, newNode: NetNode) {
+    public setNetNode(newNode: NetNode, channelId: number = 0) {
         this._channels[channelId] = newNode;
     }
 

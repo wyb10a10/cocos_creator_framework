@@ -1,4 +1,4 @@
-import { NetNode } from "./NetNode";
+import { NetNode, NetConnectOptions } from "./NetNode";
 import { NetData, CallbackObject } from "./NetInterface";
 
 /*
@@ -29,9 +29,9 @@ export class NetManager {
     }
 
     // 调用Node连接
-    public connect(options: any, channelId: number = 0): boolean {
+    public connect(options: NetConnectOptions, channelId: number = 0): boolean {
         if (this._channels[channelId]) {
-            //return this._channels[channelId].connect(options);
+            return this._channels[channelId].connect(options);
         }
         return false;
     }

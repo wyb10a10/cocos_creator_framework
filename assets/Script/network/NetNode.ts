@@ -14,6 +14,12 @@ type ExecuterFunc = (callback: CallbackObject, buffer: NetData) => void;
 type VoidFunc = () => void;
 type BoolFunc = () => boolean;
 
+export enum NetTipsType {
+    Connecting,
+    ReConnecting,
+    Requesting,
+}
+
 export enum NetNodeState {
     Closed,                     // 已关闭
     Connecting,                 // 连接中
@@ -21,20 +27,20 @@ export enum NetNodeState {
     Working,                    // 可传输数据
 }
 
-export enum NetNodeConnectType {
-    Normal,
-    ReConnect,
+export interface NetConnectOptions {
+    host?: string,              // 地址
+    port?: number,              // 端口
+    url?: string,               // url，与地址+端口二选一
+    autoReconnect?: number,     // -1 永久重连，0不自动重连，其他正整数为自动重试次数
 }
 
 export class NetNode {
-    protected _isAutoReconnect: boolean = false;                            // 是否在网络断开之后自动重连
+    protected _connectOptions: NetConnectOptions = null;
+    protected _autoReconnect: number = 0;
     protected _isSocketInit: boolean = false;                               // Socket是否初始化过
     protected _isSocketOpen: boolean = false;                               // Socket是否连接成功过
-    protected _connType: NetNodeConnectType = NetNodeConnectType.Normal;    // 连接类型
     protected _state: NetNodeState = NetNodeState.Closed;                   // 节点当前状态
     protected _socket: ISocket = null;                                      // Socket对象（可能是原生socket、websocket、wx.socket...)
-    protected _host: string;                                                // IP
-    protected _port: number;                                                // 端口
 
     protected _networkTips: INetworkTips = null;                            // 网络提示ui对象（请求提示、断线重连提示等）
     protected _protocolHelper: IProtocolHelper = null;                      // 包解析对象
@@ -58,27 +64,25 @@ export class NetNode {
         this._networkTips = networkTips;
     }
 
-    public connect(host: string, port: number, auotReconnect: boolean = true, connType: NetNodeConnectType = NetNodeConnectType.Normal): boolean {
+    public connect(options: NetConnectOptions): boolean {
         if (this._socket && this._state == NetNodeState.Closed) {
             if (!this._isSocketInit) {
                 this.initSocket();
             }
             this._state = NetNodeState.Connecting;
-            this._isAutoReconnect = auotReconnect;
-            if (!this._socket.connect({ ip: host, port })) {
+            if (!this._socket.connect(options)) {
+                this.updateNetTips(NetTipsType.Connecting, false);
                 return false;
             }
-            this._connType = connType;
-            if (connType == NetNodeConnectType.Normal) {
-                this._host = host;
-                this._port = port;
+
+            if (this._connectOptions == null) {
+                options.autoReconnect = options.autoReconnect;
             }
-            console.log(`NetNode connect to ${host}:${port}`);
+            this._connectOptions = options;
+            this.updateNetTips(NetTipsType.Connecting, true);
             return true;
-        } else {
-            console.error(`NetNode connect error! should init socket! state ${this._state}`);
-            return false;
         }
+        return false;
     }
 
     protected initSocket() {
@@ -87,6 +91,18 @@ export class NetNode {
         this._socket.onError = (event) => { this.onError(event) };
         this._socket.onClosed = (event) => { this.onClosed(event) };
         this._isSocketInit = true;
+    }
+
+    protected updateNetTips(tipsType: NetTipsType, isShow: boolean) {
+        if (this._networkTips) {
+            if (tipsType == NetTipsType.Requesting) {
+                this._networkTips.requestTips(isShow);
+            } else if (tipsType == NetTipsType.Connecting) {
+                this._networkTips.connectTips(isShow);
+            } else if (tipsType == NetTipsType.ReConnecting) {
+                this._networkTips.reconnectTips(isShow);
+            }
+        }
     }
 
     // 网络连接成功
@@ -107,10 +123,10 @@ export class NetNode {
     protected onChecked() {
         console.log("NetNode onChecked!")
         this._state = NetNodeState.Working;
-        // 关闭重连中的状态显示
-        if (this._networkTips !== null) {
-            this._networkTips.reconnectTips(false);
-        }
+        // 关闭连接或重连中的状态显示
+        this.updateNetTips(NetTipsType.Connecting, false);
+        this.updateNetTips(NetTipsType.ReConnecting, false);
+
         // 重发待发送信息
         console.log(`NetNode flush ${this._requests.length} request`)
         if (this._requests.length > 0) {
@@ -124,14 +140,7 @@ export class NetNode {
                 }
             }
             // 如果还有等待返回的请求，启动网络请求层
-            if (this._networkTips != null) {
-                if (this._requests.length > 0) {
-                    console.log(`NetNode startRequestTips`)
-                    this._networkTips.requestTips(true);
-                } else {
-                    this._networkTips.requestTips(false);
-                }
-            }
+            this.updateNetTips(NetTipsType.Requesting, this.request.length > 0);
         }
     }
 
@@ -162,8 +171,8 @@ export class NetNode {
                 }
             }
             console.log(`NetNode still has ${this._requests.length} request watting`);
-            if (this._requests.length == 0 && this._networkTips) {
-                this._networkTips.requestTips(false);
+            if (this._requests.length == 0) {
+                this.updateNetTips(NetTipsType.Requesting, false);
             }
         }
 
@@ -183,21 +192,22 @@ export class NetNode {
     protected onClosed(event) {
         this.clearTimer();
 
-        // 执行断线回调
+        // 执行断线回调，返回false表示不进行重连
         if (this._disconnectCallback && !this._disconnectCallback()) {
             console.log(`disconnect return!`)
             return;
         }
 
         // 自动重连
-        if (this._isAutoReconnect) {
-            if (this._networkTips) {
-                this._networkTips.reconnectTips(true);
-            }
+        if (this.isAutoReconnect()) {
+            this.updateNetTips(NetTipsType.ReConnecting, true);
             this._reconnectTimer = setTimeout(() => {
                 this._socket.close();
                 this._state = NetNodeState.Closed;
-                this.connect(this._host, this._port, this._isAutoReconnect, NetNodeConnectType.ReConnect);
+                this.connect(this._connectOptions);
+                if (this._autoReconnect > 0) {
+                    this._autoReconnect -= 1;
+                }
             }, this._reconnetTimeOut);
         } else {
             this._state = NetNodeState.Closed;
@@ -209,6 +219,7 @@ export class NetNode {
         this._listener = {};
         this._requests.length = 0;
         if (this._networkTips) {
+            this._networkTips.connectTips(false);
             this._networkTips.reconnectTips(false);
             this._networkTips.requestTips(false);
         }
@@ -257,8 +268,8 @@ export class NetNode {
             buffer: buf, rspCmd, rspObject
         });
         // 启动网络请求层
-        if (this._networkTips !== null && showTips) {
-            this._networkTips.requestTips(true);
+        if (showTips) {
+            this.updateNetTips(NetTipsType.Requesting, true);
         }
     }
 
@@ -346,8 +357,12 @@ export class NetNode {
         }
     }
 
-    public rejectReConnect() {
-        this._isAutoReconnect = false;
+    public isAutoReconnect() {
+        return this._autoReconnect != 0;
+    }
+
+    public rejectReconnect() {
+        this._autoReconnect = 0;
         this.clearTimer();
     }
 }

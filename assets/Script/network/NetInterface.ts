@@ -35,13 +35,14 @@ export interface ISocket {
     onMessage: (msg: NetData) => void;
     onError: (event) => void;
     onClosed: (event) => void;
-    connect(options: any) : boolean;
-    send(buffer: NetData) : boolean;
+    connect(options: any): boolean;
+    send(buffer: NetData): boolean;
     close(code?: number, reason?: string);
 }
 
 // 网络提示对象
 export interface INetworkTips {
-    reconnectTips(isShow : boolean): void;
-    requestTips(isShow : boolean): void;
+    connectTips(isShow: boolean): void;
+    reconnectTips(isShow: boolean): void;
+    requestTips(isShow: boolean): void;
 }

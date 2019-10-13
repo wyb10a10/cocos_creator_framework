@@ -45,11 +45,21 @@ export class NetManager {
         return false;
     }
 
-    public request(buf: NetData, rspCmd: number, rspObject: CallbackObject, showTips: boolean = true, force: boolean = false, channelId: number) {
+    // 发起请求，并在在结果返回时调用指定好的回调函数
+    public request(buf: NetData, rspCmd: number, rspObject: CallbackObject, showTips: boolean = true, force: boolean = false, channelId: number = 0) {
         let node = this._channels[channelId];
         if(node) {
             node.request(buf, rspCmd, rspObject, showTips, force);
         }
+    }
+
+    // 同request，但在request之前会先判断队列中是否已有rspCmd，如有重复的则直接返回
+    public requestUnique(buf: NetData, rspCmd: number, rspObject: CallbackObject, showTips: boolean = true, force: boolean = false, channelId: number = 0): boolean {
+        let node = this._channels[channelId];
+        if(node) {
+            return node.requestUnique(buf, rspCmd, rspObject, showTips, force);
+        }
+        return false;
     }
 
     // 调用Node关闭

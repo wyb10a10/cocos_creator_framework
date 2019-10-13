@@ -55,6 +55,7 @@ export class NetNode {
     protected _receiveTime: number = 6000000;                               // 多久没收到数据断开
     protected _reconnetTimeOut: number = 8000000;                           // 重连间隔
     protected _requests: RequestObject[] = Array<RequestObject>();          // 请求列表
+    protected _
     protected _listener: { [key: number]: CallbackObject[] } = {}           // 监听者列表
 
     /********************** 网络相关处理 *********************/
@@ -257,7 +258,7 @@ export class NetNode {
         }
     }
 
-    // 发起请求，并进入缓存列表，
+    // 发起请求，并进入缓存列表
     public request(buf: NetData, rspCmd: number, rspObject: CallbackObject, showTips: boolean = true, force: boolean = false) {
         if (this._state == NetNodeState.Working || force) {
             this._socket.send(buf);
@@ -271,6 +272,18 @@ export class NetNode {
         if (showTips) {
             this.updateNetTips(NetTipsType.Requesting, true);
         }
+    }
+
+    // 唯一request，确保没有同一响应的请求（避免一个请求重复发送，netTips界面的屏蔽也是一个好的方法）
+    public requestUnique(buf: NetData, rspCmd: number, rspObject: CallbackObject, showTips: boolean = true, force: boolean = false):boolean {
+        for (let i = 0; i < this._requests.length; ++i) {
+            if (this._requests[i].rspCmd == rspCmd) {
+                console.log(`NetNode requestUnique faile for ${rspCmd}`);
+                return false;
+            }
+        }
+        this.request(buf, rspCmd, rspObject, showTips, force);
+        return true;
     }
 
     /********************** 回调相关处理 *********************/
@@ -306,6 +319,14 @@ export class NetNode {
             if (-1 != index) {
                 this._listener[cmd].splice(index, 1);
             }
+        }
+    }
+
+    public cleanListeners(cmd: number = -1) {
+        if (cmd == -1) {
+            this._listener = {}
+        } else {
+            this._listener[cmd] = null;
         }
     }
 

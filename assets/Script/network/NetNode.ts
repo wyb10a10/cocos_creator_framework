@@ -11,6 +11,7 @@ import { ISocket, INetworkTips, IProtocolHelper, RequestObject, CallbackObject, 
 */
 
 type ExecuterFunc = (callback: CallbackObject, buffer: NetData) => void;
+type CheckFunc = (checkedFunc : VoidFunc ) => void;
 type VoidFunc = () => void;
 type BoolFunc = () => boolean;
 
@@ -44,7 +45,7 @@ export class NetNode {
 
     protected _networkTips: INetworkTips = null;                            // 网络提示ui对象（请求提示、断线重连提示等）
     protected _protocolHelper: IProtocolHelper = null;                      // 包解析对象
-    protected _connectedCallback: VoidFunc = null;                          // 连接完成回调
+    protected _connectedCallback: CheckFunc = null;                         // 连接完成回调
     protected _disconnectCallback: BoolFunc = null;                         // 断线回调
     protected _callbackExecuter: ExecuterFunc = null;                       // 回调执行
 
@@ -113,10 +114,10 @@ export class NetNode {
     protected onConnected(event) {
         console.log("NetNode onConnected!")
         this._isSocketOpen = true;
-        // 如果设置了
+        // 如果设置了鉴权回调，在连接完成后进入鉴权阶段，等待鉴权结束
         if (this._connectedCallback !== null) {
             this._state = NetNodeState.Checking;
-            this._connectedCallback();
+            this._connectedCallback(() => { this.onChecked() });
         } else {
             this.onChecked();
         }

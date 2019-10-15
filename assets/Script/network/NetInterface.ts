@@ -62,10 +62,3 @@ export interface INetworkTips {
     reconnectTips(isShow: boolean): void;
     requestTips(isShow: boolean): void;
 }
-
-// 网络延迟模拟
-export interface INetworkSmilator {
-    delayRate : number;         // 延迟概率
-    dalayMinTime : number;      // 最小延迟
-    dalayMaxTime : number;      // 最大延迟
-}

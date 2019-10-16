@@ -25,6 +25,7 @@ export interface RequestObject {
 export interface IProtocolHelper {
     getHeadlen(): number;                   // 返回包头长度
     getHearbeat(): NetData;                 // 返回一个心跳包
+    getPackageLen(msg: NetData): number;    // 返回整个包的长度
     checkHead(msg: NetData): boolean;       // 检查数据头部是否合法
     checkCmd(msg: NetData): number;         // 获取协议类型或id
 }
@@ -36,6 +37,10 @@ export class DefStringProtocol implements IProtocolHelper {
     }
     getHearbeat(): NetData {
         return "";
+    }
+    getPackageLen(msg: NetData): number
+    {
+        return msg.toString().length;
     }
     checkHead(msg: NetData): boolean {
         return true;

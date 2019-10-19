@@ -153,7 +153,7 @@ export class NetNode {
     protected onMessage(msg): void {
         // console.log(`NetNode onMessage status = ` + this._state);
         // 进行头部的校验（实际包长与头部长度是否匹配）
-        if (!this._protocolHelper.checkHead(msg)) {
+        if (!this._protocolHelper.checkPackage(msg)) {
             console.error(`NetNode checkHead Error`);
             return;
         }
@@ -162,7 +162,7 @@ export class NetNode {
         // 重置心跳包发送器
         this.resetHearbeatTimer();
         // 触发消息执行
-        let rspCmd = this._protocolHelper.checkCmd(msg);
+        let rspCmd = this._protocolHelper.getPackageId(msg);
         console.log(`NetNode onMessage rspCmd = ` + rspCmd);
         // 优先触发request队列
         if (this._requests.length > 0) {

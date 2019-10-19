@@ -34,6 +34,12 @@ interface ReleaseResArgs {
     use?: string,
 }
 
+// 兼容性处理
+let isChildClassOf = cc.js["isChildClassOf"]
+if (!isChildClassOf) {
+    isChildClassOf = cc["isChildClassOf"];
+}
+
 export default class ResLoader {
 
     private _resMap: Map<string, CacheInfo> = new Map<string, CacheInfo>();
@@ -83,7 +89,7 @@ export default class ResLoader {
         }
         let ret: LoadResArgs = { url: arguments[0] };
         for (let i = 1; i < arguments.length; ++i) {
-            if (i == 1 && cc.isChildClassOf(arguments[i], cc.RawAsset)) {
+            if (i == 1 && isChildClassOf(arguments[i], cc.RawAsset)) {
                 // 判断是不是第一个参数type
                 ret.type = arguments[i];
             } else if (i == arguments.length - 1 && typeof arguments[i] == "string") {

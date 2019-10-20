@@ -1,7 +1,7 @@
 /**
  * 资源加载类
  * 1. 加载完成后自动记录引用关系，根据DependKeys记录反向依赖
- * 2. 支持资源占用，如某打开的UI占用了A资源，其他地方释放资源B，资源B引用了资源A，如果没有其他引用资源A的资源，会触发资源A的释放，
+ * 2. 支持资源使用，如某打开的UI使用了A资源，其他地方释放资源B，资源B引用了资源A，如果没有其他引用资源A的资源，会触发资源A的释放，
  * 3. 能够安全释放依赖资源（一个资源同时被多个资源引用，只有当其他资源都释放时，该资源才会被释放）
  * 
  * 2018-7-17 by 宝爷
@@ -12,7 +12,7 @@ export type ProcessCallback = (completedCount: number, totalCount: number, item:
 // 资源加载的完成回调
 export type CompletedCallback = (error: Error, resource: any) => void;
 
-// 引用和占用的结构体
+// 引用和使用的结构体
 interface CacheInfo {
     refs: Set<string>,
     uses: Set<string>
@@ -70,7 +70,7 @@ export default class ResLoader {
         let ccloader: any = cc.loader;
         let item = ccloader._cache[url];
         if (!item) {
-            let uuid = ccloader._getResUuid(url, type, true);
+            let uuid = ccloader._getResUuid(url, type, false);
             if (uuid) {
                 let ref = ccloader._getReferenceKey(uuid);
                 item = ccloader._cache[ref];
@@ -127,10 +127,10 @@ export default class ResLoader {
     }
 
     /**
-     * 生成一个资源占用Key
+     * 生成一个资源使用Key
      * @param where 在哪里使用，如Scene、UI、Pool
-     * @param who 占用者，如Login、UIHelp...
-     * @param why 占用原因，自定义...
+     * @param who 使用者，如Login、UIHelp...
+     * @param why 使用原因，自定义...
      */
     public static makeUseKey(where: string, who: string = "none", why: string = ""): string {
         return `use_${where}_by_${who}_for_${why}`;
@@ -156,7 +156,7 @@ export default class ResLoader {
      * @param type          资源类型，默认为null
      * @param onProgess     加载进度回调
      * @param onCompleted   加载完成回调
-     * @param use           资源占用key，根据makeUseKey方法生成
+     * @param use           资源使用key，根据makeUseKey方法生成
      */
     public loadRes(url: string, use?: string);
     public loadRes(url: string, onCompleted: CompletedCallback, use?: string);
@@ -193,7 +193,7 @@ export default class ResLoader {
             if (item) {
                 let info = this.getCacheInfo(item.url);
                 info.refs.add(item.url);
-                // 更新资源占用
+                // 更新资源使用
                 if (resArgs.use) {
                     info.uses.add(resArgs.use);
                 }
@@ -203,7 +203,7 @@ export default class ResLoader {
             if (resArgs.onCompleted) {
                 resArgs.onCompleted(error, resource);
             }
-            // console.timeEnd("loadRes|"+resArgs.url);
+            console.timeEnd("loadRes|"+resArgs.url);
         };
 
         // 预判是否资源已加载
@@ -219,7 +219,7 @@ export default class ResLoader {
      * 释放资源
      * @param url   要释放的url
      * @param type  资源类型
-     * @param use   要解除的资源占用key，根据makeUseKey方法生成
+     * @param use   要解除的资源使用key，根据makeUseKey方法生成
      */
     public releaseRes(url: string, use?: string);
     public releaseRes(url: string, type: typeof cc.Asset, use?: string)
@@ -233,23 +233,24 @@ export default class ResLoader {
             console.warn(`releaseRes item is null ${resArgs.url} ${resArgs.type}`);
             return;
         }
-        // cc.log("resloader release item");
+        cc.log("resloader release item");
         // cc.log(arguments);
         let cacheInfo = this.getCacheInfo(item.url);
         if (resArgs.use) {
             cacheInfo.uses.delete(resArgs.use)
         }
-        // 解除自身对自己的引用
-        cacheInfo.refs.delete(item.url);
-        this._release(item);
+        this._release(item, item.url);
     }
 
     // 释放一个资源
-    private _release(item) {
+    private _release(item, itemUrl) {
         if (!item) {
             return;
         }
         let cacheInfo = this.getCacheInfo(item.url);
+        // 解除自身对自己的引用
+        cacheInfo.refs.delete(itemUrl);
+
         if (cacheInfo.uses.size == 0 && cacheInfo.refs.size == 0) {
             // 解除引用
             let delDependKey = (item, refKey) => {
@@ -257,19 +258,18 @@ export default class ResLoader {
                     for (let depKey of item.dependKeys) {
                         let ccloader: any = cc.loader;
                         let depItem = ccloader._cache[depKey]
-                        this.getCacheInfo(depKey).refs.delete(refKey);
-                        this._release(depItem);
+                        this._release(depItem, refKey);
                     }
                 }
             }
-            delDependKey(item, item.url);
+            delDependKey(item, itemUrl);
             //如果没有uuid,就直接释放url
             if (item.uuid) {
                 cc.loader.release(item.uuid);
-                // cc.log("resloader release item by uuid :" + item.url);
+                cc.log("resloader release item by uuid :" + item.url);
             } else {
                 cc.loader.release(item.url);
-                // cc.log("resloader release item by url:" + item.url);
+                cc.log("resloader release item by url:" + item.url);
             }
         }
     }
@@ -278,7 +278,7 @@ export default class ResLoader {
      * 判断一个资源能否被释放
      * @param url 资源url
      * @param type  资源类型
-     * @param use   要解除的资源占用key，根据makeUseKey方法生成
+     * @param use   要解除的资源使用key，根据makeUseKey方法生成
      */
     public checkReleaseUse(url: string, use?: string): boolean;
     public checkReleaseUse(url: string, type: typeof cc.Asset, use?: string): boolean
@@ -312,5 +312,4 @@ export default class ResLoader {
 
         return checkUse && checkRef;
     }
-
 }

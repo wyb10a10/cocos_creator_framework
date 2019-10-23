@@ -183,16 +183,16 @@ export default class ResLoader {
             }
 
             let item = this._getResItem(resArgs.url, resArgs.type);
-            if (item && item.url) {
-                addDependKey(item, item.url);
+            if (item && item.id) {
+                addDependKey(item, item.id);
             } else {
                 cc.warn(`addDependKey item error1! for ${resArgs.url}`);
             }
 
             // 给自己加一个自身的引用
             if (item) {
-                let info = this.getCacheInfo(item.url);
-                info.refs.add(item.url);
+                let info = this.getCacheInfo(item.id);
+                info.refs.add(item.id);
                 // 更新资源使用
                 if (resArgs.use) {
                     info.uses.add(resArgs.use);
@@ -235,11 +235,11 @@ export default class ResLoader {
         }
         cc.log("resloader release item");
         // cc.log(arguments);
-        let cacheInfo = this.getCacheInfo(item.url);
+        let cacheInfo = this.getCacheInfo(item.id);
         if (resArgs.use) {
             cacheInfo.uses.delete(resArgs.use)
         }
-        this._release(item, item.url);
+        this._release(item, item.id);
     }
 
     // 释放一个资源
@@ -247,7 +247,7 @@ export default class ResLoader {
         if (!item) {
             return;
         }
-        let cacheInfo = this.getCacheInfo(item.url);
+        let cacheInfo = this.getCacheInfo(item.id);
         // 解除自身对自己的引用
         cacheInfo.refs.delete(itemUrl);
 
@@ -266,12 +266,12 @@ export default class ResLoader {
             //如果没有uuid,就直接释放url
             if (item.uuid) {
                 cc.loader.release(item.uuid);
-                cc.log("resloader release item by uuid :" + item.url);
+                cc.log("resloader release item by uuid :" + item.id);
             } else {
-                cc.loader.release(item.url);
-                cc.log("resloader release item by url:" + item.url);
+                cc.loader.release(item.id);
+                cc.log("resloader release item by url:" + item.id);
             }
-            this._resMap.delete(item.url);
+            this._resMap.delete(item.id);
         }
     }
 
@@ -291,7 +291,7 @@ export default class ResLoader {
             return true;
         }
 
-        let cacheInfo = this.getCacheInfo(item.url);
+        let cacheInfo = this.getCacheInfo(item.id);
         let checkUse = false;
         let checkRef = false;
 
@@ -305,7 +305,7 @@ export default class ResLoader {
             checkUse = true;
         }
 
-        if ((cacheInfo.refs.size == 1 && cacheInfo.refs.has(item.url)) || cacheInfo.refs.size == 0) {
+        if ((cacheInfo.refs.size == 1 && cacheInfo.refs.has(item.id)) || cacheInfo.refs.size == 0) {
             checkRef = true;
         } else {
             checkRef = false;

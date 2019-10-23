@@ -174,7 +174,7 @@ export default class ResLoader {
                     for (let depKey of item.dependKeys) {
                         // 记录该资源被我引用
                         this.getCacheInfo(depKey).refs.add(refKey);
-                        // cc.log(`${depKey} ref by ${refKey}`);
+                        cc.log(`${depKey} ref by ${refKey}`);
                         let ccloader: any = cc.loader;
                         let depItem = ccloader._cache[depKey]
                         addDependKey(depItem, refKey)
@@ -271,6 +271,7 @@ export default class ResLoader {
                 cc.loader.release(item.url);
                 cc.log("resloader release item by url:" + item.url);
             }
+            this._resMap.delete(item.url);
         }
     }
 

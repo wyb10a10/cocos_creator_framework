@@ -1,4 +1,4 @@
-import { kx } from "../res/ResLoader"
+import { resLoader, CompletedCallback } from "../res/ResLoader"
 
 /**
  * UIView界面基础类
@@ -104,7 +104,7 @@ export class UIView extends cc.Component {
      */
     public getUseKey(): string {
         if (!this.useKey) {
-            this.useKey = kx.loader.makeUseKey("UI_", this.UIid.toString(), `${++UIView.uiIndex}`);
+            this.useKey = resLoader.makeUseKey("UI_", this.UIid.toString(), `${++UIView.uiIndex}`);
         }
         return this.useKey;
     }
@@ -116,9 +116,9 @@ export class UIView extends cc.Component {
      * @param type 类型，如cc.Prefab,cc.SpriteFrame,cc.Texture2D
      * @param onCompleted 
      */
-    public loadRes(url: string, type: typeof cc.Asset, onCompleted: kx.CompletedCallback) {
+    public loadRes(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback) {
         let useStr = this.getUseKey();
-        kx.loader.loadRes(url, type, (error: Error, res) => {
+        resLoader.loadRes(url, type, (error: Error, res) => {
             if (!error) {
                 this.autoRes.push({ url: url, type: type });
             }
@@ -132,7 +132,7 @@ export class UIView extends cc.Component {
     public releaseAutoRes() {
         for (let index = 0; index < this.autoRes.length; index++) {
             const element = this.autoRes[index];
-            kx.loader.releaseRes(element.url,
+            resLoader.releaseRes(element.url,
                 element.type, element.use || this.getUseKey());
         }
     }

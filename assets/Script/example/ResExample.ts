@@ -1,4 +1,4 @@
-import { kx } from "../res/ResLoader";
+import { resLoader } from "../res/ResLoader";
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,11 +19,11 @@ export default class NetExample extends cc.Component {
 
     onUnloadRes() {
         this.attachNode.removeAllChildren(true);
-        cc.loader.releaseRes("Prefab/HelloWorld");
+        resLoader.releaseRes("Prefab/HelloWorld");
     }
 
     onMyLoadRes() {
-        kx.loader.loadRes("Prefab/HelloWorld", cc.Prefab, (error: Error, prefab: cc.Prefab) => {
+        resLoader.loadRes("Prefab/HelloWorld", cc.Prefab, (error: Error, prefab: cc.Prefab) => {
             if (!error) {
                 cc.instantiate(prefab).parent = this.attachNode;
             }
@@ -32,7 +32,7 @@ export default class NetExample extends cc.Component {
 
     onMyUnloadRes() {
         this.attachNode.removeAllChildren(true);
-        kx.loader.releaseRes("Prefab/HelloWorld");
+        resLoader.releaseRes("Prefab/HelloWorld");
     }
 
     onDump() {

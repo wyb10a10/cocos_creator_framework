@@ -1,5 +1,6 @@
-import UIView, { UIShowTypes } from "./UIView";
-import ResLoader, { ProcessCallback,CompletedCallback } from "../res/ResLoader";
+import { kx } from "../res/ResLoader"
+import { UIView, UIShowTypes } from "./UIView";
+
 /**
  * UIManager界面管理类
  * 
@@ -72,6 +73,8 @@ export class UIManager {
 
     private constructor() {
     }
+
+    
 
     /**
      * 初始化所有UI的配置对象
@@ -194,7 +197,7 @@ export class UIManager {
         }
 
         let useKey = this.makeUseKey();
-        ResLoader.getInstance().loadRes(uiPath, (err: Error, prefab: cc.Prefab) => {
+        kx.loader.loadRes(uiPath, (err: Error, prefab: cc.Prefab) => {
             // 检查加载资源错误
             if (err) {
                 cc.log(`getOrCreateUI loadRes ${uiId} faile, path: ${uiPath} error: ${err}`);
@@ -206,7 +209,7 @@ export class UIManager {
             if (null == uiNode) {
                 cc.log(`getOrCreateUI instantiate ${uiId} faile, path: ${uiPath}`);
                 completeCallback(null);
-                ResLoader.getInstance().releaseRes(uiPath, cc.Prefab);
+                kx.loader.releaseRes(uiPath, cc.Prefab);
                 return;
             }
             // 检查组件获取错误
@@ -215,7 +218,7 @@ export class UIManager {
                 cc.log(`getOrCreateUI getComponent ${uiId} faile, path: ${uiPath}`);
                 uiNode.destroy();
                 completeCallback(null);
-                ResLoader.getInstance().releaseRes(uiPath, cc.Prefab);
+                kx.loader.releaseRes(uiPath, cc.Prefab);
                 return;
             }
             // 异步加载UI预加载的资源
@@ -234,7 +237,7 @@ export class UIManager {
      * @param uiArgs 初始化参数
      * @param progressCallback 加载进度回调
      */
-    private getOrCreateUIWithProgress(uiId: number, completeCallback: (uiView: UIView) => void, uiArgs: any, progressCallback: ProcessCallback): void {
+    private getOrCreateUIWithProgress(uiId: number, completeCallback: (uiView: UIView) => void, uiArgs: any, progressCallback: kx.ProcessCallback): void {
       // 如果找到缓存对象，则直接返回
       let uiView: UIView = this.UICache[uiId];
       if (uiView) {
@@ -251,7 +254,7 @@ export class UIManager {
       }
 
       let useKey = this.makeUseKey();
-      ResLoader.getInstance().loadRes(uiPath, progressCallback, (err: Error, prefab: cc.Prefab) => {
+      kx.loader.loadRes(uiPath, progressCallback, (err: Error, prefab: cc.Prefab) => {
           // 检查加载资源错误
           if (err) {
               cc.log(`getOrCreateUI loadRes ${uiId} faile, path: ${uiPath} error: ${err}`);
@@ -263,7 +266,7 @@ export class UIManager {
           if (null == uiNode) {
               cc.log(`getOrCreateUI instantiate ${uiId} faile, path: ${uiPath}`);
               completeCallback(null);
-              ResLoader.getInstance().releaseRes(uiPath, cc.Prefab);
+              kx.loader.releaseRes(uiPath, cc.Prefab);
               return;
           }
           // 检查组件获取错误
@@ -272,7 +275,7 @@ export class UIManager {
               cc.log(`getOrCreateUI getComponent ${uiId} faile, path: ${uiPath}`);
               uiNode.destroy();
               completeCallback(null);
-              ResLoader.getInstance().releaseRes(uiPath, cc.Prefab);
+              kx.loader.releaseRes(uiPath, cc.Prefab);
               return;
           }
           // 异步加载UI预加载的资源
@@ -394,7 +397,7 @@ export class UIManager {
         }, uiArgs);
     }
 
-    public openWithProgress(uiId: number, uiArgs: any, progressCallback: ProcessCallback) {
+    public openWithProgress(uiId: number, uiArgs: any, progressCallback: kx.ProcessCallback) {
       let uiInfo: UIInfo = {
           uiId: uiId,
           uiArgs: uiArgs,

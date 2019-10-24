@@ -1,4 +1,4 @@
-import ResLoader, { CompletedCallback } from "../res/ResLoader";
+import { kx } from "../res/ResLoader"
 
 /**
  * UIView界面基础类
@@ -36,7 +36,7 @@ interface autoResInfo {
 };
 
 @ccclass
-export default class UIView extends cc.Component {
+export class UIView extends cc.Component {
 
     /** 快速关闭 */
     @property
@@ -104,7 +104,7 @@ export default class UIView extends cc.Component {
      */
     public getUseKey(): string {
         if (!this.useKey) {
-            this.useKey = ResLoader.makeUseKey("UI_", this.UIid.toString(), `${++UIView.uiIndex}`);
+            this.useKey = kx.loader.makeUseKey("UI_", this.UIid.toString(), `${++UIView.uiIndex}`);
         }
         return this.useKey;
     }
@@ -116,9 +116,9 @@ export default class UIView extends cc.Component {
      * @param type 类型，如cc.Prefab,cc.SpriteFrame,cc.Texture2D
      * @param onCompleted 
      */
-    public loadRes(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback) {
+    public loadRes(url: string, type: typeof cc.Asset, onCompleted: kx.CompletedCallback) {
         let useStr = this.getUseKey();
-        ResLoader.getInstance().loadRes(url, type, (error: Error, res) => {
+        kx.loader.loadRes(url, type, (error: Error, res) => {
             if (!error) {
                 this.autoRes.push({ url: url, type: type });
             }
@@ -132,7 +132,7 @@ export default class UIView extends cc.Component {
     public releaseAutoRes() {
         for (let index = 0; index < this.autoRes.length; index++) {
             const element = this.autoRes[index];
-            ResLoader.getInstance().releaseRes(element.url,
+            kx.loader.releaseRes(element.url,
                 element.type, element.use || this.getUseKey());
         }
     }

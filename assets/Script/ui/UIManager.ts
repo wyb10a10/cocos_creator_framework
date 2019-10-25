@@ -59,23 +59,6 @@ export class UIManager {
     /** UI关闭回调 */
     public uiCloseDelegate: (uiId: number) => void = null;
 
-    private static instance: UIManager = null;
-    public static getInstance(): UIManager {
-        if (!this.instance) {
-            this.instance = new UIManager();
-        }
-        return this.instance;
-    }
-
-    public static destroy(): void {
-        this.instance = null;
-    }
-
-    private constructor() {
-    }
-
-    
-
     /**
      * 初始化所有UI的配置对象
      * @param conf 配置对象
@@ -618,6 +601,7 @@ export class UIManager {
         this.UICache = {};
     }
 
+    /** UI的便捷接口 */
     public isTopUI(uiId) {
         if (this.UIStack.length == 0) {
             return false;
@@ -652,3 +636,5 @@ export class UIManager {
         return -1;
     }
 }
+
+export let uiManager: UIManager = new UIManager();

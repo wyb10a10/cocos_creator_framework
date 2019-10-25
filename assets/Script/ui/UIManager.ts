@@ -221,54 +221,54 @@ export class UIManager {
      * @param progressCallback 加载进度回调
      */
     private getOrCreateUIWithProgress(uiId: number, completeCallback: (uiView: UIView) => void, uiArgs: any, progressCallback: ProcessCallback): void {
-      // 如果找到缓存对象，则直接返回
-      let uiView: UIView = this.UICache[uiId];
-      if (uiView) {
-          completeCallback(uiView);
-          return;
-      }
+        // 如果找到缓存对象，则直接返回
+        let uiView: UIView = this.UICache[uiId];
+        if (uiView) {
+            completeCallback(uiView);
+            return;
+        }
 
-      // 找到UI配置
-      let uiPath = this.UIConf[uiId].prefab;
-      if (null == uiPath) {
-          cc.log(`getOrCreateUI ${uiId} faile, prefab conf not found!`);
-          completeCallback(null);
-          return;
-      }
+        // 找到UI配置
+        let uiPath = this.UIConf[uiId].prefab;
+        if (null == uiPath) {
+            cc.log(`getOrCreateUI ${uiId} faile, prefab conf not found!`);
+            completeCallback(null);
+            return;
+        }
 
-      let useKey = this.makeUseKey();
-      resLoader.loadRes(uiPath, progressCallback, (err: Error, prefab: cc.Prefab) => {
-          // 检查加载资源错误
-          if (err) {
-              cc.log(`getOrCreateUI loadRes ${uiId} faile, path: ${uiPath} error: ${err}`);
-              completeCallback(null);
-              return;
-          }
-          // 检查实例化错误
-          let uiNode: cc.Node = cc.instantiate(prefab);
-          if (null == uiNode) {
-              cc.log(`getOrCreateUI instantiate ${uiId} faile, path: ${uiPath}`);
-              completeCallback(null);
-              resLoader.releaseRes(uiPath, cc.Prefab);
-              return;
-          }
-          // 检查组件获取错误
-          uiView = uiNode.getComponent(UIView);
-          if (null == uiView) {
-              cc.log(`getOrCreateUI getComponent ${uiId} faile, path: ${uiPath}`);
-              uiNode.destroy();
-              completeCallback(null);
-              resLoader.releaseRes(uiPath, cc.Prefab);
-              return;
-          }
-          // 异步加载UI预加载的资源
-          this.autoLoadRes(uiView, () => {
-              uiView.init(uiArgs);
-              completeCallback(uiView);
-              uiView.autoReleaseRes({ url: uiPath, type: cc.Prefab, use: useKey });
-          })
-      }, useKey);
-  }
+        let useKey = this.makeUseKey();
+        resLoader.loadRes(uiPath, progressCallback, (err: Error, prefab: cc.Prefab) => {
+            // 检查加载资源错误
+            if (err) {
+                cc.log(`getOrCreateUI loadRes ${uiId} faile, path: ${uiPath} error: ${err}`);
+                completeCallback(null);
+                return;
+            }
+            // 检查实例化错误
+            let uiNode: cc.Node = cc.instantiate(prefab);
+            if (null == uiNode) {
+                cc.log(`getOrCreateUI instantiate ${uiId} faile, path: ${uiPath}`);
+                completeCallback(null);
+                resLoader.releaseRes(uiPath, cc.Prefab);
+                return;
+            }
+            // 检查组件获取错误
+            uiView = uiNode.getComponent(UIView);
+            if (null == uiView) {
+                cc.log(`getOrCreateUI getComponent ${uiId} faile, path: ${uiPath}`);
+                uiNode.destroy();
+                completeCallback(null);
+                resLoader.releaseRes(uiPath, cc.Prefab);
+                return;
+            }
+            // 异步加载UI预加载的资源
+            this.autoLoadRes(uiView, () => {
+                uiView.init(uiArgs);
+                completeCallback(uiView);
+                uiView.autoReleaseRes({ url: uiPath, type: cc.Prefab, use: useKey });
+            })
+        }, useKey);
+    }
 
     /**
      * UI被打开时回调，对UI进行初始化设置，刷新其他界面的显示，并根据
@@ -381,55 +381,55 @@ export class UIManager {
     }
 
     public openWithProgress(uiId: number, uiArgs: any, progressCallback: ProcessCallback) {
-      let uiInfo: UIInfo = {
-          uiId: uiId,
-          uiArgs: uiArgs,
-          uiView: null
-      };
+        let uiInfo: UIInfo = {
+            uiId: uiId,
+            uiArgs: uiArgs,
+            uiView: null
+        };
 
-      if (this.isOpening || this.isClosing) {
-          // 插入待打开队列
-          this.UIOpenQueue.push(uiInfo);
-          cc.log(`openWithProgress ${uiId} when there are opening or closing`);
-          return;
-      }
+        if (this.isOpening || this.isClosing) {
+            // 插入待打开队列
+            this.UIOpenQueue.push(uiInfo);
+            cc.log(`openWithProgress ${uiId} when there are opening or closing`);
+            return;
+        }
 
-      let uiIndex = this.getUIIndex(uiId);
-      if (-1 != uiIndex) {
-          // 重复打开了同一个界面，直接回到该界面
-          this.closeToUI(uiId, uiArgs);
-          return;
-      }
+        let uiIndex = this.getUIIndex(uiId);
+        if (-1 != uiIndex) {
+            // 重复打开了同一个界面，直接回到该界面
+            this.closeToUI(uiId, uiArgs);
+            return;
+        }
 
-      // 设置UI的zOrder
-      uiInfo.zOrder = this.UIStack.length + 1;
-      this.UIStack.push(uiInfo);
+        // 设置UI的zOrder
+        uiInfo.zOrder = this.UIStack.length + 1;
+        this.UIStack.push(uiInfo);
 
-      // 先屏蔽点击
-      if (this.UIConf[uiId].preventTouch) {
-          uiInfo.preventNode = this.preventTouch(uiInfo.zOrder);
-      }
+        // 先屏蔽点击
+        if (this.UIConf[uiId].preventTouch) {
+            uiInfo.preventNode = this.preventTouch(uiInfo.zOrder);
+        }
 
-      this.isOpening = true;
-      // 预加载资源，并在资源加载完成后自动打开界面
-      this.getOrCreateUIWithProgress(uiId, (uiView: UIView): void => {
-          // 如果界面已经被关闭或创建失败
-          if (uiInfo.isClose || null == uiView) {
-              cc.log(`getOrCreateUIWithProgress ${uiId} faile!
+        this.isOpening = true;
+        // 预加载资源，并在资源加载完成后自动打开界面
+        this.getOrCreateUIWithProgress(uiId, (uiView: UIView): void => {
+            // 如果界面已经被关闭或创建失败
+            if (uiInfo.isClose || null == uiView) {
+                cc.log(`getOrCreateUIWithProgress ${uiId} faile!
                       close state : ${uiInfo.isClose} , uiView : ${uiView}`);
-              this.isOpening = false;
-              if (uiInfo.preventNode) {
-                  uiInfo.preventNode.destroy();
-                  uiInfo.preventNode = null;
-              }
-              return;
-          }
+                this.isOpening = false;
+                if (uiInfo.preventNode) {
+                    uiInfo.preventNode.destroy();
+                    uiInfo.preventNode = null;
+                }
+                return;
+            }
 
-          // 打开UI，执行配置
-          this.onUIOpen(uiId, uiView, uiInfo, uiArgs);
-          this.isOpening = false;
-          this.autoExecNextUI();
-      }, uiArgs, progressCallback);
+            // 打开UI，执行配置
+            this.onUIOpen(uiId, uiView, uiInfo, uiArgs);
+            this.isOpening = false;
+            this.autoExecNextUI();
+        }, uiArgs, progressCallback);
     }
 
     /** 替换栈顶界面 */
@@ -602,14 +602,14 @@ export class UIManager {
     }
 
     /** UI的便捷接口 */
-    public isTopUI(uiId) {
+    public isTopUI(uiId): boolean {
         if (this.UIStack.length == 0) {
             return false;
         }
         return this.UIStack[this.UIStack.length - 1].uiId == uiId;
     }
 
-    public getUI(uiId: number) {
+    public getUI(uiId: number): UIView {
         for (let index = 0; index < this.UIStack.length; index++) {
             const element = this.UIStack[index];
             if (uiId == element.uiId) {
@@ -619,14 +619,14 @@ export class UIManager {
         return null;
     }
 
-    public getTopUI() {
+    public getTopUI(): UIView {
         if (this.UIStack.length > 0) {
             return this.UIStack[this.UIStack.length].uiView;
         }
         return null;
     }
 
-    public getUIIndex(uiId: number) {
+    public getUIIndex(uiId: number): number {
         for (let index = 0; index < this.UIStack.length; index++) {
             const element = this.UIStack[index];
             if (uiId == element.uiId) {

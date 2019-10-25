@@ -7,7 +7,7 @@ import { resLoader, CompletedCallback } from "../res/ResLoader"
  * 2. 界面缓存设置（开启后界面关闭不会被释放，以便下次快速打开）
  * 3. 界面显示类型配置
  * 
- * 4. 加载资源接口（随界面释放自动释放）
+ * 4. 加载资源接口（随界面释放自动释放），this.loadRes(xxx)
  * 5. 由UIManager释放
  * 
  * 5. 界面初始化回调（只调用一次）
@@ -60,6 +60,7 @@ export class UIView extends cc.Component {
     /**  静态变量，用于区分相同界面的不同实例 */
     private static uiIndex: number = 0;
 
+    /********************** UI的回调 ***********************/
     /**
      * 当界面被创建时回调，生命周期内只调用
      * @param args 可变参数
@@ -85,6 +86,7 @@ export class UIView extends cc.Component {
 
     /**
      * 当界面被关闭时回调，每次调用Close时回调
+     * 返回值会传递给下一个界面
      */
     public onClose(): any {
 
@@ -93,12 +95,13 @@ export class UIView extends cc.Component {
     /**
      * 当界面被置顶时回调，Open时并不会回调该函数
      * @param preID 前一个ui
-     * @param args 可变参数
+     * @param args 可变参数，
      */
     public onTop(preID: number, ...args): void {
 
     }
 
+    /********************** 资源加载，卸载相关 ***********************/
     /**
      * 获取该界面的资源占用key
      */

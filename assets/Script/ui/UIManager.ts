@@ -76,7 +76,7 @@ export class UIManager {
         this.UIConf[uiId] = conf;
     }
 
-    /** 私有方法，UIManager内部的功能和基础规则 */
+    /****************** 私有方法，UIManager内部的功能和基础规则 *******************/
 
     /**
      * 添加防触摸层
@@ -123,6 +123,7 @@ export class UIManager {
      * @param completeCallback 资源加载完成回调
      */
     private autoLoadRes(uiView: UIView, completeCallback: () => void) {
+        // 暂时先省略
         completeCallback();
     }
 
@@ -160,10 +161,11 @@ export class UIManager {
     /**
      * 异步加载一个UI的prefab，成功加载了一个prefab之后
      * @param uiId 界面id
+     * @param processCallback 加载进度回调
      * @param completeCallback 加载完成回调
      * @param uiArgs 初始化参数
      */
-    private getOrCreateUI(uiId: number, completeCallback: (uiView: UIView) => void, uiArgs: any): void {
+    private getOrCreateUI(uiId: number, processCallback: ProcessCallback, completeCallback: (uiView: UIView) => void, uiArgs: any): void {
         // 如果找到缓存对象，则直接返回
         let uiView: UIView = this.UICache[uiId];
         if (uiView) {
@@ -180,64 +182,7 @@ export class UIManager {
         }
 
         let useKey = this.makeUseKey();
-        resLoader.loadRes(uiPath, (err: Error, prefab: cc.Prefab) => {
-            // 检查加载资源错误
-            if (err) {
-                cc.log(`getOrCreateUI loadRes ${uiId} faile, path: ${uiPath} error: ${err}`);
-                completeCallback(null);
-                return;
-            }
-            // 检查实例化错误
-            let uiNode: cc.Node = cc.instantiate(prefab);
-            if (null == uiNode) {
-                cc.log(`getOrCreateUI instantiate ${uiId} faile, path: ${uiPath}`);
-                completeCallback(null);
-                resLoader.releaseRes(uiPath, cc.Prefab);
-                return;
-            }
-            // 检查组件获取错误
-            uiView = uiNode.getComponent(UIView);
-            if (null == uiView) {
-                cc.log(`getOrCreateUI getComponent ${uiId} faile, path: ${uiPath}`);
-                uiNode.destroy();
-                completeCallback(null);
-                resLoader.releaseRes(uiPath, cc.Prefab);
-                return;
-            }
-            // 异步加载UI预加载的资源
-            this.autoLoadRes(uiView, () => {
-                uiView.init(uiArgs);
-                completeCallback(uiView);
-                uiView.autoReleaseRes({ url: uiPath, type: cc.Prefab, use: useKey });
-            })
-        }, useKey);
-    }
-
-    /**
-     * 异步加载一个UI的prefab，成功加载了一个prefab之后
-     * @param uiId 界面id
-     * @param completeCallback 加载完成回调
-     * @param uiArgs 初始化参数
-     * @param progressCallback 加载进度回调
-     */
-    private getOrCreateUIWithProgress(uiId: number, completeCallback: (uiView: UIView) => void, uiArgs: any, progressCallback: ProcessCallback): void {
-        // 如果找到缓存对象，则直接返回
-        let uiView: UIView = this.UICache[uiId];
-        if (uiView) {
-            completeCallback(uiView);
-            return;
-        }
-
-        // 找到UI配置
-        let uiPath = this.UIConf[uiId].prefab;
-        if (null == uiPath) {
-            cc.log(`getOrCreateUI ${uiId} faile, prefab conf not found!`);
-            completeCallback(null);
-            return;
-        }
-
-        let useKey = this.makeUseKey();
-        resLoader.loadRes(uiPath, progressCallback, (err: Error, prefab: cc.Prefab) => {
+        resLoader.loadRes(uiPath, processCallback, (err: Error, prefab: cc.Prefab) => {
             // 检查加载资源错误
             if (err) {
                 cc.log(`getOrCreateUI loadRes ${uiId} faile, path: ${uiPath} error: ${err}`);
@@ -329,7 +274,7 @@ export class UIManager {
     }
 
     /** 打开界面并添加到界面栈中 */
-    public open(uiId: number, uiArgs: any): void {
+    public open(uiId: number, uiArgs: any, progressCallback: ProcessCallback = null): void {
         let uiInfo: UIInfo = {
             uiId: uiId,
             uiArgs: uiArgs,
@@ -360,7 +305,7 @@ export class UIManager {
 
         this.isOpening = true;
         // 预加载资源，并在资源加载完成后自动打开界面
-        this.getOrCreateUI(uiId, (uiView: UIView): void => {
+        this.getOrCreateUI(uiId, progressCallback, (uiView: UIView): void => {
             // 如果界面已经被关闭或创建失败
             if (uiInfo.isClose || null == uiView) {
                 cc.log(`getOrCreateUI ${uiId} faile!
@@ -378,58 +323,6 @@ export class UIManager {
             this.isOpening = false;
             this.autoExecNextUI();
         }, uiArgs);
-    }
-
-    public openWithProgress(uiId: number, uiArgs: any, progressCallback: ProcessCallback) {
-        let uiInfo: UIInfo = {
-            uiId: uiId,
-            uiArgs: uiArgs,
-            uiView: null
-        };
-
-        if (this.isOpening || this.isClosing) {
-            // 插入待打开队列
-            this.UIOpenQueue.push(uiInfo);
-            cc.log(`openWithProgress ${uiId} when there are opening or closing`);
-            return;
-        }
-
-        let uiIndex = this.getUIIndex(uiId);
-        if (-1 != uiIndex) {
-            // 重复打开了同一个界面，直接回到该界面
-            this.closeToUI(uiId, uiArgs);
-            return;
-        }
-
-        // 设置UI的zOrder
-        uiInfo.zOrder = this.UIStack.length + 1;
-        this.UIStack.push(uiInfo);
-
-        // 先屏蔽点击
-        if (this.UIConf[uiId].preventTouch) {
-            uiInfo.preventNode = this.preventTouch(uiInfo.zOrder);
-        }
-
-        this.isOpening = true;
-        // 预加载资源，并在资源加载完成后自动打开界面
-        this.getOrCreateUIWithProgress(uiId, (uiView: UIView): void => {
-            // 如果界面已经被关闭或创建失败
-            if (uiInfo.isClose || null == uiView) {
-                cc.log(`getOrCreateUIWithProgress ${uiId} faile!
-                      close state : ${uiInfo.isClose} , uiView : ${uiView}`);
-                this.isOpening = false;
-                if (uiInfo.preventNode) {
-                    uiInfo.preventNode.destroy();
-                    uiInfo.preventNode = null;
-                }
-                return;
-            }
-
-            // 打开UI，执行配置
-            this.onUIOpen(uiId, uiView, uiInfo, uiArgs);
-            this.isOpening = false;
-            this.autoExecNextUI();
-        }, uiArgs, progressCallback);
     }
 
     /** 替换栈顶界面 */
@@ -601,7 +494,7 @@ export class UIManager {
         this.UICache = {};
     }
 
-    /** UI的便捷接口 */
+    /******************** UI的便捷接口 *******************/
     public isTopUI(uiId): boolean {
         if (this.UIStack.length == 0) {
             return false;

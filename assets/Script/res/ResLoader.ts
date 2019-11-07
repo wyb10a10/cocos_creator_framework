@@ -233,19 +233,19 @@ export class ResLoader {
         let cacheInfo = this.getCacheInfo(item.id);
         // 解除自身对自己的引用
         cacheInfo.refs.delete(itemUrl);
-
-        if (cacheInfo.uses.size == 0 && cacheInfo.refs.size == 0) {
-            // 解除引用
-            let delDependKey = (item, refKey) => {
-                if (item && item.dependKeys && Array.isArray(item.dependKeys)) {
-                    for (let depKey of item.dependKeys) {
-                        let ccloader: any = cc.loader;
-                        let depItem = ccloader._cache[depKey]
-                        this._release(depItem, refKey);
-                    }
+        // 解除引用
+        let delDependKey = (item, refKey) => {
+            if (item && item.dependKeys && Array.isArray(item.dependKeys)) {
+                for (let depKey of item.dependKeys) {
+                    let ccloader: any = cc.loader;
+                    let depItem = ccloader._cache[depKey]
+                    this._release(depItem, refKey);
                 }
             }
-            delDependKey(item, itemUrl);
+        }
+        delDependKey(item, itemUrl);
+
+        if (cacheInfo.uses.size == 0 && cacheInfo.refs.size == 0) {
             //如果没有uuid,就直接释放url
             if (item.uuid) {
                 cc.loader.release(item.uuid);

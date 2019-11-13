@@ -274,7 +274,7 @@ export class UIManager {
     }
 
     /** 打开界面并添加到界面栈中 */
-    public open(uiId: number, uiArgs: any, progressCallback: ProcessCallback = null): void {
+    public open(uiId: number, uiArgs: any = null, progressCallback: ProcessCallback = null): void {
         let uiInfo: UIInfo = {
             uiId: uiId,
             uiArgs: uiArgs,
@@ -326,7 +326,7 @@ export class UIManager {
     }
 
     /** 替换栈顶界面 */
-    public replace(uiId: number, uiArgs: any) {
+    public replace(uiId: number, uiArgs: any = null) {
         this.close(this.UIStack[this.UIStack.length - 1].uiView);
         this.open(uiId, uiArgs);
     }

@@ -1,3 +1,5 @@
+import { UIConf, uiManager } from "../ui/UIManager";
+
 // Learn TypeScript:
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/typescript.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
@@ -8,23 +10,28 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
+
+export enum UIID {
+    UILogin,
+    UIHall,
+    UINotice,
+    UIBag,
+}
+
+export let UICF: { [key: number]: UIConf } = {
+    [UIID.UILogin]: { prefab: "Prefab/Login" },
+    [UIID.UIHall]: { prefab: "Prefab/Hall" },
+    [UIID.UINotice]: { prefab: "Prefab/Notice" },
+    [UIID.UIBag]: { prefab: "Prefab/Bag", preventTouch: true },
+}
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class UIExample extends cc.Component {
 
-    @property(cc.Label)
-    label: cc.Label = null;
-
-    @property
-    text: string = 'hello';
-
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start () {
-
+    start() {
+        uiManager.initUIConf(UICF);
+        uiManager.open(UIID.UILogin);
     }
 
     // update (dt) {}

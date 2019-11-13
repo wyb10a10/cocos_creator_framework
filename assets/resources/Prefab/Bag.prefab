@@ -47,10 +47,13 @@
       },
       {
         "__id__": 38
+      },
+      {
+        "__id__": 39
       }
     ],
     "_prefab": {
-      "__id__": 39
+      "__id__": 40
     },
     "_opacity": 255,
     "_color": {
@@ -1476,6 +1479,19 @@
     "_isAbsVerticalCenter": true,
     "_originalWidth": 100,
     "_originalHeight": 100,
+    "_id": ""
+  },
+  {
+    "__type__": "fca327d1KhLiq6nzIlLgtCj",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "quickClose": false,
+    "cache": false,
+    "showType": 2,
     "_id": ""
   },
   {

@@ -8,6 +8,8 @@ const {ccclass, property} = cc._decorator;
 export default class UILogin extends UIView {
 
     public onLogin() {
-        uiManager.replace(UIID.UIHall);
+        // 连续打开2个界面
+        uiManager.open(UIID.UIHall);
+        uiManager.open(UIID.UINotice);
     }
 }

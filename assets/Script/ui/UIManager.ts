@@ -234,15 +234,17 @@ export class UIManager {
         // 快速关闭界面的设置，绑定界面中的background，实现快速关闭
         if (uiView.quickClose) {
             let backGround = uiView.node.getChildByName('background');
-            if (backGround) {
-                backGround.targetOff(cc.Node.EventType.TOUCH_START);
-                backGround.on(cc.Node.EventType.TOUCH_START, (event: cc.Event.EventCustom) => {
-                    event.stopPropagation();
-                    this.close(uiView);
-                }, backGround);
-            } else {
-                cc.log(`onUIOpen ${uiId} quickClose faile, background node not found!`);
+            if (!backGround) {
+                backGround = new cc.Node()
+                backGround.name = 'background';
+                backGround.setContentSize(cc.winSize);
+                uiView.node.addChild(backGround, -1);
             }
+            backGround.targetOff(cc.Node.EventType.TOUCH_START);
+            backGround.on(cc.Node.EventType.TOUCH_START, (event: cc.Event.EventCustom) => {
+                event.stopPropagation();
+                this.close(uiView);
+            }, backGround);
         }
 
         // 添加到场景中

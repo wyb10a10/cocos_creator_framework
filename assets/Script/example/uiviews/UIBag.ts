@@ -1,4 +1,5 @@
 import { UIView } from "../../ui/UIView";
+import { uiManager } from "../../ui/UIManager";
 
 // Learn TypeScript:
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/typescript.html
@@ -26,12 +27,16 @@ export default class UIBag extends UIView {
             this.selectNode.setScale(1);
         }
 
-        let node : cc.Node = event.node;
+        let node : cc.Node = event.target;
         this.selectNode = node;
         this.selectNode.setScale(1.5);
 
         let sprite = node.getComponent(cc.Sprite);
         this.selectItem = sprite.spriteFrame;
+    }
+
+    public onOkClick() {
+        uiManager.close();
     }
 
     public onClose(): any {

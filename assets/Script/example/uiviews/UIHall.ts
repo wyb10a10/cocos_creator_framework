@@ -7,6 +7,9 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class UIHall extends UIView {
 
+    @property({type : cc.Sprite})
+    weapon: cc.Sprite = null;
+
     public onBag() {
         uiManager.open(UIID.UIBag);
     }
@@ -15,7 +18,7 @@ export default class UIHall extends UIView {
         uiManager.open(UIID.UINotice);
     }
 
-    public onTop(preID: number, item: number) {
-
+    public onTop(preID: number, item: cc.SpriteFrame) {
+        this.weapon.spriteFrame = item;
     }
 }

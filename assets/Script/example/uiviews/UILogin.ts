@@ -9,7 +9,7 @@ export default class UILogin extends UIView {
 
     public onLogin() {
         // 连续打开2个界面
-        uiManager.open(UIID.UIHall);
+        uiManager.replace(UIID.UIHall);
         uiManager.open(UIID.UINotice);
     }
 }

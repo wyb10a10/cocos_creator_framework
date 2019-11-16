@@ -1,4 +1,5 @@
 import { UIConf, uiManager } from "../ui/UIManager";
+import { resLoader } from "../res/ResLoader";
 
 // Learn TypeScript:
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/typescript.html

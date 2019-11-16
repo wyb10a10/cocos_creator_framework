@@ -21,9 +21,9 @@
 ## 示例项目
 
 * 基础示例
-  * 网络功能示例
-  * 资源管理示例
-  * UI示例
+  * 网络功能示例 参考 Scene/example_net 场景
+  * 资源管理示例 参考 Scene/example_res 场景
+  * UI示例 参考 Scene/example_ui 场景
   * ...
 * 完整游戏示例
 

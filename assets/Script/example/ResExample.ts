@@ -19,7 +19,7 @@ export default class NetExample extends cc.Component {
 
     onUnloadRes() {
         this.attachNode.removeAllChildren(true);
-        resLoader.releaseRes("Prefab/HelloWorld");
+        cc.loader.releaseRes("Prefab/HelloWorld");
     }
 
     onMyLoadRes() {

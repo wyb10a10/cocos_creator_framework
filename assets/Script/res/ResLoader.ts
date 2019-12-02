@@ -222,7 +222,10 @@ export class ResLoader {
         if (resArgs.use) {
             cacheInfo.uses.delete(resArgs.use)
         }
-        this._release(item, item.id);
+
+        if (cacheInfo.uses.size == 0) {
+            this._release(item, item.id);
+        }
     }
 
     // 释放一个资源

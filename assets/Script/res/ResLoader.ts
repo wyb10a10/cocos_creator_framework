@@ -194,7 +194,13 @@ export class ResLoader {
         if (res) {
             finishCallback(null, res);
         } else {
-            cc.loader.loadRes(resArgs.url, resArgs.type, resArgs.onProgess, finishCallback);
+            let ccloader: any = cc.loader;
+            let uuid = ccloader._getResUuid(resArgs.url, resArgs.type, false);
+            if( uuid ) {
+                cc.loader.loadRes(resArgs.url, resArgs.type, resArgs.onProgess, finishCallback);
+            } else {
+                cc.loader.load(resArgs.url, resArgs.onProgess, finishCallback);
+            }
         }
     }
 
@@ -250,7 +256,9 @@ export class ResLoader {
 
         if (cacheInfo.uses.size == 0 && cacheInfo.refs.size == 0) {
             //如果没有uuid,就直接释放url
-            if (item.uuid) {
+            if(this._isSceneDepend(item.url)) {
+                cc.log("resloader skip release scene depend assets :" + item.url);
+            } else if (item.uuid) {
                 cc.loader.release(item.uuid);
                 cc.log("resloader release item by uuid :" + item.id);
             } else {
@@ -259,6 +267,16 @@ export class ResLoader {
             }
             this._resMap.delete(item.id);
         }
+    }
+
+    private _isSceneDepend(itemUrl) {
+        let scene : any = cc.director.getScene();
+        let len = scene.dependAssets.length;
+        for( let i = 0; i < len; ++i) {
+            if (scene.dependAssets[i] == itemUrl) 
+                return true;
+        }
+        return false;
     }
 
     /**

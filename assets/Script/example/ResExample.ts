@@ -19,7 +19,7 @@ export default class NetExample extends cc.Component {
 
     onUnloadRes() {
         this.attachNode.removeAllChildren(true);
-        resLoader.releaseRes("Prefab/HelloWorld");
+        cc.loader.releaseRes("Prefab/HelloWorld");
     }
 
     onMyLoadRes() {
@@ -33,6 +33,22 @@ export default class NetExample extends cc.Component {
     onMyUnloadRes() {
         this.attachNode.removeAllChildren(true);
         resLoader.releaseRes("Prefab/HelloWorld");
+    }
+
+    onLoadRemote() {
+        resLoader.loadRes("http://tools.itharbors.com/christmas/res/tree.png", (err, res) => {
+            if (err || !res) return;
+            let spriteFrame = new cc.SpriteFrame(res);
+            let node = new cc.Node("tmp");
+            let sprite = node.addComponent(cc.Sprite);
+            sprite.spriteFrame = spriteFrame;
+            node.parent = this.attachNode;
+        })
+    }
+
+    onUnloadRemote() {
+        this.attachNode.removeAllChildren(true);
+        resLoader.releaseRes("http://tools.itharbors.com/christmas/res/tree.png");
     }
 
     onDump() {

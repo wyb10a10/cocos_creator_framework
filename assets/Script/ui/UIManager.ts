@@ -516,7 +516,7 @@ export class UIManager {
 
     public getTopUI(): UIView {
         if (this.UIStack.length > 0) {
-            return this.UIStack[this.UIStack.length].uiView;
+            return this.UIStack[this.UIStack.length - 1].uiView;
         }
         return null;
     }

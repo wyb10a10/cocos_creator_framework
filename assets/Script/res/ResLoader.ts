@@ -15,7 +15,8 @@ export type CompletedCallback = (error: Error, resource: any) => void;
 // 引用和使用的结构体
 interface CacheInfo {
     refs: Set<string>,
-    uses: Set<string>
+    uses: Set<string>,
+    useId: number
 }
 
 // LoadRes方法的参数结构
@@ -40,7 +41,7 @@ if (!isChildClassOf) {
     isChildClassOf = cc["isChildClassOf"];
 }
 
-export class ResLoader {
+export default class ResLoader {
 
     private _resMap: Map<string, CacheInfo> = new Map<string, CacheInfo>();
 
@@ -127,7 +128,8 @@ export class ResLoader {
         if (!this._resMap.has(key)) {
             this._resMap.set(key, {
                 refs: new Set<string>(),
-                uses: new Set<string>()
+                uses: new Set<string>(),
+                useId: 0
             });
         }
         return this._resMap.get(key);

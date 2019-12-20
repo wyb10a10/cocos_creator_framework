@@ -1,4 +1,4 @@
-import ResLoader from "./ResLoader";
+import ResLoader, { resLoader } from "./ResLoader";
 
 /**
  * Prefab对象池类
@@ -89,7 +89,7 @@ export class PrefabPool {
         }
         this._createCount -= this._nodes.length;
         this._nodes.length = 0;
-        ResLoader.getInstance().releaseRes(this._url, ResLoader.makeUseKey("PrefabPool"));
+        resLoader.releaseRes(this._url, resLoader.makeUseKey("PrefabPool"));
     }
 }
 
@@ -124,7 +124,7 @@ class CPrefabPoolMgr {
             finishCallback && finishCallback(null, this._pools.get(url));
             return;
         }
-        ResLoader.getInstance().loadRes(url, cc.Prefab, (error, res) => {
+        resLoader.loadRes(url, cc.Prefab, (error, res) => {
             let pool: PrefabPool = null;
             if (!error) {
                 pool = new PrefabPool(url, res);
@@ -134,7 +134,7 @@ class CPrefabPoolMgr {
             if (finishCallback) {
                 finishCallback(error, pool)
             }
-        }, ResLoader.makeUseKey("PrefabPool"));
+        }, resLoader.makeUseKey("PrefabPool"));
     }
 
     /**
@@ -172,7 +172,7 @@ class CPrefabPoolMgr {
         if (this._pools.has(url)) {
           resolve(this._pools.get(url));
         } else {
-          ResLoader.getInstance().loadRes(url, cc.Prefab, (error, res) => {
+            resLoader.loadRes(url, cc.Prefab, (error, res) => {
             let pool: PrefabPool = null;
             if (!error) {
                 pool = new PrefabPool(url, res);
@@ -182,7 +182,7 @@ class CPrefabPoolMgr {
             } else {
               reject(error);
             }
-        }, ResLoader.makeUseKey("PrefabPool"));
+        }, resLoader.makeUseKey("PrefabPool"));
         }
       });
     }

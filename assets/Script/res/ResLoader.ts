@@ -32,7 +32,8 @@ interface LoadResArgs {
 
 // ReleaseRes方法的参数结构
 interface ReleaseResArgs {
-    url: string,
+    url?: string,
+    urls?: string[],
     type?: typeof cc.Asset,
     use?: string,
 }
@@ -107,11 +108,20 @@ export default class ResLoader {
      * releaseRes方法的参数预处理
      */
     private _makeReleaseResArgs(): ReleaseResArgs {
-        if (arguments.length < 1 || typeof arguments[0] != "string") {
+        if (arguments.length < 1) {
             console.error(`_makeReleaseResArgs error ${arguments}`);
             return null;
         }
-        let ret: ReleaseResArgs = { url: arguments[0] };
+        let ret: ReleaseResArgs = { };
+        if(typeof arguments[0] == "string") {
+            ret.url = arguments[0];
+        } else if (arguments[0] instanceof Array) {
+            ret.urls = arguments[0];
+        } else {
+            console.error(`_makeReleaseResArgs error ${arguments}`);
+            return null;
+        }
+
         for (let i = 1; i < arguments.length; ++i) {
             if (typeof arguments[i] == "string") {
                 ret.use = arguments[i];
@@ -261,6 +271,15 @@ export default class ResLoader {
             }
         }
         cc.loader.loadResDir(resArgs.url, resArgs.type, resArgs.onProgess, finishCallback);
+    }
+
+    public releaseArray(url: string, use?: string);
+    public releaseArray(url: string, type: typeof cc.Asset, use?: string)
+    public releaseArray() { 
+        let resArgs: ReleaseResArgs = this._makeReleaseResArgs.apply(this, arguments);
+        for(let i = 0; i < resArgs.urls.length; ++i) {
+            this.releaseRes(resArgs.urls[i], resArgs.type, resArgs.use);
+        }
     }
 
     /**

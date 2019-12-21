@@ -11,7 +11,7 @@
 export type ProcessCallback = (completedCount: number, totalCount: number, item: any) => void;
 // 资源加载的完成回调
 export type CompletedCallback = (error: Error, resource: any) => void;
-export type CompletedArrayCallback = (error: Error, resource: any[]) => void;
+export type CompletedArrayCallback = (error: Error, resource: any[], urls?: string[]) => void;
 
 // 引用和使用的结构体
 interface CacheInfo {
@@ -229,7 +229,7 @@ export default class ResLoader {
     public loadArray(urls: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);
     public loadArray() {
         let resArgs: LoadResArgs = this._makeLoadResArgs.apply(this, arguments);
-        let finishCallback = (error: Error, resource: any[]) => {
+        let finishCallback = (error: Error, resource: any[], urls?: string[]) => {
             if (!error) {
                 for (let i = 0; i < resArgs.urls.length; ++i) {
                     this._finishItem(resArgs.urls[i], resArgs.type, resArgs.use);
@@ -240,6 +240,27 @@ export default class ResLoader {
             }
         }
         cc.loader.loadResArray(resArgs.urls, resArgs.type, resArgs.onProgess, finishCallback);
+    }
+
+    public loadResDir(url: string, use?: string);
+    public loadResDir(url: string, onCompleted: CompletedCallback, use?: string);
+    public loadResDir(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);
+    public loadResDir(url: string, type: typeof cc.Asset, use?: string);
+    public loadResDir(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback, use?: string);
+    public loadResDir(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);
+    public loadResDir() {
+        let resArgs: LoadResArgs = this._makeLoadResArgs.apply(this, arguments);
+        let finishCallback = (error: Error, resource: any[], urls?: string[]) => {
+            if (!error && urls) {
+                for (let i = 0; i < urls.length; ++i) {
+                    this._finishItem(urls[i], resArgs.type, resArgs.use);
+                }
+            }
+            if (resArgs.onCompleted) {
+                resArgs.onCompleted(error, resource);
+            }
+        }
+        cc.loader.loadResDir(resArgs.url, resArgs.type, resArgs.onProgess, finishCallback);
     }
 
     /**

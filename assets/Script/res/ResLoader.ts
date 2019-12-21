@@ -232,11 +232,11 @@ export default class ResLoader {
     }
 
     public loadArray(urls: string[], use?: string);
-    public loadArray(urls: string[], onCompleted: CompletedCallback, use?: string);
-    public loadArray(urls: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);
+    public loadArray(urls: string[], onCompleted: CompletedArrayCallback, use?: string);
+    public loadArray(urls: string[], onProgess: ProcessCallback, onCompleted: CompletedArrayCallback, use?: string);
     public loadArray(urls: string[], type: typeof cc.Asset, use?: string);
-    public loadArray(urls: string[], type: typeof cc.Asset, onCompleted: CompletedCallback, use?: string);
-    public loadArray(urls: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);
+    public loadArray(urls: string[], type: typeof cc.Asset, onCompleted: CompletedArrayCallback, use?: string);
+    public loadArray(urls: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedArrayCallback, use?: string);
     public loadArray() {
         let resArgs: LoadResArgs = this._makeLoadResArgs.apply(this, arguments);
         let finishCallback = (error: Error, resource: any[], urls?: string[]) => {
@@ -253,11 +253,11 @@ export default class ResLoader {
     }
 
     public loadResDir(url: string, use?: string);
-    public loadResDir(url: string, onCompleted: CompletedCallback, use?: string);
-    public loadResDir(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);
+    public loadResDir(url: string, onCompleted: CompletedArrayCallback, use?: string);
+    public loadResDir(url: string, onProgess: ProcessCallback, onCompleted: CompletedArrayCallback, use?: string);
     public loadResDir(url: string, type: typeof cc.Asset, use?: string);
-    public loadResDir(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback, use?: string);
-    public loadResDir(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);
+    public loadResDir(url: string, type: typeof cc.Asset, onCompleted: CompletedArrayCallback, use?: string);
+    public loadResDir(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedArrayCallback, use?: string);
     public loadResDir() {
         let resArgs: LoadResArgs = this._makeLoadResArgs.apply(this, arguments);
         let finishCallback = (error: Error, resource: any[], urls?: string[]) => {

@@ -75,8 +75,8 @@ export default class ResLoader {
             return null;
         }
 
-        let ret: LoadResArgs = { };
-        if(typeof arguments[0] == "string") {
+        let ret: LoadResArgs = {};
+        if (typeof arguments[0] == "string") {
             ret.url = arguments[0];
         } else if (arguments[0] instanceof Array) {
             ret.urls = arguments[0];
@@ -84,7 +84,7 @@ export default class ResLoader {
             console.error(`_makeLoadResArgs error ${arguments}`);
             return null;
         }
-        
+
         for (let i = 1; i < arguments.length; ++i) {
             if (i == 1 && isChildClassOf(arguments[i], cc.RawAsset)) {
                 // 判断是不是第一个参数type
@@ -112,8 +112,8 @@ export default class ResLoader {
             console.error(`_makeReleaseResArgs error ${arguments}`);
             return null;
         }
-        let ret: ReleaseResArgs = { };
-        if(typeof arguments[0] == "string") {
+        let ret: ReleaseResArgs = {};
+        if (typeof arguments[0] == "string") {
             ret.url = arguments[0];
         } else if (arguments[0] instanceof Array) {
             ret.urls = arguments[0];
@@ -273,12 +273,24 @@ export default class ResLoader {
         cc.loader.loadResDir(resArgs.url, resArgs.type, resArgs.onProgess, finishCallback);
     }
 
-    public releaseArray(url: string, use?: string);
-    public releaseArray(url: string, type: typeof cc.Asset, use?: string)
-    public releaseArray() { 
+    public releaseArray(urls: string[], use?: string);
+    public releaseArray(urls: string[], type: typeof cc.Asset, use?: string)
+    public releaseArray() {
         let resArgs: ReleaseResArgs = this._makeReleaseResArgs.apply(this, arguments);
-        for(let i = 0; i < resArgs.urls.length; ++i) {
+        for (let i = 0; i < resArgs.urls.length; ++i) {
             this.releaseRes(resArgs.urls[i], resArgs.type, resArgs.use);
+        }
+    }
+
+    public releaseResDir(url: string, use?: string);
+    public releaseResDir(url: string, type: typeof cc.Asset, use?: string)
+    public releaseResDir() {
+        let resArgs: ReleaseResArgs = this._makeReleaseResArgs.apply(this, arguments);
+        let ccloader: any = cc.loader;
+        let urls: string[] = [];
+        ccloader._assetTables.assets.getUuidArray(resArgs.url, resArgs.type, urls);
+        for (let i = 0; i < urls.length; ++i) {
+            this.releaseRes(urls[i], resArgs.type, resArgs.use);
         }
     }
 

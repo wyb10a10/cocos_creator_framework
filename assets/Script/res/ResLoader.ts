@@ -361,6 +361,9 @@ export default class ResLoader {
 
     private _isSceneDepend(itemUrl) {
         let scene: any = cc.director.getScene();
+        if (!scene) {
+            return false;
+        }
         let len = scene.dependAssets.length;
         for (let i = 0; i < len; ++i) {
             if (scene.dependAssets[i] == itemUrl)

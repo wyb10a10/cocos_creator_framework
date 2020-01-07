@@ -162,11 +162,14 @@ export default class ResLoader {
         if (item && item.dependKeys && Array.isArray(item.dependKeys)) {
             for (let depKey of item.dependKeys) {
                 // 记录该资源被我引用
-                this.getCacheInfo(depKey).refs.add(refKey);
-                cc.log(`${depKey} ref by ${refKey}`);
-                let ccloader: any = cc.loader;
-                let depItem = ccloader._cache[depKey]
-                this._buildDepend(depItem, refKey);
+                let cacheInfo = this.getCacheInfo(depKey);
+                if (!cacheInfo.refs.has(refKey)) {
+                    this.getCacheInfo(depKey).refs.add(refKey);
+                    cc.log(`${depKey} ref by ${refKey}`);
+                    let ccloader: any = cc.loader;
+                    let depItem = ccloader._cache[depKey]
+                    this._buildDepend(depItem, refKey);    
+                }
             }
         }
     }

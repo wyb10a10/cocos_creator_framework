@@ -349,8 +349,8 @@ export default class ResLoader {
 
         if (cacheInfo.uses.size == 0 && cacheInfo.refs.size == 0) {
             //如果没有uuid,就直接释放url
-            if (this._isSceneDepend(item.url)) {
-                cc.log("resloader skip release scene depend assets :" + item.url);
+            if (this._isSceneDepend(item.id)) {
+                cc.log("resloader skip release scene depend assets :" + item.id);
             } else if (item.uuid) {
                 cc.loader.release(item.uuid);
                 cc.log("resloader release item by uuid :" + item.id);

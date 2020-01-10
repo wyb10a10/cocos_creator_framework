@@ -168,7 +168,7 @@ export default class ResLoader {
                     cc.log(`${depKey} ref by ${refKey}`);
                     let ccloader: any = cc.loader;
                     let depItem = ccloader._cache[depKey]
-                    this._buildDepend(depItem, refKey);    
+                    this._buildDepend(depItem, refKey);
                 }
             }
         }
@@ -177,18 +177,16 @@ export default class ResLoader {
     private _finishItem(url: string, assetType: typeof cc.Asset, use?: string) {
         let item = this._getResItem(url, assetType);
         if (item && item.id) {
-            this._buildDepend(item, item.id);
-        } else {
-            cc.warn(`addDependKey item error! for ${url}`);
-        }
-
-        // 添加自身引用
-        if (item) {
             let info = this.getCacheInfo(item.id);
-            info.refs.add(item.id);
             if (use) {
                 info.uses.add(use);
             }
+            if (!info.refs.has(item.id)) {
+                this._buildDepend(item, item.id);
+                info.refs.add(item.id);
+            }
+        } else {
+            cc.warn(`addDependKey item error! for ${url}`);
         }
     }
 
@@ -333,6 +331,8 @@ export default class ResLoader {
             return;
         }
         let cacheInfo = this.getCacheInfo(item.id);
+        // 避免重复释放
+        if (!cacheInfo.refs.has(itemUrl)) return;
         // 解除自身对自己的引用
         cacheInfo.refs.delete(itemUrl);
         // 解除引用

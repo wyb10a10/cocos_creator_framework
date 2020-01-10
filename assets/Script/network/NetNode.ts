@@ -55,6 +55,7 @@ export class NetNode {
     protected _heartTime: number = 10000;                                   // 心跳间隔
     protected _receiveTime: number = 6000000;                               // 多久没收到数据断开
     protected _reconnetTimeOut: number = 8000000;                           // 重连间隔
+    protected _channelId: number = 0;
     protected _requests: RequestObject[] = Array<RequestObject>();          // 请求列表
     protected _listener: { [key: number]: CallbackObject[] } = {}           // 监听者列表
 
@@ -65,7 +66,7 @@ export class NetNode {
         this._protocolHelper = protocol;
         this._networkTips = networkTips;
         this._callbackExecuter = execFunc ? execFunc : (callback: CallbackObject, buffer: NetData) => {
-            callback.callback.call(callback.target, 0, buffer);
+            callback.callback.call(callback.target, this._channelId, buffer);
         }
     }
 

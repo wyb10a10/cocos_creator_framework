@@ -25,7 +25,7 @@ interface LoadResArgs {
     url?: string,
     urls?: string[],
     type?: typeof cc.Asset,
-    onCompleted?: CompletedCallback,
+    onCompleted?: (CompletedCallback | CompletedArrayCallback),
     onProgess?: ProcessCallback,
     use?: string,
 }

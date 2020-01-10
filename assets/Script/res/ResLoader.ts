@@ -168,7 +168,7 @@ export default class ResLoader {
                     cc.log(`${depKey} ref by ${refKey}`);
                     let ccloader: any = cc.loader;
                     let depItem = ccloader._cache[depKey]
-                    this._buildDepend(depItem, refKey);
+                    this._buildDepend(depItem, depItem.id);
                 }
             }
         }
@@ -182,8 +182,8 @@ export default class ResLoader {
                 info.uses.add(use);
             }
             if (!info.refs.has(item.id)) {
-                this._buildDepend(item, item.id);
                 info.refs.add(item.id);
+                this._buildDepend(item, item.id);
             }
         } else {
             cc.warn(`addDependKey item error! for ${url}`);
@@ -327,27 +327,22 @@ export default class ResLoader {
 
     // 释放一个资源
     private _release(item, itemUrl) {
-        if (!item) {
+        let cacheInfo = this.getCacheInfo(item.id);
+        if (!item || !cacheInfo.refs.has(itemUrl)) {
             return;
         }
-        let cacheInfo = this.getCacheInfo(item.id);
-        // 避免重复释放
-        if (!cacheInfo.refs.has(itemUrl)) return;
+
         // 解除自身对自己的引用
         cacheInfo.refs.delete(itemUrl);
-        // 解除引用
-        let delDependKey = (item, refKey) => {
-            if (item && item.dependKeys && Array.isArray(item.dependKeys)) {
+        let ccloader: any = cc.loader;
+        if (cacheInfo.uses.size == 0 && cacheInfo.refs.size == 0) {
+            if (item.dependKeys && Array.isArray(item.dependKeys)) {
                 for (let depKey of item.dependKeys) {
-                    let ccloader: any = cc.loader;
                     let depItem = ccloader._cache[depKey]
-                    this._release(depItem, refKey);
+                    this._release(depItem, item.id);
                 }
             }
-        }
-        delDependKey(item, itemUrl);
 
-        if (cacheInfo.uses.size == 0 && cacheInfo.refs.size == 0) {
             //如果没有uuid,就直接释放url
             if (this._isSceneDepend(item.id)) {
                 cc.log("resloader skip release scene depend assets :" + item.id);

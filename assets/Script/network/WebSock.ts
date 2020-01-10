@@ -56,6 +56,6 @@ export class WebSock implements ISocket {
     }
 
     close(code?: number, reason?: string) {
-        this._ws.close();
+        this._ws.close(code, reason);
     }
 }

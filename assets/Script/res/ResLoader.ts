@@ -168,7 +168,7 @@ export default class ResLoader {
                     cc.log(`${depKey} ref by ${refKey}`);
                     let ccloader: any = cc.loader;
                     let depItem = ccloader._cache[depKey]
-                    this._buildDepend(depItem, depItem.id);
+                    this._buildDepend(depItem, depItem && depItem.id ? depItem.id : refKey);
                 }
             }
         }

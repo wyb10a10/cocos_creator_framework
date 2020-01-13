@@ -11,25 +11,29 @@
 export type ProcessCallback = (completedCount: number, totalCount: number, item: any) => void;
 // 资源加载的完成回调
 export type CompletedCallback = (error: Error, resource: any) => void;
+export type CompletedArrayCallback = (error: Error, resource: any[], urls?: string[]) => void;
 
 // 引用和使用的结构体
 interface CacheInfo {
     refs: Set<string>,
-    uses: Set<string>
+    uses: Set<string>,
+    useId: number
 }
 
 // LoadRes方法的参数结构
 interface LoadResArgs {
-    url: string,
+    url?: string,
+    urls?: string[],
     type?: typeof cc.Asset,
-    onCompleted?: CompletedCallback,
+    onCompleted?: (CompletedCallback | CompletedArrayCallback),
     onProgess?: ProcessCallback,
     use?: string,
 }
 
 // ReleaseRes方法的参数结构
 interface ReleaseResArgs {
-    url: string,
+    url?: string,
+    urls?: string[],
     type?: typeof cc.Asset,
     use?: string,
 }
@@ -40,7 +44,7 @@ if (!isChildClassOf) {
     isChildClassOf = cc["isChildClassOf"];
 }
 
-export class ResLoader {
+export default class ResLoader {
 
     private _resMap: Map<string, CacheInfo> = new Map<string, CacheInfo>();
 
@@ -66,11 +70,21 @@ export class ResLoader {
      * loadRes方法的参数预处理
      */
     private _makeLoadResArgs(): LoadResArgs {
-        if (arguments.length < 1 || typeof arguments[0] != "string") {
+        if (arguments.length < 1) {
             console.error(`_makeLoadResArgs error ${arguments}`);
             return null;
         }
-        let ret: LoadResArgs = { url: arguments[0] };
+
+        let ret: LoadResArgs = {};
+        if (typeof arguments[0] == "string") {
+            ret.url = arguments[0];
+        } else if (arguments[0] instanceof Array) {
+            ret.urls = arguments[0];
+        } else {
+            console.error(`_makeLoadResArgs error ${arguments}`);
+            return null;
+        }
+
         for (let i = 1; i < arguments.length; ++i) {
             if (i == 1 && isChildClassOf(arguments[i], cc.RawAsset)) {
                 // 判断是不是第一个参数type
@@ -94,11 +108,20 @@ export class ResLoader {
      * releaseRes方法的参数预处理
      */
     private _makeReleaseResArgs(): ReleaseResArgs {
-        if (arguments.length < 1 || typeof arguments[0] != "string") {
+        if (arguments.length < 1) {
             console.error(`_makeReleaseResArgs error ${arguments}`);
             return null;
         }
-        let ret: ReleaseResArgs = { url: arguments[0] };
+        let ret: ReleaseResArgs = {};
+        if (typeof arguments[0] == "string") {
+            ret.url = arguments[0];
+        } else if (arguments[0] instanceof Array) {
+            ret.urls = arguments[0];
+        } else {
+            console.error(`_makeReleaseResArgs error ${arguments}`);
+            return null;
+        }
+
         for (let i = 1; i < arguments.length; ++i) {
             if (typeof arguments[i] == "string") {
                 ret.use = arguments[i];
@@ -127,10 +150,44 @@ export class ResLoader {
         if (!this._resMap.has(key)) {
             this._resMap.set(key, {
                 refs: new Set<string>(),
-                uses: new Set<string>()
+                uses: new Set<string>(),
+                useId: 0
             });
         }
         return this._resMap.get(key);
+    }
+
+    private _buildDepend(item: any, refKey: string) {
+        // 反向关联引用（为所有引用到的资源打上本资源引用到的标记）
+        if (item && item.dependKeys && Array.isArray(item.dependKeys)) {
+            for (let depKey of item.dependKeys) {
+                // 记录该资源被我引用
+                let cacheInfo = this.getCacheInfo(depKey);
+                if (!cacheInfo.refs.has(refKey)) {
+                    this.getCacheInfo(depKey).refs.add(refKey);
+                    cc.log(`${depKey} ref by ${refKey}`);
+                    let ccloader: any = cc.loader;
+                    let depItem = ccloader._cache[depKey]
+                    this._buildDepend(depItem, depItem.id);
+                }
+            }
+        }
+    }
+
+    private _finishItem(url: string, assetType: typeof cc.Asset, use?: string) {
+        let item = this._getResItem(url, assetType);
+        if (item && item.id) {
+            let info = this.getCacheInfo(item.id);
+            if (use) {
+                info.uses.add(use);
+            }
+            if (!info.refs.has(item.id)) {
+                info.refs.add(item.id);
+                this._buildDepend(item, item.id);
+            }
+        } else {
+            cc.warn(`addDependKey item error! for ${url}`);
+        }
     }
 
     /**
@@ -151,38 +208,9 @@ export class ResLoader {
         let resArgs: LoadResArgs = this._makeLoadResArgs.apply(this, arguments);
         console.time("loadRes|" + resArgs.url);
         let finishCallback = (error: Error, resource: any) => {
-            // 反向关联引用（为所有引用到的资源打上本资源引用到的标记）
-            let addDependKey = (item, refKey) => {
-                if (item && item.dependKeys && Array.isArray(item.dependKeys)) {
-                    for (let depKey of item.dependKeys) {
-                        // 记录该资源被我引用
-                        this.getCacheInfo(depKey).refs.add(refKey);
-                        cc.log(`${depKey} ref by ${refKey}`);
-                        let ccloader: any = cc.loader;
-                        let depItem = ccloader._cache[depKey]
-                        addDependKey(depItem, refKey)
-                    }
-                }
+            if (!error) {
+                this._finishItem(resArgs.url, resArgs.type, resArgs.use);
             }
-
-            let item = this._getResItem(resArgs.url, resArgs.type);
-            if (item && item.id) {
-                addDependKey(item, item.id);
-            } else {
-                cc.warn(`addDependKey item error1! for ${resArgs.url}`);
-            }
-
-            // 给自己加一个自身的引用
-            if (item) {
-                let info = this.getCacheInfo(item.id);
-                info.refs.add(item.id);
-                // 更新资源使用
-                if (resArgs.use) {
-                    info.uses.add(resArgs.use);
-                }
-            }
-
-            // 执行完成回调
             if (resArgs.onCompleted) {
                 resArgs.onCompleted(error, resource);
             }
@@ -194,7 +222,76 @@ export class ResLoader {
         if (res) {
             finishCallback(null, res);
         } else {
-            cc.loader.loadRes(resArgs.url, resArgs.type, resArgs.onProgess, finishCallback);
+            let ccloader: any = cc.loader;
+            let uuid = ccloader._getResUuid(resArgs.url, resArgs.type, false);
+            if (uuid) {
+                cc.loader.loadRes(resArgs.url, resArgs.type, resArgs.onProgess, finishCallback);
+            } else {
+                cc.loader.load(resArgs.url, resArgs.onProgess, finishCallback);
+            }
+        }
+    }
+
+    public loadArray(urls: string[], use?: string);
+    public loadArray(urls: string[], onCompleted: CompletedArrayCallback, use?: string);
+    public loadArray(urls: string[], onProgess: ProcessCallback, onCompleted: CompletedArrayCallback, use?: string);
+    public loadArray(urls: string[], type: typeof cc.Asset, use?: string);
+    public loadArray(urls: string[], type: typeof cc.Asset, onCompleted: CompletedArrayCallback, use?: string);
+    public loadArray(urls: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedArrayCallback, use?: string);
+    public loadArray() {
+        let resArgs: LoadResArgs = this._makeLoadResArgs.apply(this, arguments);
+        let finishCallback = (error: Error, resource: any[], urls?: string[]) => {
+            if (!error) {
+                for (let i = 0; i < resArgs.urls.length; ++i) {
+                    this._finishItem(resArgs.urls[i], resArgs.type, resArgs.use);
+                }
+            }
+            if (resArgs.onCompleted) {
+                resArgs.onCompleted(error, resource);
+            }
+        }
+        cc.loader.loadResArray(resArgs.urls, resArgs.type, resArgs.onProgess, finishCallback);
+    }
+
+    public loadResDir(url: string, use?: string);
+    public loadResDir(url: string, onCompleted: CompletedArrayCallback, use?: string);
+    public loadResDir(url: string, onProgess: ProcessCallback, onCompleted: CompletedArrayCallback, use?: string);
+    public loadResDir(url: string, type: typeof cc.Asset, use?: string);
+    public loadResDir(url: string, type: typeof cc.Asset, onCompleted: CompletedArrayCallback, use?: string);
+    public loadResDir(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedArrayCallback, use?: string);
+    public loadResDir() {
+        let resArgs: LoadResArgs = this._makeLoadResArgs.apply(this, arguments);
+        let finishCallback = (error: Error, resource: any[], urls?: string[]) => {
+            if (!error && urls) {
+                for (let i = 0; i < urls.length; ++i) {
+                    this._finishItem(urls[i], resArgs.type, resArgs.use);
+                }
+            }
+            if (resArgs.onCompleted) {
+                resArgs.onCompleted(error, resource);
+            }
+        }
+        cc.loader.loadResDir(resArgs.url, resArgs.type, resArgs.onProgess, finishCallback);
+    }
+
+    public releaseArray(urls: string[], use?: string);
+    public releaseArray(urls: string[], type: typeof cc.Asset, use?: string)
+    public releaseArray() {
+        let resArgs: ReleaseResArgs = this._makeReleaseResArgs.apply(this, arguments);
+        for (let i = 0; i < resArgs.urls.length; ++i) {
+            this.releaseRes(resArgs.urls[i], resArgs.type, resArgs.use);
+        }
+    }
+
+    public releaseResDir(url: string, use?: string);
+    public releaseResDir(url: string, type: typeof cc.Asset, use?: string)
+    public releaseResDir() {
+        let resArgs: ReleaseResArgs = this._makeReleaseResArgs.apply(this, arguments);
+        let ccloader: any = cc.loader;
+        let urls: string[] = [];
+        ccloader._assetTables.assets.getUuidArray(resArgs.url, resArgs.type, urls);
+        for (let i = 0; i < urls.length; ++i) {
+            this.releaseRes(urls[i], resArgs.type, resArgs.use);
         }
     }
 
@@ -222,32 +319,34 @@ export class ResLoader {
         if (resArgs.use) {
             cacheInfo.uses.delete(resArgs.use)
         }
-        this._release(item, item.id);
+
+        if (cacheInfo.uses.size == 0) {
+            this._release(item, item.id);
+        }
     }
 
     // 释放一个资源
     private _release(item, itemUrl) {
-        if (!item) {
+        let cacheInfo = this.getCacheInfo(item.id);
+        if (!item || !cacheInfo.refs.has(itemUrl)) {
             return;
         }
-        let cacheInfo = this.getCacheInfo(item.id);
+
         // 解除自身对自己的引用
         cacheInfo.refs.delete(itemUrl);
-
+        let ccloader: any = cc.loader;
         if (cacheInfo.uses.size == 0 && cacheInfo.refs.size == 0) {
-            // 解除引用
-            let delDependKey = (item, refKey) => {
-                if (item && item.dependKeys && Array.isArray(item.dependKeys)) {
-                    for (let depKey of item.dependKeys) {
-                        let ccloader: any = cc.loader;
-                        let depItem = ccloader._cache[depKey]
-                        this._release(depItem, refKey);
-                    }
+            if (item.dependKeys && Array.isArray(item.dependKeys)) {
+                for (let depKey of item.dependKeys) {
+                    let depItem = ccloader._cache[depKey]
+                    this._release(depItem, item.id);
                 }
             }
-            delDependKey(item, itemUrl);
+
             //如果没有uuid,就直接释放url
-            if (item.uuid) {
+            if (this._isSceneDepend(item.id)) {
+                cc.log("resloader skip release scene depend assets :" + item.id);
+            } else if (item.uuid) {
                 cc.loader.release(item.uuid);
                 cc.log("resloader release item by uuid :" + item.id);
             } else {
@@ -256,6 +355,19 @@ export class ResLoader {
             }
             this._resMap.delete(item.id);
         }
+    }
+
+    private _isSceneDepend(itemUrl) {
+        let scene: any = cc.director.getScene();
+        if (!scene) {
+            return false;
+        }
+        let len = scene.dependAssets.length;
+        for (let i = 0; i < len; ++i) {
+            if (scene.dependAssets[i] == itemUrl)
+                return true;
+        }
+        return false;
     }
 
     /**

@@ -234,15 +234,17 @@ export class UIManager {
         // 快速关闭界面的设置，绑定界面中的background，实现快速关闭
         if (uiView.quickClose) {
             let backGround = uiView.node.getChildByName('background');
-            if (backGround) {
-                backGround.targetOff(cc.Node.EventType.TOUCH_START);
-                backGround.on(cc.Node.EventType.TOUCH_START, (event: cc.Event.EventCustom) => {
-                    event.stopPropagation();
-                    this.close(uiView);
-                }, backGround);
-            } else {
-                cc.log(`onUIOpen ${uiId} quickClose faile, background node not found!`);
+            if (!backGround) {
+                backGround = new cc.Node()
+                backGround.name = 'background';
+                backGround.setContentSize(cc.winSize);
+                uiView.node.addChild(backGround, -1);
             }
+            backGround.targetOff(cc.Node.EventType.TOUCH_START);
+            backGround.on(cc.Node.EventType.TOUCH_START, (event: cc.Event.EventCustom) => {
+                event.stopPropagation();
+                this.close(uiView);
+            }, backGround);
         }
 
         // 添加到场景中
@@ -274,7 +276,7 @@ export class UIManager {
     }
 
     /** 打开界面并添加到界面栈中 */
-    public open(uiId: number, uiArgs: any, progressCallback: ProcessCallback = null): void {
+    public open(uiId: number, uiArgs: any = null, progressCallback: ProcessCallback = null): void {
         let uiInfo: UIInfo = {
             uiId: uiId,
             uiArgs: uiArgs,
@@ -326,7 +328,7 @@ export class UIManager {
     }
 
     /** 替换栈顶界面 */
-    public replace(uiId: number, uiArgs: any) {
+    public replace(uiId: number, uiArgs: any = null) {
         this.close(this.UIStack[this.UIStack.length - 1].uiView);
         this.open(uiId, uiArgs);
     }
@@ -514,7 +516,7 @@ export class UIManager {
 
     public getTopUI(): UIView {
         if (this.UIStack.length > 0) {
-            return this.UIStack[this.UIStack.length].uiView;
+            return this.UIStack[this.UIStack.length - 1].uiView;
         }
         return null;
     }

@@ -16,11 +16,11 @@
 				"iOS",
 				"HTML5"
 			],
-			"package_download_url": "https://download.cocos.com/CocosServices/plugins/service-analytics/1.2.0_2.1.0.zip",
-			"package_version_desc": "<b>更新日期：</b>2019/6/10<br>\n<br><b>更新说明：</b><br>\n1、优化SDK，修复H5-SDK 与多个小游戏平台适配问题，删除和优化init事件无用接口<br>\n2、如有相关问题咨询或者需求， 可以联系我们技术支持邮箱 <a href=' '>support-cocos@cocos.com</a>",
+			"package_download_url": "https://download.cocos.com/CocosServices/plugins/service-analytics/1.2.3_2.1.1.zip",
+			"package_version_desc": "<p><strong>更新日期：</strong> 2019/11/18<br />\n<strong>更新说明：</strong><br />\n1、更新统计SDK<br />\n2、修改微信小游戏和百度小游戏集成失败的问题<br />\n",
 			"service_component_name": "service-analytics",
 			"package_versions": [
-				"1.2.1_2.1.0",
+				"1.2.3_2.1.1",
 				"1.2.0_2.1.0",
 				"1.1.7_2.0.3",
 				"1.1.6_2.0.1_2.0.2",

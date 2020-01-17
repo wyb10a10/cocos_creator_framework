@@ -168,7 +168,9 @@ export default class ResLoader {
                     cc.log(`${depKey} ref by ${refKey}`);
                     let ccloader: any = cc.loader;
                     let depItem = ccloader._cache[depKey]
-                    this._buildDepend(depItem, depItem && depItem.id ? depItem.id : refKey);
+                    if(depItem) {
+                        this._buildDepend(depItem, depItem.id);
+                    }
                 }
             }
         }
@@ -339,7 +341,9 @@ export default class ResLoader {
             if (item.dependKeys && Array.isArray(item.dependKeys)) {
                 for (let depKey of item.dependKeys) {
                     let depItem = ccloader._cache[depKey]
-                    this._release(depItem, item.id);
+                    if (depItem) {
+                        this._release(depItem, item.id);
+                    }
                 }
             }
 

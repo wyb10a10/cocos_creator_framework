@@ -7,10 +7,10 @@ import { resLoader, CompletedCallback } from "./ResLoader";
  * 
  * 2019-12-13 by 宝爷
  */
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 /** 自动释放配置 */
-interface autoResInfo {
+export interface autoResInfo {
     url: string;
     use?: string;
     type: typeof cc.Asset;
@@ -20,14 +20,6 @@ interface autoResInfo {
 export default class ResKeeper extends cc.Component {
 
     private autoRes: autoResInfo[] = [];
-
-   /**
-     * 获取该界面的资源占用key
-     */
-    public getUseKey(): string {
-        return "";
-    }
-
     /**
      * 加载资源，通过此接口加载的资源会在界面被销毁时自动释放
      * 如果同时有其他地方引用的资源，会解除当前界面对该资源的占用
@@ -36,13 +28,13 @@ export default class ResKeeper extends cc.Component {
      * @param onCompleted 
      */
     public loadRes(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback) {
-        let useStr = this.getUseKey();
+        let use = resLoader.nextUseKey();
         resLoader.loadRes(url, type, (error: Error, res) => {
             if (!error) {
-                this.autoRes.push({ url: url, type: type });
+                this.autoRes.push({ url, use, type });
             }
             onCompleted && onCompleted(error, res);
-        }, useStr);
+        }, use);
     }
 
     /**
@@ -51,14 +43,13 @@ export default class ResKeeper extends cc.Component {
     public releaseAutoRes() {
         for (let index = 0; index < this.autoRes.length; index++) {
             const element = this.autoRes[index];
-            resLoader.releaseRes(element.url,
-                element.type, element.use || this.getUseKey());
+            resLoader.releaseRes(element.url, element.type, element.use);
         }
     }
 
     /**
      * 往一个界面加入一个自动释放的资源
-     * @param resConf 资源url和类型
+     * @param resConf 资源url和类型 [ useKey ]
      */
     public autoReleaseRes(resConf: autoResInfo) {
         this.autoRes.push(resConf);

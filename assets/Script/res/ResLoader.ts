@@ -47,6 +47,7 @@ if (!isChildClassOf) {
 export default class ResLoader {
 
     private _resMap: Map<string, CacheInfo> = new Map<string, CacheInfo>();
+    private _globalUseId: number = 0;
 
     /**
      * 从cc.loader中获取一个资源的item
@@ -144,16 +145,9 @@ export default class ResLoader {
 
     /**
      * 自动生成一个唯一的资源id
-     * @param url 要生成useKey的资源url
      */
-    public nextUseKey(url: string): string {
-        let cacheInfo = this.getCacheInfo(url);
-        if(cacheInfo.useId) {
-            return `@@${++cacheInfo.useId}`;
-        } else {
-            cacheInfo.useId = 1;
-            return `@@1`
-        }
+    public nextUseKey(): string {
+        return `@${++this._globalUseId}`;
     }
 
     /**

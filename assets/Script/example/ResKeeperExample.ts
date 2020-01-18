@@ -30,7 +30,14 @@ export default class NetExample extends cc.Component {
     }
 
     onAssign() {
-        resLoader.releaseRes("prefabDir/HelloWorld", cc.Prefab);
+        resLoader.loadRes("images/test", cc.SpriteFrame, (error: Error, sp: cc.SpriteFrame) => {
+            if (this.attachNode.childrenCount > 0) {
+                let targetNode = this.attachNode.children[this.attachNode.childrenCount - 1];
+                targetNode.getComponent(cc.Sprite).spriteFrame = ResUtil.assignWith(sp, targetNode);
+            }
+            //resLoader.releaseRes("images/test", cc.SpriteFrame);
+            resLoader.releaseAsset(sp);
+        });
     }
 
     onClean() {

@@ -12,7 +12,7 @@ const { ccclass, property } = cc._decorator;
 /** 自动释放配置 */
 export interface autoResInfo {
     url: string;
-    use?: string;
+    use: string;
     type?: typeof cc.Asset;
 };
 
@@ -60,6 +60,8 @@ export default class ResKeeper extends cc.Component {
      * @param resConf 资源url和类型 [ useKey ]
      */
     public autoReleaseRes(resConf: autoResInfo) {
-        this.autoRes.push(resConf);
+        if(resLoader.addUse(resConf.url, resConf.use)) {
+            this.autoRes.push(resConf);
+        }
     }
 }

@@ -169,13 +169,29 @@ export default class ResLoader {
      * 获取资源的url
      * @param asset 
      */
-    public getUrlByAsset(asset: cc.Asset) : string {
+    public getUrlByAsset(asset: cc.Asset): string {
         let checkAsset: any = asset;
         if (checkAsset && checkAsset._uuid) {
-            return ccloader._getReferenceKey(checkAsset._uuid);;    
+            return ccloader._getReferenceKey(checkAsset._uuid);;
         }
         console.error(`getUrlByAssets error ${asset}`);
         return null;
+    }
+
+    /**
+     * 为某资源增加一个新的use
+     * @param key 资源的url
+     * @param use 新的use字符串
+     */
+    public addUse(key: string, use: string): boolean {
+        if (this._resMap.has(key)) {
+            let uses = this._resMap.get(key).uses;
+            if (!uses.has(use)) {
+                uses.add(use);
+                return true;
+            }
+        }
+        return false;
     }
 
     private _buildDepend(item: any, refKey: string) {
@@ -322,7 +338,7 @@ export default class ResLoader {
      * 直接通过asset释放资源（如cc.Prefab、cc.SpriteFrame）
      * @param asset 要释放的asset
      */
-    public releaseAsset(asset : any, use?: string) {
+    public releaseAsset(asset: any, use?: string) {
         if (asset && asset._uuid) {
             let id = ccloader._getReferenceKey(asset._uuid);
             if (id) {
@@ -334,7 +350,7 @@ export default class ResLoader {
                     }
                     if (cacheInfo.uses.size == 0) {
                         this._release(item, id);
-                    }    
+                    }
                 }
             }
         }

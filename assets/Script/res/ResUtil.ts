@@ -29,12 +29,12 @@ export class ResUtil {
 
     /**
      * 赋值srcAsset，并使其跟随targetNode自动释放，用法如下
-     * mySprite.spriteFrame = AssignWith(otherSpriteFrame, mySprite);
+     * mySprite.spriteFrame = AssignWith(otherSpriteFrame, mySpriteNode);
      * @param srcAsset 用于赋值的资源，如cc.SpriteFrame、cc.Texture等等
      * @param targetNode 
      * @param autoCreate 
      */
-    static assignWith(srcAsset: cc.Asset, targetNode: cc.Node, autoCreate?: boolean): cc.Asset {
+    static assignWith(srcAsset: cc.Asset, targetNode: cc.Node, autoCreate?: boolean): any {
         let keeper = ResUtil.getResKeeper(targetNode, autoCreate);
         if (keeper && srcAsset) {
             let url = resLoader.getUrlByAsset(srcAsset);

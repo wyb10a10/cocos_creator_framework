@@ -17,7 +17,7 @@ export type CompletedArrayCallback = (error: Error, resource: any[], urls?: stri
 interface CacheInfo {
     refs: Set<string>,
     uses: Set<string>,
-    useId: number,
+    useId?: number,
 }
 
 // LoadRes方法的参数结构
@@ -148,7 +148,12 @@ export default class ResLoader {
      */
     public nextUseKey(url: string): string {
         let cacheInfo = this.getCacheInfo(url);
-        return `@@${++cacheInfo.useId}`;
+        if(cacheInfo.useId) {
+            return `@@${++cacheInfo.useId}`;
+        } else {
+            cacheInfo.useId = 1;
+            return `@@1`
+        }
     }
 
     /**
@@ -159,8 +164,7 @@ export default class ResLoader {
         if (!this._resMap.has(key)) {
             this._resMap.set(key, {
                 refs: new Set<string>(),
-                uses: new Set<string>(),
-                useId: 0
+                uses: new Set<string>()
             });
         }
         return this._resMap.get(key);

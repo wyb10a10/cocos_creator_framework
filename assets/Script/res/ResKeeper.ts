@@ -38,20 +38,50 @@ export default class ResKeeper extends cc.Component {
     }
 
     /**
-     * 释放资源，界面销毁时在UIManager中调用
+     * 组件销毁时自动释放所有keep的资源
+     */
+    public onDestroy() {
+        this.releaseAutoRes();
+    }
+
+    /**
+     * 释放资源，组件销毁时自动调用
      */
     public releaseAutoRes() {
         for (let index = 0; index < this.autoRes.length; index++) {
             const element = this.autoRes[index];
             resLoader.releaseRes(element.url, element.type, element.use);
         }
+        this.autoRes.length = 0;
     }
 
     /**
-     * 往一个界面加入一个自动释放的资源
+     * 加入一个自动释放的资源
      * @param resConf 资源url和类型 [ useKey ]
      */
     public autoReleaseRes(resConf: autoResInfo) {
         this.autoRes.push(resConf);
+    }
+}
+
+export class ResUtil {
+    /**
+     * 从目标节点或其父节点递归查找一个资源挂载组件
+     * @param attachNode 目标节点
+     * @param autoCreate 当目标节点找不到ResKeeper时是否自动创建一个
+     */
+    static getResKeeper(attachNode: cc.Node, autoCreate?: boolean) : ResKeeper {
+        if (attachNode) {
+            let ret = attachNode.getComponent(ResKeeper);
+            if (!ret) {
+                if (autoCreate) {
+                    return attachNode.addComponent(ResKeeper);
+                } else {
+                    return ResUtil.getResKeeper(attachNode.parent, autoCreate);
+                }
+            }
+            return ret;
+        }
+        return null;
     }
 }

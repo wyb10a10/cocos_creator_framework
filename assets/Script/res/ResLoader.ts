@@ -165,6 +165,19 @@ export default class ResLoader {
         return this._resMap.get(key);
     }
 
+    /**
+     * 获取资源的url
+     * @param asset 
+     */
+    public getUrlByAsset(asset: cc.Asset) : string {
+        let checkAsset: any = asset;
+        if (checkAsset && checkAsset._uuid) {
+            return ccloader._getReferenceKey(checkAsset._uuid);;    
+        }
+        console.error(`getUrlByAssets error ${asset}`);
+        return null;
+    }
+
     private _buildDepend(item: any, refKey: string) {
         // 反向关联引用（为所有引用到的资源打上本资源引用到的标记）
         if (item && item.dependKeys && Array.isArray(item.dependKeys)) {

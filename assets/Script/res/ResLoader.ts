@@ -17,7 +17,7 @@ export type CompletedArrayCallback = (error: Error, resource: any[], urls?: stri
 interface CacheInfo {
     refs: Set<string>,
     uses: Set<string>,
-    useId: number
+    useId: number,
 }
 
 // LoadRes方法的参数结构
@@ -143,6 +143,15 @@ export default class ResLoader {
     }
 
     /**
+     * 自动生成一个唯一的资源id
+     * @param url 要生成useKey的资源url
+     */
+    public nextUseKey(url: string): string {
+        let cacheInfo = this.getCacheInfo(url);
+        return `@@${++cacheInfo.useId}`;
+    }
+
+    /**
      * 获取资源缓存信息
      * @param key 要获取的资源url
      */
@@ -168,7 +177,7 @@ export default class ResLoader {
                     cc.log(`${depKey} ref by ${refKey}`);
                     let ccloader: any = cc.loader;
                     let depItem = ccloader._cache[depKey]
-                    if(depItem) {
+                    if (depItem) {
                         this._buildDepend(depItem, depItem.id);
                     }
                 }
@@ -306,9 +315,6 @@ export default class ResLoader {
     public releaseRes(url: string, use?: string);
     public releaseRes(url: string, type: typeof cc.Asset, use?: string)
     public releaseRes() {
-        /**暂时不释放资源 */
-        // return;
-
         let resArgs: ReleaseResArgs = this._makeReleaseResArgs.apply(this, arguments);
         let item = this._getResItem(resArgs.url, resArgs.type);
         if (!item) {

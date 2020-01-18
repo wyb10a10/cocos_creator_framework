@@ -44,6 +44,8 @@ if (!isChildClassOf) {
     isChildClassOf = cc["isChildClassOf"];
 }
 
+let ccloader: any = cc.loader;
+
 export default class ResLoader {
 
     private _resMap: Map<string, CacheInfo> = new Map<string, CacheInfo>();
@@ -55,7 +57,6 @@ export default class ResLoader {
      * @param type 查询的资源类型
      */
     private _getResItem(url: string, type: typeof cc.Asset): any {
-        let ccloader: any = cc.loader;
         let item = ccloader._cache[url];
         if (!item) {
             let uuid = ccloader._getResUuid(url, type, false);
@@ -301,6 +302,28 @@ export default class ResLoader {
         ccloader._assetTables.assets.getUuidArray(resArgs.url, resArgs.type, urls);
         for (let i = 0; i < urls.length; ++i) {
             this.releaseRes(urls[i], resArgs.type, resArgs.use);
+        }
+    }
+
+    /**
+     * 直接通过asset释放资源（如cc.Prefab、cc.SpriteFrame）
+     * @param asset 要释放的asset
+     */
+    public releaseAsset(asset : any, use?: string) {
+        if (asset && asset._uuid) {
+            let id = ccloader._getReferenceKey(asset._uuid);
+            if (id) {
+                let item = ccloader._cache[id];
+                if (item) {
+                    let cacheInfo = this.getCacheInfo(id);
+                    if (use) {
+                        cacheInfo.uses.delete(use)
+                    }
+                    if (cacheInfo.uses.size == 0) {
+                        this._release(item, id);
+                    }    
+                }
+            }
         }
     }
 

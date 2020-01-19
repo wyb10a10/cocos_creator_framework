@@ -14,14 +14,14 @@ export type CompletedCallback = (error: Error, resource: any) => void;
 export type CompletedArrayCallback = (error: Error, resource: any[], urls?: string[]) => void;
 
 // 引用和使用的结构体
-interface CacheInfo {
+export interface CacheInfo {
     refs: Set<string>,
     uses: Set<string>,
     useId?: number,
 }
 
 // LoadRes方法的参数结构
-interface LoadResArgs {
+export interface LoadResArgs {
     url?: string,
     urls?: string[],
     type?: typeof cc.Asset,
@@ -31,7 +31,7 @@ interface LoadResArgs {
 }
 
 // ReleaseRes方法的参数结构
-interface ReleaseResArgs {
+export interface ReleaseResArgs {
     url?: string,
     urls?: string[],
     type?: typeof cc.Asset,
@@ -71,7 +71,7 @@ export default class ResLoader {
     /**
      * loadRes方法的参数预处理
      */
-    private _makeLoadResArgs(): LoadResArgs {
+    public static makeLoadResArgs(): LoadResArgs {
         if (arguments.length < 1) {
             console.error(`_makeLoadResArgs error ${arguments}`);
             return null;
@@ -109,7 +109,7 @@ export default class ResLoader {
     /**
      * releaseRes方法的参数预处理
      */
-    private _makeReleaseResArgs(): ReleaseResArgs {
+    public static makeReleaseResArgs(): ReleaseResArgs {
         if (arguments.length < 1) {
             console.error(`_makeReleaseResArgs error ${arguments}`);
             return null;
@@ -248,7 +248,7 @@ export default class ResLoader {
     public loadRes(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback, use?: string);
     public loadRes(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);
     public loadRes() {
-        let resArgs: LoadResArgs = this._makeLoadResArgs.apply(this, arguments);
+        let resArgs: LoadResArgs = ResLoader.makeLoadResArgs.apply(this, arguments);
         console.time("loadRes|" + resArgs.url);
         let finishCallback = (error: Error, resource: any) => {
             if (!error) {
@@ -282,7 +282,7 @@ export default class ResLoader {
     public loadArray(urls: string[], type: typeof cc.Asset, onCompleted: CompletedArrayCallback, use?: string);
     public loadArray(urls: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedArrayCallback, use?: string);
     public loadArray() {
-        let resArgs: LoadResArgs = this._makeLoadResArgs.apply(this, arguments);
+        let resArgs: LoadResArgs = ResLoader.makeLoadResArgs.apply(this, arguments);
         let finishCallback = (error: Error, resource: any[], urls?: string[]) => {
             if (!error) {
                 for (let i = 0; i < resArgs.urls.length; ++i) {
@@ -303,7 +303,7 @@ export default class ResLoader {
     public loadResDir(url: string, type: typeof cc.Asset, onCompleted: CompletedArrayCallback, use?: string);
     public loadResDir(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedArrayCallback, use?: string);
     public loadResDir() {
-        let resArgs: LoadResArgs = this._makeLoadResArgs.apply(this, arguments);
+        let resArgs: LoadResArgs = ResLoader.makeLoadResArgs.apply(this, arguments);
         let finishCallback = (error: Error, resource: any[], urls?: string[]) => {
             if (!error && urls) {
                 for (let i = 0; i < urls.length; ++i) {
@@ -320,7 +320,7 @@ export default class ResLoader {
     public releaseArray(urls: string[], use?: string);
     public releaseArray(urls: string[], type: typeof cc.Asset, use?: string)
     public releaseArray() {
-        let resArgs: ReleaseResArgs = this._makeReleaseResArgs.apply(this, arguments);
+        let resArgs: ReleaseResArgs = ResLoader.makeReleaseResArgs.apply(this, arguments);
         for (let i = 0; i < resArgs.urls.length; ++i) {
             this.releaseRes(resArgs.urls[i], resArgs.type, resArgs.use);
         }
@@ -329,7 +329,7 @@ export default class ResLoader {
     public releaseResDir(url: string, use?: string);
     public releaseResDir(url: string, type: typeof cc.Asset, use?: string)
     public releaseResDir() {
-        let resArgs: ReleaseResArgs = this._makeReleaseResArgs.apply(this, arguments);
+        let resArgs: ReleaseResArgs = ResLoader.makeReleaseResArgs.apply(this, arguments);
         let ccloader: any = cc.loader;
         let urls: string[] = [];
         ccloader._assetTables.assets.getUuidArray(resArgs.url, resArgs.type, urls);
@@ -369,7 +369,7 @@ export default class ResLoader {
     public releaseRes(url: string, use?: string);
     public releaseRes(url: string, type: typeof cc.Asset, use?: string)
     public releaseRes() {
-        let resArgs: ReleaseResArgs = this._makeReleaseResArgs.apply(this, arguments);
+        let resArgs: ReleaseResArgs = ResLoader.makeReleaseResArgs.apply(this, arguments);
         let item = this._getResItem(resArgs.url, resArgs.type);
         if (!item) {
             console.warn(`releaseRes item is null ${resArgs.url} ${resArgs.type}`);
@@ -435,6 +435,20 @@ export default class ResLoader {
     }
 
     /**
+     * 是否可以释放某资源
+     * @param url 
+     * @param use 
+     */
+    public canRelease(url: string, use: string): boolean {
+        let cacheInfo = this.getCacheInfo(url);
+        // 有其它Res引用它
+        if (cacheInfo.refs.size > 1 || !cacheInfo.refs.has(url)) return false;
+        // 有其它的Use使用
+        if (cacheInfo.uses.size > 1 || !cacheInfo.uses.has(use)) return false;
+        return true;
+    }
+
+    /**
      * 判断一个资源能否被释放
      * @param url 资源url
      * @param type  资源类型
@@ -443,7 +457,7 @@ export default class ResLoader {
     public checkReleaseUse(url: string, use?: string): boolean;
     public checkReleaseUse(url: string, type: typeof cc.Asset, use?: string): boolean
     public checkReleaseUse() {
-        let resArgs: ReleaseResArgs = this._makeReleaseResArgs.apply(this, arguments);
+        let resArgs: ReleaseResArgs = ResLoader.makeReleaseResArgs.apply(this, arguments);
         let item = this._getResItem(resArgs.url, resArgs.type);
         if (!item) {
             console.log(`cant release,item is null ${resArgs.url} ${resArgs.type}`);

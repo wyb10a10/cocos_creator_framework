@@ -5,6 +5,9 @@ import { resLoader } from "./ResLoader";
  * 
  * 2020-1-19 by 宝爷
  */
+
+export type NodePoolCallback = (error: Error, nodePool: NodePool) => void;
+ 
 export class NodePool {
     private _isReady: boolean = false;
     private _createCount: number = 0;
@@ -22,14 +25,23 @@ export class NodePool {
      * @param url
      */
     public init(prefab: cc.Prefab)
-    public init(url: string)
+    public init(url: string, finishCallback: NodePoolCallback)
     public init() {
-        if (arguments[0] instanceof cc.Prefab) {
-            this._res = arguments[0];
+        let urlOrPrefab = arguments[0];
+        var finishCallback = null;
+        if (arguments.length == 2 && typeof arguments[1] == "function") {
+            finishCallback = arguments[1];
+        }
+
+        if (urlOrPrefab instanceof cc.Prefab) {
+            this._res = urlOrPrefab;
             let url = resLoader.getUrlByAsset(this._res);
             if (url) {
                 if (resLoader.addUse(url, this._useKey)) {
                     this._isReady = true;
+                    if (finishCallback) {
+                        finishCallback(null, this);
+                    }
                     return;
                 }
             }
@@ -39,7 +51,11 @@ export class NodePool {
                     this._res = prefab;
                     this._isReady = true;
                 }
+                if (finishCallback) {
+                    finishCallback(error, this);
+                }
             }, this._useKey);
+            return;
         }
         console.error(`NodePool init error ${arguments[0]}`);
     }

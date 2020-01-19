@@ -189,8 +189,12 @@ export default class ResLoader {
             if (!uses.has(use)) {
                 uses.add(use);
                 return true;
+            } else {
+                console.warn(`addUse ${key} by ${use} faile, repeating use key`);
+                return false;
             }
         }
+        console.warn(`addUse ${key} faile, key nofound, make sure you load with resloader`);
         return false;
     }
 

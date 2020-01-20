@@ -48,8 +48,26 @@ let ccloader: any = cc.loader;
 
 export default class ResLoader {
 
+    private static _sceneUseKey: string = "@scene";
     private _resMap: Map<string, CacheInfo> = new Map<string, CacheInfo>();
     private _globalUseId: number = 0;
+    private _lastScene: string = null;
+    private _sceneDepends: string[] = null;
+
+    public constructor() {
+        // 1. 构造当前场景依赖
+        let scene = cc.director.getScene();
+        if (scene) {
+            this._cacheScene(scene);
+        }
+        // 2. 监听场景切换
+        cc.director.on(cc.Director.EVENT_BEFORE_SCENE_LAUNCH, (scene) => {
+            if (this._lastScene) {
+                this.releaseRes(this._lastScene, ResLoader._sceneUseKey);
+            }
+            this._cacheScene(scene);
+        });
+    }
 
     /**
      * 从cc.loader中获取一个资源的item
@@ -217,8 +235,12 @@ export default class ResLoader {
         }
     }
 
-    private _finishItem(url: string, assetType: typeof cc.Asset, use?: string) {
-        let item = this._getResItem(url, assetType);
+    /**
+     * 缓存一个Item
+     * @param item 
+     * @param use 
+     */
+    private _cacheItem(item: any, use?: string): boolean {
         if (item && item.id) {
             let info = this.getCacheInfo(item.id);
             if (use) {
@@ -228,8 +250,60 @@ export default class ResLoader {
                 info.refs.add(item.id);
                 this._buildDepend(item, item.id);
             }
-        } else {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 完成一个Item的加载
+     * @param url 
+     * @param assetType 
+     * @param use 
+     */
+    private _finishItem(url: string, assetType: typeof cc.Asset, use?: string) {
+        let item = this._getResItem(url, assetType);
+        if (!this._cacheItem(item, use)) {
             cc.warn(`addDependKey item error! for ${url}`);
+        }
+    }
+
+    private _releaseSceneDepend() {
+        if (this._sceneDepends) {
+            for (let i = 0; i < this._sceneDepends.length; ++i) {
+                this.releaseRes(this._sceneDepends[i], ResLoader._sceneUseKey);
+            }
+            this._sceneDepends = null;
+        } else if(this._lastScene) {
+            this.releaseRes(this._lastScene, ResLoader._sceneUseKey);
+        }
+    }
+
+    private _cacheSceneDepend(depends :string[]) {
+        for (let i = 0; i < depends.length; ++i) {
+            let item = ccloader._cache[depends[i]];
+            this._cacheItem(item, ResLoader._sceneUseKey);
+        }
+    }
+
+    /**
+     * 缓存场景
+     * @param scene 
+     */
+    private _cacheScene(scene: any) {
+        let refKey = ccloader._getReferenceKey(scene.uuid);
+        let item = ccloader._cache[refKey];
+        if (item) {
+            this._cacheItem(item, ResLoader._sceneUseKey);
+            this._releaseSceneDepend();
+            this._lastScene = refKey;
+        } else if(scene.dependAssets) {
+            this._cacheSceneDepend(scene.dependAssets);
+            this._releaseSceneDepend();
+            this._lastScene = refKey;
+            this._sceneDepends = scene.dependAssets;
+        } else {
+            console.error(`cache scene faile ${scene}`);
         }
     }
 

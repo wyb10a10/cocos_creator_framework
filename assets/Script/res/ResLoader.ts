@@ -221,7 +221,7 @@ export default class ResLoader {
                 let cacheInfo = this.getCacheInfo(depKey);
                 if (!cacheInfo.refs.has(refKey)) {
                     this.getCacheInfo(depKey).refs.add(refKey);
-                    cc.log(`${depKey} ref by ${refKey}`);
+                    // cc.log(`${depKey} ref by ${refKey}`);
                     let ccloader: any = cc.loader;
                     let depItem = ccloader._cache[depKey]
                     if (depItem) {
@@ -451,7 +451,6 @@ export default class ResLoader {
             console.warn(`releaseRes item is null ${resArgs.url} ${resArgs.type}`);
             return;
         }
-        cc.log("resloader release item");
         // cc.log(arguments);
         let cacheInfo = this.getCacheInfo(item.id);
         if (resArgs.use) {

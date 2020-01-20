@@ -48,7 +48,7 @@ let ccloader: any = cc.loader;
 
 export default class ResLoader {
 
-    private static _sceneUseKey: string = "@scene";
+    private static _sceneUseKey: string;
     private _resMap: Map<string, CacheInfo> = new Map<string, CacheInfo>();
     private _globalUseId: number = 0;
     private _lastScene: string = null;
@@ -271,16 +271,15 @@ export default class ResLoader {
                 this.releaseRes(this._sceneDepends[i], ResLoader._sceneUseKey);
             }
             this._sceneDepends = null;
-        } else if(this._lastScene) {
-            this.releaseRes(this._lastScene, ResLoader._sceneUseKey);
         }
     }
 
-    private _cacheSceneDepend(depends :string[]) {
+    private _cacheSceneDepend(depends :string[], useKey: string): string[] {
         for (let i = 0; i < depends.length; ++i) {
             let item = ccloader._cache[depends[i]];
-            this._cacheItem(item, ResLoader._sceneUseKey);
+            this._cacheItem(item, useKey);
         }
+        return depends;
     }
 
     /**
@@ -288,20 +287,26 @@ export default class ResLoader {
      * @param scene 
      */
     private _cacheScene(scene: any) {
+        if (scene.name == this._lastScene) {
+            return;
+        }
+
         let refKey = ccloader._getReferenceKey(scene.uuid);
         let item = ccloader._cache[refKey];
+        let newUseKey = `@Scene${resLoader.nextUseKey()}`;
+        let depends: string[] = null;
         if (item) {
-            this._cacheItem(item, ResLoader._sceneUseKey);
-            this._releaseSceneDepend();
-            this._lastScene = refKey;
+            depends = this._cacheSceneDepend(item.dependKeys, newUseKey);
         } else if(scene.dependAssets) {
-            this._cacheSceneDepend(scene.dependAssets);
-            this._releaseSceneDepend();
-            this._lastScene = refKey;
-            this._sceneDepends = scene.dependAssets;
+            depends = this._cacheSceneDepend(scene.dependAssets, newUseKey);
         } else {
             console.error(`cache scene faile ${scene}`);
+            return;
         }
+        this._releaseSceneDepend();
+        this._lastScene = scene.name;
+        ResLoader._sceneUseKey = newUseKey;
+        this._sceneDepends = depends;
     }
 
     /**

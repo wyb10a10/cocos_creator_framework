@@ -293,7 +293,7 @@ export default class ResLoader {
 
         let refKey = ccloader._getReferenceKey(scene.uuid);
         let item = ccloader._cache[refKey];
-        let newUseKey = `@Scene${resLoader.nextUseKey()}`;
+        let newUseKey = `@Scene${this.nextUseKey()}`;
         let depends: string[] = null;
         if (item) {
             depends = this._cacheSceneDepend(item.dependKeys, newUseKey);

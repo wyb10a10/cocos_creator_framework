@@ -1,3 +1,5 @@
+import ResKeeper from "./ResKeeper";
+
 /**
  * 资源加载类
  * 1. 加载完成后自动记录引用关系，根据DependKeys记录反向依赖
@@ -286,7 +288,8 @@ export default class ResLoader {
      * 缓存场景
      * @param scene 
      */
-    private _cacheScene(scene: any) {
+    private _cacheScene(scene: cc.Scene) {
+        // 切换的场景名相同，无需清理资源
         if (scene.name == this._lastScene) {
             return;
         }
@@ -297,8 +300,8 @@ export default class ResLoader {
         let depends: string[] = null;
         if (item) {
             depends = this._cacheSceneDepend(item.dependKeys, newUseKey);
-        } else if(scene.dependAssets) {
-            depends = this._cacheSceneDepend(scene.dependAssets, newUseKey);
+        } else if(scene["dependAssets"]) {
+            depends = this._cacheSceneDepend(scene["dependAssets"], newUseKey);
         } else {
             console.error(`cache scene faile ${scene}`);
             return;

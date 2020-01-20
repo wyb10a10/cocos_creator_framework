@@ -48,4 +48,12 @@ export default class NetExample extends cc.Component {
         let Loader: any = cc.loader;
         this.dumpLabel.string = `当前资源总数:${Object.keys(Loader._cache).length}`;
     }
+
+    onLoadClick() {
+        cc.director.loadScene("example_empty");
+    }
+
+    onPreloadClick() {
+        cc.director.preloadScene("example_empty");
+    }
 }

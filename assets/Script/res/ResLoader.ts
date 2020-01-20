@@ -62,9 +62,6 @@ export default class ResLoader {
         }
         // 2. 监听场景切换
         cc.director.on(cc.Director.EVENT_BEFORE_SCENE_LAUNCH, (scene) => {
-            if (this._lastScene) {
-                this.releaseRes(this._lastScene, ResLoader._sceneUseKey);
-            }
             this._cacheScene(scene);
         });
     }
@@ -482,9 +479,7 @@ export default class ResLoader {
             }
 
             //如果没有uuid,就直接释放url
-            if (this._isSceneDepend(item.id)) {
-                cc.log("resloader skip release scene depend assets :" + item.id);
-            } else if (item.uuid) {
+            if (item.uuid) {
                 cc.loader.release(item.uuid);
                 cc.log("resloader release item by uuid :" + item.id);
             } else {

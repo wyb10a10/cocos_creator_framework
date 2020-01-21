@@ -244,13 +244,13 @@ export default class ResLoader {
      * @param item 
      * @param use 
      */
-    private _cacheItem(item: any, use?: string): boolean {
+    private _cacheItem(item: any, use?: string, stack?: string): boolean {
         if (item && item.id) {
             let info = this.getCacheInfo(item.id);
             if (use) {
                 info.uses.add(use);
                 if (this.resLeakChecker) {
-                    this.resLeakChecker.logLoad(item.id, use);
+                    this.resLeakChecker.logLoad(item.id, use, stack);
                 }
             }
             if (!info.refs.has(item.id)) {
@@ -268,9 +268,9 @@ export default class ResLoader {
      * @param assetType 
      * @param use 
      */
-    private _finishItem(url: string, assetType: typeof cc.Asset, use?: string) {
+    private _finishItem(url: string, assetType: typeof cc.Asset, use?: string, stack?: string) {
         let item = this._getResItem(url, assetType);
-        if (!this._cacheItem(item, use)) {
+        if (!this._cacheItem(item, use, stack)) {
             cc.warn(`addDependKey item error! for ${url}`);
         }
     }
@@ -336,10 +336,14 @@ export default class ResLoader {
     public loadRes(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);
     public loadRes() {
         let resArgs: LoadResArgs = ResLoader.makeLoadResArgs.apply(this, arguments);
+        let stack: string;
+        if (this.resLeakChecker && this.resLeakChecker.checkFilter(resArgs.url)) {
+            stack = ResLeakChecker.getCallStack(1);
+        }
         console.time("loadRes|" + resArgs.url);
         let finishCallback = (error: Error, resource: any) => {
             if (!error) {
-                this._finishItem(resArgs.url, resArgs.type, resArgs.use);
+                this._finishItem(resArgs.url, resArgs.type, resArgs.use, stack);
             }
             if (resArgs.onCompleted) {
                 resArgs.onCompleted(error, resource);
@@ -370,10 +374,14 @@ export default class ResLoader {
     public loadArray(urls: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedArrayCallback, use?: string);
     public loadArray() {
         let resArgs: LoadResArgs = ResLoader.makeLoadResArgs.apply(this, arguments);
+        let stack: string;
+        if (this.resLeakChecker && this.resLeakChecker.checkFilter(resArgs.url)) {
+            stack = ResLeakChecker.getCallStack(1);
+        }
         let finishCallback = (error: Error, resource: any[], urls?: string[]) => {
             if (!error) {
                 for (let i = 0; i < resArgs.urls.length; ++i) {
-                    this._finishItem(resArgs.urls[i], resArgs.type, resArgs.use);
+                    this._finishItem(resArgs.urls[i], resArgs.type, resArgs.use, stack);
                 }
             }
             if (resArgs.onCompleted) {
@@ -391,10 +399,14 @@ export default class ResLoader {
     public loadResDir(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedArrayCallback, use?: string);
     public loadResDir() {
         let resArgs: LoadResArgs = ResLoader.makeLoadResArgs.apply(this, arguments);
+        let stack: string;
+        if (this.resLeakChecker && this.resLeakChecker.checkFilter(resArgs.url)) {
+            stack = ResLeakChecker.getCallStack(1);
+        }
         let finishCallback = (error: Error, resource: any[], urls?: string[]) => {
             if (!error && urls) {
                 for (let i = 0; i < urls.length; ++i) {
-                    this._finishItem(urls[i], resArgs.type, resArgs.use);
+                    this._finishItem(urls[i], resArgs.type, resArgs.use, stack);
                 }
             }
             if (resArgs.onCompleted) {

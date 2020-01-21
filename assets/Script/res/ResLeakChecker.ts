@@ -42,7 +42,7 @@ export class ResLeakChecker {
         return true;
     }
 
-    public logLoad(url: string, use: string) {
+    public logLoad(url: string, use: string, stack?: string) {
         if (!this.checkFilter(url)) {
             return;
         }
@@ -53,7 +53,7 @@ export class ResLeakChecker {
         if (urlInfos.has(use)) {
             console.warn(`ResLeakChecker doubel same use ${url} : ${use}, stack ${urlInfos[use]}`);
         }
-        urlInfos.set(use, ResLeakChecker.getCallStack(2));
+        urlInfos.set(use, stack ? stack : ResLeakChecker.getCallStack(2));
     }
 
     public logRelease(url: string, use: string) {

@@ -20,14 +20,15 @@ export class ResLeakChecker {
     private _log: Map<string, Map<string, string>> = new Map<string, Map<string, string>>();
 
     static getCallStack(popCount: number): string {
-        let caller = arguments.callee.caller;
+        /*let caller = arguments.callee.caller;
         let count = Math.min(arguments.callee.caller.length - popCount, 10);
         let ret = "";
         do {
             ret = `${ret}${caller.toString()}`;
             caller = caller && caller.caller;
             --count;
-        } while (caller && count > 0)
+        } while (caller && count > 0)*/
+        let ret = (new Error()).stack;
         return ret;
     }
 
@@ -45,18 +46,25 @@ export class ResLeakChecker {
         if (!this.checkFilter(url)) {
             return;
         }
-        let urlInfos: Map<string, string> = this._log[url];
+        if (!this._log.has(url)) {
+            this._log.set(url, new Map<string, string>());
+        }
+        let urlInfos: Map<string, string> = this._log.get(url);
         if (urlInfos.has(use)) {
             console.warn(`ResLeakChecker doubel same use ${url} : ${use}, stack ${urlInfos[use]}`);
         }
-        urlInfos[use] = ResLeakChecker.getCallStack(2);
+        urlInfos.set(use, ResLeakChecker.getCallStack(2));
     }
 
     public logRelease(url: string, use: string) {
         if (!this.checkFilter(url)) {
             return;
         }
-        let urlInfos: Map<string, string> = this._log[url];
+        if (!this._log.has(url)) {
+            console.warn(`ResLeakChecker url nofound ${url} : ${use}`);
+            return;
+        }
+        let urlInfos: Map<string, string> = this._log.get(url);
         if (!urlInfos.has(use)) {
             console.warn(`ResLeakChecker use nofound ${url} : ${use}`);
         } else {
@@ -71,6 +79,11 @@ export class ResLeakChecker {
         this._log = new Map<string, Map<string, string>>();
     }
     public dump() {
-        console.log(`${this._log}`);
+        this._log.forEach((log, url) => {
+            console.log(url);
+            log.forEach((stack, use) => {
+                console.log(`${use} : ${stack}`);
+            });
+        });
     }
 }

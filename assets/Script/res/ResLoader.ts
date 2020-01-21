@@ -1,4 +1,5 @@
 import ResKeeper from "./ResKeeper";
+import { ResLeakChecker } from "./ResLeakChecker";
 
 /**
  * 资源加载类
@@ -55,6 +56,7 @@ export default class ResLoader {
     private _globalUseId: number = 0;
     private _lastScene: string = null;
     private _sceneDepends: string[] = null;
+    public resLeakChecker: ResLeakChecker = null;
 
     public constructor() {
         // 1. 构造当前场景依赖
@@ -205,6 +207,9 @@ export default class ResLoader {
             let uses = this._resMap.get(key).uses;
             if (!uses.has(use)) {
                 uses.add(use);
+                if (this.resLeakChecker) {
+                    this.resLeakChecker.logLoad(key, use);
+                }
                 return true;
             } else {
                 console.warn(`addUse ${key} by ${use} faile, repeating use key`);
@@ -244,6 +249,9 @@ export default class ResLoader {
             let info = this.getCacheInfo(item.id);
             if (use) {
                 info.uses.add(use);
+                if (this.resLeakChecker) {
+                    this.resLeakChecker.logLoad(item.id, use);
+                }
             }
             if (!info.refs.has(item.id)) {
                 info.refs.add(item.id);
@@ -430,6 +438,9 @@ export default class ResLoader {
                     let cacheInfo = this.getCacheInfo(id);
                     if (use) {
                         cacheInfo.uses.delete(use)
+                        if (this.resLeakChecker) {
+                            this.resLeakChecker.logRelease(id, use);
+                        }
                     }
                     if (cacheInfo.uses.size == 0) {
                         this._release(item, id);
@@ -458,6 +469,9 @@ export default class ResLoader {
         let cacheInfo = this.getCacheInfo(item.id);
         if (resArgs.use) {
             cacheInfo.uses.delete(resArgs.use)
+            if (this.resLeakChecker) {
+                this.resLeakChecker.logRelease(item.id, resArgs.use);
+            }
         }
 
         if (cacheInfo.uses.size == 0) {

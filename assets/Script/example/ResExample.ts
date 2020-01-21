@@ -1,4 +1,5 @@
 import { resLoader } from "../res/ResLoader";
+import { ResLeakChecker } from "../res/ResLeakChecker";
 
 const { ccclass, property } = cc._decorator;
 
@@ -8,6 +9,12 @@ export default class NetExample extends cc.Component {
     attachNode: cc.Node = null;
     @property(cc.Label)
     dumpLabel: cc.Label = null;
+
+    start() {
+        let checker = new ResLeakChecker();
+        checker.startCheck();
+        resLoader.resLeakChecker = checker;
+    }
 
     onLoadRes() {
         cc.loader.loadRes("prefabDir/HelloWorld", cc.Prefab, (error: Error, prefab: cc.Prefab) => {
@@ -29,12 +36,12 @@ export default class NetExample extends cc.Component {
                     cc.instantiate(prefabs[i]).parent = this.attachNode;
                 }
             }
-        });
+        }, "test");
     }
 
     onMyUnloadRes() {
         this.attachNode.removeAllChildren(true);
-        resLoader.releaseResDir("prefabDir", cc.Prefab);
+        resLoader.releaseResDir("prefabDir", cc.Prefab, "test");
     }
 
     onLoadRemote() {
@@ -45,16 +52,17 @@ export default class NetExample extends cc.Component {
             let sprite = node.addComponent(cc.Sprite);
             sprite.spriteFrame = spriteFrame;
             node.parent = this.attachNode;
-        })
+        }, "net")
     }
 
     onUnloadRemote() {
         this.attachNode.removeAllChildren(true);
-        resLoader.releaseRes("http://tools.itharbors.com/christmas/res/tree.png");
+        resLoader.releaseRes("http://tools.itharbors.com/christmas/res/tree.png", "net");
     }
 
     onDump() {
         let Loader:any = cc.loader;
         this.dumpLabel.string = `当前资源总数:${Object.keys(Loader._cache).length}`;
+        resLoader.resLeakChecker.dump();
     }
 }

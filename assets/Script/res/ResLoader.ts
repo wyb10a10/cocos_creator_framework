@@ -58,6 +58,10 @@ export default class ResLoader {
     private _sceneDepends: string[] = null;
     public resLeakChecker: ResLeakChecker = null;
 
+    public static getSceneUseKey() {
+        return ResLoader._sceneUseKey;
+    }
+
     public constructor() {
         // 1. 构造当前场景依赖
         let scene = cc.director.getScene();

@@ -1,5 +1,5 @@
-import ResKeeper from "./ResKeeper";
 import { ResLeakChecker } from "./ResLeakChecker";
+import { ResUtil } from "./ResUtil";
 
 /**
  * 资源加载类
@@ -279,10 +279,24 @@ export default class ResLoader {
         }
     }
 
+    /**
+     * 获得持久节点列表
+     */
+    private _getPersistNodeList() {
+        let game:any = cc.game;
+        var persistNodeList = Object.keys(game._persistRootNodes).map(function (x) {
+            return game._persistRootNodes[x];
+        });
+        return persistNodeList;
+    }
+
     private _releaseSceneDepend() {
         if (this._sceneDepends) {
+            let persistDepends : Set<string> = ResUtil.getNodesDepends(this._getPersistNodeList());
             for (let i = 0; i < this._sceneDepends.length; ++i) {
-                this.releaseRes(this._sceneDepends[i], ResLoader._sceneUseKey);
+                if (!persistDepends.has(this._sceneDepends[i])) {
+                    this.releaseRes(this._sceneDepends[i], ResLoader._sceneUseKey);
+                }
             }
             this._sceneDepends = null;
         }

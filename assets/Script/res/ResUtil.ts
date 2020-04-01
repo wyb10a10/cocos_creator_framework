@@ -77,7 +77,7 @@ export class ResUtil {
      * @param attachNode 目标节点
      * @param autoCreate 当目标节点找不到ResKeeper时是否自动创建一个
      */
-    static getResKeeper(attachNode: cc.Node, autoCreate?: boolean): ResKeeper {
+    public static getResKeeper(attachNode: cc.Node, autoCreate?: boolean): ResKeeper {
         if (attachNode) {
             let ret = attachNode.getComponent(ResKeeper);
             if (!ret) {
@@ -100,7 +100,7 @@ export class ResUtil {
      * @param targetNode 
      * @param autoCreate 
      */
-    static assignWith(srcAsset: cc.Asset, targetNode: cc.Node, autoCreate?: boolean): any {
+    public static assignWith(srcAsset: cc.Asset, targetNode: cc.Node, autoCreate?: boolean): any {
         let keeper = ResUtil.getResKeeper(targetNode, autoCreate);
         if (keeper && srcAsset) {
             let url = resLoader.getUrlByAsset(srcAsset);
@@ -117,7 +117,7 @@ export class ResUtil {
      * 实例化一个prefab，并带自动释放功能
      * @param prefab 要实例化的预制
      */
-    static instantiate(prefab: cc.Prefab): cc.Node {
+    public static instantiate(prefab: cc.Prefab): cc.Node {
         let node = cc.instantiate(prefab);
         let keeper = ResUtil.getResKeeper(node, true);
         if (keeper) {
@@ -134,7 +134,7 @@ export class ResUtil {
     /**
      * 获取一系列节点依赖的资源
      */
-    static getNodesDepends(nodes: cc.Node[]): Set<string> {
+    public static getNodesDepends(nodes: cc.Node[]): Set<string> {
         let ret: Set<string> = new Set<string>();
         for (let i = 0; i < nodes.length; i++) {
             visitNode(nodes[i], ret)

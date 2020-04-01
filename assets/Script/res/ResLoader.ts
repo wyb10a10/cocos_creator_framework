@@ -294,7 +294,14 @@ export default class ResLoader {
         if (this._sceneDepends) {
             let persistDepends : Set<string> = ResUtil.getNodesDepends(this._getPersistNodeList());
             for (let i = 0; i < this._sceneDepends.length; ++i) {
-                if (!persistDepends.has(this._sceneDepends[i])) {
+                // 判断是不是已经被场景切换自动释放的资源，是则直接移除缓存Item（失效项）
+                let item = this._getResItem(this._sceneDepends[i], undefined);
+                if (!item) {
+                    this._resMap.delete(this._sceneDepends[i]);
+                    cc.log(`delete untrack res ${this._sceneDepends[i]}`);
+                }
+                // 判断是不是持久节点依赖的资源
+                else if (!persistDepends.has(this._sceneDepends[i])) {
                     this.releaseRes(this._sceneDepends[i], ResLoader._sceneUseKey);
                 }
             }

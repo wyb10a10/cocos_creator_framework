@@ -326,11 +326,12 @@ export default class ResLoader {
         if (scene.name == this._lastScene) {
             return;
         }
-
+        // 获取场景资源（这只对预加载场景有效）
         let refKey = ccloader._getReferenceKey(scene.uuid);
         let item = ccloader._cache[refKey];
         let newUseKey = `@Scene${this.nextUseKey()}`;
         let depends: string[] = null;
+        // 获取新场景的依赖
         if (item) {
             depends = this._cacheSceneDepend(item.dependKeys, newUseKey);
         } else if(scene["dependAssets"]) {
@@ -339,6 +340,7 @@ export default class ResLoader {
             console.error(`cache scene faile ${scene}`);
             return;
         }
+        // 释放旧场景的依赖
         this._releaseSceneDepend();
         this._lastScene = scene.name;
         ResLoader._sceneUseKey = newUseKey;

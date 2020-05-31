@@ -1,5 +1,5 @@
 import ResKeeper from "./ResKeeper";
-import { resLoader } from "./ResLoader";
+import { resLoader, CompletedCallback, ProcessCallback } from "./ResLoader";
 /**
  * 资源使用相关工具类
  * 2020-1-18 by 宝爷
@@ -72,6 +72,30 @@ function visitNode(node, excludeMap) {
     }
 }
 export class ResUtil {
+        /**
+     * 加载资源，通过此接口加载的资源会在界面被销毁时自动释放
+     * 如果同时有其他地方引用的资源，会解除当前界面对该资源的占用
+     * @param url           资源url
+     * @param type          资源类型，默认为null
+     * @param onProgess     加载进度回调
+     * @param onCompleted   加载完成回调
+     */
+    public static loadRes(attachNode: cc.Node, url: string);
+    public static loadRes(attachNode: cc.Node, url: string, onCompleted: CompletedCallback);
+    public static loadRes(attachNode: cc.Node, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static loadRes(attachNode: cc.Node, url: string, type: typeof cc.Asset);
+    public static loadRes(attachNode: cc.Node, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
+    public static loadRes(attachNode: cc.Node, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static loadRes() {
+        let attachNode = arguments[0];
+        let keeper = ResUtil.getResKeeper(attachNode);
+        let newArgs = new Array();
+        for(let i = 1; i < arguments.length; ++i) {
+            newArgs[i - 1] = arguments[i];
+        }
+        keeper.loadRes.apply(keeper, newArgs);
+    }
+
     /**
      * 从目标节点或其父节点递归查找一个资源挂载组件
      * @param attachNode 目标节点

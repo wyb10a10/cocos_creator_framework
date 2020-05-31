@@ -1,5 +1,6 @@
 import { ResLeakChecker } from "./ResLeakChecker";
 import { ResUtil } from "./ResUtil";
+import ResKeeper from "./ResKeeper";
 
 /**
  * 资源加载类
@@ -56,6 +57,7 @@ export default class ResLoader {
     private _globalUseId: number = 0;
     private _lastScene: string = null;
     private _sceneDepends: string[] = null;
+    private _sceneResKeeper: ResKeeper = new ResKeeper();
     public resLeakChecker: ResLeakChecker = null;
 
     public static getSceneUseKey() {
@@ -70,6 +72,7 @@ export default class ResLoader {
         }
         // 2. 监听场景切换
         cc.director.on(cc.Director.EVENT_BEFORE_SCENE_LAUNCH, (scene) => {
+            this._sceneResKeeper.releaseAutoRes();
             this._cacheScene(scene);
         });
     }
@@ -160,6 +163,13 @@ export default class ResLoader {
             }
         }
         return ret;
+    }
+
+    /**
+     * 场景的默认ResKeeper，由于最顶层的场景节点无法挂载组件，所以在这里维护一个
+     */
+    public getResKeeper() {
+        return this._sceneResKeeper;
     }
 
     /**
@@ -554,19 +564,6 @@ export default class ResLoader {
             }
             this._resMap.delete(item.id);
         }
-    }
-
-    private _isSceneDepend(itemUrl) {
-        let scene: any = cc.director.getScene();
-        if (!scene) {
-            return false;
-        }
-        let len = scene.dependAssets.length;
-        for (let i = 0; i < len; ++i) {
-            if (scene.dependAssets[i] == itemUrl)
-                return true;
-        }
-        return false;
     }
 
     /**

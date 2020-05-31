@@ -89,8 +89,7 @@ export class ResUtil {
             }
             return ret;
         }
-        console.error(`can't get ResKeeper for ${attachNode}`);
-        return null;
+        return resLoader.getResKeeper();
     }
 
     /**

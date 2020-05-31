@@ -24,13 +24,13 @@ export interface CacheInfo {
 }
 
 // LoadRes方法的参数结构
-export interface LoadResArgs {
-    url?: string,
-    urls?: string[],
-    type?: typeof cc.Asset,
-    onCompleted?: (CompletedCallback | CompletedArrayCallback),
-    onProgess?: ProcessCallback,
-    use?: string,
+export class LoadResArgs {
+    url?: string;
+    urls?: string[];
+    type?: typeof cc.Asset;
+    onCompleted?: (CompletedCallback | CompletedArrayCallback);
+    onProgess?: ProcessCallback;
+    use?: string;
 }
 
 // ReleaseRes方法的参数结构
@@ -100,7 +100,12 @@ export default class ResLoader {
             return null;
         }
 
+        if (arguments.length == 1 && (arguments[0] instanceof LoadResArgs)) {
+            return arguments[0];
+        }
+
         let ret: LoadResArgs = {};
+
         if (typeof arguments[0] == "string") {
             ret.url = arguments[0];
         } else if (arguments[0] instanceof Array) {
@@ -355,6 +360,7 @@ export default class ResLoader {
      * @param onCompleted   加载完成回调
      * @param use           资源使用key，根据makeUseKey方法生成
      */
+    public loadRes(resArgs: LoadResArgs)
     public loadRes(url: string, use?: string);
     public loadRes(url: string, onCompleted: CompletedCallback, use?: string);
     public loadRes(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);

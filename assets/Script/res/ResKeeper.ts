@@ -1,4 +1,4 @@
-import { resLoader, CompletedCallback } from "./ResLoader";
+import ResLoader, { resLoader, CompletedCallback, LoadResArgs, ProcessCallback } from "./ResLoader";
 /**
  * 资源引用类
  * 1. 提供加载功能，并记录加载过的资源
@@ -20,21 +20,32 @@ export interface autoResInfo {
 export default class ResKeeper extends cc.Component {
 
     private autoRes: autoResInfo[] = [];
+
     /**
      * 加载资源，通过此接口加载的资源会在界面被销毁时自动释放
      * 如果同时有其他地方引用的资源，会解除当前界面对该资源的占用
-     * @param url 要加载的url
-     * @param type 类型，如cc.Prefab,cc.SpriteFrame,cc.Texture2D
-     * @param onCompleted 
+     * @param url           资源url
+     * @param type          资源类型，默认为null
+     * @param onProgess     加载进度回调
+     * @param onCompleted   加载完成回调
      */
-    public loadRes(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback) {
-        let use = resLoader.nextUseKey();
-        resLoader.loadRes(url, type, (error: Error, res) => {
+    public loadRes(url: string);
+    public loadRes(url: string, onCompleted: CompletedCallback);
+    public loadRes(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public loadRes(url: string, type: typeof cc.Asset);
+    public loadRes(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
+    public loadRes(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public loadRes() {
+        let resArgs: LoadResArgs = ResLoader.makeLoadResArgs.apply(this, arguments);
+        resArgs.use = resLoader.nextUseKey();
+        let callback = resArgs.onCompleted;
+        resArgs.onCompleted = (error: Error, res) => {
             if (!error) {
-                this.autoRes.push({ url, use, type });
+                this.autoRes.push({ url : resArgs.url, use : resArgs.use, type: resArgs.type});
             }
-            onCompleted && onCompleted(error, res);
-        }, use);
+            callback && callback(error, res);
+        }
+        resLoader.loadRes(resArgs);
     }
 
     /**

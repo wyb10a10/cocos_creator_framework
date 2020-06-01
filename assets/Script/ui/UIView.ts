@@ -1,4 +1,5 @@
 import { resLoader, CompletedCallback } from "../res/ResLoader"
+import ResKeeper from "../res/ResKeeper";
 
 /**
  * UIView界面基础类
@@ -36,7 +37,7 @@ interface autoResInfo {
 };
 
 @ccclass
-export class UIView extends cc.Component {
+export class UIView extends ResKeeper {
 
     /** 快速关闭 */
     @property
@@ -55,8 +56,6 @@ export class UIView extends cc.Component {
     public UIid: number = 0;
     /** 该界面资源占用key */
     private useKey: string = null;
-    /** 该界面关闭时自动释放的资源 */
-    private autoRes: autoResInfo[] = [];
     /**  静态变量，用于区分相同界面的不同实例 */
     private static uiIndex: number = 0;
 
@@ -99,52 +98,5 @@ export class UIView extends cc.Component {
      */
     public onTop(preID: number, ...args): void {
 
-    }
-
-    /********************** 资源加载，卸载相关 ***********************/
-    /**
-     * 获取该界面的资源占用key
-     */
-    public getUseKey(): string {
-        if (!this.useKey) {
-            this.useKey = resLoader.makeUseKey("UI_", this.UIid.toString(), `${++UIView.uiIndex}`);
-        }
-        return this.useKey;
-    }
-
-    /**
-     * 加载资源，通过此接口加载的资源会在界面被销毁时自动释放
-     * 如果同时有其他地方引用的资源，会解除当前界面对该资源的占用
-     * @param url 要加载的url
-     * @param type 类型，如cc.Prefab,cc.SpriteFrame,cc.Texture2D
-     * @param onCompleted 
-     */
-    public loadRes(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback) {
-        let useStr = this.getUseKey();
-        resLoader.loadRes(url, type, (error: Error, res) => {
-            if (!error) {
-                this.autoRes.push({ url: url, type: type });
-            }
-            onCompleted && onCompleted(error, res);
-        }, useStr);
-    }
-
-    /**
-     * 释放资源，界面销毁时在UIManager中调用
-     */
-    public releaseAutoRes() {
-        for (let index = 0; index < this.autoRes.length; index++) {
-            const element = this.autoRes[index];
-            resLoader.releaseRes(element.url,
-                element.type, element.use || this.getUseKey());
-        }
-    }
-
-    /**
-     * 往一个界面加入一个自动释放的资源
-     * @param resConf 资源url和类型
-     */
-    public autoReleaseRes(resConf: autoResInfo) {
-        this.autoRes.push(resConf);
     }
 }

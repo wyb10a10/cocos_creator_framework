@@ -126,7 +126,7 @@ export class ResUtil {
     public static assignWith(srcAsset: cc.Asset, targetNode: cc.Node, autoCreate?: boolean): any {
         let keeper = ResUtil.getResKeeper(targetNode, autoCreate);
         if (keeper && srcAsset) {
-            let url = resLoader.getUrlByAsset(srcAsset);
+            let url = resLoader.getResKeyByAsset(srcAsset);
             if (url) {
                 keeper.autoReleaseRes({ url, use: resLoader.nextUseKey() });
                 return srcAsset;
@@ -144,7 +144,7 @@ export class ResUtil {
         let node = cc.instantiate(prefab);
         let keeper = ResUtil.getResKeeper(node, true);
         if (keeper) {
-            let url = resLoader.getUrlByAsset(prefab);
+            let url = resLoader.getResKeyByAsset(prefab);
             if (url) {
                 keeper.autoReleaseRes({ url, type: cc.Prefab, use: resLoader.nextUseKey() });
                 return node;

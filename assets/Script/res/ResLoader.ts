@@ -204,15 +204,28 @@ export default class ResLoader {
     }
 
     /**
-     * 获取资源的url
+     * 获取资源的reference url
      * @param asset 
      */
-    public getUrlByAsset(asset: cc.Asset): string {
+    public getResKeyByAsset(asset: cc.Asset): string {
         let checkAsset: any = asset;
         if (checkAsset && checkAsset._uuid) {
             return ccloader._getReferenceKey(checkAsset._uuid);;
         }
-        console.error(`getUrlByAssets error ${asset}`);
+        console.error(`getResKeyByAsset error ${asset}`);
+        return null;
+    }
+
+    /**
+     * 获取源url对应的reference url
+     * @param url 
+     * @param type 
+     */
+    public getResKeyByUrl(url: string, type: typeof cc.Asset): string {
+        let uuid = ccloader._getResUuid(url, type, false);
+        if (uuid) {
+            return ccloader._getReferenceKey(uuid);
+        }
         return null;
     }
 

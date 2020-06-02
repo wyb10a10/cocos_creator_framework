@@ -210,7 +210,7 @@ export class UIManager {
             this.autoLoadRes(uiView, () => {
                 uiView.init(uiArgs);
                 completeCallback(uiView);
-                uiView.autoReleaseRes({ url: uiPath, type: cc.Prefab, use: useKey });
+                uiView.autoReleaseRes({ url: resLoader.getResKeyByUrl(uiPath, cc.Prefab), type: cc.Prefab, use: useKey });
             })
         }, useKey);
     }

@@ -70,8 +70,8 @@ export default class ResKeeper extends cc.Component {
      * 加入一个自动释放的资源
      * @param resConf 资源url和类型 [ useKey ]
      */
-    public autoReleaseRes(resConf: autoResInfo) {
-        if(resLoader.addUse(resConf.url, resConf.use)) {
+    public autoReleaseRes(resConf: autoResInfo, createUse: boolean = true) {
+        if(!createUse || resLoader.addUse(resConf.url, resConf.use)) {
             this.autoRes.push(resConf);
         }
     }

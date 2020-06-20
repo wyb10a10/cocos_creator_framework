@@ -35,7 +35,7 @@ export class NodePool {
 
         if (urlOrPrefab instanceof cc.Prefab) {
             this._res = urlOrPrefab;
-            let url = resLoader.getUrlByAsset(this._res);
+            let url = resLoader.getResKeyByAsset(this._res);
             if (url) {
                 if (resLoader.addUse(url, this._useKey)) {
                     this._isReady = true;

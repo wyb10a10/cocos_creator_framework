@@ -57,7 +57,7 @@ export default class ResLoader {
     private _globalUseId: number = 0;
     private _lastScene: string = null;
     private _sceneDepends: string[] = null;
-    private _sceneResKeeper: ResKeeper = new ResKeeper();
+    private _sceneResKeeper: ResKeeper = null;
     public resLeakChecker: ResLeakChecker = null;
 
     public static getSceneUseKey() {
@@ -65,6 +65,7 @@ export default class ResLoader {
     }
 
     public constructor() {
+        this._sceneResKeeper = new ResKeeper();
         // 1. 构造当前场景依赖
         let scene = cc.director.getScene();
         if (scene) {

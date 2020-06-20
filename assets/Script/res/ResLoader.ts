@@ -65,7 +65,6 @@ export default class ResLoader {
     }
 
     public constructor() {
-        this._sceneResKeeper = new ResKeeper();
         // 1. 构造当前场景依赖
         let scene = cc.director.getScene();
         if (scene) {
@@ -73,7 +72,7 @@ export default class ResLoader {
         }
         // 2. 监听场景切换
         cc.director.on(cc.Director.EVENT_BEFORE_SCENE_LAUNCH, (scene) => {
-            this._sceneResKeeper.releaseAutoRes();
+            this.getResKeeper().releaseAutoRes();
             this._cacheScene(scene);
         });
     }
@@ -170,6 +169,9 @@ export default class ResLoader {
      * 场景的默认ResKeeper，由于最顶层的场景节点无法挂载组件，所以在这里维护一个
      */
     public getResKeeper() {
+        if (this._sceneResKeeper == null) {
+            this._sceneResKeeper = new ResKeeper();
+        }
         return this._sceneResKeeper;
     }
 

@@ -21,8 +21,8 @@ const { ccclass, property } = cc._decorator;
 class PropertyDirty {
     names: Set<string> = new Set<string>(); // 记录有变化的属性
     versions: Map<string, number> = new Map<string, number>(); // 记录每个资源的版本号
-    lastVersion: number;
-    lastDiff: Object;
+    lastVersion: number = 0;
+    lastDiff?: Object;
     networkId?: number;
     name?: string;
     parent?: PropertyDirty;
@@ -69,7 +69,7 @@ export class ReplicatedUtil {
      * @param object 
      * @param version 
      */
-    public static diff(object: Object, version: number): Object {
+    public static diff(object: any, version: number): any {
         let syncDirty: PropertyDirty = object['_syncDirty'];
         if (!syncDirty) {
             console.error(`object ${object} is not a replicated object`);
@@ -78,12 +78,18 @@ export class ReplicatedUtil {
 
         if (syncDirty.names.size > 0) {
             // 有新变化，更新版本，返回差异
-            let ver = ++syncDirty.lastVersion;
+            let ver = 0;
+            if (syncDirty.parent) {
+                ver = syncDirty.parent.lastVersion;
+                syncDirty.lastVersion = ver;
+            } else {
+                ver = ++syncDirty.lastVersion;
+            }
             syncDirty.lastDiff = Object.create(null);
             // 更新字段的版本号
             syncDirty.names.forEach((value) => {
                 syncDirty.versions.set(value, ver);
-                this.copyProperty(object, syncDirty.lastDiff, value, ver);
+                this.copyProperty(object, syncDirty.lastDiff, value, version);
             });
             syncDirty.names.clear();
         }
@@ -103,6 +109,7 @@ export class ReplicatedUtil {
                     this.copyProperty(object, diffObject, key, version);
                 }
             });
+            return diffObject;
         }
     }
 
@@ -110,8 +117,9 @@ export class ReplicatedUtil {
         for(let key in src) {
             let value = src[key];
             // 如果是Node或Component，通过networkId找到对应的对象
-            if (false) {
-                dst[key] = null;
+            if (value instanceof cc.Component || value instanceof cc.Node) {
+                // 如果Node或Component为null，又该如何校验？对端又应该如何解析？
+                // dst[key] = null;
             } else if (value instanceof Object) {
                 let dstObject = dst[key];
                 if (!dstObject) {

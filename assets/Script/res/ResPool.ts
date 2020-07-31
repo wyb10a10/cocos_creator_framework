@@ -37,7 +37,7 @@ export class ResPool {
         let resArgs: LoadResArgs = ResLoader.makeLoadResArgs.apply(this, arguments);
         let SaveCompleted = resArgs.onCompleted;
         resArgs.onCompleted = (error: Error, resource: any) => {
-            let url = resLoader.getUrlByAsset(resource);
+            let url = resLoader.getResKeyByAsset(resource);
             if (!error && url) {
                 this.addNewResUrl(url);
             }

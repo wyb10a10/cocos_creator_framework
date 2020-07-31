@@ -190,7 +190,7 @@ export function replicated(...args) {
     }
 }
 
-@replicated()
+/*@replicated()
 class TestReplicate {
     @replicated()
     public hp: number;
@@ -201,7 +201,7 @@ class TestReplicate {
 
     constructor() {
     }
-}
+}*/
 
 /**
  * 网络同步组件

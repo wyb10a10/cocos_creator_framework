@@ -1,4 +1,5 @@
-import ResLoader, { resLoader, CompletedCallback, LoadResArgs, ProcessCallback } from "./ResLoader";
+import ResLoader, { resLoader, CompletedCallback, ProcessCallback } from "./ResLoader";
+import { LoadResArgs, ResUtil } from "./ResUtil";
 /**
  * 资源引用类
  * 1. 提供加载功能，并记录加载过的资源
@@ -9,17 +10,9 @@ import ResLoader, { resLoader, CompletedCallback, LoadResArgs, ProcessCallback }
  */
 const { ccclass, property } = cc._decorator;
 
-/** 自动释放配置 */
-export interface autoResInfo {
-    url: string;
-    use: string;
-    type?: typeof cc.Asset;
-};
-
 @ccclass
 export default class ResKeeper extends cc.Component {
-
-    private autoRes: autoResInfo[] = [];
+    private autoRes: cc.Asset[] = [];
 
     /**
      * 加载资源，通过此接口加载的资源会在界面被销毁时自动释放
@@ -29,23 +22,23 @@ export default class ResKeeper extends cc.Component {
      * @param onProgess     加载进度回调
      * @param onCompleted   加载完成回调
      */
-    public loadRes(url: string);
-    public loadRes(url: string, onCompleted: CompletedCallback);
-    public loadRes(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public loadRes(url: string, type: typeof cc.Asset);
-    public loadRes(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public loadRes(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    loadRes<T extends cc.Asset>(paths: string|string[], type: typeof cc.Asset, onProgress: ProcessCallback, onComplete: CompletedCallback): void
+    loadRes<T extends cc.Asset>(paths: string|string[], onProgress: ProcessCallback, onComplete: CompletedCallback): void
+    loadRes<T extends cc.Asset>(paths: string|string[], type: typeof cc.Asset, onComplete: CompletedCallback): void
+    loadRes<T extends cc.Asset>(paths: string|string[], onComplete: CompletedCallback): void
+    loadRes<T extends cc.Asset>(paths: string|string[], type: typeof cc.Asset): void
+    loadRes<T extends cc.Asset>(paths: string|string[]): void
     public loadRes() {
-        let resArgs: LoadResArgs = ResLoader.makeLoadResArgs.apply(this, arguments);
-        resArgs.use = resLoader.nextUseKey();
+        let resArgs: LoadResArgs = ResUtil.parseLoadResArgs.apply(this, arguments);
         let callback = resArgs.onCompleted;
-        resArgs.onCompleted = (error: Error, res) => {
+        resArgs.onCompleted = (error: Error, res: cc.Asset) => {
             if (!error) {
-                this.autoRes.push({ url : resArgs.url, use : resArgs.use, type: resArgs.type});
+                res.addRef();
+                this.autoRes.push(res);
             }
             callback && callback(error, res);
         }
-        resLoader.loadRes(resArgs);
+        resLoader.loadRes(resArgs.urls, resArgs.type, resArgs.onProgess, resArgs.onCompleted);
     }
 
     /**
@@ -61,18 +54,17 @@ export default class ResKeeper extends cc.Component {
     public releaseAutoRes() {
         for (let index = 0; index < this.autoRes.length; index++) {
             const element = this.autoRes[index];
-            resLoader.releaseRes(element.url, element.type, element.use);
+            element.decRef();
         }
         this.autoRes.length = 0;
     }
 
     /**
      * 加入一个自动释放的资源
-     * @param resConf 资源url和类型 [ useKey ]
+     * @param asset 资源url和类型 [ useKey ]
      */
-    public autoReleaseRes(resConf: autoResInfo, createUse: boolean = true) {
-        if(!createUse || resLoader.addUse(resConf.url, resConf.use)) {
-            this.autoRes.push(resConf);
-        }
+    public autoReleaseRes(asset: cc.Asset) {
+        asset.addRef();
+        this.autoRes.push(asset);
     }
 }

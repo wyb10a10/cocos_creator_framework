@@ -9,6 +9,8 @@ export default class NetExample extends cc.Component {
     attachNode: cc.Node = null;
     @property(cc.Label)
     dumpLabel: cc.Label = null;
+    _dirPrefabs: cc.Prefab[] = null;
+    _remoteRes: any = null;
 
     start() {
         let checker = new ResLeakChecker();
@@ -36,28 +38,29 @@ export default class NetExample extends cc.Component {
                     cc.instantiate(prefabs[i]).parent = this.attachNode;
                 }
             }
-        }, "test");
+        });
     }
 
     onMyUnloadRes() {
         this.attachNode.removeAllChildren(true);
-        resLoader.releaseResDir("prefabDir", cc.Prefab, "test");
+        resLoader.releaseArray(this._dirPrefabs);
     }
 
     onLoadRemote() {
         resLoader.loadRes("http://tools.itharbors.com/christmas/res/tree.png", (err, res) => {
             if (err || !res) return;
+            this._remoteRes = res;
             let spriteFrame = new cc.SpriteFrame(res);
             let node = new cc.Node("tmp");
             let sprite = node.addComponent(cc.Sprite);
             sprite.spriteFrame = spriteFrame;
             node.parent = this.attachNode;
-        }, "net")
+        })
     }
 
     onUnloadRemote() {
         this.attachNode.removeAllChildren(true);
-        resLoader.releaseRes("http://tools.itharbors.com/christmas/res/tree.png", "net");
+        resLoader.releaseAsset(this._remoteRes);
     }
 
     onDump() {

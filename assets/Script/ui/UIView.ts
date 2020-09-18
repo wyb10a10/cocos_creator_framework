@@ -1,4 +1,3 @@
-import { resLoader, CompletedCallback } from "../res/ResLoader"
 import ResKeeper from "../res/ResKeeper";
 
 /**
@@ -40,13 +39,13 @@ interface autoResInfo {
 export class UIView extends ResKeeper {
 
     /** 快速关闭 */
-    @property
+    @property()
     quickClose: boolean = false;
     /** 屏蔽点击选项 在UIConf设置屏蔽点击*/
     // @property
     // preventTouch: boolean = true;
     /** 缓存选项 */
-    @property
+    @property()
     cache: boolean = false;
     /** 界面显示类型 */
     @property({ type: cc.Enum(UIShowTypes) })

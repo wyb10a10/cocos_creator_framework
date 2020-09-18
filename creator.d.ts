@@ -687,6 +687,16 @@ declare namespace cc {
 	*/
 	export function removeSelf(isNeedCleanUp ?: boolean): ActionInstant;	
 	/**
+	!#en Destroy self
+	!#zh 创建一个销毁自身的动作。
+	
+	@example 
+	```js
+	var destroySelfAction = cc.destroySelf();
+	``` 
+	*/
+	export function destroySelf(): ActionInstant;	
+	/**
 	!#en Create a FlipX action to flip or unflip the target.
 	!#zh X轴翻转。
 	@param flip Indicate whether the target should be flipped or not
@@ -1115,9 +1125,11 @@ declare namespace cc {
 	@param action action 
 	*/
 	export function targetedAction(target: Node, action: FiniteTimeAction): ActionInterval;	
-	/** !#en This is a Easing instance.
-	!#zh 这是一个 Easing 类实例。 */
-	export var easing: Easing;	
+	/**
+	
+	@param target the target to animate 
+	*/
+	export function tween<T> (target?: T) : Tween<T>;	
 	/**
 	!#en
 	Outputs an error message to the Cocos Creator Console (editor) or Web Console (runtime).<br/>
@@ -1151,12 +1163,15 @@ declare namespace cc {
 	@param subst JavaScript objects with which to replace substitution strings within msg. This gives you additional control over the format of the output. 
 	*/
 	export function log(msg: string|any, ...subst: any[]): void;	
-	/** !#en Director
-	!#zh 导演类。 */
-	export var director: Director;	
 	/** !#en This is a Game instance.
 	!#zh 这是一个 Game 类的实例，包含游戏主体信息并负责驱动游戏的游戏对象。。 */
 	export var game: Game;	
+	/** !#en Director
+	!#zh 导演类。 */
+	export var director: Director;	
+	/** !#en This is a Easing instance.
+	!#zh 这是一个 Easing 类实例。 */
+	export var easing: Easing;	
 	/**
 	!#en
 	Rotates a Node object to a certain angle by modifying its quternion property. <br/>
@@ -1191,6 +1206,13 @@ declare namespace cc {
 	``` 
 	*/
 	export function rotate3DBy(duration: number, deltaAngleX: number|Vec3, deltaAngleY?: number, deltaAngleZ?: number): ActionInterval;	
+	export var assetManager: AssetManager;	
+	/** !#en
+	cc.resources is a bundle and controls all asset under assets/resources
+	
+	!#zh
+	cc.resources 是一个 bundle，用于管理所有在 assets/resources 下的资源 */
+	export var resources: AssetManager.Bundle;	
 	/** !#en The System event singleton for global usage
 	!#zh 系统事件单例，方便全局使用 */
 	export var systemEvent: SystemEvent;	
@@ -1225,7 +1247,7 @@ declare namespace cc {
 	properties {
 	width: {
 	default: 128,
-	type: 'Integer',
+	type: cc.Integer,
 	tooltip: 'The width of sprite'
 	},
 	height: 128,
@@ -1339,11 +1361,6 @@ declare namespace cc {
 	export function getSetOfTouchesEndOrCancel(touches: any[]): any[];	
 	/**
 	
-	@param element element 
-	*/
-	export function getHTMLElementPosition(element: HTMLElement): any;	
-	/**
-	
 	@param touch touch 
 	*/
 	export function getPreTouch(touch: Touch): Touch;	
@@ -1431,9 +1448,6 @@ declare namespace cc {
 	/**
 	!#en Deserialize json to cc.Asset
 	!#zh 将 JSON 反序列化为对象实例。
-	
-	当指定了 target 选项时，如果 target 引用的其它 asset 的 uuid 不变，则不会改变 target 对 asset 的引用，
-	也不会将 uuid 保存到 result 对象中。
 	@param data the serialized cc.Asset json string or json object.
 	@param details additional loading result
 	@param options options 
@@ -1461,15 +1475,6 @@ declare namespace cc {
 	export function instantiate(original: Prefab): Node;
 	export function instantiate<T>(original: T): T;	
 	/**
-	Finds a node by hierarchy path, the path is case-sensitive.
-	It will traverse the hierarchy by splitting the path using '/' character.
-	This function will still returns the node even if it is inactive.
-	It is recommended to not use this function every frame instead cache the result at startup.
-	@param path path
-	@param referenceNode referenceNode 
-	*/
-	export function find(path: string, referenceNode?: Node): Node;	
-	/**
 	!#en
 	The convenience method to create a new {{#crossLink "Color/Color:method"}}cc.Color{{/crossLink}}
 	Alpha channel is optional. Default value is 255.
@@ -1483,9 +1488,48 @@ declare namespace cc {
 	@param a a
 	
 	@example 
-	```Not found for the example path: temp-src/engine/docs/utils/api/engine/docs/cocos2d/core/value-types/CCColor/color.js 
+	```js
+	-----------------------
+	// 1. All channels seperately as parameters
+	var color1 = new cc.Color(255, 255, 255, 255);
+	// 2. Convert a hex string to a color
+	var color2 = new cc.Color("#000000");
+	// 3. An color object as parameter
+	var color3 = new cc.Color({r: 255, g: 255, b: 255, a: 255});
+	
+	``` 
 	*/
 	export function color(r?: number, g?: number, b?: number, a?: number): Color;	
+	/**
+	!#en The convenience method to create a new {{#crossLink "Mat4"}}cc.Mat4{{/crossLink}}.
+	!#zh 通过该简便的函数进行创建 {{#crossLink "Mat4"}}cc.Mat4{{/crossLink}} 对象。
+	@param m00 Component in column 0, row 0 position (index 0)
+	@param m01 Component in column 0, row 1 position (index 1)
+	@param m02 Component in column 0, row 2 position (index 2)
+	@param m03 Component in column 0, row 3 position (index 3)
+	@param m10 Component in column 1, row 0 position (index 4)
+	@param m11 Component in column 1, row 1 position (index 5)
+	@param m12 Component in column 1, row 2 position (index 6)
+	@param m13 Component in column 1, row 3 position (index 7)
+	@param m20 Component in column 2, row 0 position (index 8)
+	@param m21 Component in column 2, row 1 position (index 9)
+	@param m22 Component in column 2, row 2 position (index 10)
+	@param m23 Component in column 2, row 3 position (index 11)
+	@param m30 Component in column 3, row 0 position (index 12)
+	@param m31 Component in column 3, row 1 position (index 13)
+	@param m32 Component in column 3, row 2 position (index 14)
+	@param m33 Component in column 3, row 3 position (index 15) 
+	*/
+	export function mat4(m00?: number, m01?: number, m02?: number, m03?: number, m10?: number, m11?: number, m12?: number, m13?: number, m20?: number, m21?: number, m22?: number, m23?: number, m30?: number, m31?: number, m32?: number, m33?: number): Mat4;	
+	/**
+	!#en The convenience method to create a new {{#crossLink "Quat"}}cc.Quat{{/crossLink}}.
+	!#zh 通过该简便的函数进行创建 {{#crossLink "Quat"}}cc.Quat{{/crossLink}} 对象。
+	@param x x
+	@param y y
+	@param z z
+	@param w w 
+	*/
+	export function quat(x?: number|any, y?: number, z?: number, w?: number): Quat;	
 	/**
 	!#en
 	The convenience method to create a new Rect.
@@ -1514,9 +1558,96 @@ declare namespace cc {
 	@param h height
 	
 	@example 
-	```Not found for the example path: temp-src/engine/docs/utils/api/engine/docs/cocos2d/core/value-types/CCSize/size.js 
+	```js
+	var size1 = cc.size();
+	var size2 = cc.size(100,100);
+	var size3 = cc.size(size2);
+	var size4 = cc.size({width: 100, height: 100});
+	
+	``` 
 	*/
 	export function size(w: number|Size, h?: number): Size;	
+	export var EPSILON: number;	
+	/**
+	Clamps a value between a minimum float and maximum float value.
+	@param val val
+	@param min min
+	@param max max 
+	*/
+	export function clamp(val: number, min: number, max: number): number;	
+	/**
+	Clamps a value between 0 and 1.
+	@param val val 
+	*/
+	export function clamp01(val: number): number;	
+	/**
+	
+	@param from from
+	@param to to
+	@param ratio the interpolation coefficient 
+	*/
+	export function lerp(from: number, to: number, ratio: number): number;	
+	export function random(): void;	
+	/**
+	Returns a floating-point random number between min (inclusive) and max (exclusive).
+	@param min min
+	@param max max 
+	*/
+	export function randomRange(min: number, max: number): number;	
+	/**
+	Returns a random integer between min (inclusive) and max (exclusive).
+	@param min min
+	@param max max 
+	*/
+	export function randomRangeInt(min: number, max: number): number;	
+	/**
+	Linear congruential generator using Hull-Dobell Theorem.
+	@param seed the random seed 
+	*/
+	export function pseudoRandom(seed: number): number;	
+	/**
+	Returns a floating-point pseudo-random number between min (inclusive) and max (exclusive).
+	@param seed seed
+	@param min min
+	@param max max 
+	*/
+	export function pseudoRandomRange(seed: number, min: number, max: number): number;	
+	/**
+	Returns a pseudo-random integer between min (inclusive) and max (exclusive).
+	@param seed seed
+	@param min min
+	@param max max 
+	*/
+	export function pseudoRandomRangeInt(seed: number, min: number, max: number): number;	
+	/**
+	Returns the next power of two for the value
+	@param val val 
+	*/
+	export function nextPow2(val: number): number;	
+	/**
+	Returns float remainder for t / length
+	@param t time start at 0
+	@param length time of one cycle 
+	*/
+	export function repeat(t: number, length: number): number;	
+	/**
+	Returns time wrapped in ping-pong mode
+	@param t time start at 0
+	@param length time of one cycle 
+	*/
+	export function repeat(t: number, length: number): number;	
+	/**
+	Returns ratio of a value within a given range
+	@param from start value
+	@param to end value
+	@param value given value 
+	*/
+	export function repeat(from: number, to: number, value: number): number;	
+	/**
+	Returns -1, 0, +1 depending on sign of x.
+	@param v v 
+	*/
+	export function sign(v: number): void;	
 	/**
 	!#en The convenience method to create a new {{#crossLink "Vec2"}}cc.Vec2{{/crossLink}}.
 	!#zh 通过该简便的函数进行创建 {{#crossLink "Vec2"}}cc.Vec2{{/crossLink}} 对象。
@@ -1533,13 +1664,50 @@ declare namespace cc {
 	*/
 	export function v2(x?: number|any, y?: number): Vec2;	
 	/**
-	!#en This function is deprecated since v2.0, please use {{#crossLink "v2"}}cc.v2{{/crossLink}}.
-	!#zh 这个函数从 v2.0 开始被废弃，请使用 {{#crossLink "v2"}}cc.v2{{/crossLink}}。
-	@param x a Number or a size object
-	@param y y 
+	!#en The convenience method to create a new {{#crossLink "Vec3"}}cc.Vec3{{/crossLink}}.
+	!#zh 通过该简便的函数进行创建 {{#crossLink "Vec3"}}cc.Vec3{{/crossLink}} 对象。
+	@param x x
+	@param y y
+	@param z z
+	
+	@example 
+	```js
+	var v1 = cc.v3();
+	var v2 = cc.v3(0, 0, 0);
+	var v3 = cc.v3(v2);
+	var v4 = cc.v3({x: 100, y: 100, z: 0});
+	``` 
 	*/
-	export function p(x?: number|any, y?: number): Vec2;	
+	export function v3(x?: number|any, y?: number, z?: number): Vec3;	
+	/**
+	Finds a node by hierarchy path, the path is case-sensitive.
+	It will traverse the hierarchy by splitting the path using '/' character.
+	This function will still returns the node even if it is inactive.
+	It is recommended to not use this function every frame instead cache the result at startup.
+	@param path path
+	@param referenceNode referenceNode 
+	*/
+	export function find(path: string, referenceNode?: Node): Node;	
 	export var dynamicAtlasManager: DynamicAtlasManager;	
+	/** !#en The matrix storage */
+	export var matrix: any[];	
+	/**
+	!#en Get an element
+	@param i i
+	@param j j 
+	*/
+	export function get(i: number, j: number): number;	
+	/**
+	!#en Set an element
+	@param i i
+	@param j j
+	@param value value 
+	*/
+	export function set(i: number, j: number, value: boolean): void;	
+	/**
+	!#en Sets all elements to zero 
+	*/
+	export function reset(): void;	
 	/** !#en
 	 cc.NodePool is the cache pool designed for node type.<br/>
 	 It can helps you to improve your game performance for objects which need frequent release and recreate operations<br/>
@@ -1817,7 +1985,7 @@ declare namespace cc {
 		@param tag tag
 		@param target target 
 		*/
-		removeActionByTag(tag: number, target: Node): void;		
+		removeActionByTag(tag: number, target?: Node): void;		
 		/**
 		!#en Gets an action given its tag an a target.
 		!#zh 通过目标对象和标签获取一个动作。
@@ -1901,7 +2069,29 @@ declare namespace cc {
 	 - 支持对任意对象的任意属性进行缓动，不再局限于节点上的属性，而 cc.Action 添加一个属性的支持时还需要添加一个新的 action 类型。
 	 - 支持与 cc.Action 混用
 	 - 支持设置 {{#crossLink "Easing"}}{{/crossLink}} 或者 progress 函数 */
-	export class Tween {		
+	export class Tween<T = any> {		
+		/**
+		
+		@param target target 
+		*/
+		constructor(target?: any);		
+		/**
+		!#en Stop all tweens
+		!#zh 停止所有缓动 
+		*/
+		static stopAll(): void;		
+		/**
+		!#en Stop all tweens by tag
+		!#zh 停止所有指定标签的缓动
+		@param tag tag 
+		*/
+		static stopAllByTag(tag: number): void;		
+		/**
+		!#en Stop all tweens by target
+		!#zh 停止所有指定对象的缓动
+		@param target target 
+		*/
+		static stopAllByTarget(target: any): void;		
 		/**
 		!#en
 		Insert an action or tween to this sequence
@@ -1909,7 +2099,7 @@ declare namespace cc {
 		插入一个 action 或者 tween 到队列中
 		@param other other 
 		*/
-		then(other: Action|Tween): Tween;		
+		then(other: Action|Tween<T>): Tween<T>;		
 		/**
 		!#en
 		Set tween target
@@ -1917,21 +2107,27 @@ declare namespace cc {
 		设置 tween 的 target
 		@param target target 
 		*/
-		target(target: any): Tween;		
+		target(target: any): Tween<T>;		
 		/**
 		!#en
 		Start this tween
 		!#zh
 		运行当前 tween 
 		*/
-		start(): Tween;		
+		start(): Tween<T>;		
 		/**
 		!#en
 		Stop this tween
 		!#zh
 		停止当前 tween 
 		*/
-		stop(): Tween;		
+		stop(): Tween<T>;		
+		/**
+		!#en Sets tween tag
+		!#zh 设置缓动的标签
+		@param tag tag 
+		*/
+		tag(tag: number): Tween<T>;		
 		/**
 		!#en
 		Clone a tween
@@ -1939,7 +2135,50 @@ declare namespace cc {
 		克隆当前 tween
 		@param target target 
 		*/
-		clone(target?: any): Tween;		
+		clone(target?: any): Tween<T>;		
+		/**
+		!#en
+		Integrate all previous actions to an action.
+		!#zh
+		将之前所有的 action 整合为一个 action。 
+		*/
+		union(): Tween;		
+		/**
+		!#en Sets target's position property according to the bezier curve.
+		!#zh 按照贝塞尔路径设置目标的 position 属性。
+		@param duration duration
+		@param c1 c1
+		@param c2 c2
+		@param to to 
+		*/
+		bezierTo(duration: number, c1: Vec2, c2: Vec2, to: Vec2): Tween<T>;		
+		/**
+		!#en Sets target's position property according to the bezier curve.
+		!#zh 按照贝塞尔路径设置目标的 position 属性。
+		@param duration duration
+		@param c1 c1
+		@param c2 c2
+		@param to to 
+		*/
+		bezierBy(duration: number, c1: Vec2, c2: Vec2, to: Vec2): Tween<T>;		
+		/**
+		!#en Flips target's scaleX
+		!#zh 翻转目标的 scaleX 属性 
+		*/
+		flipX(): Tween<T>;		
+		/**
+		!#en Flips target's scaleY
+		!#zh 翻转目标的 scaleY 属性 
+		*/
+		flipY(): Tween<T>;		
+		/**
+		!#en Blinks target by set target's opacity property
+		!#zh 通过设置目标的 opacity 属性达到闪烁效果
+		@param duration duration
+		@param times times
+		@param opts opts 
+		*/
+		blink(duration: number, times: number, opts?: {progress?: Function; easing?: Function|string; }): Tween<T>;		
 		/**
 		!#en
 		Add an action which calculate with absolute value
@@ -1949,7 +2188,7 @@ declare namespace cc {
 		@param props {scale: 2, position: cc.v3(100, 100, 100)}
 		@param opts opts 
 		*/
-		to(duration: number, props: any, opts: {progress: Function; easing: Function|string; }): Tween;		
+		to <OPTS extends Partial<{progress: Function, easing: Function|String}>> (duration: number, props: ConstructorType<T>, opts?: OPTS) : Tween<T>;		
 		/**
 		!#en
 		Add an action which calculate with relative value
@@ -1959,7 +2198,7 @@ declare namespace cc {
 		@param props {scale: 2, position: cc.v3(100, 100, 100)}
 		@param opts opts 
 		*/
-		by(duration: number, props: any, opts: {progress: Function; easing: Function|string; }): Tween;		
+		by <OPTS extends Partial<{progress: Function, easing: Function|String}>> (duration: number, props: ConstructorType<T>, opts?: OPTS) : Tween<T>;		
 		/**
 		!#en
 		Directly set target properties
@@ -1967,7 +2206,7 @@ declare namespace cc {
 		直接设置 target 的属性
 		@param props props 
 		*/
-		set(props: any): Tween;		
+		set (props: ConstructorType<T>) : Tween<T>;		
 		/**
 		!#en
 		Add an delay action
@@ -1975,7 +2214,7 @@ declare namespace cc {
 		添加一个延时 action
 		@param duration duration 
 		*/
-		delay(duration: number): Tween;		
+		delay(duration: number): Tween<T>;		
 		/**
 		!#en
 		Add an callback action
@@ -1983,44 +2222,46 @@ declare namespace cc {
 		添加一个回调 action
 		@param callback callback 
 		*/
-		call(callback: Function): Tween;		
+		call(callback: Function): Tween<T>;		
 		/**
 		!#en
 		Add an hide action
 		!#zh
 		添加一个隐藏 action 
 		*/
-		hide(): Tween;		
+		hide(): Tween<T>;		
 		/**
 		!#en
 		Add an show action
 		!#zh
 		添加一个显示 action 
 		*/
-		show(): Tween;		
+		show(): Tween<T>;		
 		/**
 		!#en
 		Add an removeSelf action
 		!#zh
 		添加一个移除自己 action 
 		*/
-		removeSelf(): Tween;		
+		removeSelf(): Tween<T>;		
 		/**
 		!#en
 		Add an sequence action
 		!#zh
 		添加一个队列 action
+		@param action action
 		@param actions actions 
 		*/
-		sequence(actions: [Action|Tween]): Tween;		
+		sequence(action: Action|Tween<T>, ...actions: (Action|Tween<T>)[]): Tween<T>;		
 		/**
 		!#en
 		Add an parallel action
 		!#zh
 		添加一个并行 action
+		@param action action
 		@param actions actions 
 		*/
-		parallel(actions: [Action|Tween]): Tween;		
+		parallel(action: Action|Tween<T>, ...actions: (Action|Tween<T>)[]): Tween<T>;		
 		/**
 		!#en
 		Add an repeat action.
@@ -2030,7 +2271,7 @@ declare namespace cc {
 		@param repeatTimes repeatTimes
 		@param action action 
 		*/
-		repeat(repeatTimes: number, action?: Action|Tween): Tween;		
+		repeat(repeatTimes: number, action?: Action|Tween<T>): Tween<T>;		
 		/**
 		!#en
 		Add an repeat forever action
@@ -2039,7 +2280,7 @@ declare namespace cc {
 		添加一个永久重复 action，这个 action 会将前一个动作作为他的参数。
 		@param action action 
 		*/
-		repeatForever(action?: Action|Tween): Tween;		
+		repeatForever(action?: Action|Tween<T>): Tween<T>;		
 		/**
 		!#en
 		Add an reverse time action.
@@ -2048,345 +2289,7 @@ declare namespace cc {
 		添加一个倒置时间 action，这个 action 会将前一个动作作为他的参数。
 		@param action action 
 		*/
-		reverseTime(action?: Action|Tween): Tween;		
-		/**
-		
-		@param target the target to animate 
-		*/
-		tween(target?: any): Tween;	
-	}	
-	/** !#en Class for animation data handling.
-	!#zh 动画剪辑，用于存储动画数据。 */
-	export class AnimationClip extends Asset {		
-		/** !#en Duration of this animation.
-		!#zh 动画的持续时间。 */
-		duration: number;		
-		/** !#en FrameRate of this animation.
-		!#zh 动画的帧速率。 */
-		sample: number;		
-		/** !#en Speed of this animation.
-		!#zh 动画的播放速度。 */
-		speed: number;		
-		/** !#en WrapMode of this animation.
-		!#zh 动画的循环模式。 */
-		wrapMode: WrapMode;		
-		/** !#en Curve data.
-		!#zh 曲线数据。 */
-		curveData: any;		
-		/** !#en Event data.
-		!#zh 事件数据。 */
-		events: {frame: number, func: string, params: string[]}[];		
-		/**
-		!#en Crate clip with a set of sprite frames
-		!#zh 使用一组序列帧图片来创建动画剪辑
-		@param spriteFrames spriteFrames
-		@param sample sample
-		
-		@example 
-		```js
-		var clip = cc.AnimationClip.createWithSpriteFrames(spriteFrames, 10);
-		``` 
-		*/
-		static createWithSpriteFrames(spriteFrames: [SpriteFrame], sample: number): AnimationClip;	
-	}	
-	/** !#en
-	The AnimationState gives full control over animation playback process.
-	In most cases the Animation Component is sufficient and easier to use. Use the AnimationState if you need full control.
-	!#zh
-	AnimationState 完全控制动画播放过程。<br/>
-	大多数情况下 动画组件 是足够和易于使用的。如果您需要更多的动画控制接口，请使用 AnimationState。 */
-	export class AnimationState extends Playable {		
-		/**
-		
-		@param clip clip
-		@param name name 
-		*/
-		constructor(clip: AnimationClip, name?: string);		
-		animator: AnimationAnimator;		
-		/** !#en The curves list.
-		!#zh 曲线列表。 */
-		curves: any[];		
-		/** !#en The start delay which represents the number of seconds from an animation's start time to the start of
-		the active interval.
-		!#zh 延迟多少秒播放。 */
-		delay: number;		
-		/** !#en The animation's iteration count property.
-		
-		A real number greater than or equal to zero (including positive infinity) representing the number of times
-		to repeat the animation node.
-		
-		Values less than zero and NaN values are treated as the value 1.0 for the purpose of timing model
-		calculations.
-		
-		!#zh 迭代次数，指动画播放多少次后结束, normalize time。 如 2.5（2次半） */
-		repeatCount: number;		
-		/** !#en The iteration duration of this animation in seconds. (length)
-		!#zh 单次动画的持续时间，秒。 */
-		duration: number;		
-		/** !#en The animation's playback speed. 1 is normal playback speed.
-		!#zh 播放速率。 */
-		speed: number;		
-		/** !#en
-		Wrapping mode of the playing animation.
-		Notice : dynamic change wrapMode will reset time and repeatCount property
-		!#zh
-		动画循环方式。
-		需要注意的是，动态修改 wrapMode 时，会重置 time 以及 repeatCount */
-		wrapMode: WrapMode;		
-		/** !#en The current time of this animation in seconds.
-		!#zh 动画当前的时间，秒。 */
-		time: number;		
-		/** !#en The clip that is being played by this animation state.
-		!#zh 此动画状态正在播放的剪辑。 */
-		clip: AnimationClip;		
-		/** !#en The name of the playing animation.
-		!#zh 动画的名字 */
-		name: string;	
-	}	
-	/** !#en
-	This class provide easing methods for {{#crossLink "tween"}}{{/crossLink}} class.<br>
-	Demonstratio: https://easings.net/
-	!#zh
-	缓动函数类，为 {{#crossLink "Tween"}}{{/crossLink}} 提供缓动效果函数。<br>
-	函数效果演示： https://easings.net/ */
-	export class Easing {		
-		/**
-		!#en Easing in with quadratic formula. From slow to fast.
-		!#zh 平方曲线缓入函数。运动由慢到快。
-		@param t The current time as a percentage of the total time. 
-		*/
-		quadIn(t: number): void;		
-		/**
-		!#en Easing out with quadratic formula. From fast to slow.
-		!#zh 平方曲线缓出函数。运动由快到慢。
-		@param t The current time as a percentage of the total time. 
-		*/
-		quadOut(t: number): void;		
-		/**
-		!#en Easing in and out with quadratic formula. From slow to fast, then back to slow.
-		!#zh 平方曲线缓入缓出函数。运动由慢到快再到慢。
-		@param t The current time as a percentage of the total time. 
-		*/
-		quadInOut(t: number): void;		
-		/**
-		!#en Easing in with cubic formula. From slow to fast.
-		!#zh 立方曲线缓入函数。运动由慢到快。
-		@param t The current time as a percentage of the total time. 
-		*/
-		cubicIn(t: number): void;		
-		/**
-		!#en Easing out with cubic formula. From slow to fast.
-		!#zh 立方曲线缓出函数。运动由快到慢。
-		@param t The current time as a percentage of the total time. 
-		*/
-		cubicOut(t: number): void;		
-		/**
-		!#en Easing in and out with cubic formula. From slow to fast, then back to slow.
-		!#zh 立方曲线缓入缓出函数。运动由慢到快再到慢。
-		@param t The current time as a percentage of the total time. 
-		*/
-		cubicInOut(t: number): void;		
-		/**
-		!#en Easing in with quartic formula. From slow to fast.
-		!#zh 四次方曲线缓入函数。运动由慢到快。
-		@param t The current time as a percentage of the total time. 
-		*/
-		quartIn(t: number): void;		
-		/**
-		!#en Easing out with quartic formula. From fast to slow.
-		!#zh 四次方曲线缓出函数。运动由快到慢。
-		@param t The current time as a percentage of the total time. 
-		*/
-		quartOut(t: number): void;		
-		/**
-		!#en Easing in and out with quartic formula. From slow to fast, then back to slow.
-		!#zh 四次方曲线缓入缓出函数。运动由慢到快再到慢。
-		@param t The current time as a percentage of the total time. 
-		*/
-		quartInOut(t: number): void;		
-		/**
-		!#en Easing in with quintic formula. From slow to fast.
-		!#zh 五次方曲线缓入函数。运动由慢到快。
-		@param t The current time as a percentage of the total time. 
-		*/
-		quintIn(t: number): void;		
-		/**
-		!#en Easing out with quintic formula. From fast to slow.
-		!#zh 五次方曲线缓出函数。运动由快到慢。
-		@param t The current time as a percentage of the total time. 
-		*/
-		quintOut(t: number): void;		
-		/**
-		!#en Easing in and out with quintic formula. From slow to fast, then back to slow.
-		!#zh 五次方曲线缓入缓出函数。运动由慢到快再到慢。
-		@param t The current time as a percentage of the total time. 
-		*/
-		quintInOut(t: number): void;		
-		/**
-		!#en Easing in and out with sine formula. From slow to fast.
-		!#zh 正弦曲线缓入函数。运动由慢到快。
-		@param t The current time as a percentage of the total time. 
-		*/
-		sineIn(t: number): void;		
-		/**
-		!#en Easing in and out with sine formula. From fast to slow.
-		!#zh 正弦曲线缓出函数。运动由快到慢。
-		@param t The current time as a percentage of the total time. 
-		*/
-		sineOut(t: number): void;		
-		/**
-		!#en Easing in and out with sine formula. From slow to fast, then back to slow.
-		!#zh 正弦曲线缓入缓出函数。运动由慢到快再到慢。
-		@param t The current time as a percentage of the total time. 
-		*/
-		sineInOut(t: number): void;		
-		/**
-		!#en Easing in and out with exponential formula. From slow to fast.
-		!#zh 指数曲线缓入函数。运动由慢到快。
-		@param t The current time as a percentage of the total time. 
-		*/
-		expoIn(t: number): void;		
-		/**
-		!#en Easing in and out with exponential formula. From fast to slow.
-		!#zh 指数曲线缓出函数。运动由快到慢。
-		@param t The current time as a percentage of the total time. 
-		*/
-		expoOu(t: number): void;		
-		/**
-		!#en Easing in and out with exponential formula. From slow to fast.
-		!#zh 指数曲线缓入和缓出函数。运动由慢到很快再到慢。
-		@param t The current time as a percentage of the total time, then back to slow. 
-		*/
-		expoInOut(t: number): void;		
-		/**
-		!#en Easing in and out with circular formula. From slow to fast.
-		!#zh 循环公式缓入函数。运动由慢到快。
-		@param t The current time as a percentage of the total time. 
-		*/
-		circIn(t: number): void;		
-		/**
-		!#en Easing in and out with circular formula. From fast to slow.
-		!#zh 循环公式缓出函数。运动由快到慢。
-		@param t The current time as a percentage of the total time. 
-		*/
-		circOut(t: number): void;		
-		/**
-		!#en Easing in and out with circular formula. From slow to fast.
-		!#zh 指数曲线缓入缓出函数。运动由慢到很快再到慢。
-		@param t The current time as a percentage of the total time, then back to slow. 
-		*/
-		circInOut(t: number): void;		
-		/**
-		!#en Easing in action with a spring oscillating effect.
-		!#zh 弹簧回震效果的缓入函数。
-		@param t The current time as a percentage of the total time. 
-		*/
-		elasticIn(t: number): void;		
-		/**
-		!#en Easing out action with a spring oscillating effect.
-		!#zh 弹簧回震效果的缓出函数。
-		@param t The current time as a percentage of the total time. 
-		*/
-		elasticOut(t: number): void;		
-		/**
-		!#en Easing in and out action with a spring oscillating effect.
-		!#zh 弹簧回震效果的缓入缓出函数。
-		@param t The current time as a percentage of the total time. 
-		*/
-		elasticInOut(t: number): void;		
-		/**
-		!#en Easing in action with "back up" behavior.
-		!#zh 回退效果的缓入函数。
-		@param t The current time as a percentage of the total time. 
-		*/
-		backIn(t: number): void;		
-		/**
-		!#en Easing out action with "back up" behavior.
-		!#zh 回退效果的缓出函数。
-		@param t The current time as a percentage of the total time. 
-		*/
-		backOut(t: number): void;		
-		/**
-		!#en Easing in and out action with "back up" behavior.
-		!#zh 回退效果的缓入缓出函数。
-		@param t The current time as a percentage of the total time. 
-		*/
-		backInOut(t: number): void;		
-		/**
-		!#en Easing in action with bouncing effect.
-		!#zh 弹跳效果的缓入函数。
-		@param t The current time as a percentage of the total time. 
-		*/
-		bounceIn(t: number): void;		
-		/**
-		!#en Easing out action with bouncing effect.
-		!#zh 弹跳效果的缓出函数。
-		@param t The current time as a percentage of the total time. 
-		*/
-		bounceOut(t: number): void;		
-		/**
-		!#en Easing in and out action with bouncing effect.
-		!#zh 弹跳效果的缓入缓出函数。
-		@param t The current time as a percentage of the total time. 
-		*/
-		bounceInOut(t: number): void;		
-		/**
-		!#en Target will run action with smooth effect.
-		!#zh 平滑效果函数。
-		@param t The current time as a percentage of the total time. 
-		*/
-		smooth(t: number): void;		
-		/**
-		!#en Target will run action with fade effect.
-		!#zh 渐褪效果函数。
-		@param t The current time as a percentage of the total time. 
-		*/
-		fade(t: number): void;	
-	}	
-	/** undefined */
-	export class Playable {		
-		/** !#en Is playing or paused in play mode?
-		!#zh 当前是否正在播放。 */
-		isPlaying: boolean;		
-		/** !#en Is currently paused? This can be true even if in edit mode(isPlaying == false).
-		!#zh 当前是否正在暂停 */
-		isPaused: boolean;		
-		/**
-		!#en Play this animation.
-		!#zh 播放动画。 
-		*/
-		play(): void;		
-		/**
-		!#en Stop this animation.
-		!#zh 停止动画播放。 
-		*/
-		stop(): void;		
-		/**
-		!#en Pause this animation.
-		!#zh 暂停动画。 
-		*/
-		pause(): void;		
-		/**
-		!#en Resume this animation.
-		!#zh 重新播放动画。 
-		*/
-		resume(): void;		
-		/**
-		!#en Perform a single frame step.
-		!#zh 执行一帧动画。 
-		*/
-		step(): void;	
-	}	
-	/** !#en Specifies how time is treated when it is outside of the keyframe range of an Animation.
-	!#zh 动画使用的循环模式。 */
-	export enum WrapMode {		
-		Default = 0,
-		Normal = 0,
-		Reverse = 0,
-		Loop = 0,
-		LoopReverse = 0,
-		PingPong = 0,
-		PingPongReverse = 0,	
+		reverseTime(action?: Action|Tween<T>): Tween<T>;	
 	}	
 	/** !#en cc.audioEngine is the singleton object, it provide simple audio APIs.
 	!#zh
@@ -2407,7 +2310,7 @@ declare namespace cc {
 		
 		@example 
 		```js
-		cc.loader.loadRes(url, cc.AudioClip, function (err, clip) {
+		cc.resources.load(path, cc.AudioClip, null, function (err, clip) {
 		    var audioID = cc.audioEngine.play(clip, false, 0.5);
 		});
 		``` 
@@ -2622,29 +2525,6 @@ declare namespace cc {
 		*/
 		static uncacheAll(): void;		
 		/**
-		!#en Preload audio file.
-		!#zh 预加载一个音频
-		@param filePath The file path of an audio.
-		@param callback The callback of an audio.
-		
-		@example 
-		```js
-		cc.audioEngine.preload(path);
-		``` 
-		*/
-		static preload(filePath: string, callback?: Function): void;		
-		/**
-		!#en Set a size, the unit is KB. Over this size is directly resolved into DOM nodes.
-		!#zh 设置一个以 KB 为单位的尺寸，大于这个尺寸的音频在加载的时候会强制使用 dom 方式加载
-		@param kb The file path of an audio.
-		
-		@example 
-		```js
-		cc.audioEngine.setMaxWebAudioSize(300);
-		``` 
-		*/
-		static setMaxWebAudioSize(kb: number): void;		
-		/**
 		!#en Play background music
 		!#zh 播放背景音乐
 		@param clip The audio clip to play.
@@ -2652,7 +2532,7 @@ declare namespace cc {
 		
 		@example 
 		```js
-		cc.loader.loadRes(url, cc.AudioClip, function (err, clip) {
+		cc.resources.load(path, cc.AudioClip, null, function (err, clip) {
 		    var audioID = cc.audioEngine.playMusic(clip, false);
 		});
 		``` 
@@ -2727,7 +2607,7 @@ declare namespace cc {
 		
 		@example 
 		```js
-		cc.loader.loadRes(url, cc.AudioClip, function (err, clip) {
+		cc.resources.load(path, cc.AudioClip, null, function (err, clip) {
 		    var audioID = cc.audioEngine.playEffect(clip, false);
 		});
 		``` 
@@ -2827,7 +2707,7 @@ declare namespace cc {
 		@param errorId errorId
 		@param param param 
 		*/
-		static getError(errorId: id, param?: any): string;		
+		static getError(errorId: string, param?: any): string;		
 		/**
 		!#en Returns whether or not to display the FPS informations.
 		!#zh 是否显示 FPS 信息。 
@@ -2839,281 +2719,6 @@ declare namespace cc {
 		@param displayStats displayStats 
 		*/
 		static setDisplayStats(displayStats: boolean): void;	
-	}	
-	/** !#en
-	<p>
-	   ATTENTION: USE cc.director INSTEAD OF cc.Director.<br/>
-	   cc.director is a singleton object which manage your game's logic flow.<br/>
-	   Since the cc.director is a singleton, you don't need to call any constructor or create functions,<br/>
-	   the standard way to use it is by calling:<br/>
-	     - cc.director.methodName(); <br/>
-	
-	   It creates and handle the main Window and manages how and when to execute the Scenes.<br/>
-	   <br/>
-	   The cc.director is also responsible for:<br/>
-	     - initializing the OpenGL context<br/>
-	     - setting the OpenGL pixel format (default on is RGB565)<br/>
-	     - setting the OpenGL buffer depth (default on is 0-bit)<br/>
-	     - setting the color for clear screen (default one is BLACK)<br/>
-	     - setting the projection (default one is 3D)<br/>
-	     - setting the orientation (default one is Portrait)<br/>
-	     <br/>
-	   <br/>
-	   The cc.director also sets the default OpenGL context:<br/>
-	     - GL_TEXTURE_2D is enabled<br/>
-	     - GL_VERTEX_ARRAY is enabled<br/>
-	     - GL_COLOR_ARRAY is enabled<br/>
-	     - GL_TEXTURE_COORD_ARRAY is enabled<br/>
-	</p>
-	<p>
-	  cc.director also synchronizes timers with the refresh rate of the display.<br/>
-	  Features and Limitations:<br/>
-	     - Scheduled timers & drawing are synchronizes with the refresh rate of the display<br/>
-	     - Only supports animation intervals of 1/60 1/30 & 1/15<br/>
-	</p>
-	
-	!#zh
-	<p>
-	    注意：用 cc.director 代替 cc.Director。<br/>
-	    cc.director 一个管理你的游戏的逻辑流程的单例对象。<br/>
-	    由于 cc.director 是一个单例，你不需要调用任何构造函数或创建函数，<br/>
-	    使用它的标准方法是通过调用：<br/>
-	      - cc.director.methodName();
-	    <br/>
-	    它创建和处理主窗口并且管理什么时候执行场景。<br/>
-	    <br/>
-	    cc.director 还负责：<br/>
-	     - 初始化 OpenGL 环境。<br/>
-	     - 设置OpenGL像素格式。(默认是 RGB565)<br/>
-	     - 设置OpenGL缓冲区深度 (默认是 0-bit)<br/>
-	     - 设置空白场景的颜色 (默认是 黑色)<br/>
-	     - 设置投影 (默认是 3D)<br/>
-	     - 设置方向 (默认是 Portrait)<br/>
-	   <br/>
-	   cc.director 设置了 OpenGL 默认环境 <br/>
-	     - GL_TEXTURE_2D   启用。<br/>
-	     - GL_VERTEX_ARRAY 启用。<br/>
-	     - GL_COLOR_ARRAY  启用。<br/>
-	     - GL_TEXTURE_COORD_ARRAY 启用。<br/>
-	</p>
-	<p>
-	  cc.director 也同步定时器与显示器的刷新速率。
-	  <br/>
-	  特点和局限性: <br/>
-	     - 将计时器 & 渲染与显示器的刷新频率同步。<br/>
-	     - 只支持动画的间隔 1/60 1/30 & 1/15。<br/>
-	</p> */
-	export class Director extends EventTarget {		
-		/**
-		!#en
-		Converts a view coordinate to an WebGL coordinate<br/>
-		Useful to convert (multi) touches coordinates to the current layout (portrait or landscape)<br/>
-		Implementation can be found in CCDirectorWebGL.
-		!#zh 将触摸点的屏幕坐标转换为 WebGL View 下的坐标。
-		@param uiPoint uiPoint 
-		*/
-		convertToGL(uiPoint: Vec2): Vec2;		
-		/**
-		!#en
-		Converts an OpenGL coordinate to a view coordinate<br/>
-		Useful to convert node points to window points for calls such as glScissor<br/>
-		Implementation can be found in CCDirectorWebGL.
-		!#zh 将触摸点的 WebGL View 坐标转换为屏幕坐标。
-		@param glPoint glPoint 
-		*/
-		convertToUI(glPoint: Vec2): Vec2;		
-		/**
-		End the life of director in the next frame 
-		*/
-		end(): void;		
-		/**
-		!#en
-		Returns the size of the WebGL view in points.<br/>
-		It takes into account any possible rotation (device orientation) of the window.
-		!#zh 获取视图的大小，以点为单位。 
-		*/
-		getWinSize(): Size;		
-		/**
-		!#en
-		Returns the size of the OpenGL view in pixels.<br/>
-		It takes into account any possible rotation (device orientation) of the window.<br/>
-		On Mac winSize and winSizeInPixels return the same value.
-		(The pixel here refers to the resource resolution. If you want to get the physics resolution of device, you need to use cc.view.getFrameSize())
-		!#zh
-		获取视图大小，以像素为单位（这里的像素指的是资源分辨率。
-		如果要获取屏幕物理分辨率，需要用 cc.view.getFrameSize()） 
-		*/
-		getWinSizeInPixels(): Size;		
-		/**
-		!#en Pause the director's ticker, only involve the game logic execution.
-		It won't pause the rendering process nor the event manager.
-		If you want to pause the entier game including rendering, audio and event,
-		please use {{#crossLink "Game.pause"}}cc.game.pause{{/crossLink}}
-		!#zh 暂停正在运行的场景，该暂停只会停止游戏逻辑执行，但是不会停止渲染和 UI 响应。
-		如果想要更彻底得暂停游戏，包含渲染，音频和事件，请使用 {{#crossLink "Game.pause"}}cc.game.pause{{/crossLink}}。 
-		*/
-		pause(): void;		
-		/**
-		!#en
-		Run a scene. Replaces the running scene with a new one or enter the first scene.<br/>
-		The new scene will be launched immediately.
-		!#zh 立刻切换指定场景。
-		@param scene The need run scene.
-		@param onBeforeLoadScene The function invoked at the scene before loading.
-		@param onLaunched The function invoked at the scene after launch. 
-		*/
-		runSceneImmediate(scene: Scene, onBeforeLoadScene?: Function, onLaunched?: Function): void;		
-		/**
-		!#en Loads the scene by its name.
-		!#zh 通过场景名称进行加载场景。
-		@param sceneName The name of the scene to load.
-		@param onLaunched callback, will be called after scene launched. 
-		*/
-		loadScene(sceneName: string, onLaunched?: Function): boolean;		
-		/**
-		!#en
-		Preloads the scene to reduces loading time. You can call this method at any time you want.
-		After calling this method, you still need to launch the scene by `cc.director.loadScene`.
-		It will be totally fine to call `cc.director.loadScene` at any time even if the preloading is not
-		yet finished, the scene will be launched after loaded automatically.
-		!#zh 预加载场景，你可以在任何时候调用这个方法。
-		调用完后，你仍然需要通过 `cc.director.loadScene` 来启动场景，因为这个方法不会执行场景加载操作。
-		就算预加载还没完成，你也可以直接调用 `cc.director.loadScene`，加载完成后场景就会启动。
-		@param sceneName The name of the scene to preload.
-		@param onProgress callback, will be called when the load progression change.
-		@param onLoaded callback, will be called after scene loaded. 
-		*/
-		preloadScene(sceneName: string, onProgress?: (completedCount: number, totalCount: number, item: any) => void, onLoaded?: (error: Error, asset: cc.SceneAsset) => void): void;		
-		/**
-		!#en Resume game logic execution after pause, if the current scene is not paused, nothing will happen.
-		!#zh 恢复暂停场景的游戏逻辑，如果当前场景没有暂停将没任何事情发生。 
-		*/
-		resume(): void;		
-		/**
-		!#en
-		Enables or disables WebGL depth test.<br/>
-		Implementation can be found in CCDirectorCanvas.js/CCDirectorWebGL.js
-		!#zh 启用/禁用深度测试（在 Canvas 渲染模式下不会生效）。
-		@param on on 
-		*/
-		setDepthTest(on: boolean): void;		
-		/**
-		!#en
-		Set color for clear screen.<br/>
-		(Implementation can be found in CCDirectorCanvas.js/CCDirectorWebGL.js)
-		!#zh
-		设置场景的默认擦除颜色。<br/>
-		支持全透明，但不支持透明度为中间值。要支持全透明需手工开启 cc.macro.ENABLE_TRANSPARENT_CANVAS。
-		@param clearColor clearColor 
-		*/
-		setClearColor(clearColor: Color): void;		
-		/**
-		!#en Returns current logic Scene.
-		!#zh 获取当前逻辑场景。
-		
-		@example 
-		```js
-		// This will help you to get the Canvas node in scene
-		 cc.director.getScene().getChildByName('Canvas');
-		``` 
-		*/
-		getScene(): Scene;		
-		/**
-		!#en Returns the FPS value. Please use {{#crossLink "Game.setFrameRate"}}cc.game.setFrameRate{{/crossLink}} to control animation interval.
-		!#zh 获取单位帧执行时间。请使用 {{#crossLink "Game.setFrameRate"}}cc.game.setFrameRate{{/crossLink}} 来控制游戏帧率。 
-		*/
-		getAnimationInterval(): number;		
-		/**
-		Sets animation interval, this doesn't control the main loop.
-		To control the game's frame rate overall, please use {{#crossLink "Game.setFrameRate"}}cc.game.setFrameRate{{/crossLink}}
-		@param value The animation interval desired. 
-		*/
-		setAnimationInterval(value: number): void;		
-		/**
-		!#en Returns the delta time since last frame.
-		!#zh 获取上一帧的增量时间。 
-		*/
-		getDeltaTime(): number;		
-		/**
-		!#en Returns how many frames were called since the director started.
-		!#zh 获取 director 启动以来游戏运行的总帧数。 
-		*/
-		getTotalFrames(): number;		
-		/**
-		!#en Returns whether or not the Director is paused.
-		!#zh 是否处于暂停状态。 
-		*/
-		isPaused(): boolean;		
-		/**
-		!#en Returns the cc.Scheduler associated with this director.
-		!#zh 获取和 director 相关联的 cc.Scheduler。 
-		*/
-		getScheduler(): Scheduler;		
-		/**
-		!#en Sets the cc.Scheduler associated with this director.
-		!#zh 设置和 director 相关联的 cc.Scheduler。
-		@param scheduler scheduler 
-		*/
-		setScheduler(scheduler: Scheduler): void;		
-		/**
-		!#en Returns the cc.ActionManager associated with this director.
-		!#zh 获取和 director 相关联的 cc.ActionManager（动作管理器）。 
-		*/
-		getActionManager(): ActionManager;		
-		/**
-		!#en Sets the cc.ActionManager associated with this director.
-		!#zh 设置和 director 相关联的 cc.ActionManager（动作管理器）。
-		@param actionManager actionManager 
-		*/
-		setActionManager(actionManager: ActionManager): void;		
-		/**
-		!#en Returns the cc.CollisionManager associated with this director.
-		!#zh 获取和 director 相关联的 cc.CollisionManager （碰撞管理器）。 
-		*/
-		getCollisionManager(): CollisionManager;		
-		/**
-		!#en Returns the cc.PhysicsManager associated with this director.
-		!#zh 返回与 director 相关联的 cc.PhysicsManager （物理管理器）。 
-		*/
-		getPhysicsManager(): PhysicsManager;		
-		/** !#en The event projection changed of cc.Director. This event will not get triggered since v2.0
-		!#zh cc.Director 投影变化的事件。从 v2.0 开始这个事件不会再被触发 */
-		static EVENT_PROJECTION_CHANGED: string;		
-		/** !#en The event which will be triggered before loading a new scene.
-		!#zh 加载新场景之前所触发的事件。 */
-		static EVENT_BEFORE_SCENE_LOADING: string;		
-		/** !#en The event which will be triggered before launching a new scene.
-		!#zh 运行新场景之前所触发的事件。 */
-		static EVENT_BEFORE_SCENE_LAUNCH: string;		
-		/** !#en The event which will be triggered after launching a new scene.
-		!#zh 运行新场景之后所触发的事件。 */
-		static EVENT_AFTER_SCENE_LAUNCH: string;		
-		/** !#en The event which will be triggered at the beginning of every frame.
-		!#zh 每个帧的开始时所触发的事件。 */
-		static EVENT_BEFORE_UPDATE: string;		
-		/** !#en The event which will be triggered after engine and components update logic.
-		!#zh 将在引擎和组件 “update” 逻辑之后所触发的事件。 */
-		static EVENT_AFTER_UPDATE: string;		
-		/** !#en The event is deprecated since v2.0, please use cc.Director.EVENT_BEFORE_DRAW instead
-		!#zh 这个事件从 v2.0 开始被废弃，请直接使用 cc.Director.EVENT_BEFORE_DRAW */
-		static EVENT_BEFORE_VISIT: string;		
-		/** !#en The event is deprecated since v2.0, please use cc.Director.EVENT_BEFORE_DRAW instead
-		!#zh 这个事件从 v2.0 开始被废弃，请直接使用 cc.Director.EVENT_BEFORE_DRAW */
-		static EVENT_AFTER_VISIT: string;		
-		/** !#en The event which will be triggered before the rendering process.
-		!#zh 渲染过程之前所触发的事件。 */
-		static EVENT_BEFORE_DRAW: string;		
-		/** !#en The event which will be triggered after the rendering process.
-		!#zh 渲染过程之后所触发的事件。 */
-		static EVENT_AFTER_DRAW: string;		
-		/** Constant for 2D projection (orthogonal projection) */
-		static PROJECTION_2D: number;		
-		/** Constant for 3D projection with a fovy=60, znear=0.5f and zfar=1500. */
-		static PROJECTION_3D: number;		
-		/** Constant for custom projection, if cc.Director's projection set to it, it calls "updateProjection" on the projection delegate. */
-		static PROJECTION_CUSTOM: number;		
-		/** Constant for default projection of cc.Director, default projection is 2D projection */
-		static PROJECTION_DEFAULT: number;	
 	}	
 	/** !#en An object to boot the game.
 	!#zh 包含游戏主体信息并负责驱动游戏的游戏对象。 */
@@ -3182,8 +2787,6 @@ declare namespace cc {
 		     0 - Automatically chosen by engine<br/>
 		     1 - Forced to use canvas renderer<br/>
 		     2 - Forced to use WebGL renderer, but this will be ignored on mobile browsers<br/>
-		7. scenes<br/>
-		     "scenes" include available scenes in the current bundle.<br/>
 		<br/>
 		Please DO NOT modify this object directly, it won't have any effect.<br/>
 		!#zh
@@ -3210,8 +2813,6 @@ declare namespace cc {
 		         0 - 通过引擎自动选择。                                                     <br/>
 		         1 - 强制使用 canvas 渲染。
 		         2 - 强制使用 WebGL 渲染，但是在部分 Android 浏览器中这个选项会被忽略。     <br/>
-		7. scenes                                                                         <br/>
-		     “scenes” 当前包中可用场景。                                                   <br/>
 		<br/>
 		注意：请不要直接修改这个对象，它不会有任何效果。 */
 		config: any;		
@@ -3347,7 +2948,7 @@ declare namespace cc {
 		group: string;		
 		/** !#en The position (x, y) of the node in its parent's coordinates.
 		!#zh 节点在父节点坐标系中的位置（x, y）。 */
-		position: Vec2;		
+		position: Vec3;		
 		/** !#en x axis position of node.
 		!#zh 节点 X 轴坐标。 */
 		x: number;		
@@ -3421,6 +3022,20 @@ declare namespace cc {
 		父节点主要根据节点的 zIndex 和添加次序来排序，拥有更高 zIndex 的节点将被排在后面，如果两个节点的 zIndex 一致，先添加的节点会稳定排在另一个节点之前。<br/>
 		节点在 children 中的顺序决定了其渲染顺序。父节点永远在所有子节点之前被渲染 */
 		zIndex: number;		
+		/** !#en
+		Switch 2D/3D node. The 2D nodes will run faster.
+		!#zh
+		切换 2D/3D 节点，2D 节点会有更高的运行效率 */
+		is3DNode: boolean;		
+		/** !#en Returns a normalized vector representing the up direction (Y axis) of the node in world space.
+		!#zh 获取节点正上方（y 轴）面对的方向，返回值为世界坐标系下的归一化向量 */
+		up: Vec3;		
+		/** !#en Returns a normalized vector representing the right direction (X axis) of the node in world space.
+		!#zh 获取节点正右方（x 轴）面对的方向，返回值为世界坐标系下的归一化向量 */
+		right: Vec3;		
+		/** !#en Returns a normalized vector representing the forward direction (Z axis) of the node in world space.
+		!#zh 获取节点正前方（z 轴）面对的方向，返回值为世界坐标系下的归一化向量 */
+		forward: Vec3;		
 		/**
 		
 		@param name name 
@@ -3764,7 +3379,7 @@ declare namespace cc {
 		@param z z value of quternion
 		@param w w value of quternion 
 		*/
-		setRotation(quat: cc.Quat|number, y: number, z: number, w: number): void;		
+		setRotation(quat: Quat|number, y?: number, z?: number, w?: number): void;		
 		/**
 		!#en
 		Returns a copy the untransformed size of the node. <br/>
@@ -3875,6 +3490,36 @@ declare namespace cc {
 		*/
 		getWorldMatrix(out: Mat4): Mat4;		
 		/**
+		!#en
+		Converts a Point to node (local) space coordinates.
+		!#zh
+		将一个点转换到节点 (局部) 空间坐标系。
+		@param worldPoint worldPoint
+		@param out out
+		
+		@example 
+		```js
+		var newVec2 = node.convertToNodeSpaceAR(cc.v2(100, 100));
+		var newVec3 = node.convertToNodeSpaceAR(cc.v3(100, 100, 100));
+		``` 
+		*/
+		convertToNodeSpaceAR<T extends cc.Vec2 | cc.Vec3>(worldPoint: T, out?: T): T;		
+		/**
+		!#en
+		Converts a Point in node coordinates to world space coordinates.
+		!#zh
+		将节点坐标系下的一个点转换到世界空间坐标系。
+		@param nodePoint nodePoint
+		@param out out
+		
+		@example 
+		```js
+		var newVec2 = node.convertToWorldSpaceAR(cc.v2(100, 100));
+		var newVec3 = node.convertToWorldSpaceAR(cc.v3(100, 100, 100));
+		``` 
+		*/
+		convertToWorldSpaceAR<T extends cc.Vec2 | cc.Vec3>(nodePoint: T, out?: T): T;		
+		/**
 		!#en Converts a Point to node (local) space coordinates then add the anchor point position.
 		So the return position will be related to the left bottom corner of the node's bounding box.
 		This equals to the API behavior of cocos2d-x, you probably want to use convertToNodeSpaceAR instead
@@ -3902,32 +3547,6 @@ declare namespace cc {
 		``` 
 		*/
 		convertToWorldSpace(nodePoint: Vec2): Vec2;		
-		/**
-		!#en
-		Converts a Point to node (local) space coordinates in which the anchor point is the origin position.
-		!#zh
-		将一个点转换到节点 (局部) 空间坐标系，这个坐标系以锚点为原点。
-		@param worldPoint worldPoint
-		
-		@example 
-		```js
-		var newVec2 = node.convertToNodeSpaceAR(cc.v2(100, 100));
-		``` 
-		*/
-		convertToNodeSpaceAR(worldPoint: Vec2): Vec2;		
-		/**
-		!#en
-		Converts a Point in node coordinates to world space coordinates.
-		!#zh
-		将节点坐标系下的一个点转换到世界空间坐标系。
-		@param nodePoint nodePoint
-		
-		@example 
-		```js
-		var newVec2 = node.convertToWorldSpaceAR(cc.v2(100, 100));
-		``` 
-		*/
-		convertToWorldSpaceAR(nodePoint: Vec2): Vec2;		
 		/**
 		!#en
 		Returns the matrix that transform the node's (local) space coordinates into the parent's space coordinates.<br/>
@@ -4095,11 +3714,6 @@ declare namespace cc {
 		!#zh 根据子节点的 zIndex 和 arrivalOrder 进行排序，正常情况下开发者不需要手动调用这个函数。 
 		*/
 		sortAllChildren(): void;		
-		/** !en
-		Switch 2D/3D node. The 2D nodes will run faster.
-		!zh
-		切换 2D/3D 节点，2D 节点会有更高的运行效率 */
-		is3DNode: boolean;		
 		/**
 		!#en
 		Returns the displayed opacity of Node,
@@ -4158,6 +3772,312 @@ declare namespace cc {
 		isOpacityModifyRGB(): boolean;	
 	}	
 	/** !#en
+	<p>
+	   ATTENTION: USE cc.director INSTEAD OF cc.Director.<br/>
+	   cc.director is a singleton object which manage your game's logic flow.<br/>
+	   Since the cc.director is a singleton, you don't need to call any constructor or create functions,<br/>
+	   the standard way to use it is by calling:<br/>
+	     - cc.director.methodName(); <br/>
+	
+	   It creates and handle the main Window and manages how and when to execute the Scenes.<br/>
+	   <br/>
+	   The cc.director is also responsible for:<br/>
+	     - initializing the OpenGL context<br/>
+	     - setting the OpenGL pixel format (default on is RGB565)<br/>
+	     - setting the OpenGL buffer depth (default on is 0-bit)<br/>
+	     - setting the color for clear screen (default one is BLACK)<br/>
+	     - setting the projection (default one is 3D)<br/>
+	     - setting the orientation (default one is Portrait)<br/>
+	     <br/>
+	   <br/>
+	   The cc.director also sets the default OpenGL context:<br/>
+	     - GL_TEXTURE_2D is enabled<br/>
+	     - GL_VERTEX_ARRAY is enabled<br/>
+	     - GL_COLOR_ARRAY is enabled<br/>
+	     - GL_TEXTURE_COORD_ARRAY is enabled<br/>
+	</p>
+	<p>
+	  cc.director also synchronizes timers with the refresh rate of the display.<br/>
+	  Features and Limitations:<br/>
+	     - Scheduled timers & drawing are synchronizes with the refresh rate of the display<br/>
+	     - Only supports animation intervals of 1/60 1/30 & 1/15<br/>
+	</p>
+	
+	!#zh
+	<p>
+	    注意：用 cc.director 代替 cc.Director。<br/>
+	    cc.director 一个管理你的游戏的逻辑流程的单例对象。<br/>
+	    由于 cc.director 是一个单例，你不需要调用任何构造函数或创建函数，<br/>
+	    使用它的标准方法是通过调用：<br/>
+	      - cc.director.methodName();
+	    <br/>
+	    它创建和处理主窗口并且管理什么时候执行场景。<br/>
+	    <br/>
+	    cc.director 还负责：<br/>
+	     - 初始化 OpenGL 环境。<br/>
+	     - 设置OpenGL像素格式。(默认是 RGB565)<br/>
+	     - 设置OpenGL缓冲区深度 (默认是 0-bit)<br/>
+	     - 设置空白场景的颜色 (默认是 黑色)<br/>
+	     - 设置投影 (默认是 3D)<br/>
+	     - 设置方向 (默认是 Portrait)<br/>
+	   <br/>
+	   cc.director 设置了 OpenGL 默认环境 <br/>
+	     - GL_TEXTURE_2D   启用。<br/>
+	     - GL_VERTEX_ARRAY 启用。<br/>
+	     - GL_COLOR_ARRAY  启用。<br/>
+	     - GL_TEXTURE_COORD_ARRAY 启用。<br/>
+	</p>
+	<p>
+	  cc.director 也同步定时器与显示器的刷新速率。
+	  <br/>
+	  特点和局限性: <br/>
+	     - 将计时器 & 渲染与显示器的刷新频率同步。<br/>
+	     - 只支持动画的间隔 1/60 1/30 & 1/15。<br/>
+	</p> */
+	export class Director extends EventTarget {		
+		/**
+		!#en
+		Converts a view coordinate to an WebGL coordinate<br/>
+		Useful to convert (multi) touches coordinates to the current layout (portrait or landscape)<br/>
+		Implementation can be found in CCDirectorWebGL.
+		!#zh 将触摸点的屏幕坐标转换为 WebGL View 下的坐标。
+		@param uiPoint uiPoint 
+		*/
+		convertToGL(uiPoint: Vec2): Vec2;		
+		/**
+		!#en
+		Converts an OpenGL coordinate to a view coordinate<br/>
+		Useful to convert node points to window points for calls such as glScissor<br/>
+		Implementation can be found in CCDirectorWebGL.
+		!#zh 将触摸点的 WebGL View 坐标转换为屏幕坐标。
+		@param glPoint glPoint 
+		*/
+		convertToUI(glPoint: Vec2): Vec2;		
+		/**
+		End the life of director in the next frame 
+		*/
+		end(): void;		
+		/**
+		!#en
+		Returns the size of the WebGL view in points.<br/>
+		It takes into account any possible rotation (device orientation) of the window.
+		!#zh 获取视图的大小，以点为单位。 
+		*/
+		getWinSize(): Size;		
+		/**
+		!#en
+		Returns the size of the OpenGL view in pixels.<br/>
+		It takes into account any possible rotation (device orientation) of the window.<br/>
+		On Mac winSize and winSizeInPixels return the same value.
+		(The pixel here refers to the resource resolution. If you want to get the physics resolution of device, you need to use cc.view.getFrameSize())
+		!#zh
+		获取视图大小，以像素为单位（这里的像素指的是资源分辨率。
+		如果要获取屏幕物理分辨率，需要用 cc.view.getFrameSize()） 
+		*/
+		getWinSizeInPixels(): Size;		
+		/**
+		!#en Pause the director's ticker, only involve the game logic execution.
+		It won't pause the rendering process nor the event manager.
+		If you want to pause the entier game including rendering, audio and event,
+		please use {{#crossLink "Game.pause"}}cc.game.pause{{/crossLink}}
+		!#zh 暂停正在运行的场景，该暂停只会停止游戏逻辑执行，但是不会停止渲染和 UI 响应。
+		如果想要更彻底得暂停游戏，包含渲染，音频和事件，请使用 {{#crossLink "Game.pause"}}cc.game.pause{{/crossLink}}。 
+		*/
+		pause(): void;		
+		/**
+		!#en
+		Run a scene. Replaces the running scene with a new one or enter the first scene.<br/>
+		The new scene will be launched immediately.
+		!#zh 立刻切换指定场景。
+		@param scene The need run scene.
+		@param onBeforeLoadScene The function invoked at the scene before loading.
+		@param onLaunched The function invoked at the scene after launch. 
+		*/
+		runSceneImmediate(scene: Scene|SceneAsset, onBeforeLoadScene?: Function, onLaunched?: Function): void;		
+		/**
+		!#en
+		Run a scene. Replaces the running scene with a new one or enter the first scene.
+		The new scene will be launched at the end of the current frame.
+		!#zh 运行指定场景。
+		@param scene The need run scene.
+		@param onBeforeLoadScene The function invoked at the scene before loading.
+		@param onLaunched The function invoked at the scene after launch. 
+		*/
+		runScene(scene: Scene|SceneAsset, onBeforeLoadScene?: Function, onLaunched?: Function): void;		
+		/**
+		!#en Loads the scene by its name.
+		!#zh 通过场景名称进行加载场景。
+		@param sceneName The name of the scene to load.
+		@param onLaunched callback, will be called after scene launched. 
+		*/
+		loadScene(sceneName: string, onLaunched?: Function): boolean;		
+		/**
+		!#en
+		Preloads the scene to reduces loading time. You can call this method at any time you want.
+		After calling this method, you still need to launch the scene by `cc.director.loadScene`.
+		It will be totally fine to call `cc.director.loadScene` at any time even if the preloading is not
+		yet finished, the scene will be launched after loaded automatically.
+		!#zh 预加载场景，你可以在任何时候调用这个方法。
+		调用完后，你仍然需要通过 `cc.director.loadScene` 来启动场景，因为这个方法不会执行场景加载操作。
+		就算预加载还没完成，你也可以直接调用 `cc.director.loadScene`，加载完成后场景就会启动。
+		@param sceneName The name of the scene to preload.
+		@param onProgress callback, will be called when the load progression change.
+		@param onLoaded callback, will be called after scene loaded. 
+		*/
+		preloadScene(sceneName: string, onProgress?: (completedCount: number, totalCount: number, item: any) => void, onLoaded?: (error: Error) => void): void;		
+		/**
+		!#en Resume game logic execution after pause, if the current scene is not paused, nothing will happen.
+		!#zh 恢复暂停场景的游戏逻辑，如果当前场景没有暂停将没任何事情发生。 
+		*/
+		resume(): void;		
+		/**
+		!#en
+		Enables or disables WebGL depth test.<br/>
+		Implementation can be found in CCDirectorCanvas.js/CCDirectorWebGL.js
+		!#zh 启用/禁用深度测试（在 Canvas 渲染模式下不会生效）。
+		@param on on 
+		*/
+		setDepthTest(on: boolean): void;		
+		/**
+		!#en
+		Set color for clear screen.<br/>
+		(Implementation can be found in CCDirectorCanvas.js/CCDirectorWebGL.js)
+		!#zh
+		设置场景的默认擦除颜色。<br/>
+		支持全透明，但不支持透明度为中间值。要支持全透明需手工开启 cc.macro.ENABLE_TRANSPARENT_CANVAS。
+		@param clearColor clearColor 
+		*/
+		setClearColor(clearColor: Color): void;		
+		/**
+		!#en Returns current logic Scene.
+		!#zh 获取当前逻辑场景。
+		
+		@example 
+		```js
+		// This will help you to get the Canvas node in scene
+		 cc.director.getScene().getChildByName('Canvas');
+		``` 
+		*/
+		getScene(): Scene;		
+		/**
+		!#en Returns the FPS value. Please use {{#crossLink "Game.setFrameRate"}}cc.game.setFrameRate{{/crossLink}} to control animation interval.
+		!#zh 获取单位帧执行时间。请使用 {{#crossLink "Game.setFrameRate"}}cc.game.setFrameRate{{/crossLink}} 来控制游戏帧率。 
+		*/
+		getAnimationInterval(): number;		
+		/**
+		Sets animation interval, this doesn't control the main loop.
+		To control the game's frame rate overall, please use {{#crossLink "Game.setFrameRate"}}cc.game.setFrameRate{{/crossLink}}
+		@param value The animation interval desired. 
+		*/
+		setAnimationInterval(value: number): void;		
+		/**
+		!#en Returns the delta time since last frame.
+		!#zh 获取上一帧的增量时间。 
+		*/
+		getDeltaTime(): number;		
+		/**
+		!#en Returns the total passed time since game start, unit: ms
+		!#zh 获取从游戏开始到现在总共经过的时间，单位为 ms 
+		*/
+		getTotalTime(): number;		
+		/**
+		!#en Returns how many frames were called since the director started.
+		!#zh 获取 director 启动以来游戏运行的总帧数。 
+		*/
+		getTotalFrames(): number;		
+		/**
+		!#en Returns whether or not the Director is paused.
+		!#zh 是否处于暂停状态。 
+		*/
+		isPaused(): boolean;		
+		/**
+		!#en Returns the cc.Scheduler associated with this director.
+		!#zh 获取和 director 相关联的 cc.Scheduler。 
+		*/
+		getScheduler(): Scheduler;		
+		/**
+		!#en Sets the cc.Scheduler associated with this director.
+		!#zh 设置和 director 相关联的 cc.Scheduler。
+		@param scheduler scheduler 
+		*/
+		setScheduler(scheduler: Scheduler): void;		
+		/**
+		!#en Returns the cc.ActionManager associated with this director.
+		!#zh 获取和 director 相关联的 cc.ActionManager（动作管理器）。 
+		*/
+		getActionManager(): ActionManager;		
+		/**
+		!#en Sets the cc.ActionManager associated with this director.
+		!#zh 设置和 director 相关联的 cc.ActionManager（动作管理器）。
+		@param actionManager actionManager 
+		*/
+		setActionManager(actionManager: ActionManager): void;		
+		/**
+		!#en Returns the cc.CollisionManager associated with this director.
+		!#zh 获取和 director 相关联的 cc.CollisionManager （碰撞管理器）。 
+		*/
+		getCollisionManager(): CollisionManager;		
+		/**
+		!#en Returns the cc.PhysicsManager associated with this director.
+		!#zh 返回与 director 相关联的 cc.PhysicsManager （物理管理器）。 
+		*/
+		getPhysicsManager(): PhysicsManager;		
+		/**
+		!#en Returns the cc.Physics3DManager associated with this director.
+		!#zh 返回与 director 相关联的 cc.Physics3DManager （物理管理器）。 
+		*/
+		getPhysics3DManager(): Physics3DManager;		
+		/** !#en The event projection changed of cc.Director. This event will not get triggered since v2.0
+		!#zh cc.Director 投影变化的事件。从 v2.0 开始这个事件不会再被触发 */
+		static EVENT_PROJECTION_CHANGED: string;		
+		/** !#en The event which will be triggered before loading a new scene.
+		!#zh 加载新场景之前所触发的事件。 */
+		static EVENT_BEFORE_SCENE_LOADING: string;		
+		/** !#en The event which will be triggered before launching a new scene.
+		!#zh 运行新场景之前所触发的事件。 */
+		static EVENT_BEFORE_SCENE_LAUNCH: string;		
+		/** !#en The event which will be triggered after launching a new scene.
+		!#zh 运行新场景之后所触发的事件。 */
+		static EVENT_AFTER_SCENE_LAUNCH: string;		
+		/** !#en The event which will be triggered at the beginning of every frame.
+		!#zh 每个帧的开始时所触发的事件。 */
+		static EVENT_BEFORE_UPDATE: string;		
+		/** !#en The event which will be triggered after engine and components update logic.
+		!#zh 将在引擎和组件 “update” 逻辑之后所触发的事件。 */
+		static EVENT_AFTER_UPDATE: string;		
+		/** !#en The event is deprecated since v2.0, please use cc.Director.EVENT_BEFORE_DRAW instead
+		!#zh 这个事件从 v2.0 开始被废弃，请直接使用 cc.Director.EVENT_BEFORE_DRAW */
+		static EVENT_BEFORE_VISIT: string;		
+		/** !#en The event is deprecated since v2.0, please use cc.Director.EVENT_BEFORE_DRAW instead
+		!#zh 这个事件从 v2.0 开始被废弃，请直接使用 cc.Director.EVENT_BEFORE_DRAW */
+		static EVENT_AFTER_VISIT: string;		
+		/** !#en The event which will be triggered before the rendering process.
+		!#zh 渲染过程之前所触发的事件。 */
+		static EVENT_BEFORE_DRAW: string;		
+		/** !#en The event which will be triggered after the rendering process.
+		!#zh 渲染过程之后所触发的事件。 */
+		static EVENT_AFTER_DRAW: string;		
+		/** Constant for 2D projection (orthogonal projection) */
+		static PROJECTION_2D: number;		
+		/** Constant for 3D projection with a fovy=60, znear=0.5f and zfar=1500. */
+		static PROJECTION_3D: number;		
+		/** Constant for custom projection, if cc.Director's projection set to it, it calls "updateProjection" on the projection delegate. */
+		static PROJECTION_CUSTOM: number;		
+		/** Constant for default projection of cc.Director, default projection is 2D projection */
+		static PROJECTION_DEFAULT: number;	
+	}	
+	/** !#en
+	cc.Scene is a subclass of cc.Node that is used only as an abstract concept.<br/>
+	cc.Scene and cc.Node are almost identical with the difference that users can not modify cc.Scene manually.
+	!#zh
+	cc.Scene 是 cc.Node 的子类，仅作为一个抽象的概念。<br/>
+	cc.Scene 和 cc.Node 有点不同，用户不应直接修改 cc.Scene。 */
+	export class Scene extends Node {		
+		/** !#en Indicates whether all (directly or indirectly) static referenced assets of this scene are releasable by default after scene unloading.
+		!#zh 指示该场景中直接或间接静态引用到的所有资源是否默认在场景切换后自动释放。 */
+		autoReleaseAssets: boolean;	
+	}	
+	/** !#en
 	Class of private entities in Cocos Creator scenes.<br/>
 	The PrivateNode is hidden in editor, and completely transparent to users.<br/>
 	It's normally used as Node's private content created by components in parent node.<br/>
@@ -4183,17 +4103,6 @@ declare namespace cc {
 		constructor(name?: string);	
 	}	
 	/** !#en
-	cc.Scene is a subclass of cc.Node that is used only as an abstract concept.<br/>
-	cc.Scene and cc.Node are almost identical with the difference that users can not modify cc.Scene manually.
-	!#zh
-	cc.Scene 是 cc.Node 的子类，仅作为一个抽象的概念。<br/>
-	cc.Scene 和 cc.Node 有点不同，用户不应直接修改 cc.Scene。 */
-	export class Scene extends Node {		
-		/** !#en Indicates whether all (directly or indirectly) static referenced assets of this scene are releasable by default after scene unloading.
-		!#zh 指示该场景中直接或间接静态引用到的所有资源是否默认在场景切换后自动释放。 */
-		autoReleaseAssets: boolean;	
-	}	
-	/** !#en
 	Scheduler is responsible of triggering the scheduled callbacks.<br/>
 	You should not use NSTimer. Instead use this class.<br/>
 	<br/>
@@ -4212,9 +4121,9 @@ declare namespace cc {
 	如果希望每帧都触发，应该使用 update 定时器，使用 update 定时器更快，而且消耗更少的内存。 */
 	export class Scheduler {		
 		/**
-		!en This method should be called for any target which needs to schedule tasks, and this method should be called before any scheduler API usage.
+		!#en This method should be called for any target which needs to schedule tasks, and this method should be called before any scheduler API usage.
 		This method will add a `_id` property if it doesn't exist.
-		!zh 任何需要用 Scheduler 管理任务的对象主体都应该调用这个方法，并且应该在调用任何 Scheduler API 之前调用这个方法。
+		!#zh 任何需要用 Scheduler 管理任务的对象主体都应该调用这个方法，并且应该在调用任何 Scheduler API 之前调用这个方法。
 		这个方法会给对象添加一个 `_id` 属性，如果这个属性不存在的话。
 		@param target target 
 		*/
@@ -4326,7 +4235,7 @@ declare namespace cc {
 		You should NEVER call this method, unless you know what you are doing.
 		!#zh
 		取消所有对象的所有定时器，包括系统定时器。<br/>
-		不用调用此函数，除非你确定你在做什么。 
+		不要调用此函数，除非你确定你在做什么。 
 		*/
 		unscheduleAll(): void;		
 		/**
@@ -4413,6 +4322,889 @@ declare namespace cc {
 		!#zh 用户调度最低优先级。 */
 		static PRIORITY_NON_SYSTEM: number;	
 	}	
+	/** !#en Class for animation data handling.
+	!#zh 动画剪辑，用于存储动画数据。 */
+	export class AnimationClip extends Asset {		
+		/** !#en Duration of this animation.
+		!#zh 动画的持续时间。 */
+		duration: number;		
+		/** !#en FrameRate of this animation.
+		!#zh 动画的帧速率。 */
+		sample: number;		
+		/** !#en Speed of this animation.
+		!#zh 动画的播放速度。 */
+		speed: number;		
+		/** !#en WrapMode of this animation.
+		!#zh 动画的循环模式。 */
+		wrapMode: WrapMode;		
+		/** !#en Curve data.
+		!#zh 曲线数据。 */
+		curveData: any;		
+		/** !#en Event data.
+		!#zh 事件数据。 */
+		events: {frame: number, func: string, params: string[]}[];		
+		/**
+		!#en Crate clip with a set of sprite frames
+		!#zh 使用一组序列帧图片来创建动画剪辑
+		@param spriteFrames spriteFrames
+		@param sample sample
+		
+		@example 
+		```js
+		var clip = cc.AnimationClip.createWithSpriteFrames(spriteFrames, 10);
+		``` 
+		*/
+		static createWithSpriteFrames(spriteFrames: SpriteFrame[], sample: number): AnimationClip;	
+	}	
+	/** !#en
+	The AnimationState gives full control over animation playback process.
+	In most cases the Animation Component is sufficient and easier to use. Use the AnimationState if you need full control.
+	!#zh
+	AnimationState 完全控制动画播放过程。<br/>
+	大多数情况下 动画组件 是足够和易于使用的。如果您需要更多的动画控制接口，请使用 AnimationState。 */
+	export class AnimationState extends Playable {		
+		/**
+		
+		@param clip clip
+		@param name name 
+		*/
+		constructor(clip: AnimationClip, name?: string);		
+		/** !#en The curves list.
+		!#zh 曲线列表。 */
+		curves: any[];		
+		/** !#en The start delay which represents the number of seconds from an animation's start time to the start of
+		the active interval.
+		!#zh 延迟多少秒播放。 */
+		delay: number;		
+		/** !#en The animation's iteration count property.
+		
+		A real number greater than or equal to zero (including positive infinity) representing the number of times
+		to repeat the animation node.
+		
+		Values less than zero and NaN values are treated as the value 1.0 for the purpose of timing model
+		calculations.
+		
+		!#zh 迭代次数，指动画播放多少次后结束, normalize time。 如 2.5（2次半） */
+		repeatCount: number;		
+		/** !#en The iteration duration of this animation in seconds. (length)
+		!#zh 单次动画的持续时间，秒。 */
+		duration: number;		
+		/** !#en The animation's playback speed. 1 is normal playback speed.
+		!#zh 播放速率。 */
+		speed: number;		
+		/** !#en
+		Wrapping mode of the playing animation.
+		Notice : dynamic change wrapMode will reset time and repeatCount property
+		!#zh
+		动画循环方式。
+		需要注意的是，动态修改 wrapMode 时，会重置 time 以及 repeatCount */
+		wrapMode: WrapMode;		
+		/** !#en The current time of this animation in seconds.
+		!#zh 动画当前的时间，秒。 */
+		time: number;		
+		/** !#en The clip that is being played by this animation state.
+		!#zh 此动画状态正在播放的剪辑。 */
+		clip: AnimationClip;		
+		/** !#en The name of the playing animation.
+		!#zh 动画的名字 */
+		name: string;	
+	}	
+	/** !#en
+	This class provide easing methods for {{#crossLink "tween"}}{{/crossLink}} class.<br>
+	Demonstratio: https://easings.net/
+	!#zh
+	缓动函数类，为 {{#crossLink "Tween"}}{{/crossLink}} 提供缓动效果函数。<br>
+	函数效果演示： https://easings.net/ */
+	export class Easing {		
+		/**
+		!#en Easing in with quadratic formula. From slow to fast.
+		!#zh 平方曲线缓入函数。运动由慢到快。
+		@param t The current time as a percentage of the total time. 
+		*/
+		quadIn(t: number): number;		
+		/**
+		!#en Easing out with quadratic formula. From fast to slow.
+		!#zh 平方曲线缓出函数。运动由快到慢。
+		@param t The current time as a percentage of the total time. 
+		*/
+		quadOut(t: number): number;		
+		/**
+		!#en Easing in and out with quadratic formula. From slow to fast, then back to slow.
+		!#zh 平方曲线缓入缓出函数。运动由慢到快再到慢。
+		@param t The current time as a percentage of the total time. 
+		*/
+		quadInOut(t: number): number;		
+		/**
+		!#en Easing in with cubic formula. From slow to fast.
+		!#zh 立方曲线缓入函数。运动由慢到快。
+		@param t The current time as a percentage of the total time. 
+		*/
+		cubicIn(t: number): number;		
+		/**
+		!#en Easing out with cubic formula. From slow to fast.
+		!#zh 立方曲线缓出函数。运动由快到慢。
+		@param t The current time as a percentage of the total time. 
+		*/
+		cubicOut(t: number): number;		
+		/**
+		!#en Easing in and out with cubic formula. From slow to fast, then back to slow.
+		!#zh 立方曲线缓入缓出函数。运动由慢到快再到慢。
+		@param t The current time as a percentage of the total time. 
+		*/
+		cubicInOut(t: number): number;		
+		/**
+		!#en Easing in with quartic formula. From slow to fast.
+		!#zh 四次方曲线缓入函数。运动由慢到快。
+		@param t The current time as a percentage of the total time. 
+		*/
+		quartIn(t: number): number;		
+		/**
+		!#en Easing out with quartic formula. From fast to slow.
+		!#zh 四次方曲线缓出函数。运动由快到慢。
+		@param t The current time as a percentage of the total time. 
+		*/
+		quartOut(t: number): number;		
+		/**
+		!#en Easing in and out with quartic formula. From slow to fast, then back to slow.
+		!#zh 四次方曲线缓入缓出函数。运动由慢到快再到慢。
+		@param t The current time as a percentage of the total time. 
+		*/
+		quartInOut(t: number): number;		
+		/**
+		!#en Easing in with quintic formula. From slow to fast.
+		!#zh 五次方曲线缓入函数。运动由慢到快。
+		@param t The current time as a percentage of the total time. 
+		*/
+		quintIn(t: number): number;		
+		/**
+		!#en Easing out with quintic formula. From fast to slow.
+		!#zh 五次方曲线缓出函数。运动由快到慢。
+		@param t The current time as a percentage of the total time. 
+		*/
+		quintOut(t: number): number;		
+		/**
+		!#en Easing in and out with quintic formula. From slow to fast, then back to slow.
+		!#zh 五次方曲线缓入缓出函数。运动由慢到快再到慢。
+		@param t The current time as a percentage of the total time. 
+		*/
+		quintInOut(t: number): number;		
+		/**
+		!#en Easing in and out with sine formula. From slow to fast.
+		!#zh 正弦曲线缓入函数。运动由慢到快。
+		@param t The current time as a percentage of the total time. 
+		*/
+		sineIn(t: number): number;		
+		/**
+		!#en Easing in and out with sine formula. From fast to slow.
+		!#zh 正弦曲线缓出函数。运动由快到慢。
+		@param t The current time as a percentage of the total time. 
+		*/
+		sineOut(t: number): number;		
+		/**
+		!#en Easing in and out with sine formula. From slow to fast, then back to slow.
+		!#zh 正弦曲线缓入缓出函数。运动由慢到快再到慢。
+		@param t The current time as a percentage of the total time. 
+		*/
+		sineInOut(t: number): number;		
+		/**
+		!#en Easing in and out with exponential formula. From slow to fast.
+		!#zh 指数曲线缓入函数。运动由慢到快。
+		@param t The current time as a percentage of the total time. 
+		*/
+		expoIn(t: number): number;		
+		/**
+		!#en Easing in and out with exponential formula. From fast to slow.
+		!#zh 指数曲线缓出函数。运动由快到慢。
+		@param t The current time as a percentage of the total time. 
+		*/
+		expoOut(t: number): number;		
+		/**
+		!#en Easing in and out with exponential formula. From slow to fast.
+		!#zh 指数曲线缓入和缓出函数。运动由慢到很快再到慢。
+		@param t The current time as a percentage of the total time, then back to slow. 
+		*/
+		expoInOut(t: number): number;		
+		/**
+		!#en Easing in and out with circular formula. From slow to fast.
+		!#zh 循环公式缓入函数。运动由慢到快。
+		@param t The current time as a percentage of the total time. 
+		*/
+		circIn(t: number): number;		
+		/**
+		!#en Easing in and out with circular formula. From fast to slow.
+		!#zh 循环公式缓出函数。运动由快到慢。
+		@param t The current time as a percentage of the total time. 
+		*/
+		circOut(t: number): number;		
+		/**
+		!#en Easing in and out with circular formula. From slow to fast.
+		!#zh 指数曲线缓入缓出函数。运动由慢到很快再到慢。
+		@param t The current time as a percentage of the total time, then back to slow. 
+		*/
+		circInOut(t: number): number;		
+		/**
+		!#en Easing in action with a spring oscillating effect.
+		!#zh 弹簧回震效果的缓入函数。
+		@param t The current time as a percentage of the total time. 
+		*/
+		elasticIn(t: number): number;		
+		/**
+		!#en Easing out action with a spring oscillating effect.
+		!#zh 弹簧回震效果的缓出函数。
+		@param t The current time as a percentage of the total time. 
+		*/
+		elasticOut(t: number): number;		
+		/**
+		!#en Easing in and out action with a spring oscillating effect.
+		!#zh 弹簧回震效果的缓入缓出函数。
+		@param t The current time as a percentage of the total time. 
+		*/
+		elasticInOut(t: number): number;		
+		/**
+		!#en Easing in action with "back up" behavior.
+		!#zh 回退效果的缓入函数。
+		@param t The current time as a percentage of the total time. 
+		*/
+		backIn(t: number): number;		
+		/**
+		!#en Easing out action with "back up" behavior.
+		!#zh 回退效果的缓出函数。
+		@param t The current time as a percentage of the total time. 
+		*/
+		backOut(t: number): number;		
+		/**
+		!#en Easing in and out action with "back up" behavior.
+		!#zh 回退效果的缓入缓出函数。
+		@param t The current time as a percentage of the total time. 
+		*/
+		backInOut(t: number): number;		
+		/**
+		!#en Easing in action with bouncing effect.
+		!#zh 弹跳效果的缓入函数。
+		@param t The current time as a percentage of the total time. 
+		*/
+		bounceIn(t: number): number;		
+		/**
+		!#en Easing out action with bouncing effect.
+		!#zh 弹跳效果的缓出函数。
+		@param t The current time as a percentage of the total time. 
+		*/
+		bounceOut(t: number): number;		
+		/**
+		!#en Easing in and out action with bouncing effect.
+		!#zh 弹跳效果的缓入缓出函数。
+		@param t The current time as a percentage of the total time. 
+		*/
+		bounceInOut(t: number): number;		
+		/**
+		!#en Target will run action with smooth effect.
+		!#zh 平滑效果函数。
+		@param t The current time as a percentage of the total time. 
+		*/
+		smooth(t: number): number;		
+		/**
+		!#en Target will run action with fade effect.
+		!#zh 渐褪效果函数。
+		@param t The current time as a percentage of the total time. 
+		*/
+		fade(t: number): number;	
+	}	
+	/** undefined */
+	export class Playable {		
+		/** !#en Is playing or paused in play mode?
+		!#zh 当前是否正在播放。 */
+		isPlaying: boolean;		
+		/** !#en Is currently paused? This can be true even if in edit mode(isPlaying == false).
+		!#zh 当前是否正在暂停 */
+		isPaused: boolean;		
+		/**
+		!#en Play this animation.
+		!#zh 播放动画。 
+		*/
+		play(): void;		
+		/**
+		!#en Stop this animation.
+		!#zh 停止动画播放。 
+		*/
+		stop(): void;		
+		/**
+		!#en Pause this animation.
+		!#zh 暂停动画。 
+		*/
+		pause(): void;		
+		/**
+		!#en Resume this animation.
+		!#zh 重新播放动画。 
+		*/
+		resume(): void;		
+		/**
+		!#en Perform a single frame step.
+		!#zh 执行一帧动画。 
+		*/
+		step(): void;	
+	}	
+	/** !#en Specifies how time is treated when it is outside of the keyframe range of an Animation.
+	!#zh 动画使用的循环模式。 */
+	export enum WrapMode {		
+		Default = 0,
+		Normal = 0,
+		Reverse = 0,
+		Loop = 0,
+		LoopReverse = 0,
+		PingPong = 0,
+		PingPongReverse = 0,	
+	}	
+	/** !#en Render the TMX layer.
+	!#zh 渲染 TMX layer。 */
+	export class TiledLayer extends Component {		
+		/**
+		!#en enable or disable culling
+		!#zh 开启或关闭裁剪。
+		@param value value 
+		*/
+		enableCulling(value: any): void;		
+		/**
+		!#en Adds user's node into layer.
+		!#zh 添加用户节点。
+		@param node node 
+		*/
+		addUserNode(node: Node): boolean;		
+		/**
+		!#en Removes user's node.
+		!#zh 移除用户节点。
+		@param node node 
+		*/
+		removeUserNode(node: Node): boolean;		
+		/**
+		!#en Destroy user's node.
+		!#zh 销毁用户节点。
+		@param node node 
+		*/
+		destroyUserNode(node: Node): void;		
+		/**
+		!#en Gets the layer name.
+		!#zh 获取层的名称。
+		
+		@example 
+		```js
+		let layerName = tiledLayer.getLayerName();
+		cc.log(layerName);
+		``` 
+		*/
+		getLayerName(): string;		
+		/**
+		!#en Set the layer name.
+		!#zh 设置层的名称
+		@param layerName layerName
+		
+		@example 
+		```js
+		tiledLayer.setLayerName("New Layer");
+		``` 
+		*/
+		SetLayerName(layerName: string): void;		
+		/**
+		!#en Return the value for the specific property name.
+		!#zh 获取指定属性名的值。
+		@param propertyName propertyName
+		
+		@example 
+		```js
+		let property = tiledLayer.getProperty("info");
+		cc.log(property);
+		``` 
+		*/
+		getProperty(propertyName: string): any;		
+		/**
+		!#en Returns the position in pixels of a given tile coordinate.
+		!#zh 获取指定 tile 的像素坐标。
+		@param pos position or x
+		@param y y
+		
+		@example 
+		```js
+		let pos = tiledLayer.getPositionAt(cc.v2(0, 0));
+		cc.log("Pos: " + pos);
+		let pos = tiledLayer.getPositionAt(0, 0);
+		cc.log("Pos: " + pos);
+		``` 
+		*/
+		getPositionAt(pos: Vec2|number, y?: number): Vec2;		
+		/**
+		!#en
+		Sets the tiles gid (gid = tile global id) at a given tiles rect.
+		!#zh
+		设置给定区域的 tile 的 gid (gid = tile 全局 id)，
+		@param gids an array contains gid
+		@param beginCol begin col number
+		@param beginRow begin row number
+		@param totalCols count of column
+		
+		@example 
+		```js
+		tiledLayer.setTilesGIDAt([1, 1, 1, 1], 10, 10, 2)
+		``` 
+		*/
+		setTilesGIDAt(gids: any[], beginCol: number, beginRow: number, totalCols: number): void;		
+		/**
+		!#en
+		Sets the tile gid (gid = tile global id) at a given tile coordinate.<br />
+		The Tile GID can be obtained by using the method "tileGIDAt" or by using the TMX editor . Tileset Mgr +1.<br />
+		If a tile is already placed at that position, then it will be removed.
+		!#zh
+		设置给定坐标的 tile 的 gid (gid = tile 全局 id)，
+		tile 的 GID 可以使用方法 “tileGIDAt” 来获得。<br />
+		如果一个 tile 已经放在那个位置，那么它将被删除。
+		@param gid gid
+		@param posOrX position or x
+		@param flagsOrY flags or y
+		@param flags flags
+		
+		@example 
+		```js
+		tiledLayer.setTileGIDAt(1001, 10, 10, 1)
+		``` 
+		*/
+		setTileGIDAt(gid: number, posOrX: Vec2|number, flagsOrY: number, flags?: number): void;		
+		/**
+		!#en
+		Returns the tile gid at a given tile coordinate. <br />
+		if it returns 0, it means that the tile is empty. <br />
+		!#zh
+		通过给定的 tile 坐标、flags（可选）返回 tile 的 GID. <br />
+		如果它返回 0，则表示该 tile 为空。<br />
+		@param pos or x
+		@param y y
+		
+		@example 
+		```js
+		let tileGid = tiledLayer.getTileGIDAt(0, 0);
+		``` 
+		*/
+		getTileGIDAt(pos: Vec2|number, y?: number): number;		
+		/**
+		!#en Layer orientation, which is the same as the map orientation.
+		!#zh 获取 Layer 方向(同地图方向)。
+		
+		@example 
+		```js
+		let orientation = tiledLayer.getLayerOrientation();
+		cc.log("Layer Orientation: " + orientation);
+		``` 
+		*/
+		getLayerOrientation(): number;		
+		/**
+		!#en properties from the layer. They can be added using Tiled.
+		!#zh 获取 layer 的属性，可以使用 Tiled 编辑器添加属性。
+		
+		@example 
+		```js
+		let properties = tiledLayer.getProperties();
+		cc.log("Properties: " + properties);
+		``` 
+		*/
+		getProperties(): any;		
+		/**
+		!#en
+		Get the TiledTile with the tile coordinate.<br/>
+		If there is no tile in the specified coordinate and forceCreate parameter is true, <br/>
+		then will create a new TiledTile at the coordinate.
+		The renderer will render the tile with the rotation, scale, position and color property of the TiledTile.
+		!#zh
+		通过指定的 tile 坐标获取对应的 TiledTile。 <br/>
+		如果指定的坐标没有 tile，并且设置了 forceCreate 那么将会在指定的坐标创建一个新的 TiledTile 。<br/>
+		在渲染这个 tile 的时候，将会使用 TiledTile 的节点的旋转、缩放、位移、颜色属性。<br/>
+		@param x x
+		@param y y
+		@param forceCreate forceCreate
+		
+		@example 
+		```js
+		let tile = tiledLayer.getTiledTileAt(100, 100, true);
+		cc.log(tile);
+		``` 
+		*/
+		getTiledTileAt(x: number, y: number, forceCreate: boolean): TiledTile;		
+		/**
+		!#en
+		Change tile to TiledTile at the specified coordinate.
+		!#zh
+		将指定的 tile 坐标替换为指定的 TiledTile。
+		@param x x
+		@param y y
+		@param tiledTile tiledTile 
+		*/
+		setTiledTileAt(x: number, y: number, tiledTile: TiledTile): TiledTile;		
+		/**
+		!#en Return texture.
+		!#zh 获取纹理。
+		@param index The index of textures 
+		*/
+		getTexture(index: any): Texture2D;		
+		/**
+		!#en Return texture.
+		!#zh 获取纹理。 
+		*/
+		getTextures(): Texture2D;		
+		/**
+		!#en Set the texture.
+		!#zh 设置纹理。
+		@param texture texture 
+		*/
+		setTexture(texture: Texture2D): void;		
+		/**
+		!#en Set the texture.
+		!#zh 设置纹理。
+		@param textures textures 
+		*/
+		setTexture(textures: Texture2D): void;		
+		/**
+		!#en Gets layer size.
+		!#zh 获得层大小。
+		
+		@example 
+		```js
+		let size = tiledLayer.getLayerSize();
+		cc.log("layer size: " + size);
+		``` 
+		*/
+		getLayerSize(): Size;		
+		/**
+		!#en Size of the map's tile (could be different from the tile's size).
+		!#zh 获取 tile 的大小( tile 的大小可能会有所不同)。
+		
+		@example 
+		```js
+		let mapTileSize = tiledLayer.getMapTileSize();
+		cc.log("MapTile size: " + mapTileSize);
+		``` 
+		*/
+		getMapTileSize(): Size;		
+		/**
+		!#en Gets Tile set first information for the layer.
+		!#zh 获取 layer 索引位置为0的 Tileset 信息。
+		@param index The index of tilesets 
+		*/
+		getTileSet(index: any): TMXTilesetInfo;		
+		/**
+		!#en Gets tile set all information for the layer.
+		!#zh 获取 layer 所有的 Tileset 信息。 
+		*/
+		getTileSet(): TMXTilesetInfo;		
+		/**
+		!#en Sets tile set information for the layer.
+		!#zh 设置 layer 的 tileset 信息。
+		@param tileset tileset 
+		*/
+		setTileSet(tileset: TMXTilesetInfo): void;		
+		/**
+		!#en Sets Tile set information for the layer.
+		!#zh 设置 layer 的 Tileset 信息。
+		@param tilesets tilesets 
+		*/
+		setTileSets(tilesets: TMXTilesetInfo): void;	
+	}	
+	/** cc.TMXLayerInfo contains the information about the layers like:
+	- Layer name
+	- Layer size
+	- Layer opacity at creation time (it can be modified at runtime)
+	- Whether the layer is visible (if it's not visible, then the CocosNode won't be created)
+	This information is obtained from the TMX file. */
+	export class TMXLayerInfo {		
+		/** Properties of the layer info. */
+		properties: any;	
+	}	
+	/** cc.TMXImageLayerInfo contains the information about the image layers.
+	This information is obtained from the TMX file. */
+	export class TMXImageLayerInfo {	
+	}	
+	/** <p>cc.TMXObjectGroupInfo contains the information about the object group like:
+	- group name
+	- group size
+	- group opacity at creation time (it can be modified at runtime)
+	- Whether the group is visible
+	
+	This information is obtained from the TMX file.</p> */
+	export class TMXObjectGroupInfo {		
+		/** Properties of the ObjectGroup info. */
+		properties: any[];	
+	}	
+	/** <p>cc.TMXTilesetInfo contains the information about the tilesets like: <br />
+	- Tileset name<br />
+	- Tileset spacing<br />
+	- Tileset margin<br />
+	- size of the tiles<br />
+	- Image used for the tiles<br />
+	- Image size<br />
+	
+	This information is obtained from the TMX file. </p> */
+	export class TMXTilesetInfo {		
+		/** Tileset name */
+		name: string;		
+		/** First grid */
+		firstGid: number;		
+		/** Spacing */
+		spacing: number;		
+		/** Margin */
+		margin: number;		
+		/** Texture containing the tiles (should be sprite sheet / texture atlas) */
+		sourceImage: any;		
+		/** Size in pixels of the image */
+		imageSize: Size;	
+	}	
+	/** <p>cc.TMXMapInfo contains the information about the map like: <br/>
+	- Map orientation (hexagonal, isometric or orthogonal)<br/>
+	- Tile size<br/>
+	- Map size</p>
+	
+	<p>And it also contains: <br/>
+	- Layers (an array of TMXLayerInfo objects)<br/>
+	- Tilesets (an array of TMXTilesetInfo objects) <br/>
+	- ObjectGroups (an array of TMXObjectGroupInfo objects) </p>
+	
+	<p>This information is obtained from the TMX file. </p> */
+	export class TMXMapInfo {		
+		/** Properties of the map info. */
+		properties: any[];		
+		/** Map orientation. */
+		orientation: number;		
+		/** Parent element. */
+		parentElement: any;		
+		/** Parent GID. */
+		parentGID: number;		
+		/** Layer attributes. */
+		layerAttrs: any;		
+		/** Is reading storing characters stream. */
+		storingCharacters: boolean;		
+		/** Current string stored from characters stream. */
+		currentString: string;		
+		/** Width of the map */
+		mapWidth: number;		
+		/** Height of the map */
+		mapHeight: number;		
+		/** Width of a tile */
+		tileWidth: number;		
+		/** Height of a tile */
+		tileHeight: number;		
+		static ATTRIB_NONE: number;		
+		static ATTRIB_BASE64: number;		
+		static ATTRIB_GZIP: number;		
+		static ATTRIB_ZLIB: number;	
+	}	
+	/** !#en Renders a TMX Tile Map in the scene.
+	!#zh 在场景中渲染一个 tmx 格式的 Tile Map。 */
+	export class TiledMap extends Component {		
+		/** !#en The TiledMap Asset.
+		!#zh TiledMap 资源。 */
+		tmxAsset: TiledMapAsset;		
+		/**
+		!#en Gets the map size.
+		!#zh 获取地图大小。
+		
+		@example 
+		```js
+		let mapSize = tiledMap.getMapSize();
+		cc.log("Map Size: " + mapSize);
+		``` 
+		*/
+		getMapSize(): Size;		
+		/**
+		!#en Gets the tile size.
+		!#zh 获取地图背景中 tile 元素的大小。
+		
+		@example 
+		```js
+		let tileSize = tiledMap.getTileSize();
+		cc.log("Tile Size: " + tileSize);
+		``` 
+		*/
+		getTileSize(): Size;		
+		/**
+		!#en map orientation.
+		!#zh 获取地图方向。
+		
+		@example 
+		```js
+		let mapOrientation = tiledMap.getMapOrientation();
+		cc.log("Map Orientation: " + mapOrientation);
+		``` 
+		*/
+		getMapOrientation(): number;		
+		/**
+		!#en object groups.
+		!#zh 获取所有的对象层。
+		
+		@example 
+		```js
+		let objGroups = titledMap.getObjectGroups();
+		for (let i = 0; i < objGroups.length; ++i) {
+		    cc.log("obj: " + objGroups[i]);
+		}
+		``` 
+		*/
+		getObjectGroups(): TiledObjectGroup[];		
+		/**
+		!#en Return the TMXObjectGroup for the specific group.
+		!#zh 获取指定的 TMXObjectGroup。
+		@param groupName groupName
+		
+		@example 
+		```js
+		let group = titledMap.getObjectGroup("Players");
+		cc.log("ObjectGroup: " + group);
+		``` 
+		*/
+		getObjectGroup(groupName: string): TiledObjectGroup;		
+		/**
+		!#en enable or disable culling
+		!#zh 开启或关闭裁剪。
+		@param value value 
+		*/
+		enableCulling(value: any): void;		
+		/**
+		!#en Gets the map properties.
+		!#zh 获取地图的属性。
+		
+		@example 
+		```js
+		let properties = titledMap.getProperties();
+		for (let i = 0; i < properties.length; ++i) {
+		    cc.log("Properties: " + properties[i]);
+		}
+		``` 
+		*/
+		getProperties(): any[];		
+		/**
+		!#en Return All layers array.
+		!#zh 返回包含所有 layer 的数组。
+		
+		@example 
+		```js
+		let layers = titledMap.getLayers();
+		for (let i = 0; i < layers.length; ++i) {
+		    cc.log("Layers: " + layers[i]);
+		}
+		``` 
+		*/
+		getLayers(): TiledLayer[];		
+		/**
+		!#en return the cc.TiledLayer for the specific layer.
+		!#zh 获取指定名称的 layer。
+		@param layerName layerName
+		
+		@example 
+		```js
+		let layer = titledMap.getLayer("Player");
+		cc.log(layer);
+		``` 
+		*/
+		getLayer(layerName: string): TiledLayer;		
+		/**
+		!#en Return the value for the specific property name.
+		!#zh 通过属性名称，获取指定的属性。
+		@param propertyName propertyName
+		
+		@example 
+		```js
+		let property = titledMap.getProperty("info");
+		cc.log("Property: " + property);
+		``` 
+		*/
+		getProperty(propertyName: string): string;		
+		/**
+		!#en Return properties dictionary for tile GID.
+		!#zh 通过 GID ，获取指定的属性。
+		@param GID GID
+		
+		@example 
+		```js
+		let properties = titledMap.getPropertiesForGID(GID);
+		cc.log("Properties: " + properties);
+		``` 
+		*/
+		getPropertiesForGID(GID: number): any;	
+	}	
+	/** !#en Renders the TMX object group.
+	!#zh 渲染 tmx object group。 */
+	export class TiledObjectGroup extends Component {		
+		/**
+		!#en Offset position of child objects.
+		!#zh 获取子对象的偏移位置。
+		
+		@example 
+		```js
+		let offset = tMXObjectGroup.getPositionOffset();
+		``` 
+		*/
+		getPositionOffset(): Vec2;		
+		/**
+		!#en List of properties stored in a dictionary.
+		!#zh 以映射的形式获取属性列表。
+		
+		@example 
+		```js
+		let offset = tMXObjectGroup.getProperties();
+		``` 
+		*/
+		getProperties(): any;		
+		/**
+		!#en Gets the Group name.
+		!#zh 获取组名称。
+		
+		@example 
+		```js
+		let groupName = tMXObjectGroup.getGroupName;
+		``` 
+		*/
+		getGroupName(): string;		
+		/**
+		!#en
+		Return the object for the specific object name. <br />
+		It will return the 1st object found on the array for the given name.
+		!#zh 获取指定的对象。
+		@param objectName objectName
+		
+		@example 
+		```js
+		let object = tMXObjectGroup.getObject("Group");
+		``` 
+		*/
+		getObject(objectName: string): any;		
+		/**
+		!#en Gets the objects.
+		!#zh 获取对象数组。
+		
+		@example 
+		```js
+		let objects = tMXObjectGroup.getObjects();
+		``` 
+		*/
+		getObjects(): any[];	
+	}	
+	/** Class for tiled map asset handling. */
+	export class TiledMapAsset extends Asset {		
+		textures: Texture2D[];		
+		textureNames: string[];		
+		textureSizes: Size[];		
+		imageLayerTextures: Texture2D[];		
+		imageLayerTextureNames: string[];	
+	}	
+	/** !#en TiledTile can control the specified map tile.
+	It will apply the node rotation, scale, translate to the map tile.
+	You can change the TiledTile's gid to change the map tile's style.
+	!#zh TiledTile 可以单独对某一个地图块进行操作。
+	他会将节点的旋转，缩放，平移操作应用在这个地图块上，并可以通过更换当前地图块的 gid 来更换地图块的显示样式。 */
+	export class TiledTile extends Component {		
+		/** !#en Specify the TiledTile horizontal coordinate，use map tile as the unit.
+		!#zh 指定 TiledTile 的横向坐标，以地图块为单位 */
+		x: number;		
+		/** !#en Specify the TiledTile vertical coordinate，use map tile as the unit.
+		!#zh 指定 TiledTile 的纵向坐标，以地图块为单位 */
+		y: number;		
+		/** !#en Specify the TiledTile gid.
+		!#zh 指定 TiledTile 的 gid 值 */
+		gid: number;	
+	}	
 	/** Class for particle asset handling. */
 	export class ParticleAsset extends Asset {	
 	}	
@@ -4450,7 +5242,7 @@ declare namespace cc {
 	 - radial acceleration (Gravity mode)                                   <br/>
 	 - radius direction (Radius mode) (Particle Designer supports outwards to inwards direction only) <br/>
 	It is possible to customize any of the above mentioned properties in runtime. Example:   <br/> */
-	export class ParticleSystem extends RenderComponent {		
+	export class ParticleSystem extends RenderComponent implements BlendFunc {		
 		/** !#en Play particle in edit mode.
 		!#zh 在编辑器模式下预览粒子，启用后选中粒子时，粒子将自动播放。 */
 		preview: boolean;		
@@ -4460,7 +5252,7 @@ declare namespace cc {
 		custom: boolean;		
 		/** !#en The plist file.
 		!#zh plist 格式的粒子配置文件。 */
-		file: string;		
+		file: ParticleAsset;		
 		/** !#en SpriteFrame used for particles display
 		!#zh 用于粒子呈现的 SpriteFrame */
 		spriteFrame: SpriteFrame;		
@@ -4499,16 +5291,16 @@ declare namespace cc {
 		lifeVar: number;		
 		/** !#en Start color of each particle.
 		!#zh 粒子初始颜色。 */
-		startColor: cc.Color;		
+		startColor: Color;		
 		/** !#en Variation of the start color.
 		!#zh 粒子初始颜色变化范围。 */
-		startColorVar: cc.Color;		
+		startColorVar: Color;		
 		/** !#en Ending color of each particle.
 		!#zh 粒子结束颜色。 */
-		endColor: cc.Color;		
+		endColor: Color;		
 		/** !#en Variation of the end color.
 		!#zh 粒子结束颜色变化范围。 */
-		endColorVar: cc.Color;		
+		endColorVar: Color;		
 		/** !#en Angle of each particle setter.
 		!#zh 粒子角度。 */
 		angle: number;		
@@ -4637,419 +5429,13 @@ declare namespace cc {
 		@param texture texture
 		@param rect rect 
 		*/
-		setTextureWithRect(texture: Texture2D, rect: Rect): void;	
-	}	
-	/** !#en Render the TMX layer.
-	!#zh 渲染 TMX layer。 */
-	export class TiledLayer extends Component {		
-		/**
-		!#en Gets the layer name.
-		!#zh 获取层的名称。
-		
-		@example 
-		```js
-		let layerName = tiledLayer.getLayerName();
-		cc.log(layerName);
-		``` 
-		*/
-		getLayerName(): string;		
-		/**
-		!#en Set the layer name.
-		!#zh 设置层的名称
-		@param layerName layerName
-		
-		@example 
-		```js
-		tiledLayer.setLayerName("New Layer");
-		``` 
-		*/
-		SetLayerName(layerName: string): void;		
-		/**
-		!#en Return the value for the specific property name.
-		!#zh 获取指定属性名的值。
-		@param propertyName propertyName
-		
-		@example 
-		```js
-		let property = tiledLayer.getProperty("info");
-		cc.log(property);
-		``` 
-		*/
-		getProperty(propertyName: string): any;		
-		/**
-		!#en Returns the position in pixels of a given tile coordinate.
-		!#zh 获取指定 tile 的像素坐标。
-		@param pos position or x
-		@param y y
-		
-		@example 
-		```js
-		let pos = tiledLayer.getPositionAt(cc.v2(0, 0));
-		cc.log("Pos: " + pos);
-		let pos = tiledLayer.getPositionAt(0, 0);
-		cc.log("Pos: " + pos);
-		``` 
-		*/
-		getPositionAt(pos: Vec2|number, y?: number): Vec2;		
-		/**
-		!#en
-		Sets the tile gid (gid = tile global id) at a given tile coordinate.<br />
-		The Tile GID can be obtained by using the method "tileGIDAt" or by using the TMX editor . Tileset Mgr +1.<br />
-		If a tile is already placed at that position, then it will be removed.
-		!#zh
-		设置给定坐标的 tile 的 gid (gid = tile 全局 id)，
-		tile 的 GID 可以使用方法 “tileGIDAt” 来获得。<br />
-		如果一个 tile 已经放在那个位置，那么它将被删除。
-		@param gid gid
-		@param posOrX position or x
-		@param flagsOrY flags or y
-		@param flags flags
-		
-		@example 
-		```js
-		tiledLayer.setTileGIDAt(1001, 10, 10, 1)
-		``` 
-		*/
-		setTileGIDAt(gid: number, posOrX: Vec2|number, flagsOrY: number, flags?: number): void;		
-		/**
-		!#en
-		Returns the tile gid at a given tile coordinate. <br />
-		if it returns 0, it means that the tile is empty. <br />
-		!#zh
-		通过给定的 tile 坐标、flags（可选）返回 tile 的 GID. <br />
-		如果它返回 0，则表示该 tile 为空。<br />
-		@param pos or x
-		@param y y
-		
-		@example 
-		```js
-		let tileGid = tiledLayer.getTileGIDAt(0, 0);
-		``` 
-		*/
-		getTileGIDAt(pos: Vec2|number, y?: number): number;		
-		/**
-		!#en
-		Get the TiledTile with the tile coordinate.<br/>
-		If there is no tile in the specified coordinate and forceCreate parameter is true, <br/>
-		then will create a new TiledTile at the coordinate.
-		The renderer will render the tile with the rotation, scale, position and color property of the TiledTile.
-		!#zh
-		通过指定的 tile 坐标获取对应的 TiledTile。 <br/>
-		如果指定的坐标没有 tile，并且设置了 forceCreate 那么将会在指定的坐标创建一个新的 TiledTile 。<br/>
-		在渲染这个 tile 的时候，将会使用 TiledTile 的节点的旋转、缩放、位移、颜色属性。<br/>
-		@param x x
-		@param y y
-		@param forceCreate forceCreate
-		
-		@example 
-		```js
-		let tile = tiledLayer.getTiledTileAt(100, 100, true);
-		cc.log(tile);
-		``` 
-		*/
-		getTiledTileAt(x: number, y: number, forceCreate: boolean): cc.TiledTile;		
-		/**
-		!#en
-		Change tile to TiledTile at the specified coordinate.
-		!#zh
-		将指定的 tile 坐标替换为指定的 TiledTile。
-		@param x x
-		@param y y
-		@param tiledTile tiledTile 
-		*/
-		setTiledTileAt(x: number, y: number, tiledTile: cc.TiledTile): cc.TiledTile;		
-		/**
-		!#en Return texture of cc.SpriteBatchNode.
-		!#zh 获取纹理。
-		
-		@example 
-		```js
-		let texture = tiledLayer.getTexture();
-		cc.log("Texture: " + texture);
-		``` 
-		*/
-		getTexture(): Texture2D;		
-		/**
-		!#en Set the texture of cc.SpriteBatchNode.
-		!#zh 设置纹理。
-		@param texture texture
-		
-		@example 
-		```js
-		tiledLayer.setTexture(texture);
-		``` 
-		*/
-		setTexture(texture: Texture2D): void;		
-		/**
-		!#en Gets layer size.
-		!#zh 获得层大小。
-		
-		@example 
-		```js
-		let size = tiledLayer.getLayerSize();
-		cc.log("layer size: " + size);
-		``` 
-		*/
-		getLayerSize(): Size;		
-		/**
-		!#en Size of the map's tile (could be different from the tile's size).
-		!#zh 获取 tile 的大小( tile 的大小可能会有所不同)。
-		
-		@example 
-		```js
-		let mapTileSize = tiledLayer.getMapTileSize();
-		cc.log("MapTile size: " + mapTileSize);
-		``` 
-		*/
-		getMapTileSize(): Size;		
-		/**
-		!#en Tile set information for the layer.
-		!#zh 获取 layer 的 Tileset 信息。
-		
-		@example 
-		```js
-		let tileset = tiledLayer.getTileSet();
-		``` 
-		*/
-		getTileSet(): TMXTilesetInfo;		
-		/**
-		!#en Tile set information for the layer.
-		!#zh 设置 layer 的 Tileset 信息。
-		@param tileset tileset
-		
-		@example 
-		```js
-		tiledLayer.setTileSet(tileset);
-		``` 
-		*/
-		setTileSet(tileset: TMXTilesetInfo): void;		
-		/**
-		!#en Layer orientation, which is the same as the map orientation.
-		!#zh 获取 Layer 方向(同地图方向)。
-		
-		@example 
-		```js
-		let orientation = tiledLayer.getLayerOrientation();
-		cc.log("Layer Orientation: " + orientation);
-		``` 
-		*/
-		getLayerOrientation(): number;		
-		/**
-		!#en properties from the layer. They can be added using Tiled.
-		!#zh 获取 layer 的属性，可以使用 Tiled 编辑器添加属性。
-		
-		@example 
-		```js
-		let properties = tiledLayer.getProperties();
-		cc.log("Properties: " + properties);
-		``` 
-		*/
-		getProperties(): any[];	
-	}	
-	/** !#en Renders a TMX Tile Map in the scene.
-	!#zh 在场景中渲染一个 tmx 格式的 Tile Map。 */
-	export class TiledMap extends Component {		
-		/** !#en The TiledMap Asset.
-		!#zh TiledMap 资源。 */
-		tmxAsset: TiledMapAsset;		
-		/**
-		!#en Gets the map size.
-		!#zh 获取地图大小。
-		
-		@example 
-		```js
-		let mapSize = tiledMap.getMapSize();
-		cc.log("Map Size: " + mapSize);
-		``` 
-		*/
-		getMapSize(): Size;		
-		/**
-		!#en Gets the tile size.
-		!#zh 获取地图背景中 tile 元素的大小。
-		
-		@example 
-		```js
-		let tileSize = tiledMap.getTileSize();
-		cc.log("Tile Size: " + tileSize);
-		``` 
-		*/
-		getTileSize(): Size;		
-		/**
-		!#en map orientation.
-		!#zh 获取地图方向。
-		
-		@example 
-		```js
-		let mapOrientation = tiledMap.getMapOrientation();
-		cc.log("Map Orientation: " + mapOrientation);
-		``` 
-		*/
-		getMapOrientation(): number;		
-		/**
-		!#en object groups.
-		!#zh 获取所有的对象层。
-		
-		@example 
-		```js
-		let objGroups = titledMap.getObjectGroups();
-		for (let i = 0; i < objGroups.length; ++i) {
-		    cc.log("obj: " + objGroups[i]);
-		}
-		``` 
-		*/
-		getObjectGroups(): TiledObjectGroup[];		
-		/**
-		!#en Return the TMXObjectGroup for the specific group.
-		!#zh 获取指定的 TMXObjectGroup。
-		@param groupName groupName
-		
-		@example 
-		```js
-		let group = titledMap.getObjectGroup("Players");
-		cc.log("ObjectGroup: " + group);
-		``` 
-		*/
-		getObjectGroup(groupName: string): TiledObjectGroup;		
-		/**
-		!#en Gets the map properties.
-		!#zh 获取地图的属性。
-		
-		@example 
-		```js
-		let properties = titledMap.getProperties();
-		for (let i = 0; i < properties.length; ++i) {
-		    cc.log("Properties: " + properties[i]);
-		}
-		``` 
-		*/
-		getProperties(): any[];		
-		/**
-		!#en Return All layers array.
-		!#zh 返回包含所有 layer 的数组。
-		
-		@example 
-		```js
-		let layers = titledMap.allLayers();
-		for (let i = 0; i < layers.length; ++i) {
-		    cc.log("Layers: " + layers[i]);
-		}
-		``` 
-		*/
-		getLayers(): TiledLayer[];		
-		/**
-		!#en return the cc.TiledLayer for the specific layer.
-		!#zh 获取指定名称的 layer。
-		@param layerName layerName
-		
-		@example 
-		```js
-		let layer = titledMap.getLayer("Player");
-		cc.log(layer);
-		``` 
-		*/
-		getLayer(layerName: string): TiledLayer;		
-		/**
-		!#en Return the value for the specific property name.
-		!#zh 通过属性名称，获取指定的属性。
-		@param propertyName propertyName
-		
-		@example 
-		```js
-		let property = titledMap.getProperty("info");
-		cc.log("Property: " + property);
-		``` 
-		*/
-		getProperty(propertyName: string): string;		
-		/**
-		!#en Return properties dictionary for tile GID.
-		!#zh 通过 GID ，获取指定的属性。
-		@param GID GID
-		
-		@example 
-		```js
-		let properties = titledMap.getPropertiesForGID(GID);
-		cc.log("Properties: " + properties);
-		``` 
-		*/
-		getPropertiesForGID(GID: number): any;	
-	}	
-	/** Class for tiled map asset handling. */
-	export class TiledMapAsset extends Asset {		
-		textures: Texture2D[];		
-		textureNames: string[];	
-	}	
-	/** !#en Renders the TMX object group.
-	!#zh 渲染 tmx object group。 */
-	export class TiledObjectGroup extends Component {		
-		/**
-		!#en Offset position of child objects.
-		!#zh 获取子对象的偏移位置。
-		
-		@example 
-		```js
-		let offset = tMXObjectGroup.getPositionOffset();
-		``` 
-		*/
-		getPositionOffset(): Vec2;		
-		/**
-		!#en List of properties stored in a dictionary.
-		!#zh 以映射的形式获取属性列表。
-		
-		@example 
-		```js
-		let offset = tMXObjectGroup.getProperties();
-		``` 
-		*/
-		getProperties(): any;		
-		/**
-		!#en Gets the Group name.
-		!#zh 获取组名称。
-		
-		@example 
-		```js
-		let groupName = tMXObjectGroup.getGroupName;
-		``` 
-		*/
-		getGroupName(): string;		
-		/**
-		!#en
-		Return the object for the specific object name. <br />
-		It will return the 1st object found on the array for the given name.
-		!#zh 获取指定的对象。
-		@param objectName objectName
-		
-		@example 
-		```js
-		let object = tMXObjectGroup.getObject("Group");
-		``` 
-		*/
-		getObject(objectName: string): any;		
-		/**
-		!#en Gets the objects.
-		!#zh 获取对象数组。
-		
-		@example 
-		```js
-		let objects = tMXObjectGroup.getObjects();
-		``` 
-		*/
-		getObjects(): any[];	
-	}	
-	/** !#en TiledTile can control the specified map tile.
-	It will apply the node rotation, scale, translate to the map tile.
-	You can change the TiledTile's gid to change the map tile's style.
-	!#zh TiledTile 可以单独对某一个地图块进行操作。
-	他会将节点的旋转，缩放，平移操作应用在这个地图块上，并可以通过更换当前地图块的 gid 来更换地图块的显示样式。 */
-	export class TiledTile extends Component {		
-		/** !#en Specify the TiledTile horizontal coordinate，use map tile as the unit.
-		!#zh 指定 TiledTile 的横向坐标，以地图块为单位 */
-		x: number;		
-		/** !#en Specify the TiledTile vertical coordinate，use map tile as the unit.
-		!#zh 指定 TiledTile 的纵向坐标，以地图块为单位 */
-		y: number;		
-		/** !#en Specify the TiledTile gid.
-		!#zh 指定 TiledTile 的 gid 值 */
-		gid: number;	
+		setTextureWithRect(texture: Texture2D, rect: Rect): void;		
+		/** !#en specify the source Blend Factor, this will generate a custom material object, please pay attention to the memory cost.
+		!#zh 指定原图的混合模式，这会克隆一个新的材质对象，注意这带来的开销 */
+		srcBlendFactor: macro.BlendFactor;		
+		/** !#en specify the destination Blend Factor.
+		!#zh 指定目标的混合模式 */
+		dstBlendFactor: macro.BlendFactor;	
 	}	
 	/** !#en cc.VideoPlayer is a component for playing videos, you can use it for showing videos in your game. Because different platforms have different authorization, API and control methods for VideoPlayer component. And have not yet formed a unified standard, only Web, iOS, and Android platforms are currently supported.
 	!#zh Video 组件，用于在游戏中播放视频。由于不同平台对于 VideoPlayer 组件的授权、API、控制方式都不同，还没有形成统一的标准，所以目前只支持 Web、iOS 和 Android 平台。 */
@@ -5078,6 +5464,9 @@ declare namespace cc {
 		/** !#en Whether play video in fullscreen mode.
 		!#zh 是否全屏播放视频 */
 		isFullscreen: boolean;		
+		/** !#en Always below the game view (only useful on Web. Note: The specific effects are not guaranteed to be consistent, depending on whether each browser supports or restricts).
+		!#zh 永远在游戏视图最底层（这个属性只有在 Web 平台上有效果。注意：具体效果无法保证一致，跟各个浏览器是否支持与限制有关） */
+		stayOnBottom: boolean;		
 		/** !#en the video player's callback, it will be triggered when certain event occurs, like: playing, paused, stopped and completed.
 		!#zh 视频播放回调函数，该回调函数会在特定情况被触发，比如播放中，暂时，停止和完成播放。 */
 		videoPlayerEvent: Component.EventHandler[];		
@@ -5193,11 +5582,947 @@ declare namespace cc {
 	/** !#en The Light Component
 	
 	!#zh 光源组件 */
-	export class Light extends CCComponent {	
+	export class Light extends Component {	
+	}	
+	/** !#en
+	Camera is usefull when making reel game or other games which need scroll screen.
+	Using camera will be more efficient than moving node to scroll screen.
+	Camera
+	!#zh
+	摄像机在制作卷轴或是其他需要移动屏幕的游戏时比较有用，使用摄像机将会比移动节点来移动屏幕更加高效。 */
+	export class Camera extends Component {		
+		/** !#en
+		The camera zoom ratio, only support 2D camera.
+		!#zh
+		摄像机缩放比率, 只支持 2D camera。 */
+		zoomRatio: number;		
+		/** !#en
+		Field of view. The width of the Camera’s view angle, measured in degrees along the local Y axis.
+		!#zh
+		决定摄像机视角的宽度，当摄像机处于透视投影模式下这个属性才会生效。 */
+		fov: number;		
+		/** !#en
+		The viewport size of the Camera when set to orthographic projection.
+		!#zh
+		摄像机在正交投影模式下的视窗大小。 */
+		orthoSize: number;		
+		/** !#en
+		The near clipping plane.
+		!#zh
+		摄像机的近剪裁面。 */
+		nearClip: number;		
+		/** !#en
+		The far clipping plane.
+		!#zh
+		摄像机的远剪裁面。 */
+		farClip: number;		
+		/** !#en
+		Is the camera orthographic (true) or perspective (false)?
+		!#zh
+		设置摄像机的投影模式是正交还是透视模式。 */
+		ortho: boolean;		
+		/** !#en
+		Four values (0 ~ 1) that indicate where on the screen this camera view will be drawn.
+		!#zh
+		决定摄像机绘制在屏幕上哪个位置，值为（0 ~ 1）。 */
+		rect: Rect;		
+		/** !#en
+		This is used to render parts of the scene selectively.
+		!#zh
+		决定摄像机会渲染场景的哪一部分。 */
+		cullingMask: number;		
+		/** !#en
+		Determining what to clear when camera rendering.
+		!#zh
+		决定摄像机渲染时会清除哪些状态。 */
+		clearFlags: Camera.ClearFlags;		
+		/** !#en
+		The color with which the screen will be cleared.
+		!#zh
+		摄像机用于清除屏幕的背景色。 */
+		backgroundColor: Color;		
+		/** !#en
+		Camera's depth in the camera rendering order. Cameras with higher depth are rendered after cameras with lower depth.
+		!#zh
+		摄像机深度。用于决定摄像机的渲染顺序，值越大渲染在越上层。 */
+		depth: number;		
+		/** !#en
+		Destination render texture.
+		Usually cameras render directly to screen, but for some effects it is useful to make a camera render into a texture.
+		!#zh
+		摄像机渲染的目标 RenderTexture。
+		一般摄像机会直接渲染到屏幕上，但是有一些效果可以使用摄像机渲染到 RenderTexture 上再对 RenderTexture 进行处理来实现。 */
+		targetTexture: RenderTexture;		
+		/** !#en
+		Sets the camera's render stages.
+		!#zh
+		设置摄像机渲染的阶段 */
+		renderStages: number;		
+		/** !#en Whether auto align camera viewport to screen
+		!#zh 是否自动将摄像机的视口对准屏幕 */
+		alignWithScreen: boolean;		
+		/** !#en
+		The primary camera in the scene. Returns the rear most rendered camera, which is the camera with the lowest depth.
+		!#zh
+		当前场景中激活的主摄像机。将会返回渲染在屏幕最底层，也就是 depth 最小的摄像机。 */
+		static main: Camera;		
+		/** !#en
+		All enabled cameras.
+		!#zh
+		当前激活的所有摄像机。 */
+		static cameras: Camera[];		
+		/**
+		!#en
+		Get the first camera which the node belong to.
+		!#zh
+		获取节点所在的第一个摄像机。
+		@param node node 
+		*/
+		static findCamera(node: Node): Camera;		
+		/**
+		!#en
+		Get the screen to world matrix, only support 2D camera which alignWithScreen is true.
+		!#zh
+		获取屏幕坐标系到世界坐标系的矩阵，只适用于 alignWithScreen 为 true 的 2D 摄像机。
+		@param out the matrix to receive the result 
+		*/
+		getScreenToWorldMatrix2D(out: Mat4): Mat4;		
+		/**
+		!#en
+		Get the world to camera matrix, only support 2D camera which alignWithScreen is true.
+		!#zh
+		获取世界坐标系到摄像机坐标系的矩阵，只适用于 alignWithScreen 为 true 的 2D 摄像机。
+		@param out the matrix to receive the result 
+		*/
+		getWorldToScreenMatrix2D(out: Mat4): Mat4;		
+		/**
+		!#en
+		Convert point from screen to world.
+		!#zh
+		将坐标从屏幕坐标系转换到世界坐标系。
+		@param screenPosition screenPosition
+		@param out out 
+		*/
+		getScreenToWorldPoint(screenPosition: Vec3|Vec2, out?: Vec3|Vec2): Vec3;		
+		/**
+		!#en
+		Convert point from world to screen.
+		!#zh
+		将坐标从世界坐标系转化到屏幕坐标系。
+		@param worldPosition worldPosition
+		@param out out 
+		*/
+		getWorldToScreenPoint(worldPosition: Vec3|Vec2, out?: Vec3|Vec2): Vec3;		
+		/**
+		!#en
+		Get a ray from screen position
+		!#zh
+		从屏幕坐标获取一条射线
+		@param screenPos screenPos 
+		*/
+		getRay(screenPos: Vec2): geomUtils.Ray;		
+		/**
+		!#en
+		Check whether the node is in the camera.
+		!#zh
+		检测节点是否被此摄像机影响
+		@param node the node which need to check 
+		*/
+		containsNode(node: Node): boolean;		
+		/**
+		!#en
+		Render the camera manually.
+		!#zh
+		手动渲染摄像机。
+		@param rootNode rootNode 
+		*/
+		render(rootNode?: Node): void;		
+		/**
+		!#en
+		Returns the matrix that transform the node's (local) space coordinates into the camera's space coordinates.
+		!#zh
+		返回一个将节点坐标系转换到摄像机坐标系下的矩阵
+		@param node the node which should transform 
+		*/
+		getNodeToCameraTransform(node: Node): AffineTransform;		
+		/**
+		!#en
+		Conver a camera coordinates point to world coordinates.
+		!#zh
+		将一个摄像机坐标系下的点转换到世界坐标系下。
+		@param point the point which should transform
+		@param out the point to receive the result 
+		*/
+		getCameraToWorldPoint(point: Vec2, out?: Vec2): Vec2;		
+		/**
+		!#en
+		Conver a world coordinates point to camera coordinates.
+		!#zh
+		将一个世界坐标系下的点转换到摄像机坐标系下。
+		@param point point
+		@param out the point to receive the result 
+		*/
+		getWorldToCameraPoint(point: Vec2, out?: Vec2): Vec2;		
+		/**
+		!#en
+		Get the camera to world matrix
+		!#zh
+		获取摄像机坐标系到世界坐标系的矩阵
+		@param out the matrix to receive the result 
+		*/
+		getCameraToWorldMatrix(out: Mat4): Mat4;		
+		/**
+		!#en
+		Get the world to camera matrix
+		!#zh
+		获取世界坐标系到摄像机坐标系的矩阵
+		@param out the matrix to receive the result 
+		*/
+		getWorldToCameraMatrix(out: Mat4): Mat4;	
+	}	
+	/** !#en
+	This module controls asset's behaviors and information, include loading, releasing etc. it is a singleton
+	All member can be accessed with `cc.assetManager`.
+	
+	!#zh
+	此模块管理资源的行为和信息，包括加载，释放等，这是一个单例，所有成员能够通过 `cc.assetManager` 调用 */
+	export class AssetManager {		
+		/** !#en
+		Normal loading pipeline
+		
+		!#zh
+		正常加载管线 */
+		pipeline: cc.AssetManager.Pipeline;		
+		/** !#en
+		Fetching pipeline
+		
+		!#zh
+		下载管线 */
+		fetchPipeline: cc.AssetManager.Pipeline;		
+		/** !#en
+		Url transformer
+		
+		!#zh
+		Url 转换器 */
+		transformPipeline: cc.AssetManager.Pipeline;		
+		/** !#en
+		The collection of bundle which is already loaded, you can remove cache with {{#crossLink "AssetManager/removeBundle:method"}}{{/crossLink}}
+		
+		!#zh
+		已加载 bundle 的集合， 你能通过 {{#crossLink "AssetManager/removeBundle:method"}}{{/crossLink}} 来移除缓存 */
+		bundles: AssetManager.Cache<AssetManager.Bundle>;		
+		/** !#en
+		The collection of asset which is already loaded, you can remove cache with {{#crossLink "AssetManager/releaseAsset:method"}}{{/crossLink}}
+		
+		!#zh
+		已加载资源的集合， 你能通过 {{#crossLink "AssetManager/releaseAsset:method"}}{{/crossLink}} 来移除缓存 */
+		assets: AssetManager.Cache<cc.Asset>;		
+		/** !#en
+		Manage relationship between asset and its dependencies
+		
+		!#zh
+		管理资源依赖关系 */
+		dependUtil: cc.AssetManager.DependUtil;		
+		/** !#en
+		Whether or not cache the loaded asset
+		
+		!#zh
+		是否缓存已加载的资源 */
+		cacheAsset: boolean;		
+		/** !#en
+		Whether or not load asset forcely, if it is true, asset will be loaded regardless of error
+		
+		!#zh
+		是否强制加载资源, 如果为 true ，加载资源将会忽略报错 */
+		force: boolean;		
+		/** !#en
+		Some useful function
+		
+		!#zh
+		一些有用的方法 */
+		utils: cc.AssetManager.Helper;		
+		/** !#en
+		Manage all downloading task
+		
+		!#zh
+		管理所有下载任务 */
+		downloader: cc.AssetManager.Downloader;		
+		/** !#en
+		Manage all parsing task
+		
+		!#zh
+		管理所有解析任务 */
+		parser: cc.AssetManager.Parser;		
+		/** !#en
+		Manage internal asset
+		
+		!#zh
+		管理内置资源 */
+		builtins: cc.AssetManager.Builtins;		
+		/** !#en
+		Manage all packed asset
+		
+		!#zh
+		管理所有合并后的资源 */
+		packManager: cc.AssetManager.PackManager;		
+		/** !#en
+		Cache manager is a module which controls all caches downloaded from server in non-web platform.
+		
+		!#zh
+		缓存管理器是一个模块，在非 WEB 平台上，用于管理所有从服务器上下载下来的缓存 */
+		cacheManager: cc.AssetManager.CacheManager|null;		
+		/** !#en
+		The preset of options
+		
+		!#zh
+		可选参数的预设集 */
+		presets: Record<string, Record<string, any>>;		
+		/** !#en
+		The builtin 'main' bundle
+		
+		!#zh
+		内置 main 包 */
+		main: cc.AssetManager.Bundle;		
+		/** !#en
+		The builtin 'resources' bundle
+		
+		!#zh
+		内置 resources 包 */
+		resources: cc.AssetManager.Bundle;		
+		/** !#en
+		The builtin 'internal' bundle
+		
+		!#zh
+		内置 internal 包 */
+		internal: cc.AssetManager.Bundle;		
+		/**
+		!#en
+		Initialize assetManager with options
+		
+		!#zh
+		初始化资源管理器
+		@param options options 
+		*/
+		init(options: Record<string, any>): void;		
+		/**
+		!#en
+		Get the bundle which has been loaded
+		
+		!#zh
+		获取已加载的分包
+		@param name The name of bundle
+		
+		@example 
+		```js
+		// ${project}/assets/test1
+		cc.assetManager.getBundle('test1');
+		
+		cc.assetManager.getBundle('resources');
+		``` 
+		*/
+		getBundle (name: string): cc.AssetManager.Bundle;		
+		/**
+		!#en
+		Remove this bundle. NOTE: The asset whthin this bundle will not be released automatically, you can call {{#crossLink "Bundle/releaseAll:method"}}{{/crossLink}} manually before remove it if you need
+		
+		!#zh
+		移除此包, 注意：这个包内的资源不会自动释放, 如果需要的话你可以在摧毁之前手动调用 {{#crossLink "Bundle/releaseAll:method"}}{{/crossLink}} 进行释放
+		@param bundle The bundle to be removed 
+		*/
+		removeBundle(bundle: cc.AssetManager.Bundle): void;		
+		/**
+		!#en
+		General interface used to load assets with a progression callback and a complete callback. You can achieve almost all effect you want with combination of `requests` and `options`.
+		It is highly recommended that you use more simple API, such as `load`, `loadDir` etc. Every custom parameter in `options` will be distribute to each of `requests`.
+		if request already has same one, the parameter in request will be given priority. Besides, if request has dependencies, `options` will distribute to dependencies too.
+		Every custom parameter in `requests` will be tranfered to handler of `downloader` and `parser` as `options`.
+		You can register you own handler downloader or parser to collect these custom parameters for some effect.
+		
+		Reserved Keyword: `uuid`, `url`, `path`, `dir`, `scene`, `type`, `priority`, `preset`, `audioLoadMode`, `ext`, `bundle`, `onFileProgress`, `maxConcurrency`, `maxRequestsPerFrame`
+		`maxRetryCount`, `version`, `responseType`, `withCredentials`, `mimeType`, `timeout`, `header`, `reload`, `cacheAsset`, `cacheEnabled`,
+		Please DO NOT use these words as custom options!
+		
+		!#zh
+		通用加载资源接口，可传入进度回调以及完成回调，通过组合 `request` 和 `options` 参数，几乎可以实现和扩展所有想要的加载效果。非常建议你使用更简单的API，例如 `load`、`loadDir` 等。
+		`options` 中的自定义参数将会分发到 `requests` 的每一项中，如果request中已存在同名的参数则以 `requests` 中为准，同时如果有其他
+		依赖资源，则 `options` 中的参数会继续向依赖项中分发。request中的自定义参数都会以 `options` 形式传入加载流程中的 `downloader`, `parser` 的方法中, 你可以
+		扩展 `downloader`, `parser` 收集参数完成想实现的效果。
+		
+		保留关键字: `uuid`, `url`, `path`, `dir`, `scene`, `type`, `priority`, `preset`, `audioLoadMode`, `ext`, `bundle`, `onFileProgress`, `maxConcurrency`, `maxRequestsPerFrame`
+		`maxRetryCount`, `version`, `responseType`, `withCredentials`, `mimeType`, `timeout`, `header`, `reload`, `cacheAsset`, `cacheEnabled`,
+		请不要使用这些字段为自定义参数!
+		@param requests The request you want to load
+		@param options Optional parameters
+		@param onProgress Callback invoked when progression change
+		@param onComplete Callback invoked when finish loading
+		
+		@example 
+		```js
+		cc.assetManager.loadAny({url: 'http://example.com/a.png'}, (err, img) => cc.log(img));
+		cc.assetManager.loadAny(['60sVXiTH1D/6Aft4MRt9VC'], (err, assets) => cc.log(assets));
+		cc.assetManager.loadAny([{ uuid: '0cbZa5Y71CTZAccaIFluuZ'}, {url: 'http://example.com/a.png'}], (err, assets) => cc.log(assets));
+		cc.assetManager.downloader.register('.asset', (url, options, onComplete) => {
+		     url += '?userName=' + options.userName + "&password=" + options.password;
+		     cc.assetManager.downloader.downloadFile(url, null, onComplete);
+		});
+		cc.assetManager.parser.register('.asset', (file, options, onComplete) => {
+		     var json = JSON.parse(file);
+		     var skin = json[options.skin];
+		     var model = json[options.model];
+		     onComplete(null, {skin, model});
+		});
+		cc.assetManager.loadAny({ url: 'http://example.com/my.asset', skin: 'xxx', model: 'xxx', userName: 'xxx', password: 'xxx' });
+		``` 
+		*/
+		loadAny(requests: string | string[] | Record<string, any> | Record<string, any>[], options: Record<string, any>, onProgress: (finished: number, total: number, item: cc.AssetManager.RequestItem) => void, onComplete: (err: Error, data: any) => void): void;
+		loadAny(requests: string | string[] | Record<string, any> | Record<string, any>[], options: Record<string, any>, onComplete: (err: Error, data: any) => void): void;
+		loadAny(requests: string | string[] | Record<string, any> | Record<string, any>[], options: Record<string, any>): void;
+		loadAny(requests: string | string[] | Record<string, any> | Record<string, any>[], onProgress: (finished: number, total: number, item: cc.AssetManager.RequestItem) => void, onComplete: (err: Error, data: any) => void): void;
+		loadAny(requests: string | string[] | Record<string, any> | Record<string, any>[], onComplete: (err: Error, data: any) => void): void;
+		loadAny(requests: string | string[] | Record<string, any> | Record<string, any>[]): void;		
+		/**
+		!#en
+		General interface used to preload assets with a progression callback and a complete callback.It is highly recommended that you use more simple API, such as `preloadRes`, `preloadResDir` etc.
+		Everything about preload is just likes `cc.assetManager.loadAny`, the difference is `cc.assetManager.preloadAny` will only download asset but not parse asset. You need to invoke `cc.assetManager.loadAny(preloadTask)`
+		to finish loading asset
+		
+		!#zh
+		通用预加载资源接口，可传入进度回调以及完成回调，非常建议你使用更简单的 API ，例如 `preloadRes`, `preloadResDir` 等。`preloadAny` 和 `loadAny` 几乎一样，区别在于 `preloadAny` 只会下载资源，不会去解析资源，你需要调用 `cc.assetManager.loadAny(preloadTask)`
+		来完成资源加载。
+		@param requests The request you want to preload
+		@param options Optional parameters
+		@param onProgress Callback invoked when progression change
+		@param onComplete Callback invoked when finish preloading
+		
+		@example 
+		```js
+		cc.assetManager.preloadAny('0cbZa5Y71CTZAccaIFluuZ', (err) => cc.assetManager.loadAny('0cbZa5Y71CTZAccaIFluuZ'));
+		``` 
+		*/
+		preloadAny(requests: string | string[] | Record<string, any> | Record<string, any>[], options: Record<string, any>, onProgress: (finished: number, total: number, item: cc.AssetManager.RequestItem) => void, onComplete: (err: Error, items: cc.AssetManager.RequestItem[]) => void): void;
+		preloadAny(requests: string | string[] | Record<string, any> | Record<string, any>[], options: Record<string, any>, onComplete: (err: Error, items: cc.AssetManager.RequestItem[]) => void): void;
+		preloadAny(requests: string | string[] | Record<string, any> | Record<string, any>[], onProgress: (finished: number, total: number, item: cc.AssetManager.RequestItem) => void, onComplete: (err: Error, items: cc.AssetManager.RequestItem[]) => void): void;
+		preloadAny(requests: string | string[] | Record<string, any> | Record<string, any>[], onComplete: (err: Error, items: cc.AssetManager.RequestItem[]) => void): void;
+		preloadAny(requests: string | string[] | Record<string, any> | Record<string, any>[], options: Record<string, any>): void;
+		preloadAny(requests: string | string[] | Record<string, any> | Record<string, any>[]): void;		
+		/**
+		!#en
+		Load native file of asset, if you check the option 'Async Load Assets', you may need to load native file with this before you use the asset
+		
+		!#zh
+		加载资源的原生文件，如果你勾选了'延迟加载资源'选项，你可能需要在使用资源之前调用此方法来加载原生文件
+		@param asset The asset
+		@param options Some optional parameters
+		@param onComplete Callback invoked when finish loading
+		
+		@example 
+		```js
+		cc.assetManager.postLoadNative(texture, (err) => console.log(err));
+		``` 
+		*/
+		postLoadNative(asset: cc.Asset, options: Record<string, any>, onComplete: (err: Error) => void): void;
+		postLoadNative(asset: cc.Asset, options: Record<string, any>): void;
+		postLoadNative(asset: cc.Asset, onComplete: (err: Error) => void): void;
+		postLoadNative(asset: cc.Asset): void;		
+		/**
+		!#en
+		Load remote asset with url, such as audio, image, text and so on.
+		
+		!#zh
+		使用 url 加载远程资源，例如音频，图片，文本等等。
+		@param url The url of asset
+		@param options Some optional parameters
+		@param onComplete Callback invoked when finish loading
+		
+		@example 
+		```js
+		cc.assetManager.loadRemote('http://www.cloud.com/test1.jpg', (err, texture) => console.log(err));
+		cc.assetManager.loadRemote('http://www.cloud.com/test2.mp3', (err, audioClip) => console.log(err));
+		``` 
+		*/
+		loadRemote<T extends cc.Asset>(url: string, options: Record<string, any>, onComplete: (err: Error, asset: T) => void): void;
+		loadRemote<T extends cc.Asset>(url: string, options: Record<string, any>): void;
+		loadRemote<T extends cc.Asset>(url: string, onComplete: (err: Error, asset: T) => void): void;
+		loadRemote<T extends cc.Asset>(url: string): void;		
+		/**
+		!#en
+		Load script
+		
+		!#zh
+		加载脚本
+		@param url Url of the script
+		@param options Some optional paramters
+		@param onComplete Callback when script loaded or failed
+		
+		@example 
+		```js
+		loadScript('http://localhost:8080/index.js', null, (err) => console.log(err));
+		``` 
+		*/
+		loadScript(url: string|string[], options: Record<string, any>, onComplete: (err: Error) => void): void;;
+		loadScript(url: string|string[], options: Record<string, any>): void;;
+		loadScript(url: string|string[], onComplete: (err: Error) => void): void;;
+		loadScript(url: string|string[]): void;;		
+		/**
+		!#en
+		load bundle
+		
+		!#zh
+		加载资源包
+		@param nameOrUrl The name or root path of bundle
+		@param options Some optional paramter, same like downloader.downloadFile
+		@param onComplete Callback when bundle loaded or failed
+		
+		@example 
+		```js
+		loadBundle('http://localhost:8080/test', null, (err, bundle) => console.log(err));
+		``` 
+		*/
+		loadBundle(nameOrUrl: string, options: Record<string, any>, onComplete: (err: Error, bundle: cc.AssetManager.Bundle) => void): void;
+		loadBundle(nameOrUrl: string, options: Record<string, any>): void;
+		loadBundle(nameOrUrl: string, onComplete: (err: Error, bundle: cc.AssetManager.Bundle) => void): void;
+		loadBundle(nameOrUrl: string): void;		
+		/**
+		!#en
+		Release asset and it's dependencies.
+		This method will not only remove the cache of the asset in assetManager, but also clean up its content.
+		For example, if you release a texture, the texture asset and its gl texture data will be freed up.
+		Notice, this method may cause the texture to be unusable, if there are still other nodes use the same texture, they may turn to black and report gl errors.
+		
+		!#zh
+		释放资源以及其依赖资源, 这个方法不仅会从 assetManager 中删除资源的缓存引用，还会清理它的资源内容。
+		比如说，当你释放一个 texture 资源，这个 texture 和它的 gl 贴图数据都会被释放。
+		注意，这个函数可能会导致资源贴图或资源所依赖的贴图不可用，如果场景中存在节点仍然依赖同样的贴图，它们可能会变黑并报 GL 错误。
+		@param asset The asset to be released
+		
+		@example 
+		```js
+		// release a texture which is no longer need
+		cc.assetManager.releaseAsset(texture);
+		``` 
+		*/
+		releaseAsset(asset: cc.Asset): void;		
+		/**
+		!#en
+		Release all assets. Refer to {{#crossLink "AssetManager/releaseAsset:method"}}{{/crossLink}} for detailed informations.
+		
+		!#zh
+		释放所有资源。详细信息请参考 {{#crossLink "AssetManager/releaseAsset:method"}}{{/crossLink}} 
+		*/
+		releaseAll(): void;	
+	}	
+	/** `cc.loader` is deprecated, please backup your project and upgrade to {{#crossLink "AssetManager"}}{{/crossLink}} */
+	export class loader {		
+		/** `cc.loader.onProgress` is deprecated, please transfer onProgress to API as a parameter */
+		static onProgress: any;		
+		/**
+		`cc.loader.load` is deprecated, please use {{#crossLink "AssetManager/loadAny:method"}}{{/crossLink}} instead
+		@param resources Url list in an array
+		@param progressCallback Callback invoked when progression change
+		@param completeCallback Callback invoked when all resources loaded 
+		*/
+		static load(resources: string|string[]|{uuid?: string, url?: string, type?: string}, completeCallback?: Function): void;
+		static load(resources: string|string[]|{uuid?: string, url?: string, type?: string}, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: Function|null): void;		
+		/**
+		`cc.loader.getXMLHttpRequest` is deprecated, please use `XMLHttpRequest` directly 
+		*/
+		static getXMLHttpRequest(): XMLHttpRequest;		
+		/**
+		`cc.loader.getItem` is deprecated, please use `cc.assetManager.asset.get` instead
+		@param id The id of the item 
+		*/
+		static getItem(id: any): any;		
+		/**
+		`cc.loader.loadRes` is deprecated, please use {{#crossLink "Bundle/load:method"}}{{/crossLink}}  instead
+		@param url Url of the target resource.
+		                      The url is relative to the "resources" folder, extensions must be omitted.
+		@param type Only asset of type will be loaded if this argument is supplied.
+		@param progressCallback Callback invoked when progression change.
+		@param completeCallback Callback invoked when the resource loaded. 
+		*/
+		static loadRes(url: string, type: typeof cc.Asset, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: ((error: Error, resource: any) => void)|null): void;
+		static loadRes(url: string, type: typeof cc.Asset, completeCallback: (error: Error, resource: any) => void): void;
+		static loadRes(url: string, type: typeof cc.Asset): void;
+		static loadRes(url: string, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: ((error: Error, resource: any) => void)|null): void;
+		static loadRes(url: string, completeCallback: (error: Error, resource: any) => void): void;
+		static loadRes(url: string): void;		
+		/**
+		`cc.loader.loadResArray` is deprecated, please use {{#crossLink "Bundle/load:method"}}{{/crossLink}} instead
+		@param urls Array of URLs of the target resource.
+		                         The url is relative to the "resources" folder, extensions must be omitted.
+		@param type Only asset of type will be loaded if this argument is supplied.
+		@param progressCallback Callback invoked when progression change.
+		@param completeCallback A callback which is called when all assets have been loaded, or an error occurs. 
+		*/
+		static loadResArray(url: string[], type: typeof cc.Asset, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: ((error: Error, resource: any[]) => void)|null): void;
+		static loadResArray(url: string[], type: typeof cc.Asset, completeCallback: (error: Error, resource: any[]) => void): void;
+		static loadResArray(url: string[], type: typeof cc.Asset): void;
+		static loadResArray(url: string[], progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: ((error: Error, resource: any[]) => void)|null): void;
+		static loadResArray(url: string[], completeCallback: (error: Error, resource: any[]) => void): void;
+		static loadResArray(url: string[]): void;
+		static loadResArray(url: string[], type: typeof cc.Asset[]): void;		
+		/**
+		`cc.loader.loadResDir` is deprecated, please use {{#crossLink "Bundle/loadDir:method"}}{{/crossLink}} instead
+		@param url Url of the target folder.
+		                      The url is relative to the "resources" folder, extensions must be omitted.
+		@param type Only asset of type will be loaded if this argument is supplied.
+		@param progressCallback Callback invoked when progression change.
+		@param completeCallback A callback which is called when all assets have been loaded, or an error occurs. 
+		*/
+		static loadResDir(url: string, type: typeof cc.Asset, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: ((error: Error, resource: any[], urls: string[]) => void)|null): void;
+		static loadResDir(url: string, type: typeof cc.Asset, completeCallback: (error: Error, resource: any[], urls: string[]) => void): void;
+		static loadResDir(url: string, type: typeof cc.Asset): void;
+		static loadResDir(url: string, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: ((error: Error, resource: any[], urls: string[]) => void)|null): void;
+		static loadResDir(url: string, completeCallback: (error: Error, resource: any[], urls: string[]) => void): void;
+		static loadResDir(url: string): void;		
+		/**
+		`cc.loader.getRes` is deprecated, please use {{#crossLink "Bundle/get:method"}}{{/crossLink}} instead
+		@param url url
+		@param type Only asset of type will be returned if this argument is supplied. 
+		*/
+		static getRes(url: string, type?: Function): any;		
+		/**
+		`cc.loader.getDependsRecursively` is deprecated, please use use {{#crossLink "DependUtil/getDepsRecursively:method"}}{{/crossLink}} instead
+		@param owner The owner asset or the resource url or the asset's uuid 
+		*/
+		static getDependsRecursively(owner: Asset|string): any[];		
+		/** `cc.loader.assetLoader` was removed, assetLoader and md5Pipe were merged into {{#crossLink "AssetManager/transformPipeline:property"}}{{/crossLink}} */
+		static assetLoader: any;		
+		/** `cc.loader.md5Pipe` is deprecated, assetLoader and md5Pipe were merged into {{#crossLink "AssetManager/transformPipeline:property"}}{{/crossLink}} */
+		static md5Pipe: any;		
+		/** `cc.loader.downloader` is deprecated, please use {{#crossLink "AssetManager/downloader:property"}}{{/crossLink}} instead */
+		static downloader: any;		
+		/** `cc.loader.loader` is deprecated, please use {{#crossLink "AssetManager/parser:property"}}{{/crossLink}} instead */
+		static loader: any;		
+		/**
+		`cc.loader.addDownloadHandlers` is deprecated, please use `cc.assetManager.downloader.register` instead
+		@param extMap Custom supported types with corresponded handler 
+		*/
+		static addDownloadHandlers(extMap: any): void;		
+		/**
+		`cc.loader.addLoadHandlers` is deprecated, please use `cc.assetManager.parser.register` instead
+		@param extMap Custom supported types with corresponded handler 
+		*/
+		static addLoadHandlers(extMap: any): void;		
+		/**
+		`cc.loader.release` is deprecated, please use {{#crossLink "AssetManager/releaseAsset:method"}}{{/crossLink}} instead
+		@param asset asset 
+		*/
+		static release(asset: Asset|string|any[]): void;		
+		/**
+		`cc.loader.releaseAsset` is deprecated, please use {{#crossLink "AssetManager/releaseAsset:method"}}{{/crossLink}} instead
+		@param asset asset 
+		*/
+		static releaseAsset(asset: Asset): void;		
+		/**
+		`cc.loader.releaseRes` is deprecated, please use {{#crossLink "AssetManager/releaseRes:method"}}{{/crossLink}} instead
+		@param url url
+		@param type Only asset of type will be released if this argument is supplied. 
+		*/
+		static releaseRes(url: string, type?: Function): void;		
+		/**
+		`cc.loader.releaseResDir` was removed, please use {{#crossLink "AssetManager/releaseRes:method"}}{{/crossLink}} instead 
+		*/
+		static releaseResDir(): void;		
+		/**
+		`cc.loader.releaseAll` is deprecated, please use {{#crossLink "AssetManager/releaseAll:method"}}{{/crossLink}} instead 
+		*/
+		static releaseAll(): void;		
+		/**
+		`cc.loader.removeItem` is deprecated, please use `cc.assetManager.assets.remove` instead
+		@param id The id of the item 
+		*/
+		static removeItem(id: any): boolean;		
+		/**
+		`cc.loader.setAutoRelease` is deprecated, if you want to prevent some asset from auto releasing, please use {{#crossLink "Asset/addRef:method"}}{{/crossLink}} instead
+		@param assetOrUrlOrUuid asset object or the raw asset's url or uuid
+		@param autoRelease indicates whether should release automatically 
+		*/
+		static setAutoRelease(assetOrUrlOrUuid: Asset|string, autoRelease: boolean): void;		
+		/**
+		`cc.loader.setAutoReleaseRecursively` is deprecated, if you want to prevent some asset from auto releasing, please use {{#crossLink "Asset/addRef:method"}}{{/crossLink}} instead
+		@param assetOrUrlOrUuid asset object or the raw asset's url or uuid
+		@param autoRelease indicates whether should release automatically 
+		*/
+		static setAutoReleaseRecursively(assetOrUrlOrUuid: Asset|string, autoRelease: boolean): void;		
+		/**
+		`cc.loader.isAutoRelease` is deprecated
+		@param assetOrUrl asset object or the raw asset's url 
+		*/
+		static isAutoRelease(assetOrUrl: Asset|string): boolean;	
+	}	
+	/** `cc.url` is deprecated */
+	export class url {		
+		/**
+		`cc.url.raw` is deprecated, please use `cc.resources.load` directly, or use `Asset.nativeUrl` instead.
+		@param url url 
+		*/
+		static raw(url: string): string;	
+	}	
+	/** `cc.LoadingItems` was removed, please use {{#crossLink "Task"}}{{/crossLink}} instead */
+	export class LoadingItems {	
+	}	
+	/** !#en
+	Base class for handling assets used in Creator.<br/>
+	
+	You may want to override:<br/>
+	- createNode<br/>
+	- getset functions of _nativeAsset<br/>
+	- cc.Object._serialize<br/>
+	- cc.Object._deserialize<br/>
+	!#zh
+	Creator 中的资源基类。<br/>
+	
+	您可能需要重写：<br/>
+	- createNode <br/>
+	- _nativeAsset 的 getset 方法<br/>
+	- cc.Object._serialize<br/>
+	- cc.Object._deserialize<br/> */
+	export class Asset extends Object {		
+		/** `cc.Asset.url` is deprecated, please use {{#crossLink "Asset/nativeUrl:property"}}{{/crossLink}} instead */
+		url: string;		
+		/** !#en
+		Whether the asset is loaded or not.
+		!#zh
+		该资源是否已经成功加载。 */
+		loaded: boolean;		
+		/** !#en
+		Returns the url of this asset's native object, if none it will returns an empty string.
+		!#zh
+		返回该资源对应的目标平台资源的 URL，如果没有将返回一个空字符串。 */
+		nativeUrl: string;		
+		/** !#en
+		The number of reference
+		
+		!#zh
+		引用的数量 */
+		refCount: number;		
+		/** !#en Indicates whether its dependent raw assets can support deferred load if the owner scene (or prefab) is marked as `asyncLoadAssets`.
+		!#zh 当场景或 Prefab 被标记为 `asyncLoadAssets`，禁止延迟加载该资源所依赖的其它原始资源。 */
+		static preventDeferredLoadDependents: boolean;		
+		/** !#en Indicates whether its native object should be preloaded from native url.
+		!#zh 禁止预加载原生对象。 */
+		static preventPreloadNativeObject: boolean;		
+		/**
+		!#en
+		Returns the asset's url.
+		
+		The `Asset` object overrides the `toString()` method of the `Object` object.
+		For `Asset` objects, the `toString()` method returns a string representation of the object.
+		JavaScript calls the `toString()` method automatically when an asset is to be represented as a text value or when a texture is referred to in a string concatenation.
+		!#zh
+		返回资源的 URL。
+		
+		Asset 对象将会重写 Object 对象的 `toString()` 方法。
+		对于 Asset 对象，`toString()` 方法返回该对象的字符串表示形式。
+		当资源要表示为文本值时或在字符串连接时引用时，JavaScript 会自动调用 `toString()` 方法。 
+		*/
+		toString(): string;		
+		/**
+		!#en
+		Create a new node using this asset in the scene.<br/>
+		If this type of asset dont have its corresponding node type, this method should be null.
+		!#zh
+		使用该资源在场景中创建一个新节点。<br/>
+		如果这类资源没有相应的节点类型，该方法应该是空的。
+		@param callback callback 
+		*/
+		createNode(callback: (error: string, node: any) => void): void;		
+		/**
+		!#en
+		Add references of asset
+		
+		!#zh
+		增加资源的引用 
+		*/
+		addRef(): cc.Asset;		
+		/**
+		!#en
+		Reduce references of asset and it will be auto released when refCount equals 0.
+		
+		!#zh
+		减少资源的引用并尝试进行自动释放。 
+		*/
+		decRef(): cc.Asset;	
+	}	
+	/** Predefined constants */
+	export class macro {		
+		/** `cc.macro.DOWNLOAD_MAX_CONCURRENT` is deprecated now, please use {{#crossLink "Downloader/maxConcurrency:property"}}{{/crossLink}} instead */
+		static DOWNLOAD_MAX_CONCURRENT: number;		
+		/** PI / 180 */
+		static RAD: number;		
+		/** One degree */
+		static DEG: number;		
+		static REPEAT_FOREVER: number;		
+		static FLT_EPSILON: number;		
+		/** Minimum z index value for node */
+		static MIN_ZINDEX: number;		
+		/** Maximum z index value for node */
+		static MAX_ZINDEX: number;		
+		static ONE: number;		
+		static ZERO: number;		
+		static SRC_ALPHA: number;		
+		static SRC_ALPHA_SATURATE: number;		
+		static SRC_COLOR: number;		
+		static DST_ALPHA: number;		
+		static DST_COLOR: number;		
+		static ONE_MINUS_SRC_ALPHA: number;		
+		static ONE_MINUS_SRC_COLOR: number;		
+		static ONE_MINUS_DST_ALPHA: number;		
+		static ONE_MINUS_DST_COLOR: number;		
+		static ONE_MINUS_CONSTANT_ALPHA: number;		
+		static ONE_MINUS_CONSTANT_COLOR: number;		
+		/** Oriented vertically */
+		static ORIENTATION_PORTRAIT: number;		
+		/** Oriented horizontally */
+		static ORIENTATION_LANDSCAPE: number;		
+		/** Oriented automatically */
+		static ORIENTATION_AUTO: number;		
+		/** <p>
+		  If enabled, the texture coordinates will be calculated by using this formula: <br/>
+		     - texCoord.left = (rect.x*2+1) / (texture.wide*2);                  <br/>
+		     - texCoord.right = texCoord.left + (rect.width*2-2)/(texture.wide*2); <br/>
+		                                                                                <br/>
+		 The same for bottom and top.                                                   <br/>
+		                                                                                <br/>
+		 This formula prevents artifacts by using 99% of the texture.                   <br/>
+		 The "correct" way to prevent artifacts is by expand the texture's border with the same color by 1 pixel<br/>
+		                                                                                 <br/>
+		 Affected component:                                                                 <br/>
+		     - cc.TMXLayer                                                       <br/>
+		                                                                                 <br/>
+		 Enabled by default. To disabled set it to 0. <br/>
+		 To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h
+		</p> */
+		static FIX_ARTIFACTS_BY_STRECHING_TEXEL_TMX: number;		
+		/** Position of the FPS (Default: 0,0 (bottom-left corner))<br/>
+		To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h */
+		static DIRECTOR_STATS_POSITION: Vec2;		
+		/** <p>
+		   If enabled, actions that alter the position property (eg: CCMoveBy, CCJumpBy, CCBezierBy, etc..) will be stacked.                  <br/>
+		   If you run 2 or more 'position' actions at the same time on a node, then end position will be the sum of all the positions.        <br/>
+		   If disabled, only the last run action will take effect.
+		</p> */
+		static ENABLE_STACKABLE_ACTIONS: number;		
+		/** !#en
+		The timeout to determine whether a touch is no longer active and should be removed.
+		The reason to add this timeout is due to an issue in X5 browser core,
+		when X5 is presented in wechat on Android, if a touch is glissed from the bottom up, and leave the page area,
+		no touch cancel event is triggered, and the touch will be considered active forever.
+		After multiple times of this action, our maximum touches number will be reached and all new touches will be ignored.
+		So this new mechanism can remove the touch that should be inactive if it's not updated during the last 5000 milliseconds.
+		Though it might remove a real touch if it's just not moving for the last 5 seconds which is not easy with the sensibility of mobile touch screen.
+		You can modify this value to have a better behavior if you find it's not enough.
+		!#zh
+		用于甄别一个触点对象是否已经失效并且可以被移除的延时时长
+		添加这个时长的原因是 X5 内核在微信浏览器中出现的一个 bug。
+		在这个环境下，如果用户将一个触点从底向上移出页面区域，将不会触发任何 touch cancel 或 touch end 事件，而这个触点会被永远当作停留在页面上的有效触点。
+		重复这样操作几次之后，屏幕上的触点数量将达到我们的事件系统所支持的最高触点数量，之后所有的触摸事件都将被忽略。
+		所以这个新的机制可以在触点在一定时间内没有任何更新的情况下视为失效触点并从事件系统中移除。
+		当然，这也可能移除一个真实的触点，如果用户的触点真的在一定时间段内完全没有移动（这在当前手机屏幕的灵敏度下会很难）。
+		你可以修改这个值来获得你需要的效果，默认值是 5000 毫秒。 */
+		static TOUCH_TIMEOUT: number;		
+		/** !#en
+		The maximum vertex count for a single batched draw call.
+		!#zh
+		最大可以被单次批处理渲染的顶点数量。 */
+		static BATCH_VERTEX_COUNT: number;		
+		/** !#en
+		Whether or not enabled tiled map auto culling. If you set the TiledMap skew or rotation, then need to manually disable this, otherwise, the rendering will be wrong.
+		!#zh
+		是否开启瓦片地图的自动裁减功能。瓦片地图如果设置了 skew, rotation 或者采用了摄像机的话，需要手动关闭，否则渲染会出错。 */
+		static ENABLE_TILEDMAP_CULLING: boolean;		
+		/** !#en
+		Boolean that indicates if the canvas contains an alpha channel, default sets to false for better performance.
+		Though if you want to make your canvas background transparent and show other dom elements at the background,
+		you can set it to true before `cc.game.run`.
+		Web only.
+		!#zh
+		用于设置 Canvas 背景是否支持 alpha 通道，默认为 false，这样可以有更高的性能表现。
+		如果你希望 Canvas 背景是透明的，并显示背后的其他 DOM 元素，你可以在 `cc.game.run` 之前将这个值设为 true。
+		仅支持 Web */
+		static ENABLE_TRANSPARENT_CANVAS: boolean;		
+		/** !#en
+		Boolean that indicates if the WebGL context is created with `antialias` option turned on, default value is false.
+		Set it to true could make your game graphics slightly smoother, like texture hard edges when rotated.
+		Whether to use this really depend on your game design and targeted platform,
+		device with retina display usually have good detail on graphics with or without this option,
+		you probably don't want antialias if your game style is pixel art based.
+		Also, it could have great performance impact with some browser / device using software MSAA.
+		You can set it to true before `cc.game.run`.
+		Web only.
+		!#zh
+		用于设置在创建 WebGL Context 时是否开启抗锯齿选项，默认值是 false。
+		将这个选项设置为 true 会让你的游戏画面稍稍平滑一些，比如旋转硬边贴图时的锯齿。是否开启这个选项很大程度上取决于你的游戏和面向的平台。
+		在大多数拥有 retina 级别屏幕的设备上用户往往无法区分这个选项带来的变化；如果你的游戏选择像素艺术风格，你也多半不会想开启这个选项。
+		同时，在少部分使用软件级别抗锯齿算法的设备或浏览器上，这个选项会对性能产生比较大的影响。
+		你可以在 `cc.game.run` 之前设置这个值，否则它不会生效。
+		仅支持 Web */
+		static ENABLE_WEBGL_ANTIALIAS: boolean;		
+		/** !#en
+		Whether or not enable auto culling.
+		This feature have been removed in v2.0 new renderer due to overall performance consumption.
+		We have no plan currently to re-enable auto culling.
+		If your game have more dynamic objects, we suggest to disable auto culling.
+		If your game have more static objects, we suggest to enable auto culling.
+		!#zh
+		是否开启自动裁减功能，开启裁减功能将会把在屏幕外的物体从渲染队列中去除掉。
+		这个功能在 v2.0 的新渲染器中被移除了，因为它在大多数游戏中所带来的损耗要高于性能的提升，目前我们没有计划重新支持自动裁剪。
+		如果游戏中的动态物体比较多的话，建议将此选项关闭。
+		如果游戏中的静态物体比较多的话，建议将此选项打开。 */
+		static ENABLE_CULLING: boolean;		
+		/** !#en
+		Whether to clear the original image cache after uploaded a texture to GPU. If cleared, [Dynamic Atlas](https://docs.cocos.com/creator/manual/en/advanced-topics/dynamic-atlas.html) will not be supported.
+		Normally you don't need to enable this option on the web platform, because Image object doesn't consume too much memory.
+		But on WeChat Game platform, the current version cache decoded data in Image object, which has high memory usage.
+		So we enabled this option by default on WeChat, so that we can release Image cache immediately after uploaded to GPU.
+		!#zh
+		是否在将贴图上传至 GPU 之后删除原始图片缓存，删除之后图片将无法进行 [动态合图](https://docs.cocos.com/creator/manual/zh/advanced-topics/dynamic-atlas.html)。
+		在 Web 平台，你通常不需要开启这个选项，因为在 Web 平台 Image 对象所占用的内存很小。
+		但是在微信小游戏平台的当前版本，Image 对象会缓存解码后的图片数据，它所占用的内存空间很大。
+		所以我们在微信平台默认开启了这个选项，这样我们就可以在上传 GL 贴图之后立即释放 Image 对象的内存，避免过高的内存占用。 */
+		static CLEANUP_IMAGE_CACHE: boolean;		
+		/** !#en
+		Whether or not show mesh wire frame.
+		!#zh
+		是否显示网格的线框。 */
+		static SHOW_MESH_WIREFRAME: boolean;		
+		/** !#en
+		Whether or not show mesh normal.
+		!#zh
+		是否显示网格的法线。 */
+		static SHOW_MESH_NORMAL: boolean;		
+		/** !#en
+		Whether to enable multi-touch.
+		!#zh
+		是否开启多点触摸 */
+		static ENABLE_MULTI_TOUCH: boolean;		
+		/** References:
+		https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap
+		https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/createImageBitmap
+		
+		!#en
+		Whether to use image bitmap first. If enabled, memory usage will increase.
+		
+		!#zh
+		是否优先使用 image bitmap，启用之后，内存占用会变高 */
+		static ALLOW_IMAGE_BITMAP: boolean;		
+		/** !#en
+		The image format supported by the engine defaults, and the supported formats may differ in different build platforms and device types.
+		Currently all platform and device support ['.webp', '.jpg', '.jpeg', '.bmp', '.png'], The iOS mobile platform also supports the PVR format。
+		!#zh
+		引擎默认支持的图片格式，支持的格式可能在不同的构建平台和设备类型上有所差别。
+		目前所有平台和设备支持的格式有 ['.webp', '.jpg', '.jpeg', '.bmp', '.png']. 另外 Ios 手机平台还额外支持了 PVR 格式。 */
+		static SUPPORT_TEXTURE_FORMATS: string[];	
 	}	
 	/** !#en Box Collider.
 	!#zh 包围盒碰撞组件 */
 	export class BoxCollider extends Collider implements Collider.Box {		
+		/** !#en
+		Collider info in world coordinate.
+		!#zh
+		碰撞体的世界坐标系下的信息。 */
+		world: ColliderInfo;		
 		/** !#en Position offset
 		!#zh 位置偏移量 */
 		offset: Vec2;		
@@ -5208,6 +6533,11 @@ declare namespace cc {
 	/** !#en Circle Collider.
 	!#zh 圆形碰撞组件 */
 	export class CircleCollider extends Collider implements Collider.Circle {		
+		/** !#en
+		Collider info in world coordinate.
+		!#zh
+		碰撞体的世界坐标系下的信息。 */
+		world: ColliderInfo;		
 		/** !#en Position offset
 		!#zh 位置偏移量 */
 		offset: Vec2;		
@@ -5221,6 +6551,42 @@ declare namespace cc {
 		/** !#en Tag. If a node has several collider components, you can judge which type of collider is collided according to the tag.
 		!#zh 标签。当一个节点上有多个碰撞组件时，在发生碰撞后，可以使用此标签来判断是节点上的哪个碰撞组件被碰撞了。 */
 		tag: number;	
+	}	
+	/** !#en
+	Collider Info.
+	!#zh
+	碰撞体信息。 */
+	export class ColliderInfo {		
+		/** !#en
+		Collider aabb information of last frame
+		!#zh
+		碰撞体上一帧的 aabb 信息 */
+		preAabb: Rect;		
+		/** !#en
+		Collider aabb information of current frame
+		!#zh
+		碰撞体当前帧的 aabb 信息 */
+		aabb: Rect;		
+		/** !#en
+		Collider matrix
+		!#zh
+		碰撞体的矩阵信息 */
+		matrix: Mat4;		
+		/** !#en
+		Collider radius (for CircleCollider)
+		!#zh
+		碰撞体的半径（只对 CircleCollider 有效） */
+		radius: number;		
+		/** !#en
+		Collider position (for CircleCollider)
+		!#zh
+		碰撞体的位置（只对 CircleCollider 有效） */
+		position: Vec2;		
+		/** !#en
+		Collider points (for BoxCollider and PolygonCollider)
+		!#zh
+		碰撞体的顶点信息（只对 BoxCollider 和 PolygonCollider 有效） */
+		points: Vec2[];	
 	}	
 	/** !#en
 	A simple collision manager class.
@@ -5320,25 +6686,6 @@ declare namespace cc {
 		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
 		/**
 		!#en
-		Trigger an event directly with the event name and necessary arguments.
-		!#zh
-		通过事件名发送自定义事件
-		@param type event type
-		@param arg1 First argument
-		@param arg2 Second argument
-		@param arg3 Third argument
-		@param arg4 Fourth argument
-		@param arg5 Fifth argument
-		
-		@example 
-		```js
-		eventTarget.emit('fire', event);
-		eventTarget.emit('fire', message, emitter);
-		``` 
-		*/
-		emit(type: string, arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any): void;		
-		/**
-		!#en
 		Send an event with the event object.
 		!#zh
 		通过事件对象派发事件
@@ -5429,1133 +6776,17 @@ declare namespace cc {
 	/** !#en Polygon Collider.
 	!#zh 多边形碰撞组件 */
 	export class PolygonCollider extends Collider implements Collider.Polygon {		
+		/** !#en
+		Collider info in world coordinate.
+		!#zh
+		碰撞体的世界坐标系下的信息。 */
+		world: ColliderInfo;		
 		/** !#en Position offset
 		!#zh 位置偏移量 */
 		offset: Vec2;		
 		/** !#en Polygon points
 		!#zh 多边形顶点数组 */
 		points: Vec2[];	
-	}	
-	/** !#en
-	Base class for handling assets used in Creator.<br/>
-	
-	You may want to override:<br/>
-	- createNode<br/>
-	- getset functions of _nativeAsset<br/>
-	- cc.Object._serialize<br/>
-	- cc.Object._deserialize<br/>
-	!#zh
-	Creator 中的资源基类。<br/>
-	
-	您可能需要重写：<br/>
-	- createNode <br/>
-	- _nativeAsset 的 getset 方法<br/>
-	- cc.Object._serialize<br/>
-	- cc.Object._deserialize<br/> */
-	export class Asset extends RawAsset {		
-		/** !#en
-		Whether the asset is loaded or not
-		!#zh
-		该资源是否已经成功加载 */
-		loaded: boolean;		
-		/** !#en
-		Points to the true url of this asset's native object, only valid when asset is loaded and asyncLoadAsset is not enabled.
-		Url equals nativeUrl on web(web-mobile, web-desktop) or native(iOS, Android etc) platform. The difference between
-		nativeUrl and url is that url may points to temporary path or cached path on mini game platform which has cache mechanism (WeChat etc).
-		If you want to make use of the native file on those platforms, you should use url instead of nativeUrl.
-		!#zh
-		资源的原生文件的真实url，只在资源被加载后以及没有启用延迟加载时才有效。在web平台（web-mobile, web-desktop）或者原生平台（iOS，安卓等）上url与
-		nativeUrl是相等的，nativeUrl与url的区别在于，某些带缓存机制的小游戏平台（微信等）上url可能会指向临时文件路径或者缓存路径，如果你需要在这些平台上使用资源的原生文件，
-		请使用url，避免使用nativeUrl */
-		url: string;		
-		/** !#en
-		Returns the url of this asset's native object, if none it will returns an empty string.
-		!#zh
-		返回该资源对应的目标平台资源的 URL，如果没有将返回一个空字符串。 */
-		nativeUrl: string;		
-		/** !#en Indicates whether its dependent raw assets can support deferred load if the owner scene (or prefab) is marked as `asyncLoadAssets`.
-		!#zh 当场景或 Prefab 被标记为 `asyncLoadAssets`，禁止延迟加载该资源所依赖的其它 RawAsset。 */
-		static preventDeferredLoadDependents: boolean;		
-		/** !#en Indicates whether its native object should be preloaded from native url.
-		!#zh 禁止预加载原生对象。 */
-		static preventPreloadNativeObject: boolean;		
-		/**
-		Returns the asset's url.
-		
-		The `Asset` object overrides the `toString()` method of the `Object` object.
-		For `Asset` objects, the toString() method returns a string representation of the object.
-		JavaScript calls the toString() method automatically when an asset is to be represented as a text value or when a texture is referred to in a string concatenation. 
-		*/
-		toString(): string;		
-		/**
-		!#en
-		Create a new node using this asset in the scene.<br/>
-		If this type of asset dont have its corresponding node type, this method should be null.
-		!#zh
-		使用该资源在场景中创建一个新节点。<br/>
-		如果这类资源没有相应的节点类型，该方法应该是空的。
-		@param callback callback 
-		*/
-		createNode(callback: (error: string, node: any) => void): void;	
-	}	
-	/** !#en Class for audio data handling.
-	!#zh 音频资源类。 */
-	export class AudioClip extends Asset implements EventTarget {		
-		/**
-		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
-		!#zh 检查事件目标对象是否有为特定类型的事件注册的回调。
-		@param type The type of event. 
-		*/
-		hasEventListener(type: string): boolean;		
-		/**
-		!#en
-		Register an callback of a specific event type on the EventTarget.
-		This type of event should be triggered via `emit`.
-		!#zh
-		注册事件目标的特定事件类型回调。这种类型的事件应该被 `emit` 触发。
-		@param type A string representing the event type to listen for.
-		@param callback The callback that will be invoked when the event is dispatched.
-		                             The callback is ignored if it is a duplicate (the callbacks are unique).
-		@param target The target (this object) to invoke the callback, can be null
-		
-		@example 
-		```js
-		eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
-		}, node);
-		``` 
-		*/
-		on<T extends Function>(type: string, callback: T, target?: any, useCapture?: boolean): T;		
-		/**
-		!#en
-		Removes the listeners previously registered with the same type, callback, target and or useCapture,
-		if only type is passed as parameter, all listeners registered with that type will be removed.
-		!#zh
-		删除之前用同类型，回调，目标或 useCapture 注册的事件监听器，如果只传递 type，将会删除 type 类型的所有事件监听器。
-		@param type A string representing the event type being removed.
-		@param callback The callback to remove.
-		@param target The target (this object) to invoke the callback, if it's not given, only callback without target will be removed
-		
-		@example 
-		```js
-		// register fire eventListener
-		var callback = eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
-		}, target);
-		// remove fire event listener
-		eventTarget.off('fire', callback, target);
-		// remove all fire event listeners
-		eventTarget.off('fire');
-		``` 
-		*/
-		off(type: string, callback?: Function, target?: any): void;		
-		/**
-		!#en Removes all callbacks previously registered with the same target (passed as parameter).
-		This is not for removing all listeners in the current event target,
-		and this is not for removing all listeners the target parameter have registered.
-		It's only for removing all listeners (callback and target couple) registered on the current event target by the target parameter.
-		!#zh 在当前 EventTarget 上删除指定目标（target 参数）注册的所有事件监听器。
-		这个函数无法删除当前 EventTarget 的所有事件监听器，也无法删除 target 参数所注册的所有事件监听器。
-		这个函数只能删除 target 参数在当前 EventTarget 上注册的所有事件监听器。
-		@param target The target to be searched for all related listeners 
-		*/
-		targetOff(target: any): void;		
-		/**
-		!#en
-		Register an callback of a specific event type on the EventTarget,
-		the callback will remove itself after the first time it is triggered.
-		!#zh
-		注册事件目标的特定事件类型回调，回调会在第一时间被触发后删除自身。
-		@param type A string representing the event type to listen for.
-		@param callback The callback that will be invoked when the event is dispatched.
-		                             The callback is ignored if it is a duplicate (the callbacks are unique).
-		@param target The target (this object) to invoke the callback, can be null
-		
-		@example 
-		```js
-		eventTarget.once('fire', function () {
-		    cc.log("this is the callback and will be invoked only once");
-		}, node);
-		``` 
-		*/
-		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
-		/**
-		!#en
-		Trigger an event directly with the event name and necessary arguments.
-		!#zh
-		通过事件名发送自定义事件
-		@param type event type
-		@param arg1 First argument
-		@param arg2 Second argument
-		@param arg3 Third argument
-		@param arg4 Fourth argument
-		@param arg5 Fifth argument
-		
-		@example 
-		```js
-		eventTarget.emit('fire', event);
-		eventTarget.emit('fire', message, emitter);
-		``` 
-		*/
-		emit(type: string, arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any): void;		
-		/**
-		!#en
-		Send an event with the event object.
-		!#zh
-		通过事件对象派发事件
-		@param event event 
-		*/
-		dispatchEvent(event: Event): void;	
-	}	
-	/** !#en Class for BitmapFont handling.
-	!#zh 位图字体资源类。 */
-	export class BitmapFont extends Font {	
-	}	
-	/** undefined */
-	export class BufferAsset extends Asset {	
-	}	
-	/** !#en Class for Font handling.
-	!#zh 字体资源类。 */
-	export class Font extends Asset {	
-	}	
-	/** !#en
-	Class for JSON file. When the JSON file is loaded, this object is returned.
-	The parsed JSON object can be accessed through the `json` attribute in it.<br>
-	If you want to get the original JSON text, you should modify the extname to `.txt`
-	so that it is loaded as a `TextAsset` instead of a `JsonAsset`.
-	
-	!#zh
-	JSON 资源类。JSON 文件加载后，将会返回该对象。可以通过其中的 `json` 属性访问解析后的 JSON 对象。<br>
-	如果你想要获得 JSON 的原始文本，那么应该修改源文件的后缀为 `.txt`，这样就会加载为一个 `TextAsset` 而不是 `JsonAsset`。 */
-	export class JsonAsset extends Asset {		
-		/** The loaded JSON object. */
-		json: any;	
-	}	
-	/** !#en Class for LabelAtlas handling.
-	!#zh 艺术数字字体资源类。 */
-	export class LabelAtlas extends BitmapFont {	
-	}	
-	/** !#en Class for prefab handling.
-	!#zh 预制资源类。 */
-	export class Prefab extends Asset {		
-		/** the main cc.Node in the prefab */
-		data: Node;		
-		/** !#zh
-		设置实例化这个 prefab 时所用的优化策略。根据使用情况设置为合适的值，能优化该 prefab 实例化所用的时间。
-		!#en
-		Indicates the optimization policy for instantiating this prefab.
-		Set to a suitable value based on usage, can optimize the time it takes to instantiate this prefab. */
-		optimizationPolicy: Prefab.OptimizationPolicy;		
-		/** !#en Indicates the raw assets of this prefab can be load after prefab loaded.
-		!#zh 指示该 Prefab 依赖的资源可否在 Prefab 加载后再延迟加载。 */
-		asyncLoadAssets: boolean;		
-		readonly: boolean;		
-		/**
-		Dynamically translation prefab data into minimized code.<br/>
-		This method will be called automatically before the first time the prefab being instantiated,
-		but you can re-call to refresh the create function once you modified the original prefab data in script. 
-		*/
-		compileCreateFunction(): void;	
-	}	
-	/** !#en
-	The base class for registering asset types.
-	!#zh
-	注册用的资源基类。 */
-	export class RawAsset extends Object {	
-	}	
-	/** Render textures are textures that can be rendered to. */
-	export class RenderTexture extends Texture2D {		
-		/**
-		!#en
-		Init the render texture with size.
-		!#zh
-		初始化 render texture
-		@param width width
-		@param height height
-		@param depthStencilFormat depthStencilFormat 
-		*/
-		initWithSize(width?: number, height?: number, depthStencilFormat?: number): void;		
-		/**
-		!#en
-		Get pixels from render texture, the pixels data stores in a RGBA Uint8Array.
-		It will return a new (width * height * 4) length Uint8Array by default。
-		You can specify a data to store the pixels to reuse the data,
-		you and can specify other params to specify the texture region to read.
-		!#zh
-		从 render texture 读取像素数据，数据类型为 RGBA 格式的 Uint8Array 数组。
-		默认每次调用此函数会生成一个大小为 （长 x 高 x 4） 的 Uint8Array。
-		你可以通过传入 data 来接收像素数据，也可以通过传参来指定需要读取的区域的像素。
-		@param data data
-		@param x x
-		@param y y
-		@param w w
-		@param h h 
-		*/
-		readPixels(data?: Uint8Array, x?: number, y?: number, w?: number, h?: number): Uint8Array;	
-	}	
-	/** !#en Class for scene handling.
-	!#zh 场景资源类。 */
-	export class SceneAsset extends Asset {		
-		scene: Scene;		
-		/** !#en Indicates the raw assets of this scene can be load after scene launched.
-		!#zh 指示该场景依赖的资源可否在场景切换后再延迟加载。 */
-		asyncLoadAssets: boolean;	
-	}	
-	/** !#en Class for script handling.
-	!#zh Script 资源类。 */
-	export class _Script extends Asset {	
-	}	
-	/** !#en Class for JavaScript handling.
-	!#zh JavaScript 资源类。 */
-	export class _JavaScript extends Asset {	
-	}	
-	/** !#en Class for coffeescript handling.
-	!#zh CoffeeScript 资源类。 */
-	export class CoffeeScript extends Asset {	
-	}	
-	/** !#en Class for TypeScript handling.
-	!#zh TypeScript 资源类。 */
-	export class TypeScript extends Asset {	
-	}	
-	/** !#en Class for sprite atlas handling.
-	!#zh 精灵图集资源类。 */
-	export class SpriteAtlas extends Asset {		
-		/**
-		Returns the texture of the sprite atlas 
-		*/
-		getTexture(): Texture2D;		
-		/**
-		Returns the sprite frame correspond to the given key in sprite atlas.
-		@param key key 
-		*/
-		getSpriteFrame(key: string): SpriteFrame;		
-		/**
-		Returns the sprite frames in sprite atlas. 
-		*/
-		getSpriteFrames(): [SpriteFrame];	
-	}	
-	/** !#en
-	A cc.SpriteFrame has:<br/>
-	 - texture: A cc.Texture2D that will be used by render components<br/>
-	 - rectangle: A rectangle of the texture
-	
-	!#zh
-	一个 SpriteFrame 包含：<br/>
-	 - 纹理：会被渲染组件使用的 Texture2D 对象。<br/>
-	 - 矩形：在纹理中的矩形区域。 */
-	export class SpriteFrame extends Asset implements EventTarget {		
-		/** !#en Top border of the sprite
-		!#zh sprite 的顶部边框 */
-		insetTop: number;		
-		/** !#en Bottom border of the sprite
-		!#zh sprite 的底部边框 */
-		insetBottom: number;		
-		/** !#en Left border of the sprite
-		!#zh sprite 的左边边框 */
-		insetLeft: number;		
-		/** !#en Right border of the sprite
-		!#zh sprite 的左边边框 */
-		insetRight: number;		
-		/**
-		!#en
-		Constructor of SpriteFrame class.
-		!#zh
-		SpriteFrame 类的构造函数。
-		@param filename filename
-		@param rect rect
-		@param rotated Whether the frame is rotated in the texture
-		@param offset The offset of the frame in the texture
-		@param originalSize The size of the frame in the texture 
-		*/
-		constructor(filename?: string|Texture2D, rect?: Rect, rotated?: boolean, offset?: Vec2, originalSize?: Size);		
-		/**
-		!#en Returns whether the texture have been loaded
-		!#zh 返回是否已加载纹理 
-		*/
-		textureLoaded(): boolean;		
-		/**
-		!#en Returns whether the sprite frame is rotated in the texture.
-		!#zh 获取 SpriteFrame 是否旋转 
-		*/
-		isRotated(): boolean;		
-		/**
-		!#en Set whether the sprite frame is rotated in the texture.
-		!#zh 设置 SpriteFrame 是否旋转
-		@param bRotated bRotated 
-		*/
-		setRotated(bRotated: boolean): void;		
-		/**
-		!#en Returns the rect of the sprite frame in the texture.
-		!#zh 获取 SpriteFrame 的纹理矩形区域 
-		*/
-		getRect(): Rect;		
-		/**
-		!#en Sets the rect of the sprite frame in the texture.
-		!#zh 设置 SpriteFrame 的纹理矩形区域
-		@param rect rect 
-		*/
-		setRect(rect: Rect): void;		
-		/**
-		!#en Returns the original size of the trimmed image.
-		!#zh 获取修剪前的原始大小 
-		*/
-		getOriginalSize(): Size;		
-		/**
-		!#en Sets the original size of the trimmed image.
-		!#zh 设置修剪前的原始大小
-		@param size size 
-		*/
-		setOriginalSize(size: Size): void;		
-		/**
-		!#en Returns the texture of the frame.
-		!#zh 获取使用的纹理实例 
-		*/
-		getTexture(): Texture2D;		
-		/**
-		!#en Returns the offset of the frame in the texture.
-		!#zh 获取偏移量 
-		*/
-		getOffset(): Vec2;		
-		/**
-		!#en Sets the offset of the frame in the texture.
-		!#zh 设置偏移量
-		@param offsets offsets 
-		*/
-		setOffset(offsets: Vec2): void;		
-		/**
-		!#en Clone the sprite frame.
-		!#zh 克隆 SpriteFrame 
-		*/
-		clone(): SpriteFrame;		
-		/**
-		!#en Set SpriteFrame with Texture, rect, rotated, offset and originalSize.<br/>
-		!#zh 通过 Texture，rect，rotated，offset 和 originalSize 设置 SpriteFrame。
-		@param textureOrTextureFile textureOrTextureFile
-		@param rect rect
-		@param rotated rotated
-		@param offset offset
-		@param originalSize originalSize 
-		*/
-		setTexture(textureOrTextureFile: string|Texture2D, rect?: Rect, rotated?: boolean, offset?: Vec2, originalSize?: Size): boolean;		
-		/**
-		!#en If a loading scene (or prefab) is marked as `asyncLoadAssets`, all the textures of the SpriteFrame which
-		associated by user's custom Components in the scene, will not preload automatically.
-		These textures will be load when Sprite component is going to render the SpriteFrames.
-		You can call this method if you want to load the texture early.
-		!#zh 当加载中的场景或 Prefab 被标记为 `asyncLoadAssets` 时，用户在场景中由自定义组件关联到的所有 SpriteFrame 的贴图都不会被提前加载。
-		只有当 Sprite 组件要渲染这些 SpriteFrame 时，才会检查贴图是否加载。如果你希望加载过程提前，你可以手工调用这个方法。
-		
-		@example 
-		```js
-		if (spriteFrame.textureLoaded()) {
-		    this._onSpriteFrameLoaded();
-		}
-		else {
-		    spriteFrame.once('load', this._onSpriteFrameLoaded, this);
-		    spriteFrame.ensureLoadTexture();
-		}
-		``` 
-		*/
-		ensureLoadTexture(): void;		
-		/**
-		!#en
-		If you do not need to use the SpriteFrame temporarily, you can call this method so that its texture could be garbage collected. Then when you need to render the SpriteFrame, you should call `ensureLoadTexture` manually to reload texture.
-		!#zh
-		当你暂时不再使用这个 SpriteFrame 时，可以调用这个方法来保证引用的贴图对象能被 GC。然后当你要渲染 SpriteFrame 时，你需要手动调用 `ensureLoadTexture` 来重新加载贴图。
-		
-		@example 
-		```js
-		spriteFrame.clearTexture();
-		// when you need the SpriteFrame again...
-		spriteFrame.once('load', onSpriteFrameLoaded);
-		spriteFrame.ensureLoadTexture();
-		``` 
-		*/
-		clearTexture(): void;		
-		/**
-		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
-		!#zh 检查事件目标对象是否有为特定类型的事件注册的回调。
-		@param type The type of event. 
-		*/
-		hasEventListener(type: string): boolean;		
-		/**
-		!#en
-		Register an callback of a specific event type on the EventTarget.
-		This type of event should be triggered via `emit`.
-		!#zh
-		注册事件目标的特定事件类型回调。这种类型的事件应该被 `emit` 触发。
-		@param type A string representing the event type to listen for.
-		@param callback The callback that will be invoked when the event is dispatched.
-		                             The callback is ignored if it is a duplicate (the callbacks are unique).
-		@param target The target (this object) to invoke the callback, can be null
-		
-		@example 
-		```js
-		eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
-		}, node);
-		``` 
-		*/
-		on<T extends Function>(type: string, callback: T, target?: any, useCapture?: boolean): T;		
-		/**
-		!#en
-		Removes the listeners previously registered with the same type, callback, target and or useCapture,
-		if only type is passed as parameter, all listeners registered with that type will be removed.
-		!#zh
-		删除之前用同类型，回调，目标或 useCapture 注册的事件监听器，如果只传递 type，将会删除 type 类型的所有事件监听器。
-		@param type A string representing the event type being removed.
-		@param callback The callback to remove.
-		@param target The target (this object) to invoke the callback, if it's not given, only callback without target will be removed
-		
-		@example 
-		```js
-		// register fire eventListener
-		var callback = eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
-		}, target);
-		// remove fire event listener
-		eventTarget.off('fire', callback, target);
-		// remove all fire event listeners
-		eventTarget.off('fire');
-		``` 
-		*/
-		off(type: string, callback?: Function, target?: any): void;		
-		/**
-		!#en Removes all callbacks previously registered with the same target (passed as parameter).
-		This is not for removing all listeners in the current event target,
-		and this is not for removing all listeners the target parameter have registered.
-		It's only for removing all listeners (callback and target couple) registered on the current event target by the target parameter.
-		!#zh 在当前 EventTarget 上删除指定目标（target 参数）注册的所有事件监听器。
-		这个函数无法删除当前 EventTarget 的所有事件监听器，也无法删除 target 参数所注册的所有事件监听器。
-		这个函数只能删除 target 参数在当前 EventTarget 上注册的所有事件监听器。
-		@param target The target to be searched for all related listeners 
-		*/
-		targetOff(target: any): void;		
-		/**
-		!#en
-		Register an callback of a specific event type on the EventTarget,
-		the callback will remove itself after the first time it is triggered.
-		!#zh
-		注册事件目标的特定事件类型回调，回调会在第一时间被触发后删除自身。
-		@param type A string representing the event type to listen for.
-		@param callback The callback that will be invoked when the event is dispatched.
-		                             The callback is ignored if it is a duplicate (the callbacks are unique).
-		@param target The target (this object) to invoke the callback, can be null
-		
-		@example 
-		```js
-		eventTarget.once('fire', function () {
-		    cc.log("this is the callback and will be invoked only once");
-		}, node);
-		``` 
-		*/
-		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
-		/**
-		!#en
-		Trigger an event directly with the event name and necessary arguments.
-		!#zh
-		通过事件名发送自定义事件
-		@param type event type
-		@param arg1 First argument
-		@param arg2 Second argument
-		@param arg3 Third argument
-		@param arg4 Fourth argument
-		@param arg5 Fifth argument
-		
-		@example 
-		```js
-		eventTarget.emit('fire', event);
-		eventTarget.emit('fire', message, emitter);
-		``` 
-		*/
-		emit(type: string, arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any): void;		
-		/**
-		!#en
-		Send an event with the event object.
-		!#zh
-		通过事件对象派发事件
-		@param event event 
-		*/
-		dispatchEvent(event: Event): void;	
-	}	
-	/** !#en Class for TTFFont handling.
-	!#zh TTF 字体资源类。 */
-	export class TTFFont extends Font {	
-	}	
-	/** !#en Class for text file.
-	!#zh 文本资源类。 */
-	export class TextAsset extends Asset {		
-		/** The text contents of the resource. */
-		text: string;	
-	}	
-	/** This class allows to easily create OpenGL or Canvas 2D textures from images or raw data. */
-	export class Texture2D extends Asset implements EventTarget {		
-		/** !#en
-		Whether the texture is loaded or not
-		!#zh
-		贴图是否已经成功加载 */
-		loaded: boolean;		
-		/** !#en
-		Texture width in pixel
-		!#zh
-		贴图像素宽度 */
-		width: number;		
-		/** !#en
-		Texture height in pixel
-		!#zh
-		贴图像素高度 */
-		height: number;		
-		/**
-		!#en
-		Get renderer texture implementation object
-		extended from render.Texture2D
-		!#zh  返回渲染器内部贴图对象 
-		*/
-		getImpl(): void;		
-		/**
-		Update texture options, not available in Canvas render mode.
-		image, format, premultiplyAlpha can not be updated in native.
-		@param options options 
-		*/
-		update(options: {image: DOMImageElement; mipmap: boolean; format: PixelFormat; minFilter: Filter; magFilter: Filter; wrapS: WrapMode; wrapT: WrapMode; premultiplyAlpha: boolean; }): void;		
-		/**
-		!#en
-		Init with HTML element.
-		!#zh 用 HTML Image 或 Canvas 对象初始化贴图。
-		@param element element
-		
-		@example 
-		```js
-		var img = new Image();
-		img.src = dataURL;
-		texture.initWithElement(img);
-		``` 
-		*/
-		initWithElement(element: HTMLImageElement|HTMLCanvasElement): void;		
-		/**
-		!#en
-		Intializes with a texture2d with data in Uint8Array.
-		!#zh 使用一个存储在 Unit8Array 中的图像数据（raw data）初始化数据。
-		@param data data
-		@param pixelFormat pixelFormat
-		@param pixelsWidth pixelsWidth
-		@param pixelsHeight pixelsHeight 
-		*/
-		initWithData(data: TypedArray, pixelFormat: number, pixelsWidth: number, pixelsHeight: number): boolean;		
-		/**
-		!#en
-		HTMLElement Object getter, available only on web.
-		!#zh 获取当前贴图对应的 HTML Image 或 Canvas 对象，只在 Web 平台下有效。 
-		*/
-		getHtmlElementObj(): HTMLImageElement;		
-		/**
-		!#en
-		Destory this texture and immediately release its video memory. (Inherit from cc.Object.destroy)<br>
-		After destroy, this object is not usable any more.
-		You can use cc.isValid(obj) to check whether the object is destroyed before accessing it.
-		!#zh
-		销毁该贴图，并立即释放它对应的显存。（继承自 cc.Object.destroy）<br/>
-		销毁后，该对象不再可用。您可以在访问对象之前使用 cc.isValid(obj) 来检查对象是否已被销毁。 
-		*/
-		destroy(): boolean;		
-		/**
-		!#en
-		Pixel format of the texture.
-		!#zh 获取纹理的像素格式。 
-		*/
-		getPixelFormat(): number;		
-		/**
-		!#en
-		Whether or not the texture has their Alpha premultiplied.
-		!#zh 检查纹理在上传 GPU 时预乘选项是否开启。 
-		*/
-		hasPremultipliedAlpha(): boolean;		
-		/**
-		!#en
-		Whether or not use mipmap.
-		!#zh 检查问题在上传 GPU 时是否生成 mipmap。 
-		*/
-		hasMipmap(): boolean;		
-		/**
-		!#en
-		Handler of texture loaded event.
-		Since v2.0, you don't need to invoke this function, it will be invoked automatically after texture loaded.
-		!#zh 贴图加载事件处理器。v2.0 之后你将不在需要手动执行这个函数，它会在贴图加载成功之后自动执行。
-		@param premultiplied premultiplied 
-		*/
-		handleLoadedTexture(premultiplied?: boolean): void;		
-		/**
-		!#en
-		Description of cc.Texture2D.
-		!#zh cc.Texture2D 描述。 
-		*/
-		description(): string;		
-		/**
-		!#en
-		Release texture, please use destroy instead.
-		!#zh 释放纹理，请使用 destroy 替代。 
-		*/
-		releaseTexture(): void;		
-		/**
-		!#en Sets the wrap s and wrap t options. <br/>
-		If the texture size is NPOT (non power of 2), then in can only use gl.CLAMP_TO_EDGE in gl.TEXTURE_WRAP_{S,T}.
-		!#zh 设置纹理包装模式。
-		若纹理贴图尺寸是 NPOT（non power of 2），则只能使用 Texture2D.WrapMode.CLAMP_TO_EDGE。
-		@param wrapS wrapS
-		@param wrapT wrapT 
-		*/
-		setTexParameters(wrapS: Texture2D.WrapMode, wrapT: Texture2D.WrapMode): void;		
-		/**
-		!#en Sets the minFilter and magFilter options
-		!#zh 设置纹理贴图缩小和放大过滤器算法选项。
-		@param minFilter minFilter
-		@param magFilter magFilter 
-		*/
-		setFilters(minFilter: Texture2D.Filter, magFilter: Texture2D.Filter): void;		
-		/**
-		!#en
-		Sets the flipY options
-		!#zh 设置贴图的纵向翻转选项。
-		@param flipY flipY 
-		*/
-		setFlipY(flipY: boolean): void;		
-		/**
-		!#en
-		Sets the premultiply alpha options
-		!#zh 设置贴图的预乘选项。
-		@param premultiply premultiply 
-		*/
-		setPremultiplyAlpha(premultiply: boolean): void;		
-		/**
-		!#en
-		Sets whether generate mipmaps for the texture
-		!#zh 是否为纹理设置生成 mipmaps。
-		@param mipmap mipmap 
-		*/
-		setMipmap(mipmap: boolean): void;		
-		/**
-		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
-		!#zh 检查事件目标对象是否有为特定类型的事件注册的回调。
-		@param type The type of event. 
-		*/
-		hasEventListener(type: string): boolean;		
-		/**
-		!#en
-		Register an callback of a specific event type on the EventTarget.
-		This type of event should be triggered via `emit`.
-		!#zh
-		注册事件目标的特定事件类型回调。这种类型的事件应该被 `emit` 触发。
-		@param type A string representing the event type to listen for.
-		@param callback The callback that will be invoked when the event is dispatched.
-		                             The callback is ignored if it is a duplicate (the callbacks are unique).
-		@param target The target (this object) to invoke the callback, can be null
-		
-		@example 
-		```js
-		eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
-		}, node);
-		``` 
-		*/
-		on<T extends Function>(type: string, callback: T, target?: any, useCapture?: boolean): T;		
-		/**
-		!#en
-		Removes the listeners previously registered with the same type, callback, target and or useCapture,
-		if only type is passed as parameter, all listeners registered with that type will be removed.
-		!#zh
-		删除之前用同类型，回调，目标或 useCapture 注册的事件监听器，如果只传递 type，将会删除 type 类型的所有事件监听器。
-		@param type A string representing the event type being removed.
-		@param callback The callback to remove.
-		@param target The target (this object) to invoke the callback, if it's not given, only callback without target will be removed
-		
-		@example 
-		```js
-		// register fire eventListener
-		var callback = eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
-		}, target);
-		// remove fire event listener
-		eventTarget.off('fire', callback, target);
-		// remove all fire event listeners
-		eventTarget.off('fire');
-		``` 
-		*/
-		off(type: string, callback?: Function, target?: any): void;		
-		/**
-		!#en Removes all callbacks previously registered with the same target (passed as parameter).
-		This is not for removing all listeners in the current event target,
-		and this is not for removing all listeners the target parameter have registered.
-		It's only for removing all listeners (callback and target couple) registered on the current event target by the target parameter.
-		!#zh 在当前 EventTarget 上删除指定目标（target 参数）注册的所有事件监听器。
-		这个函数无法删除当前 EventTarget 的所有事件监听器，也无法删除 target 参数所注册的所有事件监听器。
-		这个函数只能删除 target 参数在当前 EventTarget 上注册的所有事件监听器。
-		@param target The target to be searched for all related listeners 
-		*/
-		targetOff(target: any): void;		
-		/**
-		!#en
-		Register an callback of a specific event type on the EventTarget,
-		the callback will remove itself after the first time it is triggered.
-		!#zh
-		注册事件目标的特定事件类型回调，回调会在第一时间被触发后删除自身。
-		@param type A string representing the event type to listen for.
-		@param callback The callback that will be invoked when the event is dispatched.
-		                             The callback is ignored if it is a duplicate (the callbacks are unique).
-		@param target The target (this object) to invoke the callback, can be null
-		
-		@example 
-		```js
-		eventTarget.once('fire', function () {
-		    cc.log("this is the callback and will be invoked only once");
-		}, node);
-		``` 
-		*/
-		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
-		/**
-		!#en
-		Trigger an event directly with the event name and necessary arguments.
-		!#zh
-		通过事件名发送自定义事件
-		@param type event type
-		@param arg1 First argument
-		@param arg2 Second argument
-		@param arg3 Third argument
-		@param arg4 Fourth argument
-		@param arg5 Fifth argument
-		
-		@example 
-		```js
-		eventTarget.emit('fire', event);
-		eventTarget.emit('fire', message, emitter);
-		``` 
-		*/
-		emit(type: string, arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any): void;		
-		/**
-		!#en
-		Send an event with the event object.
-		!#zh
-		通过事件对象派发事件
-		@param event event 
-		*/
-		dispatchEvent(event: Event): void;	
-	}	
-	/** !#en
-	EventTarget is an object to which an event is dispatched when something has occurred.
-	Entity are the most common event targets, but other objects can be event targets too.
-	
-	Event targets are an important part of the Fireball event model.
-	The event target serves as the focal point for how events flow through the scene graph.
-	When an event such as a mouse click or a keypress occurs, Fireball dispatches an event object
-	into the event flow from the root of the hierarchy. The event object then makes its way through
-	the scene graph until it reaches the event target, at which point it begins its return trip through
-	the scene graph. This round-trip journey to the event target is conceptually divided into three phases:
-	- The capture phase comprises the journey from the root to the last node before the event target's node
-	- The target phase comprises only the event target node
-	- The bubbling phase comprises any subsequent nodes encountered on the return trip to the root of the tree
-	See also: http://www.w3.org/TR/DOM-Level-3-Events/#event-flow
-	
-	Event targets can implement the following methods:
-	 - _getCapturingTargets
-	 - _getBubblingTargets
-	
-	!#zh
-	事件目标是事件触发时，分派的事件对象，Node 是最常见的事件目标，
-	但是其他对象也可以是事件目标。<br/> */
-	export class EventTarget {		
-		/**
-		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
-		!#zh 检查事件目标对象是否有为特定类型的事件注册的回调。
-		@param type The type of event. 
-		*/
-		hasEventListener(type: string): boolean;		
-		/**
-		!#en
-		Register an callback of a specific event type on the EventTarget.
-		This type of event should be triggered via `emit`.
-		!#zh
-		注册事件目标的特定事件类型回调。这种类型的事件应该被 `emit` 触发。
-		@param type A string representing the event type to listen for.
-		@param callback The callback that will be invoked when the event is dispatched.
-		                             The callback is ignored if it is a duplicate (the callbacks are unique).
-		@param target The target (this object) to invoke the callback, can be null
-		
-		@example 
-		```js
-		eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
-		}, node);
-		``` 
-		*/
-		on<T extends Function>(type: string, callback: T, target?: any, useCapture?: boolean): T;		
-		/**
-		!#en
-		Removes the listeners previously registered with the same type, callback, target and or useCapture,
-		if only type is passed as parameter, all listeners registered with that type will be removed.
-		!#zh
-		删除之前用同类型，回调，目标或 useCapture 注册的事件监听器，如果只传递 type，将会删除 type 类型的所有事件监听器。
-		@param type A string representing the event type being removed.
-		@param callback The callback to remove.
-		@param target The target (this object) to invoke the callback, if it's not given, only callback without target will be removed
-		
-		@example 
-		```js
-		// register fire eventListener
-		var callback = eventTarget.on('fire', function () {
-		    cc.log("fire in the hole");
-		}, target);
-		// remove fire event listener
-		eventTarget.off('fire', callback, target);
-		// remove all fire event listeners
-		eventTarget.off('fire');
-		``` 
-		*/
-		off(type: string, callback?: Function, target?: any): void;		
-		/**
-		!#en Removes all callbacks previously registered with the same target (passed as parameter).
-		This is not for removing all listeners in the current event target,
-		and this is not for removing all listeners the target parameter have registered.
-		It's only for removing all listeners (callback and target couple) registered on the current event target by the target parameter.
-		!#zh 在当前 EventTarget 上删除指定目标（target 参数）注册的所有事件监听器。
-		这个函数无法删除当前 EventTarget 的所有事件监听器，也无法删除 target 参数所注册的所有事件监听器。
-		这个函数只能删除 target 参数在当前 EventTarget 上注册的所有事件监听器。
-		@param target The target to be searched for all related listeners 
-		*/
-		targetOff(target: any): void;		
-		/**
-		!#en
-		Register an callback of a specific event type on the EventTarget,
-		the callback will remove itself after the first time it is triggered.
-		!#zh
-		注册事件目标的特定事件类型回调，回调会在第一时间被触发后删除自身。
-		@param type A string representing the event type to listen for.
-		@param callback The callback that will be invoked when the event is dispatched.
-		                             The callback is ignored if it is a duplicate (the callbacks are unique).
-		@param target The target (this object) to invoke the callback, can be null
-		
-		@example 
-		```js
-		eventTarget.once('fire', function () {
-		    cc.log("this is the callback and will be invoked only once");
-		}, node);
-		``` 
-		*/
-		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
-		/**
-		!#en
-		Trigger an event directly with the event name and necessary arguments.
-		!#zh
-		通过事件名发送自定义事件
-		@param type event type
-		@param arg1 First argument
-		@param arg2 Second argument
-		@param arg3 Third argument
-		@param arg4 Fourth argument
-		@param arg5 Fifth argument
-		
-		@example 
-		```js
-		eventTarget.emit('fire', event);
-		eventTarget.emit('fire', message, emitter);
-		``` 
-		*/
-		emit(type: string, arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any): void;		
-		/**
-		!#en
-		Send an event with the event object.
-		!#zh
-		通过事件对象派发事件
-		@param event event 
-		*/
-		dispatchEvent(event: Event): void;	
-	}	
-	/** !#en Base class of all kinds of events.
-	!#zh 包含事件相关信息的对象。 */
-	export class Event {		
-		/**
-		
-		@param type The name of the event (case-sensitive), e.g. "click", "fire", or "submit"
-		@param bubbles A boolean indicating whether the event bubbles up through the tree or not 
-		*/
-		constructor(type: string, bubbles: boolean);		
-		/** !#en The name of the event (case-sensitive), e.g. "click", "fire", or "submit".
-		!#zh 事件类型。 */
-		type: string;		
-		/** !#en Indicate whether the event bubbles up through the tree or not.
-		!#zh 表示该事件是否进行冒泡。 */
-		bubbles: boolean;		
-		/** !#en A reference to the target to which the event was originally dispatched.
-		!#zh 最初事件触发的目标 */
-		target: any;		
-		/** !#en A reference to the currently registered target for the event.
-		!#zh 当前目标 */
-		currentTarget: any;		
-		/** !#en
-		Indicates which phase of the event flow is currently being evaluated.
-		Returns an integer value represented by 4 constants:
-		 - Event.NONE = 0
-		 - Event.CAPTURING_PHASE = 1
-		 - Event.AT_TARGET = 2
-		 - Event.BUBBLING_PHASE = 3
-		The phases are explained in the [section 3.1, Event dispatch and DOM event flow]
-		(http://www.w3.org/TR/DOM-Level-3-Events/#event-flow), of the DOM Level 3 Events specification.
-		!#zh 事件阶段 */
-		eventPhase: number;		
-		/**
-		!#en Reset the event for being stored in the object pool.
-		!#zh 重置对象池中存储的事件。 
-		*/
-		unuse(): string;		
-		/**
-		!#en Reuse the event for being used again by the object pool.
-		!#zh 用于对象池再次使用的事件。 
-		*/
-		reuse(): string;		
-		/**
-		!#en Stops propagation for current event.
-		!#zh 停止传递当前事件。 
-		*/
-		stopPropagation(): void;		
-		/**
-		!#en Stops propagation for current event immediately,
-		the event won't even be dispatched to the listeners attached in the current target.
-		!#zh 立即停止当前事件的传递，事件甚至不会被分派到所连接的当前目标。 
-		*/
-		stopPropagationImmediate(): void;		
-		/**
-		!#en Checks whether the event has been stopped.
-		!#zh 检查该事件是否已经停止传递. 
-		*/
-		isStopped(): boolean;		
-		/**
-		!#en
-		<p>
-		    Gets current target of the event                                                            <br/>
-		    note: It only be available when the event listener is associated with node.                <br/>
-		         It returns 0 when the listener is associated with fixed priority.
-		</p>
-		!#zh 获取当前目标节点 
-		*/
-		getCurrentTarget(): Node;		
-		/**
-		!#en Gets the event type.
-		!#zh 获取事件类型 
-		*/
-		getType(): string;		
-		/** !#en Code for event without type.
-		!#zh 没有类型的事件 */
-		static NO_TYPE: string;		
-		/** !#en The type code of Touch event.
-		!#zh 触摸事件类型 */
-		static TOUCH: string;		
-		/** !#en The type code of Mouse event.
-		!#zh 鼠标事件类型 */
-		static MOUSE: string;		
-		/** !#en The type code of Keyboard event.
-		!#zh 键盘事件类型 */
-		static KEYBOARD: string;		
-		/** !#en The type code of Acceleration event.
-		!#zh 加速器事件类型 */
-		static ACCELERATION: string;		
-		/** !#en Events not currently dispatched are in this phase
-		!#zh 尚未派发事件阶段 */
-		static NONE: number;		
-		/** !#en
-		The capturing phase comprises the journey from the root to the last node before the event target's node
-		see http://www.w3.org/TR/DOM-Level-3-Events/#event-flow
-		!#zh 捕获阶段，包括事件目标节点之前从根节点到最后一个节点的过程。 */
-		static CAPTURING_PHASE: number;		
-		/** !#en
-		The target phase comprises only the event target node
-		see http://www.w3.org/TR/DOM-Level-3-Events/#event-flow
-		!#zh 目标阶段仅包括事件目标节点。 */
-		static AT_TARGET: number;		
-		/** !#en
-		The bubbling phase comprises any subsequent nodes encountered on the return trip to the root of the hierarchy
-		see http://www.w3.org/TR/DOM-Level-3-Events/#event-flow
-		!#zh 冒泡阶段， 包括回程遇到到层次根节点的任何后续节点。 */
-		static BUBBLING_PHASE: number;	
-	}	
-	/** !#en
-	The System event, it currently supports keyboard events and accelerometer events.<br>
-	You can get the SystemEvent instance with cc.systemEvent.<br>
-	!#zh
-	系统事件，它目前支持按键事件和重力感应事件。<br>
-	你可以通过 cc.systemEvent 获取到 SystemEvent 的实例。<br> */
-	export class SystemEvent extends EventTarget {		
-		/**
-		!#en whether enable accelerometer event
-		!#zh 是否启用加速度计事件
-		@param isEnable isEnable 
-		*/
-		setAccelerometerEnabled(isEnable: boolean): void;		
-		/**
-		!#en set accelerometer interval value
-		!#zh 设置加速度计间隔值
-		@param interval interval 
-		*/
-		setAccelerometerInterval(interval: number): void;	
-	}	
-	/** !#en The touch event class
-	!#zh 封装了触摸相关的信息。 */
-	export class Touch {		
-		/**
-		!#en Returns the current touch location in OpenGL coordinates.、
-		!#zh 获取当前触点位置。 
-		*/
-		getLocation(): Vec2;		
-		/**
-		!#en Returns X axis location value.
-		!#zh 获取当前触点 X 轴位置。 
-		*/
-		getLocationX(): number;		
-		/**
-		!#en Returns Y axis location value.
-		!#zh 获取当前触点 Y 轴位置。 
-		*/
-		getLocationY(): number;		
-		/**
-		!#en Returns the previous touch location in OpenGL coordinates.
-		!#zh 获取触点在上一次事件时的位置对象，对象包含 x 和 y 属性。 
-		*/
-		getPreviousLocation(): Vec2;		
-		/**
-		!#en Returns the start touch location in OpenGL coordinates.
-		!#zh 获获取触点落下时的位置对象，对象包含 x 和 y 属性。 
-		*/
-		getStartLocation(): Vec2;		
-		/**
-		!#en Returns the delta distance from the previous touche to the current one in screen coordinates.
-		!#zh 获取触点距离上一次事件移动的距离对象，对象包含 x 和 y 属性。 
-		*/
-		getDelta(): Vec2;		
-		/**
-		!#en Returns the current touch location in screen coordinates.
-		!#zh 获取当前事件在游戏窗口内的坐标位置对象，对象包含 x 和 y 属性。 
-		*/
-		getLocationInView(): Vec2;		
-		/**
-		!#en Returns the previous touch location in screen coordinates.
-		!#zh 获取触点在上一次事件时在游戏窗口中的位置对象，对象包含 x 和 y 属性。 
-		*/
-		getPreviousLocationInView(): Vec2;		
-		/**
-		!#en Returns the start touch location in screen coordinates.
-		!#zh 获取触点落下时在游戏窗口中的位置对象，对象包含 x 和 y 属性。 
-		*/
-		getStartLocationInView(): Vec2;		
-		/**
-		!#en Returns the id of cc.Touch.
-		!#zh 触点的标识 ID，可以用来在多点触摸中跟踪触点。 
-		*/
-		getID(): number;		
-		/**
-		!#en Sets information to touch.
-		!#zh 设置触摸相关的信息。用于监控触摸事件。
-		@param id id
-		@param x x
-		@param y y 
-		*/
-		setTouchInfo(id: number, x: number, y: number): void;	
 	}	
 	/** !#en The animation component is used to play back animations.
 	
@@ -6711,7 +6942,8 @@ declare namespace cc {
 		``` 
 		*/
 		on(type: string, callback: (event: Event.EventCustom) => void, target?: any, useCapture?: boolean): (event: Event.EventCustom) => void;
-		on<T>(type: string, callback: (event: T) => void, target?: any, useCapture?: boolean): (event: T) => void;		
+		on<T>(type: string, callback: (event: T) => void, target?: any, useCapture?: boolean): (event: T) => void;
+		on(type: string, callback: (type: string, state: cc.AnimationState) => void, target?: any, useCapture?: boolean): (type: string, state: cc.AnimationState) => void;		
 		/**
 		!#en
 		Unregister animation event callback.
@@ -6768,25 +7000,6 @@ declare namespace cc {
 		``` 
 		*/
 		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
-		/**
-		!#en
-		Trigger an event directly with the event name and necessary arguments.
-		!#zh
-		通过事件名发送自定义事件
-		@param type event type
-		@param arg1 First argument
-		@param arg2 Second argument
-		@param arg3 Third argument
-		@param arg4 Fourth argument
-		@param arg5 Fifth argument
-		
-		@example 
-		```js
-		eventTarget.emit('fire', event);
-		eventTarget.emit('fire', message, emitter);
-		``` 
-		*/
-		emit(type: string, arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any): void;		
 		/**
 		!#en
 		Send an event with the event object.
@@ -6915,7 +7128,7 @@ declare namespace cc {
 	  - cc.Node.EventType.MOUSE_WHEEL // 鼠标滚轮事件
 	
 	用户可以通过获取 __点击事件__ 回调函数的参数 event 的 target 属性获取当前点击对象。 */
-	export class Button extends Component {		
+	export class Button extends Component implements GraySpriteState {		
 		/** !#en
 		Whether the Button is disabled.
 		If true, the Button will trigger event and do transition.
@@ -6974,7 +7187,13 @@ declare namespace cc {
 		target: Node;		
 		/** !#en If Button is clicked, it will trigger event's handler
 		!#zh 按钮的点击事件列表。 */
-		clickEvents: Component.EventHandler[];	
+		clickEvents: Component.EventHandler[];		
+		/** !#en The normal material.
+		!#zh 正常状态的材质。 */
+		normalMaterial: Material;		
+		/** !#en The gray material.
+		!#zh 置灰状态的材质。 */
+		grayMaterial: Material;	
 	}	
 	/** !#zh: 作为 UI 根节点，为所有子节点提供视窗四边的位置信息以供对齐，另外提供屏幕适配策略接口，方便从编辑器设置。
 	注：由于本节点的尺寸会跟随屏幕拉伸，所以 anchorPoint 只支持 (0.5, 0.5)，否则适配不同屏幕时坐标会有偏差。 */
@@ -6996,7 +7215,7 @@ declare namespace cc {
 	Base class for everything attached to Node(Entity).<br/>
 	<br/>
 	NOTE: Not allowed to use construction parameters for Component's subclasses,
-	      because Component is created by the engine.
+	because Component is created by the engine.
 	!#zh
 	所有附加到节点的基类。<br/>
 	<br/>
@@ -7029,9 +7248,10 @@ declare namespace cc {
 		!#en LateUpdate is called every frame, if the Component is enabled.<br/>
 		This is a lifecycle method. It may not be implemented in the super class. You can only call its super class method inside it. It should not be called manually elsewhere.
 		!#zh 如果该组件启用，则每帧调用 LateUpdate。<br/>
-		该方法为生命周期方法，父类未必会有实现。并且你只能在该方法内部调用父类的实现，不可在其它地方直接调用该方法。 
+		该方法为生命周期方法，父类未必会有实现。并且你只能在该方法内部调用父类的实现，不可在其它地方直接调用该方法。
+		@param dt the delta time in seconds it took to complete the last frame 
 		*/
-		protected lateUpdate(): void;		
+		protected lateUpdate(dt: number): void;		
 		/**
 		!#en
 		When attaching to an active node or its node first activated.
@@ -7188,16 +7408,10 @@ declare namespace cc {
 		<br/>
 		如果组件包含了“内部状态”（不在 CCClass 属性中定义的临时成员变量），那么你可能需要实现该方法。<br/>
 		<br/>
-		编辑器执行撤销/重做操作时，将调用组件的 get set 来录制和还原组件的状态。
-		然而，在极端的情况下，它可能无法良好运作。<br/>
-		那么你就应该实现这个方法，手动根据组件的属性同步“内部状态”。
-		一旦你实现这个方法，当用户撤销或重做时，组件的所有 get set 都不会再被调用。
-		这意味着仅仅指定了默认值的属性将被编辑器记录和还原。<br/>
+		编辑器执行撤销/重做操作时，将调用组件的 get set 来录制和还原组件的状态。然而，在极端的情况下，它可能无法良好运作。<br/>
+		那么你就应该实现这个方法，手动根据组件的属性同步“内部状态”。一旦你实现这个方法，当用户撤销或重做时，组件的所有 get set 都不会再被调用。这意味着仅仅指定了默认值的属性将被编辑器记录和还原。<br/>
 		<br/>
-		同样的，编辑可能无法在极端情况下正确地重置您的组件。<br/>
-		于是如果你需要支持组件重置菜单，你需要在该方法中手工同步组件属性到“内部状态”。<br/>
-		一旦你实现这个方法，组件的所有 get set 都不会在重置操作时被调用。
-		这意味着仅仅指定了默认值的属性将被编辑器重置。
+		同样的，编辑可能无法在极端情况下正确地重置您的组件。如果你需要支持组件重置菜单，则需要在该方法中手工同步组件属性到“内部状态”。一旦你实现这个方法，组件的所有 get set 都不会在重置操作时被调用。这意味着仅仅指定了默认值的属性将被编辑器重置。
 		<br/>
 		此方法仅在编辑器下会被调用。 
 		*/
@@ -7212,7 +7426,7 @@ declare namespace cc {
 		@param callback The callback function
 		@param interval Tick interval in seconds. 0 means tick every frame.
 		@param repeat The selector will be executed (repeat + 1) times, you can use cc.macro.REPEAT_FOREVER for tick infinitely.
-		@param delay The amount of time that the first tick will wait before execution.
+		@param delay The amount of time that the first tick will wait before execution. Unit: s
 		
 		@example 
 		```js
@@ -7227,7 +7441,7 @@ declare namespace cc {
 		!#en Schedules a callback function that runs only once, with a delay of 0 or larger.
 		!#zh 调度一个只运行一次的回调函数，可以指定 0 让回调函数在下一帧立即执行或者在一定的延时之后执行。
 		@param callback A function wrapped as a selector
-		@param delay The amount of time that the first tick will wait before execution.
+		@param delay The amount of time that the first tick will wait before execution. Unit: s
 		
 		@example 
 		```js
@@ -7253,7 +7467,7 @@ declare namespace cc {
 		!#en
 		unschedule all scheduled callback functions: custom callback functions, and the 'update' callback function.<br/>
 		Actions are not affected by this method.
-		!#zh 取消调度所有已调度的回调函数：定制的回调函数以及 'update' 回调函数。动作不受此方法影响。
+		!#zh 取消调度所有已调度的回调函数：定制的回调函数以及 `update` 回调函数。动作不受此方法影响。
 		
 		@example 
 		```js
@@ -7298,12 +7512,29 @@ declare namespace cc {
 		/** !#en Whether use system font name or not.
 		!#zh 是否使用系统字体。 */
 		useSystemFont: boolean;		
-		/** !#en The spacing of the x axis between characters.
-		!#zh 文字之间 x 轴的间距。 */
+		/** !#en The spacing of the x axis between characters, only take Effect when using bitmap fonts.
+		!#zh 文字之间 x 轴的间距，仅在使用位图字体时生效。 */
 		spacingX: number;		
 		/** !#en The cache mode of label. This mode only supports system fonts.
 		!#zh 文本缓存模式, 该模式只支持系统字体。 */
-		cacheMode: Label.CacheMode;	
+		cacheMode: Label.CacheMode;		
+		/** !#en Whether enable bold.
+		!#zh 是否启用黑体。 */
+		enableBold: boolean;		
+		/** !#en Whether enable italic.
+		!#zh 是否启用黑体。 */
+		enableItalic: boolean;		
+		/** !#en Whether enable underline.
+		!#zh 是否启用下划线。 */
+		enableUnderline: boolean;		
+		/** !#en The height of underline.
+		!#zh 下划线高度。 */
+		underlineHeight: number;		
+		/**
+		!#zh 需要保证当前场景中没有使用CHAR缓存的Label才可以清除，否则已渲染的文字没有重新绘制会不显示
+		!#en It can be cleared that need to ensure there is not use the CHAR cache in the current scene. Otherwise, the rendered text will not be displayed without repainting. 
+		*/
+		static clearCharCache(): void;	
 	}	
 	/** !#en Outline effect used to change the display, only for system fonts or TTF fonts
 	!#zh 描边效果组件,用于字体描边,只能用于系统字体 */
@@ -7400,10 +7631,7 @@ declare namespace cc {
 		cc.log(childNode.x); // changed
 		``` 
 		*/
-		updateLayout(): void;		
-		/** !#en The padding of layout, it effects the layout in four direction.
-		!#zh 容器内边距，该属性会在四个布局方向上生效。 */
-		padding: number;	
+		updateLayout(): void;	
 	}	
 	/** !#en The Mask Component
 	!#zh 遮罩组件 */
@@ -7418,14 +7646,13 @@ declare namespace cc {
 		The alpha threshold.(Not supported Canvas Mode) <br/>
 		The content is drawn only where the stencil have pixel with alpha greater than the alphaThreshold. <br/>
 		Should be a float between 0 and 1. <br/>
-		This default to 0 (so alpha test is disabled).
-		When it's set to 1, the stencil will discard all pixels, nothing will be shown,
-		In previous version, it act as if the alpha test is disabled, which is incorrect.
+		This default to 0.1.
+		When it's set to 1, the stencil will discard all pixels, nothing will be shown.
 		!#zh
 		Alpha 阈值（不支持 Canvas 模式）<br/>
-		只有当模板的像素的 alpha 大于 alphaThreshold 时，才会绘制内容。<br/>
-		该数值 0 ~ 1 之间的浮点数，默认值为 0（因此禁用 alpha 测试）
-		当被设置为 1 时，会丢弃所有蒙版像素，所以不会显示任何内容，在之前的版本中，设置为 1 等同于 0，这种效果其实是不正确的 */
+		只有当模板的像素的 alpha 大于等于 alphaThreshold 时，才会绘制内容。<br/>
+		该数值 0 ~ 1 之间的浮点数，默认值为 0.1
+		当被设置为 1 时，会丢弃所有蒙版像素，所以不会显示任何内容 */
 		alphaThreshold: number;		
 		/** !#en Reverse mask (Not supported Canvas Mode)
 		!#zh 反向遮罩（不支持 Canvas 模式） */
@@ -7444,7 +7671,7 @@ declare namespace cc {
 	length is the how many pixels the texture is stretched across. The texture               <br/>
 	is vertically aligned along the streak segment.
 	!#zh 运动轨迹，用于游戏对象的运动轨迹上实现拖尾渐隐效果。 */
-	export class MotionStreak extends Component {		
+	export class MotionStreak extends Component implements BlendFunc {		
 		/** !#en
 		!#zh 在编辑器模式下预览拖尾效果。 */
 		preview: boolean;		
@@ -7476,7 +7703,13 @@ declare namespace cc {
 		myMotionStreak.reset();
 		``` 
 		*/
-		reset(): void;	
+		reset(): void;		
+		/** !#en specify the source Blend Factor, this will generate a custom material object, please pay attention to the memory cost.
+		!#zh 指定原图的混合模式，这会克隆一个新的材质对象，注意这带来的开销 */
+		srcBlendFactor: macro.BlendFactor;		
+		/** !#en specify the destination Blend Factor.
+		!#zh 指定目标的混合模式 */
+		dstBlendFactor: macro.BlendFactor;	
 	}	
 	/** !#en The PageView control
 	!#zh 页面视图组件 */
@@ -7618,20 +7851,25 @@ declare namespace cc {
 	export class RenderComponent extends Component {		
 		/** !#en The materials used by this render component.
 		!#zh 渲染组件使用的材质。 */
-		sharedMaterials: [Material];		
+		sharedMaterials: Material[];		
 		/**
 		!#en Get the material by index.
 		!#zh 根据指定索引获取材质
 		@param index index 
 		*/
-		getMaterial(index: number): void;		
+		getMaterial(index: number): MaterialVariant;		
+		/**
+		!#en Gets all the materials.
+		!#zh 获取所有材质。 
+		*/
+		getMaterials(): MaterialVariant[];		
 		/**
 		!#en Set the material by index.
 		!#zh 根据指定索引设置材质
 		@param index index
 		@param material material 
 		*/
-		setMaterial(index: number, material: Material): void;	
+		setMaterial(index: number, material: Material): Material;	
 	}	
 	/** !#en The RichText Component.
 	!#zh 富文本组件 */
@@ -7650,10 +7888,13 @@ declare namespace cc {
 		fontFamily: string;		
 		/** !#en Custom TTF font of RichText
 		!#zh  富文本定制字体 */
-		font: cc.TTFFont;		
+		font: TTFFont;		
 		/** !#en Whether use system font name or not.
 		!#zh 是否使用系统字体。 */
 		useSystemFont: boolean;		
+		/** !#en The cache mode of label. This mode only supports system fonts.
+		!#zh 文本缓存模式, 该模式只支持系统字体。 */
+		cacheMode: Label.CacheMode;		
 		/** !#en The maximize width of the RichText
 		!#zh 富文本的最大宽度 */
 		maxWidth: number;		
@@ -7669,6 +7910,33 @@ declare namespace cc {
 		!#zh
 		选中此选项后，RichText 将阻止节点边界框中的所有输入事件（鼠标和触摸），从而防止输入事件穿透到底层节点。 */
 		handleTouchEvent: boolean;	
+	}	
+	/** !#en
+	This component is used to adjust the layout of current node to respect the safe area of a notched mobile device such as the iPhone X.
+	It is typically used for the top node of the UI interaction area. For specific usage, refer to the official [example-cases/02_ui/16_safeArea/SafeArea.fire](https://github.com/cocos-creator/example-cases).
+	
+	The concept of safe area is to give you a fixed inner rectangle in which you can safely display content that will be drawn on screen.
+	You are strongly discouraged from providing controls outside of this area. But your screen background could embellish edges.
+	
+	This component internally uses the API `cc.sys.getSafeAreaRect();` to obtain the safe area of the current iOS or Android device,
+	and implements the adaptation by using the Widget component and set anchor.
+	
+	!#zh
+	该组件会将所在节点的布局适配到 iPhone X 等异形屏手机的安全区域内，通常用于 UI 交互区域的顶层节点，具体用法可参考官方范例 [example-cases/02_ui/16_safeArea/SafeArea.fire](https://github.com/cocos-creator/example-cases)。
+	
+	该组件内部通过 API `cc.sys.getSafeAreaRect();` 获取到当前 iOS 或 Android 设备的安全区域，并通过 Widget 组件实现适配。 */
+	export class SafeArea extends Component {		
+		/**
+		!#en Adapt to safe area
+		!#zh 立即适配安全区域
+		
+		@example 
+		```js
+		let safeArea = this.node.addComponent(cc.SafeArea);
+		safeArea.updateArea();
+		``` 
+		*/
+		updateArea(): void;	
 	}	
 	/** !#en
 	The Scrollbar control allows the user to scroll an image or other view that is too large to see completely
@@ -7934,7 +8202,7 @@ declare namespace cc {
 		!#en Query the content's position in its parent space.
 		!#zh 获取当前视图内容的坐标点。 
 		*/
-		getContentPosition(): Position;		
+		getContentPosition(): Vec2;		
 		/**
 		!#en Query whether the user is currently dragging the ScrollView to scroll it
 		!#zh 用户是否在拖拽当前滚动视图 
@@ -7958,13 +8226,13 @@ declare namespace cc {
 		/** !#en The current progress of the slider. The valid value is between 0-1
 		!#zh 当前进度值，该数值的区间是 0-1 之间 */
 		progress: number;		
-		/** !#en The slider events callback
-		!#zh 滑动器组件事件回调函数 */
+		/** !#en The slider slide events' callback array
+		!#zh 滑动器组件滑动事件回调函数数组 */
 		slideEvents: Component.EventHandler[];	
 	}	
 	/** !#en Renders a sprite in the scene.
 	!#zh 该组件用于在场景中渲染精灵。 */
-	export class Sprite extends RenderComponent {		
+	export class Sprite extends RenderComponent implements BlendFunc {		
 		/** !#en The sprite frame of the sprite.
 		!#zh 精灵的精灵帧 */
 		spriteFrame: SpriteFrame;		
@@ -8005,12 +8273,18 @@ declare namespace cc {
 		/**
 		Gets the current state. 
 		*/
-		getState(): Sprite.State;	
+		getState(): Sprite.State;		
+		/** !#en specify the source Blend Factor, this will generate a custom material object, please pay attention to the memory cost.
+		!#zh 指定原图的混合模式，这会克隆一个新的材质对象，注意这带来的开销 */
+		srcBlendFactor: macro.BlendFactor;		
+		/** !#en specify the destination Blend Factor.
+		!#zh 指定目标的混合模式 */
+		dstBlendFactor: macro.BlendFactor;	
 	}	
 	/** !#en The toggle component is a CheckBox, when it used together with a ToggleGroup, it
 	could be treated as a RadioButton.
 	!#zh Toggle 是一个 CheckBox，当它和 ToggleGroup 一起使用的时候，可以变成 RadioButton。 */
-	export class Toggle extends Button {		
+	export class Toggle extends Button implements GraySpriteState {		
 		/** !#en When this value is true, the check mark component will be enabled, otherwise
 		the check mark component will be disabled.
 		!#zh 如果这个设置为 true，则 check mark 组件会处于 enabled 状态，否则处于 disabled 状态。 */
@@ -8035,7 +8309,13 @@ declare namespace cc {
 		!#en Make the toggle button unchecked.
 		!#zh 使 toggle 按钮处于未选中状态 
 		*/
-		uncheck(): void;	
+		uncheck(): void;		
+		/** !#en The normal material.
+		!#zh 正常状态的材质。 */
+		normalMaterial: Material;		
+		/** !#en The gray material.
+		!#zh 置灰状态的材质。 */
+		grayMaterial: Material;	
 	}	
 	/** !#en ToggleContainer is not a visiable UI component but a way to modify the behavior of a set of Toggles. <br/>
 	Toggles that belong to the same group could only have one of them to be switched on at a time.<br/>
@@ -8069,19 +8349,6 @@ declare namespace cc {
 		/** !#en Read only property, return the toggle items array reference managed by toggleGroup.
 		!#zh 只读属性，返回 toggleGroup 管理的 toggle 数组引用 */
 		toggleItems: any[];	
-	}	
-	/** !#en
-	Handling touch events in a ViewGroup takes special care,
-	because it's common for a ViewGroup to have children that are targets for different touch events than the ViewGroup itself.
-	To make sure that each view correctly receives the touch events intended for it,
-	ViewGroup should register capture phase event and handle the event propagation properly.
-	Please refer to Scrollview for more  information.
-	
-	!#zh
-	ViewGroup的事件处理比较特殊，因为 ViewGroup 里面的子节点关心的事件跟 ViewGroup 本身可能不一样。
-	为了让子节点能够正确地处理事件，ViewGroup 需要注册 capture 阶段的事件，并且合理地处理 ViewGroup 之间的事件传递。
-	请参考 ScrollView 的实现来获取更多信息。 */
-	export class ViewGroup extends Component {	
 	}	
 	/** !#en
 	Stores and manipulate the anchoring based on its parent.
@@ -8220,34 +8487,20 @@ declare namespace cc {
 		注意：onEnable 时所在的那一帧仍然会进行对齐。 */
 		isAlignOnce: boolean;	
 	}	
-	/** !#en SwanSubContextView is a view component which controls open data context viewport in WeChat game platform.<br/>
-	The component's node size decide the viewport of the sub context content in main context,
-	the entire sub context texture will be scaled to the node's bounding box area.<br/>
-	This component provides multiple important features:<br/>
-	1. Sub context could use its own resolution size and policy.<br/>
-	2. Sub context could be minized to smallest size it needed.<br/>
-	3. Resolution of sub context content could be increased.<br/>
-	4. User touch input is transformed to the correct viewport.<br/>
-	5. Texture update is handled by this component. User don't need to worry.<br/>
-	One important thing to be noted, whenever the node's bounding box change,
-	you need to manually reset the viewport of sub context using updateSubContextViewport.
-	!#zh SwanSubContextView 可以用来控制百度小游戏平台开放数据域在主域中的视窗的位置。<br/>
-	这个组件的节点尺寸决定了开放数据域内容在主域中的尺寸，整个开放数据域会被缩放到节点的包围盒范围内。<br/>
-	在这个组件的控制下，用户可以更自由得控制开放数据域：<br/>
-	1. 子域中可以使用独立的设计分辨率和适配模式<br/>
-	2. 子域区域尺寸可以缩小到只容纳内容即可<br/>
-	3. 子域的分辨率也可以被放大，以便获得更清晰的显示效果<br/>
-	4. 用户输入坐标会被自动转换到正确的子域视窗中<br/>
-	5. 子域内容贴图的更新由组件负责，用户不需要处理<br/>
-	唯一需要注意的是，当子域节点的包围盒发生改变时，开发者需要使用 `updateSubContextViewport` 来手动更新子域视窗。 */
-	export class SwanSubContextView extends Component {		
-		/**
-		!#en Update the sub context viewport manually, it should be called whenever the node's bounding box changes.
-		!#zh 更新开放数据域相对于主域的 viewport，这个函数应该在节点包围盒改变时手动调用。 
-		*/
-		updateSubContextViewport(): void;	
+	/** !#en
+	Handling touch events in a ViewGroup takes special care,
+	because it's common for a ViewGroup to have children that are targets for different touch events than the ViewGroup itself.
+	To make sure that each view correctly receives the touch events intended for it,
+	ViewGroup should register capture phase event and handle the event propagation properly.
+	Please refer to Scrollview for more  information.
+	
+	!#zh
+	ViewGroup的事件处理比较特殊，因为 ViewGroup 里面的子节点关心的事件跟 ViewGroup 本身可能不一样。
+	为了让子节点能够正确地处理事件，ViewGroup 需要注册 capture 阶段的事件，并且合理地处理 ViewGroup 之间的事件传递。
+	请参考 ScrollView 的实现来获取更多信息。 */
+	export class ViewGroup extends Component {	
 	}	
-	/** !#en WXSubContextView is a view component which controls open data context viewport in WeChat game platform.<br/>
+	/** !#en SubContextView is a view component which controls open data context viewport in minigame platform.<br/>
 	The component's node size decide the viewport of the sub context content in main context,
 	the entire sub context texture will be scaled to the node's bounding box area.<br/>
 	This component provides multiple important features:<br/>
@@ -8257,17 +8510,15 @@ declare namespace cc {
 	4. User touch input is transformed to the correct viewport.<br/>
 	5. Texture update is handled by this component. User don't need to worry.<br/>
 	One important thing to be noted, whenever the node's bounding box change,
-	you need to manually reset the viewport of sub context using updateSubContextViewport.
-	!#zh WXSubContextView 可以用来控制微信小游戏平台开放数据域在主域中的视窗的位置。<br/>
+	!#zh SubContextView 可以用来控制小游戏平台开放数据域在主域中的视窗的位置。<br/>
 	这个组件的节点尺寸决定了开放数据域内容在主域中的尺寸，整个开放数据域会被缩放到节点的包围盒范围内。<br/>
 	在这个组件的控制下，用户可以更自由得控制开放数据域：<br/>
 	1. 子域中可以使用独立的设计分辨率和适配模式<br/>
 	2. 子域区域尺寸可以缩小到只容纳内容即可<br/>
 	3. 子域的分辨率也可以被放大，以便获得更清晰的显示效果<br/>
 	4. 用户输入坐标会被自动转换到正确的子域视窗中<br/>
-	5. 子域内容贴图的更新由组件负责，用户不需要处理<br/>
-	唯一需要注意的是，当子域节点的包围盒发生改变时，开发者需要使用 `updateSubContextViewport` 来手动更新子域视窗。 */
-	export class WXSubContextView extends Component {		
+	5. 子域内容贴图的更新由组件负责，用户不需要处理<br/> */
+	export class SubContextView extends Component {		
 		/**
 		!#en Reset open data context size and viewport
 		!#zh 重置开放数据域的尺寸和视窗 
@@ -8278,6 +8529,1005 @@ declare namespace cc {
 		!#zh 更新开放数据域相对于主域的 viewport，这个函数应该在节点包围盒改变时手动调用。 
 		*/
 		updateSubContextViewport(): void;	
+	}	
+	/** !#en WXSubContextView is deprecated since v2.4.1, please use SubContextView instead.
+	!#zh 自 v2.4.1 起，WXSubContextView 已经废弃，请使用 SubContextView */
+	export class WXSubContextView extends Component {	
+	}	
+	/** !#en SwanSubContextView is deprecated since v2.4.1, please use SubContextView instead.
+	!#zh 自 v2.4.1 起，SwanSubContextView 已经废弃，请使用 SubContextView */
+	export class SwanSubContextView extends Component {	
+	}	
+	/** !#en Class for audio data handling.
+	!#zh 音频资源类。 */
+	export class AudioClip extends Asset implements EventTarget {		
+		/** !#en Get the audio clip duration
+		!#zh 获取音频剪辑的长度 */
+		duration: number;		
+		/**
+		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
+		!#zh 检查事件目标对象是否有为特定类型的事件注册的回调。
+		@param type The type of event. 
+		*/
+		hasEventListener(type: string): boolean;		
+		/**
+		!#en
+		Register an callback of a specific event type on the EventTarget.
+		This type of event should be triggered via `emit`.
+		!#zh
+		注册事件目标的特定事件类型回调。这种类型的事件应该被 `emit` 触发。
+		@param type A string representing the event type to listen for.
+		@param callback The callback that will be invoked when the event is dispatched.
+		                             The callback is ignored if it is a duplicate (the callbacks are unique).
+		@param target The target (this object) to invoke the callback, can be null
+		
+		@example 
+		```js
+		eventTarget.on('fire', function () {
+		    cc.log("fire in the hole");
+		}, node);
+		``` 
+		*/
+		on<T extends Function>(type: string, callback: T, target?: any, useCapture?: boolean): T;		
+		/**
+		!#en
+		Removes the listeners previously registered with the same type, callback, target and or useCapture,
+		if only type is passed as parameter, all listeners registered with that type will be removed.
+		!#zh
+		删除之前用同类型，回调，目标或 useCapture 注册的事件监听器，如果只传递 type，将会删除 type 类型的所有事件监听器。
+		@param type A string representing the event type being removed.
+		@param callback The callback to remove.
+		@param target The target (this object) to invoke the callback, if it's not given, only callback without target will be removed
+		
+		@example 
+		```js
+		// register fire eventListener
+		var callback = eventTarget.on('fire', function () {
+		    cc.log("fire in the hole");
+		}, target);
+		// remove fire event listener
+		eventTarget.off('fire', callback, target);
+		// remove all fire event listeners
+		eventTarget.off('fire');
+		``` 
+		*/
+		off(type: string, callback?: Function, target?: any): void;		
+		/**
+		!#en Removes all callbacks previously registered with the same target (passed as parameter).
+		This is not for removing all listeners in the current event target,
+		and this is not for removing all listeners the target parameter have registered.
+		It's only for removing all listeners (callback and target couple) registered on the current event target by the target parameter.
+		!#zh 在当前 EventTarget 上删除指定目标（target 参数）注册的所有事件监听器。
+		这个函数无法删除当前 EventTarget 的所有事件监听器，也无法删除 target 参数所注册的所有事件监听器。
+		这个函数只能删除 target 参数在当前 EventTarget 上注册的所有事件监听器。
+		@param target The target to be searched for all related listeners 
+		*/
+		targetOff(target: any): void;		
+		/**
+		!#en
+		Register an callback of a specific event type on the EventTarget,
+		the callback will remove itself after the first time it is triggered.
+		!#zh
+		注册事件目标的特定事件类型回调，回调会在第一时间被触发后删除自身。
+		@param type A string representing the event type to listen for.
+		@param callback The callback that will be invoked when the event is dispatched.
+		                             The callback is ignored if it is a duplicate (the callbacks are unique).
+		@param target The target (this object) to invoke the callback, can be null
+		
+		@example 
+		```js
+		eventTarget.once('fire', function () {
+		    cc.log("this is the callback and will be invoked only once");
+		}, node);
+		``` 
+		*/
+		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
+		/**
+		!#en
+		Send an event with the event object.
+		!#zh
+		通过事件对象派发事件
+		@param event event 
+		*/
+		dispatchEvent(event: Event): void;	
+	}	
+	/** !#en Class for BitmapFont handling.
+	!#zh 位图字体资源类。 */
+	export class BitmapFont extends Font {	
+	}	
+	/** undefined */
+	export class BufferAsset extends Asset {	
+	}	
+	/** !#en Class for Font handling.
+	!#zh 字体资源类。 */
+	export class Font extends Asset {	
+	}	
+	/** !#en
+	Class for JSON file. When the JSON file is loaded, this object is returned.
+	The parsed JSON object can be accessed through the `json` attribute in it.<br>
+	If you want to get the original JSON text, you should modify the extname to `.txt`
+	so that it is loaded as a `TextAsset` instead of a `JsonAsset`.
+	
+	!#zh
+	JSON 资源类。JSON 文件加载后，将会返回该对象。可以通过其中的 `json` 属性访问解析后的 JSON 对象。<br>
+	如果你想要获得 JSON 的原始文本，那么应该修改源文件的后缀为 `.txt`，这样就会加载为一个 `TextAsset` 而不是 `JsonAsset`。 */
+	export class JsonAsset extends Asset {		
+		/** The loaded JSON object. */
+		json: any;	
+	}	
+	/** !#en Class for LabelAtlas handling.
+	!#zh 艺术数字字体资源类。 */
+	export class LabelAtlas extends BitmapFont {	
+	}	
+	/** !#en Class for prefab handling.
+	!#zh 预制资源类。 */
+	export class Prefab extends Asset {		
+		/** the main cc.Node in the prefab */
+		data: Node;		
+		/** !#zh
+		设置实例化这个 prefab 时所用的优化策略。根据使用情况设置为合适的值，能优化该 prefab 实例化所用的时间。
+		!#en
+		Indicates the optimization policy for instantiating this prefab.
+		Set to a suitable value based on usage, can optimize the time it takes to instantiate this prefab. */
+		optimizationPolicy: Prefab.OptimizationPolicy;		
+		/** !#en Indicates the raw assets of this prefab can be load after prefab loaded.
+		!#zh 指示该 Prefab 依赖的资源可否在 Prefab 加载后再延迟加载。 */
+		asyncLoadAssets: boolean;		
+		readonly: boolean;		
+		/**
+		Dynamically translation prefab data into minimized code.<br/>
+		This method will be called automatically before the first time the prefab being instantiated,
+		but you can re-call to refresh the create function once you modified the original prefab data in script. 
+		*/
+		compileCreateFunction(): void;	
+	}	
+	/** Render textures are textures that can be rendered to. */
+	export class RenderTexture extends Texture2D {		
+		/**
+		!#en
+		Init the render texture with size.
+		!#zh
+		初始化 render texture
+		@param width width
+		@param height height
+		@param depthStencilFormat depthStencilFormat 
+		*/
+		initWithSize(width?: number, height?: number, depthStencilFormat?: number): void;		
+		/**
+		!#en
+		Get pixels from render texture, the pixels data stores in a RGBA Uint8Array.
+		It will return a new (width * height * 4) length Uint8Array by default。
+		You can specify a data to store the pixels to reuse the data,
+		you and can specify other params to specify the texture region to read.
+		!#zh
+		从 render texture 读取像素数据，数据类型为 RGBA 格式的 Uint8Array 数组。
+		默认每次调用此函数会生成一个大小为 （长 x 高 x 4） 的 Uint8Array。
+		你可以通过传入 data 来接收像素数据，也可以通过传参来指定需要读取的区域的像素。
+		@param data data
+		@param x x
+		@param y y
+		@param w w
+		@param h h 
+		*/
+		readPixels(data?: Uint8Array, x?: number, y?: number, w?: number, h?: number): Uint8Array;	
+	}	
+	/** !#en Class for scene handling.
+	!#zh 场景资源类。 */
+	export class SceneAsset extends Asset {		
+		scene: Scene;		
+		/** !#en Indicates the raw assets of this scene can be load after scene launched.
+		!#zh 指示该场景依赖的资源可否在场景切换后再延迟加载。 */
+		asyncLoadAssets: boolean;	
+	}	
+	/** !#en Class for script handling.
+	!#zh Script 资源类。 */
+	export class _Script extends Asset {	
+	}	
+	/** !#en Class for JavaScript handling.
+	!#zh JavaScript 资源类。 */
+	export class _JavaScript extends Asset {	
+	}	
+	/** !#en Class for TypeScript handling.
+	!#zh TypeScript 资源类。 */
+	export class TypeScript extends Asset {	
+	}	
+	/** !#en Class for sprite atlas handling.
+	!#zh 精灵图集资源类。 */
+	export class SpriteAtlas extends Asset {		
+		/**
+		Returns the texture of the sprite atlas 
+		*/
+		getTexture(): Texture2D;		
+		/**
+		Returns the sprite frame correspond to the given key in sprite atlas.
+		@param key key 
+		*/
+		getSpriteFrame(key: string): SpriteFrame;		
+		/**
+		Returns the sprite frames in sprite atlas. 
+		*/
+		getSpriteFrames(): SpriteFrame[];	
+	}	
+	/** !#en
+	A cc.SpriteFrame has:<br/>
+	 - texture: A cc.Texture2D that will be used by render components<br/>
+	 - rectangle: A rectangle of the texture
+	
+	!#zh
+	一个 SpriteFrame 包含：<br/>
+	 - 纹理：会被渲染组件使用的 Texture2D 对象。<br/>
+	 - 矩形：在纹理中的矩形区域。 */
+	export class SpriteFrame extends Asset implements EventTarget {		
+		/** !#en Top border of the sprite
+		!#zh sprite 的顶部边框 */
+		insetTop: number;		
+		/** !#en Bottom border of the sprite
+		!#zh sprite 的底部边框 */
+		insetBottom: number;		
+		/** !#en Left border of the sprite
+		!#zh sprite 的左边边框 */
+		insetLeft: number;		
+		/** !#en Right border of the sprite
+		!#zh sprite 的左边边框 */
+		insetRight: number;		
+		/**
+		!#en
+		Constructor of SpriteFrame class.
+		!#zh
+		SpriteFrame 类的构造函数。
+		@param filename filename
+		@param rect rect
+		@param rotated Whether the frame is rotated in the texture
+		@param offset The offset of the frame in the texture
+		@param originalSize The size of the frame in the texture 
+		*/
+		constructor(filename?: string|Texture2D, rect?: Rect, rotated?: boolean, offset?: Vec2, originalSize?: Size);		
+		/**
+		!#en Returns whether the texture have been loaded
+		!#zh 返回是否已加载纹理 
+		*/
+		textureLoaded(): boolean;		
+		/**
+		!#en Returns whether the sprite frame is rotated in the texture.
+		!#zh 获取 SpriteFrame 是否旋转 
+		*/
+		isRotated(): boolean;		
+		/**
+		!#en Set whether the sprite frame is rotated in the texture.
+		!#zh 设置 SpriteFrame 是否旋转
+		@param bRotated bRotated 
+		*/
+		setRotated(bRotated: boolean): void;		
+		/**
+		!#en Returns whether the sprite frame is flip x axis in the texture.
+		!#zh 获取 SpriteFrame 是否反转 x 轴 
+		*/
+		isFlipX(): boolean;		
+		/**
+		!#en Returns whether the sprite frame is flip y axis in the texture.
+		!#zh 获取 SpriteFrame 是否反转 y 轴 
+		*/
+		isFlipY(): boolean;		
+		/**
+		!#en Set whether the sprite frame is flip x axis in the texture.
+		!#zh 设置 SpriteFrame 是否翻转 x 轴
+		@param flipX flipX 
+		*/
+		setFlipX(flipX: boolean): void;		
+		/**
+		!#en Set whether the sprite frame is flip y axis in the texture.
+		!#zh 设置 SpriteFrame 是否翻转 y 轴
+		@param flipY flipY 
+		*/
+		setFlipY(flipY: boolean): void;		
+		/**
+		!#en Returns the rect of the sprite frame in the texture.
+		!#zh 获取 SpriteFrame 的纹理矩形区域 
+		*/
+		getRect(): Rect;		
+		/**
+		!#en Sets the rect of the sprite frame in the texture.
+		!#zh 设置 SpriteFrame 的纹理矩形区域
+		@param rect rect 
+		*/
+		setRect(rect: Rect): void;		
+		/**
+		!#en Returns the original size of the trimmed image.
+		!#zh 获取修剪前的原始大小 
+		*/
+		getOriginalSize(): Size;		
+		/**
+		!#en Sets the original size of the trimmed image.
+		!#zh 设置修剪前的原始大小
+		@param size size 
+		*/
+		setOriginalSize(size: Size): void;		
+		/**
+		!#en Returns the texture of the frame.
+		!#zh 获取使用的纹理实例 
+		*/
+		getTexture(): Texture2D;		
+		/**
+		!#en Returns the offset of the frame in the texture.
+		!#zh 获取偏移量 
+		*/
+		getOffset(): Vec2;		
+		/**
+		!#en Sets the offset of the frame in the texture.
+		!#zh 设置偏移量
+		@param offsets offsets 
+		*/
+		setOffset(offsets: Vec2): void;		
+		/**
+		!#en Clone the sprite frame.
+		!#zh 克隆 SpriteFrame 
+		*/
+		clone(): SpriteFrame;		
+		/**
+		!#en Set SpriteFrame with Texture, rect, rotated, offset and originalSize.<br/>
+		!#zh 通过 Texture，rect，rotated，offset 和 originalSize 设置 SpriteFrame。
+		@param texture texture
+		@param rect rect
+		@param rotated rotated
+		@param offset offset
+		@param originalSize originalSize 
+		*/
+		setTexture(texture: Texture2D, rect?: Rect, rotated?: boolean, offset?: Vec2, originalSize?: Size): boolean;		
+		/**
+		!#en If a loading scene (or prefab) is marked as `asyncLoadAssets`, all the textures of the SpriteFrame which
+		associated by user's custom Components in the scene, will not preload automatically.
+		These textures will be load when Sprite component is going to render the SpriteFrames.
+		You can call this method if you want to load the texture early.
+		!#zh 当加载中的场景或 Prefab 被标记为 `asyncLoadAssets` 时，用户在场景中由自定义组件关联到的所有 SpriteFrame 的贴图都不会被提前加载。
+		只有当 Sprite 组件要渲染这些 SpriteFrame 时，才会检查贴图是否加载。如果你希望加载过程提前，你可以手工调用这个方法。
+		
+		@example 
+		```js
+		if (spriteFrame.textureLoaded()) {
+		    this._onSpriteFrameLoaded();
+		}
+		else {
+		    spriteFrame.once('load', this._onSpriteFrameLoaded, this);
+		    spriteFrame.ensureLoadTexture();
+		}
+		``` 
+		*/
+		ensureLoadTexture(): void;		
+		/**
+		!#en
+		If you do not need to use the SpriteFrame temporarily, you can call this method so that its texture could be garbage collected. Then when you need to render the SpriteFrame, you should call `ensureLoadTexture` manually to reload texture.
+		!#zh
+		当你暂时不再使用这个 SpriteFrame 时，可以调用这个方法来保证引用的贴图对象能被 GC。然后当你要渲染 SpriteFrame 时，你需要手动调用 `ensureLoadTexture` 来重新加载贴图。 
+		*/
+		clearTexture(): void;		
+		/**
+		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
+		!#zh 检查事件目标对象是否有为特定类型的事件注册的回调。
+		@param type The type of event. 
+		*/
+		hasEventListener(type: string): boolean;		
+		/**
+		!#en
+		Register an callback of a specific event type on the EventTarget.
+		This type of event should be triggered via `emit`.
+		!#zh
+		注册事件目标的特定事件类型回调。这种类型的事件应该被 `emit` 触发。
+		@param type A string representing the event type to listen for.
+		@param callback The callback that will be invoked when the event is dispatched.
+		                             The callback is ignored if it is a duplicate (the callbacks are unique).
+		@param target The target (this object) to invoke the callback, can be null
+		
+		@example 
+		```js
+		eventTarget.on('fire', function () {
+		    cc.log("fire in the hole");
+		}, node);
+		``` 
+		*/
+		on<T extends Function>(type: string, callback: T, target?: any, useCapture?: boolean): T;		
+		/**
+		!#en
+		Removes the listeners previously registered with the same type, callback, target and or useCapture,
+		if only type is passed as parameter, all listeners registered with that type will be removed.
+		!#zh
+		删除之前用同类型，回调，目标或 useCapture 注册的事件监听器，如果只传递 type，将会删除 type 类型的所有事件监听器。
+		@param type A string representing the event type being removed.
+		@param callback The callback to remove.
+		@param target The target (this object) to invoke the callback, if it's not given, only callback without target will be removed
+		
+		@example 
+		```js
+		// register fire eventListener
+		var callback = eventTarget.on('fire', function () {
+		    cc.log("fire in the hole");
+		}, target);
+		// remove fire event listener
+		eventTarget.off('fire', callback, target);
+		// remove all fire event listeners
+		eventTarget.off('fire');
+		``` 
+		*/
+		off(type: string, callback?: Function, target?: any): void;		
+		/**
+		!#en Removes all callbacks previously registered with the same target (passed as parameter).
+		This is not for removing all listeners in the current event target,
+		and this is not for removing all listeners the target parameter have registered.
+		It's only for removing all listeners (callback and target couple) registered on the current event target by the target parameter.
+		!#zh 在当前 EventTarget 上删除指定目标（target 参数）注册的所有事件监听器。
+		这个函数无法删除当前 EventTarget 的所有事件监听器，也无法删除 target 参数所注册的所有事件监听器。
+		这个函数只能删除 target 参数在当前 EventTarget 上注册的所有事件监听器。
+		@param target The target to be searched for all related listeners 
+		*/
+		targetOff(target: any): void;		
+		/**
+		!#en
+		Register an callback of a specific event type on the EventTarget,
+		the callback will remove itself after the first time it is triggered.
+		!#zh
+		注册事件目标的特定事件类型回调，回调会在第一时间被触发后删除自身。
+		@param type A string representing the event type to listen for.
+		@param callback The callback that will be invoked when the event is dispatched.
+		                             The callback is ignored if it is a duplicate (the callbacks are unique).
+		@param target The target (this object) to invoke the callback, can be null
+		
+		@example 
+		```js
+		eventTarget.once('fire', function () {
+		    cc.log("this is the callback and will be invoked only once");
+		}, node);
+		``` 
+		*/
+		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
+		/**
+		!#en
+		Send an event with the event object.
+		!#zh
+		通过事件对象派发事件
+		@param event event 
+		*/
+		dispatchEvent(event: Event): void;	
+	}	
+	/** !#en Class for TTFFont handling.
+	!#zh TTF 字体资源类。 */
+	export class TTFFont extends Font {	
+	}	
+	/** !#en Class for text file.
+	!#zh 文本资源类。 */
+	export class TextAsset extends Asset {		
+		/** The text contents of the resource. */
+		text: string;	
+	}	
+	/** This class allows to easily create OpenGL or Canvas 2D textures from images or raw data. */
+	export class Texture2D extends Asset implements EventTarget {		
+		/** !#en Sets whether generate mipmaps for the texture
+		!#zh 是否为纹理设置生成 mipmaps。 */
+		genMipmaps: boolean;		
+		/** !#en
+		Sets whether texture can be packed into texture atlas.
+		If need use texture uv in custom Effect, please sets packable to false.
+		!#zh
+		设置纹理是否允许参与合图。
+		如果需要在自定义 Effect 中使用纹理 UV，需要禁止该选项。 */
+		packable: boolean;		
+		/** !#en
+		Whether the texture is loaded or not
+		!#zh
+		贴图是否已经成功加载 */
+		loaded: boolean;		
+		/** !#en
+		Texture width in pixel
+		!#zh
+		贴图像素宽度 */
+		width: number;		
+		/** !#en
+		Texture height in pixel
+		!#zh
+		贴图像素高度 */
+		height: number;		
+		/**
+		!#en
+		Get renderer texture implementation object
+		extended from render.Texture2D
+		!#zh  返回渲染器内部贴图对象 
+		*/
+		getImpl(): void;		
+		/**
+		Update texture options, not available in Canvas render mode.
+		image, format, premultiplyAlpha can not be updated in native.
+		@param options options 
+		*/
+		update(options: {image: DOMImageElement; genMipmaps: boolean; format: Texture2D.PixelFormat; minFilter: Texture2D.Filter; magFilter: Texture2D.Filter; wrapS: WrapMode; wrapT: WrapMode; premultiplyAlpha: boolean; }): void;		
+		/**
+		!#en
+		Init with HTML element.
+		!#zh 用 HTML Image 或 Canvas 对象初始化贴图。
+		@param element element
+		
+		@example 
+		```js
+		var img = new Image();
+		img.src = dataURL;
+		texture.initWithElement(img);
+		``` 
+		*/
+		initWithElement(element: HTMLImageElement|HTMLCanvasElement): void;		
+		/**
+		!#en
+		Intializes with texture data in ArrayBufferView.
+		!#zh 使用一个存储在 ArrayBufferView 中的图像数据（raw data）初始化数据。
+		@param data data
+		@param pixelFormat pixelFormat
+		@param pixelsWidth pixelsWidth
+		@param pixelsHeight pixelsHeight 
+		*/
+		initWithData(data: ArrayBufferView, pixelFormat: number, pixelsWidth: number, pixelsHeight: number): boolean;		
+		/**
+		!#en
+		HTMLElement Object getter, available only on web.<br/>
+		Note: texture is packed into texture atlas by default<br/>
+		you should set texture.packable as false before getting Html element object.
+		!#zh 获取当前贴图对应的 HTML Image 或 Canvas 对象，只在 Web 平台下有效。<br/>
+		注意：<br/>
+		texture 默认参与动态合图，如果需要获取到正确的 Html 元素对象，需要先设置 texture.packable 为 false 
+		*/
+		getHtmlElementObj(): HTMLImageElement;		
+		/**
+		!#en
+		Destory this texture and immediately release its video memory. (Inherit from cc.Object.destroy)<br>
+		After destroy, this object is not usable anymore.
+		You can use cc.isValid(obj) to check whether the object is destroyed before accessing it.
+		!#zh
+		销毁该贴图，并立即释放它对应的显存。（继承自 cc.Object.destroy）<br/>
+		销毁后，该对象不再可用。您可以在访问对象之前使用 cc.isValid(obj) 来检查对象是否已被销毁。 
+		*/
+		destroy(): boolean;		
+		/**
+		!#en
+		Pixel format of the texture.
+		!#zh 获取纹理的像素格式。 
+		*/
+		getPixelFormat(): number;		
+		/**
+		!#en
+		Whether or not the texture has their Alpha premultiplied.
+		!#zh 检查纹理在上传 GPU 时预乘选项是否开启。 
+		*/
+		hasPremultipliedAlpha(): boolean;		
+		/**
+		!#en
+		Handler of texture loaded event.
+		Since v2.0, you don't need to invoke this function, it will be invoked automatically after texture loaded.
+		!#zh 贴图加载事件处理器。v2.0 之后你将不在需要手动执行这个函数，它会在贴图加载成功之后自动执行。
+		@param premultiplied premultiplied 
+		*/
+		handleLoadedTexture(premultiplied?: boolean): void;		
+		/**
+		!#en
+		Description of cc.Texture2D.
+		!#zh cc.Texture2D 描述。 
+		*/
+		description(): string;		
+		/**
+		!#en
+		Release texture, please use destroy instead.
+		!#zh 释放纹理，请使用 destroy 替代。 
+		*/
+		releaseTexture(): void;		
+		/**
+		!#en Sets the wrap s and wrap t options. <br/>
+		If the texture size is NPOT (non power of 2), then in can only use gl.CLAMP_TO_EDGE in gl.TEXTURE_WRAP_{S,T}.
+		!#zh 设置纹理包装模式。
+		若纹理贴图尺寸是 NPOT（non power of 2），则只能使用 Texture2D.WrapMode.CLAMP_TO_EDGE。
+		@param wrapS wrapS
+		@param wrapT wrapT 
+		*/
+		setTexParameters(wrapS: Texture2D.WrapMode, wrapT: Texture2D.WrapMode): void;		
+		/**
+		!#en Sets the minFilter and magFilter options
+		!#zh 设置纹理贴图缩小和放大过滤器算法选项。
+		@param minFilter minFilter
+		@param magFilter magFilter 
+		*/
+		setFilters(minFilter: Texture2D.Filter, magFilter: Texture2D.Filter): void;		
+		/**
+		!#en
+		Sets the flipY options
+		!#zh 设置贴图的纵向翻转选项。
+		@param flipY flipY 
+		*/
+		setFlipY(flipY: boolean): void;		
+		/**
+		!#en
+		Sets the premultiply alpha options
+		!#zh 设置贴图的预乘选项。
+		@param premultiply premultiply 
+		*/
+		setPremultiplyAlpha(premultiply: boolean): void;		
+		/**
+		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
+		!#zh 检查事件目标对象是否有为特定类型的事件注册的回调。
+		@param type The type of event. 
+		*/
+		hasEventListener(type: string): boolean;		
+		/**
+		!#en
+		Register an callback of a specific event type on the EventTarget.
+		This type of event should be triggered via `emit`.
+		!#zh
+		注册事件目标的特定事件类型回调。这种类型的事件应该被 `emit` 触发。
+		@param type A string representing the event type to listen for.
+		@param callback The callback that will be invoked when the event is dispatched.
+		                             The callback is ignored if it is a duplicate (the callbacks are unique).
+		@param target The target (this object) to invoke the callback, can be null
+		
+		@example 
+		```js
+		eventTarget.on('fire', function () {
+		    cc.log("fire in the hole");
+		}, node);
+		``` 
+		*/
+		on<T extends Function>(type: string, callback: T, target?: any, useCapture?: boolean): T;		
+		/**
+		!#en
+		Removes the listeners previously registered with the same type, callback, target and or useCapture,
+		if only type is passed as parameter, all listeners registered with that type will be removed.
+		!#zh
+		删除之前用同类型，回调，目标或 useCapture 注册的事件监听器，如果只传递 type，将会删除 type 类型的所有事件监听器。
+		@param type A string representing the event type being removed.
+		@param callback The callback to remove.
+		@param target The target (this object) to invoke the callback, if it's not given, only callback without target will be removed
+		
+		@example 
+		```js
+		// register fire eventListener
+		var callback = eventTarget.on('fire', function () {
+		    cc.log("fire in the hole");
+		}, target);
+		// remove fire event listener
+		eventTarget.off('fire', callback, target);
+		// remove all fire event listeners
+		eventTarget.off('fire');
+		``` 
+		*/
+		off(type: string, callback?: Function, target?: any): void;		
+		/**
+		!#en Removes all callbacks previously registered with the same target (passed as parameter).
+		This is not for removing all listeners in the current event target,
+		and this is not for removing all listeners the target parameter have registered.
+		It's only for removing all listeners (callback and target couple) registered on the current event target by the target parameter.
+		!#zh 在当前 EventTarget 上删除指定目标（target 参数）注册的所有事件监听器。
+		这个函数无法删除当前 EventTarget 的所有事件监听器，也无法删除 target 参数所注册的所有事件监听器。
+		这个函数只能删除 target 参数在当前 EventTarget 上注册的所有事件监听器。
+		@param target The target to be searched for all related listeners 
+		*/
+		targetOff(target: any): void;		
+		/**
+		!#en
+		Register an callback of a specific event type on the EventTarget,
+		the callback will remove itself after the first time it is triggered.
+		!#zh
+		注册事件目标的特定事件类型回调，回调会在第一时间被触发后删除自身。
+		@param type A string representing the event type to listen for.
+		@param callback The callback that will be invoked when the event is dispatched.
+		                             The callback is ignored if it is a duplicate (the callbacks are unique).
+		@param target The target (this object) to invoke the callback, can be null
+		
+		@example 
+		```js
+		eventTarget.once('fire', function () {
+		    cc.log("this is the callback and will be invoked only once");
+		}, node);
+		``` 
+		*/
+		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
+		/**
+		!#en
+		Send an event with the event object.
+		!#zh
+		通过事件对象派发事件
+		@param event event 
+		*/
+		dispatchEvent(event: Event): void;	
+	}	
+	/** !#en The touch event class
+	!#zh 封装了触摸相关的信息。 */
+	export class Touch {		
+		/**
+		!#en Returns the current touch location in OpenGL coordinates.、
+		!#zh 获取当前触点位置。 
+		*/
+		getLocation(): Vec2;		
+		/**
+		!#en Returns X axis location value.
+		!#zh 获取当前触点 X 轴位置。 
+		*/
+		getLocationX(): number;		
+		/**
+		!#en Returns Y axis location value.
+		!#zh 获取当前触点 Y 轴位置。 
+		*/
+		getLocationY(): number;		
+		/**
+		!#en Returns the previous touch location in OpenGL coordinates.
+		!#zh 获取触点在上一次事件时的位置对象，对象包含 x 和 y 属性。 
+		*/
+		getPreviousLocation(): Vec2;		
+		/**
+		!#en Returns the start touch location in OpenGL coordinates.
+		!#zh 获取触点落下时的位置对象，对象包含 x 和 y 属性。 
+		*/
+		getStartLocation(): Vec2;		
+		/**
+		!#en Returns the delta distance from the previous touche to the current one in screen coordinates.
+		!#zh 获取触点距离上一次事件移动的距离对象，对象包含 x 和 y 属性。 
+		*/
+		getDelta(): Vec2;		
+		/**
+		!#en Returns the current touch location in screen coordinates.
+		!#zh 获取当前事件在游戏窗口内的坐标位置对象，对象包含 x 和 y 属性。 
+		*/
+		getLocationInView(): Vec2;		
+		/**
+		!#en Returns the previous touch location in screen coordinates.
+		!#zh 获取触点在上一次事件时在游戏窗口中的位置对象，对象包含 x 和 y 属性。 
+		*/
+		getPreviousLocationInView(): Vec2;		
+		/**
+		!#en Returns the start touch location in screen coordinates.
+		!#zh 获取触点落下时在游戏窗口中的位置对象，对象包含 x 和 y 属性。 
+		*/
+		getStartLocationInView(): Vec2;		
+		/**
+		!#en Returns the id of cc.Touch.
+		!#zh 触点的标识 ID，可以用来在多点触摸中跟踪触点。 
+		*/
+		getID(): number;		
+		/**
+		!#en Sets information to touch.
+		!#zh 设置触摸相关的信息。用于监控触摸事件。
+		@param id id
+		@param x x
+		@param y y 
+		*/
+		setTouchInfo(id: number, x: number, y: number): void;	
+	}	
+	/** !#en Base class of all kinds of events.
+	!#zh 包含事件相关信息的对象。 */
+	export class Event {		
+		/**
+		
+		@param type The name of the event (case-sensitive), e.g. "click", "fire", or "submit"
+		@param bubbles A boolean indicating whether the event bubbles up through the tree or not 
+		*/
+		constructor(type: string, bubbles: boolean);		
+		/** !#en The name of the event (case-sensitive), e.g. "click", "fire", or "submit".
+		!#zh 事件类型。 */
+		type: string;		
+		/** !#en Indicate whether the event bubbles up through the tree or not.
+		!#zh 表示该事件是否进行冒泡。 */
+		bubbles: boolean;		
+		/** !#en A reference to the target to which the event was originally dispatched.
+		!#zh 最初事件触发的目标 */
+		target: any;		
+		/** !#en A reference to the currently registered target for the event.
+		!#zh 当前目标 */
+		currentTarget: any;		
+		/** !#en
+		Indicates which phase of the event flow is currently being evaluated.
+		Returns an integer value represented by 4 constants:
+		 - Event.NONE = 0
+		 - Event.CAPTURING_PHASE = 1
+		 - Event.AT_TARGET = 2
+		 - Event.BUBBLING_PHASE = 3
+		The phases are explained in the [section 3.1, Event dispatch and DOM event flow]
+		(http://www.w3.org/TR/DOM-Level-3-Events/#event-flow), of the DOM Level 3 Events specification.
+		!#zh 事件阶段 */
+		eventPhase: number;		
+		/**
+		!#en Reset the event for being stored in the object pool.
+		!#zh 重置对象池中存储的事件。 
+		*/
+		unuse(): string;		
+		/**
+		!#en Reuse the event for being used again by the object pool.
+		!#zh 用于对象池再次使用的事件。 
+		*/
+		reuse(): string;		
+		/**
+		!#en Stops propagation for current event.
+		!#zh 停止传递当前事件。 
+		*/
+		stopPropagation(): void;		
+		/**
+		!#en Stops propagation for current event immediately,
+		the event won't even be dispatched to the listeners attached in the current target.
+		!#zh 立即停止当前事件的传递，事件甚至不会被分派到所连接的当前目标。 
+		*/
+		stopPropagationImmediate(): void;		
+		/**
+		!#en Checks whether the event has been stopped.
+		!#zh 检查该事件是否已经停止传递. 
+		*/
+		isStopped(): boolean;		
+		/**
+		!#en
+		<p>
+		    Gets current target of the event                                                            <br/>
+		    note: It only be available when the event listener is associated with node.                <br/>
+		         It returns 0 when the listener is associated with fixed priority.
+		</p>
+		!#zh 获取当前目标节点 
+		*/
+		getCurrentTarget(): Node;		
+		/**
+		!#en Gets the event type.
+		!#zh 获取事件类型 
+		*/
+		getType(): string;		
+		/** !#en Code for event without type.
+		!#zh 没有类型的事件 */
+		static NO_TYPE: string;		
+		/** !#en The type code of Touch event.
+		!#zh 触摸事件类型 */
+		static TOUCH: string;		
+		/** !#en The type code of Mouse event.
+		!#zh 鼠标事件类型 */
+		static MOUSE: string;		
+		/** !#en The type code of Keyboard event.
+		!#zh 键盘事件类型 */
+		static KEYBOARD: string;		
+		/** !#en The type code of Acceleration event.
+		!#zh 加速器事件类型 */
+		static ACCELERATION: string;		
+		/** !#en Events not currently dispatched are in this phase
+		!#zh 尚未派发事件阶段 */
+		static NONE: number;		
+		/** !#en
+		The capturing phase comprises the journey from the root to the last node before the event target's node
+		see http://www.w3.org/TR/DOM-Level-3-Events/#event-flow
+		!#zh 捕获阶段，包括事件目标节点之前从根节点到最后一个节点的过程。 */
+		static CAPTURING_PHASE: number;		
+		/** !#en
+		The target phase comprises only the event target node
+		see http://www.w3.org/TR/DOM-Level-3-Events/#event-flow
+		!#zh 目标阶段仅包括事件目标节点。 */
+		static AT_TARGET: number;		
+		/** !#en
+		The bubbling phase comprises any subsequent nodes encountered on the return trip to the root of the hierarchy
+		see http://www.w3.org/TR/DOM-Level-3-Events/#event-flow
+		!#zh 冒泡阶段， 包括回程遇到到层次根节点的任何后续节点。 */
+		static BUBBLING_PHASE: number;	
+	}	
+	/** !#en
+	EventTarget is an object to which an event is dispatched when something has occurred.
+	Entity are the most common event targets, but other objects can be event targets too.
+	
+	Event targets are an important part of the Fireball event model.
+	The event target serves as the focal point for how events flow through the scene graph.
+	When an event such as a mouse click or a keypress occurs, Fireball dispatches an event object
+	into the event flow from the root of the hierarchy. The event object then makes its way through
+	the scene graph until it reaches the event target, at which point it begins its return trip through
+	the scene graph. This round-trip journey to the event target is conceptually divided into three phases:
+	- The capture phase comprises the journey from the root to the last node before the event target's node
+	- The target phase comprises only the event target node
+	- The bubbling phase comprises any subsequent nodes encountered on the return trip to the root of the tree
+	See also: http://www.w3.org/TR/DOM-Level-3-Events/#event-flow
+	
+	Event targets can implement the following methods:
+	 - _getCapturingTargets
+	 - _getBubblingTargets
+	
+	!#zh
+	事件目标是事件触发时，分派的事件对象，Node 是最常见的事件目标，
+	但是其他对象也可以是事件目标。<br/> */
+	export class EventTarget extends CallbacksInvoker {		
+		/**
+		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
+		!#zh 检查事件目标对象是否有为特定类型的事件注册的回调。
+		@param type The type of event. 
+		*/
+		hasEventListener(type: string): boolean;		
+		/**
+		!#en
+		Register an callback of a specific event type on the EventTarget.
+		This type of event should be triggered via `emit`.
+		!#zh
+		注册事件目标的特定事件类型回调。这种类型的事件应该被 `emit` 触发。
+		@param type A string representing the event type to listen for.
+		@param callback The callback that will be invoked when the event is dispatched.
+		                             The callback is ignored if it is a duplicate (the callbacks are unique).
+		@param target The target (this object) to invoke the callback, can be null
+		
+		@example 
+		```js
+		eventTarget.on('fire', function () {
+		    cc.log("fire in the hole");
+		}, node);
+		``` 
+		*/
+		on<T extends Function>(type: string, callback: T, target?: any, useCapture?: boolean): T;		
+		/**
+		!#en
+		Removes the listeners previously registered with the same type, callback, target and or useCapture,
+		if only type is passed as parameter, all listeners registered with that type will be removed.
+		!#zh
+		删除之前用同类型，回调，目标或 useCapture 注册的事件监听器，如果只传递 type，将会删除 type 类型的所有事件监听器。
+		@param type A string representing the event type being removed.
+		@param callback The callback to remove.
+		@param target The target (this object) to invoke the callback, if it's not given, only callback without target will be removed
+		
+		@example 
+		```js
+		// register fire eventListener
+		var callback = eventTarget.on('fire', function () {
+		    cc.log("fire in the hole");
+		}, target);
+		// remove fire event listener
+		eventTarget.off('fire', callback, target);
+		// remove all fire event listeners
+		eventTarget.off('fire');
+		``` 
+		*/
+		off(type: string, callback?: Function, target?: any): void;		
+		/**
+		!#en Removes all callbacks previously registered with the same target (passed as parameter).
+		This is not for removing all listeners in the current event target,
+		and this is not for removing all listeners the target parameter have registered.
+		It's only for removing all listeners (callback and target couple) registered on the current event target by the target parameter.
+		!#zh 在当前 EventTarget 上删除指定目标（target 参数）注册的所有事件监听器。
+		这个函数无法删除当前 EventTarget 的所有事件监听器，也无法删除 target 参数所注册的所有事件监听器。
+		这个函数只能删除 target 参数在当前 EventTarget 上注册的所有事件监听器。
+		@param target The target to be searched for all related listeners 
+		*/
+		targetOff(target: any): void;		
+		/**
+		!#en
+		Register an callback of a specific event type on the EventTarget,
+		the callback will remove itself after the first time it is triggered.
+		!#zh
+		注册事件目标的特定事件类型回调，回调会在第一时间被触发后删除自身。
+		@param type A string representing the event type to listen for.
+		@param callback The callback that will be invoked when the event is dispatched.
+		                             The callback is ignored if it is a duplicate (the callbacks are unique).
+		@param target The target (this object) to invoke the callback, can be null
+		
+		@example 
+		```js
+		eventTarget.once('fire', function () {
+		    cc.log("this is the callback and will be invoked only once");
+		}, node);
+		``` 
+		*/
+		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
+		/**
+		!#en
+		Send an event with the event object.
+		!#zh
+		通过事件对象派发事件
+		@param event event 
+		*/
+		dispatchEvent(event: Event): void;	
+	}	
+	/** !#en
+	The System event, it currently supports keyboard events and accelerometer events.<br>
+	You can get the SystemEvent instance with cc.systemEvent.<br>
+	!#zh
+	系统事件，它目前支持按键事件和重力感应事件。<br>
+	你可以通过 cc.systemEvent 获取到 SystemEvent 的实例。<br> */
+	export class SystemEvent extends EventTarget {		
+		/**
+		!#en whether enable accelerometer event
+		!#zh 是否启用加速度计事件
+		@param isEnable isEnable 
+		*/
+		setAccelerometerEnabled(isEnable: boolean): void;		
+		/**
+		!#en set accelerometer interval value
+		!#zh 设置加速度计间隔值
+		@param interval interval 
+		*/
+		setAccelerometerInterval(interval: number): void;	
 	}	
 	/** undefined */
 	export class Graphics extends RenderComponent {		
@@ -8423,731 +9673,754 @@ declare namespace cc {
 		*/
 		fill(): void;	
 	}	
-	/** Loader for resource loading process. It's a singleton object. */
-	export class loader extends Pipeline {		
-		/** The asset loader in cc.loader's pipeline, it's by default the first pipe.
-		It's used to identify an asset's type, and determine how to download it. */
-		static assetLoader: any;		
-		/** The md5 pipe in cc.loader's pipeline, it could be absent if the project isn't build with md5 option.
-		It's used to modify the url to the real downloadable url with md5 suffix. */
-		static md5Pipe: any;		
-		/** The downloader in cc.loader's pipeline, it's by default the second pipe.
-		It's used to download files with several handlers: pure text, image, script, audio, font, uuid.
-		You can add your own download function with addDownloadHandlers */
-		static downloader: any;		
-		/** The loader in cc.loader's pipeline, it's by default the third pipe.
-		It's used to parse downloaded content with several handlers: JSON, image, plist, fnt, uuid.
-		You can add your own download function with addLoadHandlers */
-		static loader: any;		
-		/**
-		Gets a new XMLHttpRequest instance. 
-		*/
-		static getXMLHttpRequest(): XMLHttpRequest;		
-		/**
-		Add custom supported types handler or modify existing type handler for download process.
-		@param extMap Custom supported types with corresponded handler
-		
-		@example 
-		```js
-		cc.loader.addDownloadHandlers({
-		     // This will match all url with `.scene` extension or all url with `scene` type
-		     'scene' : function (url, callback) {}
-		 });
-		``` 
-		*/
-		static addDownloadHandlers(extMap: any): void;		
-		/**
-		Add custom supported types handler or modify existing type handler for load process.
-		@param extMap Custom supported types with corresponded handler
-		
-		@example 
-		```js
-		cc.loader.addLoadHandlers({
-		     // This will match all url with `.scene` extension or all url with `scene` type
-		     'scene' : function (url, callback) {}
-		 });
-		``` 
-		*/
-		static addLoadHandlers(extMap: any): void;		
-		/**
-		Load resources with a progression callback and a complete callback.
-		The progression callback is the same as Pipeline's {{#crossLink "LoadingItems/onProgress:method"}}onProgress{{/crossLink}}
-		The complete callback is almost the same as Pipeline's {{#crossLink "LoadingItems/onComplete:method"}}onComplete{{/crossLink}}
-		The only difference is when user pass a single url as resources, the complete callback will set its result directly as the second parameter.
-		@param resources Url list in an array
-		@param progressCallback Callback invoked when progression change
-		@param completeCallback Callback invoked when all resources loaded
-		
-		@example 
-		```js
-		cc.loader.load('a.png', function (err, tex) {
-		    cc.log('Result should be a texture: ' + (tex instanceof cc.Texture2D));
-		});
-		
-		cc.loader.load('http://example.com/a.png', function (err, tex) {
-		    cc.log('Should load a texture from external url: ' + (tex instanceof cc.Texture2D));
-		});
-		
-		cc.loader.load({url: 'http://example.com/getImageREST?file=a.png', type: 'png'}, function (err, tex) {
-		    cc.log('Should load a texture from RESTful API by specify the type: ' + (tex instanceof cc.Texture2D));
-		});
-		
-		cc.loader.load(['a.png', 'b.json'], function (errors, results) {
-		    if (errors) {
-		        for (var i = 0; i < errors.length; i++) {
-		            cc.log('Error url [' + errors[i] + ']: ' + results.getError(errors[i]));
-		        }
-		    }
-		    var aTex = results.getContent('a.png');
-		    var bJsonObj = results.getContent('b.json');
-		});
-		``` 
-		*/
-		static load(resources: string|string[]|{uuid?: string, url?: string, type?: string}, completeCallback?: Function): void;
-		static load(resources: string|string[]|{uuid?: string, url?: string, type?: string}, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: Function|null): void;		
-		/**
-		Load resources from the "resources" folder inside the "assets" folder of your project.<br>
-		<br>
-		Note: All asset URLs in Creator use forward slashes, URLs using backslashes will not work.
-		@param url Url of the target resource.
-		                      The url is relative to the "resources" folder, extensions must be omitted.
-		@param type Only asset of type will be loaded if this argument is supplied.
-		@param progressCallback Callback invoked when progression change.
-		@param completeCallback Callback invoked when the resource loaded.
-		
-		@example 
-		```js
-		// load the prefab (project/assets/resources/misc/character/cocos) from resources folder
-		cc.loader.loadRes('misc/character/cocos', function (err, prefab) {
-		    if (err) {
-		        cc.error(err.message || err);
-		        return;
-		    }
-		    cc.log('Result should be a prefab: ' + (prefab instanceof cc.Prefab));
-		});
-		
-		// load the sprite frame of (project/assets/resources/imgs/cocos.png) from resources folder
-		cc.loader.loadRes('imgs/cocos', cc.SpriteFrame, function (err, spriteFrame) {
-		    if (err) {
-		        cc.error(err.message || err);
-		        return;
-		    }
-		    cc.log('Result should be a sprite frame: ' + (spriteFrame instanceof cc.SpriteFrame));
-		});
-		``` 
-		*/
-		static loadRes(url: string, type: typeof cc.Asset, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: ((error: Error, resource: any) => void)|null): void;
-		static loadRes(url: string, type: typeof cc.Asset, completeCallback: (error: Error, resource: any) => void): void;
-		static loadRes(url: string, type: typeof cc.Asset): void;
-		static loadRes(url: string, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: ((error: Error, resource: any) => void)|null): void;
-		static loadRes(url: string, completeCallback: (error: Error, resource: any) => void): void;
-		static loadRes(url: string): void;		
-		/**
-		This method is like {{#crossLink "loader/loadRes:method"}}{{/crossLink}} except that it accepts array of url.
-		@param urls Array of URLs of the target resource.
-		                         The url is relative to the "resources" folder, extensions must be omitted.
-		@param type Only asset of type will be loaded if this argument is supplied.
-		@param progressCallback Callback invoked when progression change.
-		@param completeCallback A callback which is called when all assets have been loaded, or an error occurs.
-		
-		@example 
-		```js
-		// load the SpriteFrames from resources folder
-		var spriteFrames;
-		var urls = ['misc/characters/character_01', 'misc/weapons/weapons_01'];
-		cc.loader.loadResArray(urls, cc.SpriteFrame, function (err, assets) {
-		    if (err) {
-		        cc.error(err);
-		        return;
-		    }
-		    spriteFrames = assets;
-		    // ...
-		});
-		``` 
-		*/
-		static loadResArray(url: string[], type: typeof cc.Asset, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: ((error: Error, resource: any[]) => void)|null): void;
-		static loadResArray(url: string[], type: typeof cc.Asset, completeCallback: (error: Error, resource: any[]) => void): void;
-		static loadResArray(url: string[], type: typeof cc.Asset): void;
-		static loadResArray(url: string[], progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: ((error: Error, resource: any[]) => void)|null): void;
-		static loadResArray(url: string[], completeCallback: (error: Error, resource: any[]) => void): void;
-		static loadResArray(url: string[]): void;
-		static loadResArray(url: string[], type: typeof cc.Asset[]): void;		
-		/**
-		Load all assets in a folder inside the "assets/resources" folder of your project.<br>
-		<br>
-		Note: All asset URLs in Creator use forward slashes, URLs using backslashes will not work.
-		@param url Url of the target folder.
-		                      The url is relative to the "resources" folder, extensions must be omitted.
-		@param type Only asset of type will be loaded if this argument is supplied.
-		@param progressCallback Callback invoked when progression change.
-		@param completeCallback A callback which is called when all assets have been loaded, or an error occurs.
-		
-		@example 
-		```js
-		// load the texture (resources/imgs/cocos.png) and the corresponding sprite frame
-		cc.loader.loadResDir('imgs/cocos', function (err, assets) {
-		    if (err) {
-		        cc.error(err);
-		        return;
-		    }
-		    var texture = assets[0];
-		    var spriteFrame = assets[1];
-		});
-		
-		// load all textures in "resources/imgs/"
-		cc.loader.loadResDir('imgs', cc.Texture2D, function (err, textures) {
-		    var texture1 = textures[0];
-		    var texture2 = textures[1];
-		});
-		
-		// load all JSONs in "resources/data/"
-		cc.loader.loadResDir('data', function (err, objects, urls) {
-		    var data = objects[0];
-		    var url = urls[0];
-		});
-		``` 
-		*/
-		static loadResDir(url: string, type: typeof cc.Asset, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: ((error: Error, resource: any[], urls: string[]) => void)|null): void;
-		static loadResDir(url: string, type: typeof cc.Asset, completeCallback: (error: Error, resource: any[], urls: string[]) => void): void;
-		static loadResDir(url: string, type: typeof cc.Asset): void;
-		static loadResDir(url: string, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: ((error: Error, resource: any[], urls: string[]) => void)|null): void;
-		static loadResDir(url: string, completeCallback: (error: Error, resource: any[], urls: string[]) => void): void;
-		static loadResDir(url: string): void;		
-		/**
-		Get resource data by id. <br>
-		When you load resources with {{#crossLink "loader/load:method"}}{{/crossLink}} or {{#crossLink "loader/loadRes:method"}}{{/crossLink}},
-		the url will be the unique identity of the resource.
-		After loaded, you can acquire them by passing the url to this API.
-		@param url url
-		@param type Only asset of type will be returned if this argument is supplied. 
-		*/
-		static getRes(url: string, type?: Function): any;		
-		/**
-		!#en
-		Get all resource dependencies of the loaded asset in an array, including itself.
-		The owner parameter accept the following types: 1. The asset itself; 2. The resource url; 3. The asset's uuid.<br>
-		The returned array stores the dependencies with their uuids, after retrieve dependencies,
-		you can release them, access dependent assets by passing the uuid to {{#crossLink "loader/getRes:method"}}{{/crossLink}}, or other stuffs you want.<br>
-		For release all dependencies of an asset, please refer to {{#crossLink "loader/release:method"}}{{/crossLink}}
-		Here is some examples:
+	/** undefined */
+	export class WorldManifold {		
+		/** !#en
+		world contact point (point of intersection)
 		!#zh
-		获取某个已经加载好的资源的所有依赖资源，包含它自身，并保存在数组中返回。owner 参数接收以下几种类型：1. 资源 asset 对象；2. 资源目录下的 url；3. 资源的 uuid。<br>
-		返回的数组将仅保存依赖资源的 uuid，获取这些 uuid 后，你可以从 loader 释放这些资源；通过 {{#crossLink "loader/getRes:method"}}{{/crossLink}} 获取某个资源或者进行其他你需要的操作。<br>
-		想要释放一个资源及其依赖资源，可以参考 {{#crossLink "loader/release:method"}}{{/crossLink}}。下面是一些示例代码：
-		@param owner The owner asset or the resource url or the asset's uuid
-		
-		@example 
-		```js
-		// Release all dependencies of a loaded prefab
-		var deps = cc.loader.getDependsRecursively(prefab);
-		cc.loader.release(deps);
-		// Retrieve all dependent textures
-		var deps = cc.loader.getDependsRecursively('prefabs/sample');
-		var textures = [];
-		for (var i = 0; i < deps.length; ++i) {
-		    var item = cc.loader.getRes(deps[i]);
-		    if (item instanceof cc.Texture2D) {
-		        textures.push(item);
-		    }
-		}
-		``` 
-		*/
-		static getDependsRecursively(owner: Asset|RawAsset|string): any[];		
-		/**
-		!#en
-		Release the content of an asset or an array of assets by uuid.
-		Start from v1.3, this method will not only remove the cache of the asset in loader, but also clean up its content.
-		For example, if you release a texture, the texture asset and its gl texture data will be freed up.
-		In complexe project, you can use this function with {{#crossLink "loader/getDependsRecursively:method"}}{{/crossLink}} to free up memory in critical circumstances.
-		Notice, this method may cause the texture to be unusable, if there are still other nodes use the same texture, they may turn to black and report gl errors.
-		If you only want to remove the cache of an asset, please use {{#crossLink "pipeline/removeItem:method"}}{{/crossLink}}
+		碰撞点集合 */
+		points: Vec2[];		
+		/** !#en
+		world vector pointing from A to B
 		!#zh
-		通过 id（通常是资源 url）来释放一个资源或者一个资源数组。
-		从 v1.3 开始，这个方法不仅会从 loader 中删除资源的缓存引用，还会清理它的资源内容。
-		比如说，当你释放一个 texture 资源，这个 texture 和它的 gl 贴图数据都会被释放。
-		在复杂项目中，我们建议你结合 {{#crossLink "loader/getDependsRecursively:method"}}{{/crossLink}} 来使用，便于在设备内存告急的情况下更快地释放不再需要的资源的内存。
-		注意，这个函数可能会导致资源贴图或资源所依赖的贴图不可用，如果场景中存在节点仍然依赖同样的贴图，它们可能会变黑并报 GL 错误。
-		如果你只想删除一个资源的缓存引用，请使用 {{#crossLink "pipeline/removeItem:method"}}{{/crossLink}}
-		@param asset asset
-		
-		@example 
-		```js
-		// Release a texture which is no longer need
-		cc.loader.release(texture);
-		// Release all dependencies of a loaded prefab
-		var deps = cc.loader.getDependsRecursively('prefabs/sample');
-		cc.loader.release(deps);
-		// If there is no instance of this prefab in the scene, the prefab and its dependencies like textures, sprite frames, etc, will be freed up.
-		// If you have some other nodes share a texture in this prefab, you can skip it in two ways:
-		// 1. Forbid auto release a texture before release
-		cc.loader.setAutoRelease(texture2d, false);
-		// 2. Remove it from the dependencies array
-		var deps = cc.loader.getDependsRecursively('prefabs/sample');
-		var index = deps.indexOf(texture2d._uuid);
-		if (index !== -1)
-		    deps.splice(index, 1);
-		cc.loader.release(deps);
-		``` 
-		*/
-		static release(asset: Asset|RawAsset|string|any[]): void;		
-		/**
-		!#en Release the asset by its object. Refer to {{#crossLink "loader/release:method"}}{{/crossLink}} for detailed informations.
-		!#zh 通过资源对象自身来释放资源。详细信息请参考 {{#crossLink "loader/release:method"}}{{/crossLink}}
-		@param asset asset 
-		*/
-		static releaseAsset(asset: Asset): void;		
-		/**
-		!#en Release the asset loaded by {{#crossLink "loader/loadRes:method"}}{{/crossLink}}. Refer to {{#crossLink "loader/release:method"}}{{/crossLink}} for detailed informations.
-		!#zh 释放通过 {{#crossLink "loader/loadRes:method"}}{{/crossLink}} 加载的资源。详细信息请参考 {{#crossLink "loader/release:method"}}{{/crossLink}}
-		@param url url
-		@param type Only asset of type will be released if this argument is supplied. 
-		*/
-		static releaseRes(url: string, type?: Function): void;		
-		/**
-		!#en Release the all assets loaded by {{#crossLink "loader/loadResDir:method"}}{{/crossLink}}. Refer to {{#crossLink "loader/release:method"}}{{/crossLink}} for detailed informations.
-		!#zh 释放通过 {{#crossLink "loader/loadResDir:method"}}{{/crossLink}} 加载的资源。详细信息请参考 {{#crossLink "loader/release:method"}}{{/crossLink}}
-		@param url url
-		@param type Only asset of type will be released if this argument is supplied. 
-		*/
-		static releaseResDir(url: string, type?: Function): void;		
-		/**
-		!#en Resource all assets. Refer to {{#crossLink "loader/release:method"}}{{/crossLink}} for detailed informations.
-		!#zh 释放所有资源。详细信息请参考 {{#crossLink "loader/release:method"}}{{/crossLink}} 
-		*/
-		static releaseAll(): void;		
-		/**
-		!#en
-		Indicates whether to release the asset when loading a new scene.<br>
-		By default, when loading a new scene, all assets in the previous scene will be released or preserved
-		according to whether the previous scene checked the "Auto Release Assets" option.
-		On the other hand, assets dynamically loaded by using `cc.loader.loadRes` or `cc.loader.loadResDir`
-		will not be affected by that option, remain not released by default.<br>
-		Use this API to change the default behavior on a single asset, to force preserve or release specified asset when scene switching.<br>
-		<br>
-		See: {{#crossLink "loader/setAutoReleaseRecursively:method"}}cc.loader.setAutoReleaseRecursively{{/crossLink}}, {{#crossLink "loader/isAutoRelease:method"}}cc.loader.isAutoRelease{{/crossLink}}
-		!#zh
-		设置当场景切换时是否自动释放资源。<br>
-		默认情况下，当加载新场景时，旧场景的资源根据旧场景是否勾选“Auto Release Assets”，将会被释放或者保留。
-		而使用 `cc.loader.loadRes` 或 `cc.loader.loadResDir` 动态加载的资源，则不受场景设置的影响，默认不自动释放。<br>
-		使用这个 API 可以在单个资源上改变这个默认行为，强制在切换场景时保留或者释放指定资源。<br>
-		<br>
-		参考：{{#crossLink "loader/setAutoReleaseRecursively:method"}}cc.loader.setAutoReleaseRecursively{{/crossLink}}，{{#crossLink "loader/isAutoRelease:method"}}cc.loader.isAutoRelease{{/crossLink}}
-		@param assetOrUrlOrUuid asset object or the raw asset's url or uuid
-		@param autoRelease indicates whether should release automatically
-		
-		@example 
-		```js
-		// auto release the texture event if "Auto Release Assets" disabled in current scene
-		cc.loader.setAutoRelease(texture2d, true);
-		// don't release the texture even if "Auto Release Assets" enabled in current scene
-		cc.loader.setAutoRelease(texture2d, false);
-		// first parameter can be url
-		cc.loader.setAutoRelease(audioUrl, false);
-		``` 
-		*/
-		static setAutoRelease(assetOrUrlOrUuid: Asset|string, autoRelease: boolean): void;		
-		/**
-		!#en
-		Indicates whether to release the asset and its referenced other assets when loading a new scene.<br>
-		By default, when loading a new scene, all assets in the previous scene will be released or preserved
-		according to whether the previous scene checked the "Auto Release Assets" option.
-		On the other hand, assets dynamically loaded by using `cc.loader.loadRes` or `cc.loader.loadResDir`
-		will not be affected by that option, remain not released by default.<br>
-		Use this API to change the default behavior on the specified asset and its recursively referenced assets, to force preserve or release specified asset when scene switching.<br>
-		<br>
-		See: {{#crossLink "loader/setAutoRelease:method"}}cc.loader.setAutoRelease{{/crossLink}}, {{#crossLink "loader/isAutoRelease:method"}}cc.loader.isAutoRelease{{/crossLink}}
-		!#zh
-		设置当场景切换时是否自动释放资源及资源引用的其它资源。<br>
-		默认情况下，当加载新场景时，旧场景的资源根据旧场景是否勾选“Auto Release Assets”，将会被释放或者保留。
-		而使用 `cc.loader.loadRes` 或 `cc.loader.loadResDir` 动态加载的资源，则不受场景设置的影响，默认不自动释放。<br>
-		使用这个 API 可以在指定资源及资源递归引用到的所有资源上改变这个默认行为，强制在切换场景时保留或者释放指定资源。<br>
-		<br>
-		参考：{{#crossLink "loader/setAutoRelease:method"}}cc.loader.setAutoRelease{{/crossLink}}，{{#crossLink "loader/isAutoRelease:method"}}cc.loader.isAutoRelease{{/crossLink}}
-		@param assetOrUrlOrUuid asset object or the raw asset's url or uuid
-		@param autoRelease indicates whether should release automatically
-		
-		@example 
-		```js
-		// auto release the SpriteFrame and its Texture event if "Auto Release Assets" disabled in current scene
-		cc.loader.setAutoReleaseRecursively(spriteFrame, true);
-		// don't release the SpriteFrame and its Texture even if "Auto Release Assets" enabled in current scene
-		cc.loader.setAutoReleaseRecursively(spriteFrame, false);
-		// don't release the Prefab and all the referenced assets
-		cc.loader.setAutoReleaseRecursively(prefab, false);
-		``` 
-		*/
-		static setAutoReleaseRecursively(assetOrUrlOrUuid: Asset|string, autoRelease: boolean): void;		
-		/**
-		!#en
-		Returns whether the asset is configured as auto released, despite how "Auto Release Assets" property is set on scene asset.<br>
-		<br>
-		See: {{#crossLink "loader/setAutoRelease:method"}}cc.loader.setAutoRelease{{/crossLink}}, {{#crossLink "loader/setAutoReleaseRecursively:method"}}cc.loader.setAutoReleaseRecursively{{/crossLink}}
-		
-		!#zh
-		返回指定的资源是否有被设置为自动释放，不论场景的“Auto Release Assets”如何设置。<br>
-		<br>
-		参考：{{#crossLink "loader/setAutoRelease:method"}}cc.loader.setAutoRelease{{/crossLink}}，{{#crossLink "loader/setAutoReleaseRecursively:method"}}cc.loader.setAutoReleaseRecursively{{/crossLink}}
-		@param assetOrUrl asset object or the raw asset's url 
-		*/
-		static isAutoRelease(assetOrUrl: Asset|string): boolean;	
+		世界坐标系下由 A 指向 B 的向量 */
+		normal: Vec2;	
 	}	
 	/** !#en
-	LoadingItems is the queue of items which can flow them into the loading pipeline.<br/>
-	Please don't construct it directly, use {{#crossLink "LoadingItems.create"}}cc.LoadingItems.create{{/crossLink}} instead, because we use an internal pool to recycle the queues.<br/>
-	It hold a map of items, each entry in the map is a url to object key value pair.<br/>
-	Each item always contains the following property:<br/>
-	- id: The identification of the item, usually it's identical to url<br/>
-	- url: The url <br/>
-	- type: The type, it's the extension name of the url by default, could be specified manually too.<br/>
-	- error: The error happened in pipeline will be stored in this property.<br/>
-	- content: The content processed by the pipeline, the final result will also be stored in this property.<br/>
-	- complete: The flag indicate whether the item is completed by the pipeline.<br/>
-	- states: An object stores the states of each pipe the item go through, the state can be: Pipeline.ItemState.WORKING | Pipeline.ItemState.ERROR | Pipeline.ItemState.COMPLETE<br/>
-	<br/>
-	Item can hold other custom properties.<br/>
-	Each LoadingItems object will be destroyed for recycle after onComplete callback<br/>
-	So please don't hold its reference for later usage, you can copy properties in it though.
+	A manifold point is a contact point belonging to a contact manifold.
+	It holds details related to the geometry and dynamics of the contact points.
+	Note: the impulses are used for internal caching and may not
+	provide reliable contact forces, especially for high speed collisions.
 	!#zh
-	LoadingItems 是一个加载对象队列，可以用来输送加载对象到加载管线中。<br/>
-	请不要直接使用 new 构造这个类的对象，你可以使用 {{#crossLink "LoadingItems.create"}}cc.LoadingItems.create{{/crossLink}} 来创建一个新的加载队列，这样可以允许我们的内部对象池回收并重利用加载队列。
-	它有一个 map 属性用来存放加载项，在 map 对象中已 url 为 key 值。<br/>
-	每个对象都会包含下列属性：<br/>
-	- id：该对象的标识，通常与 url 相同。<br/>
-	- url：路径 <br/>
-	- type: 类型，它这是默认的 URL 的扩展名，可以手动指定赋值。<br/>
-	- error：pipeline 中发生的错误将被保存在这个属性中。<br/>
-	- content: pipeline 中处理的临时结果，最终的结果也将被存储在这个属性中。<br/>
-	- complete：该标志表明该对象是否通过 pipeline 完成。<br/>
-	- states：该对象存储每个管道中对象经历的状态，状态可以是 Pipeline.ItemState.WORKING | Pipeline.ItemState.ERROR | Pipeline.ItemState.COMPLETE<br/>
-	<br/>
-	对象可容纳其他自定义属性。<br/>
-	每个 LoadingItems 对象都会在 onComplete 回调之后被销毁，所以请不要持有它的引用并在结束回调之后依赖它的内容执行任何逻辑，有这种需求的话你可以提前复制它的内容。 */
-	export class LoadingItems extends CallbacksInvoker {		
+	ManifoldPoint 是接触信息中的接触点信息。它拥有关于几何和接触点的详细信息。
+	注意：信息中的冲量用于系统内部缓存，提供的接触力可能不是很准确，特别是高速移动中的碰撞信息。 */
+	export class ManifoldPoint {		
+		/** !#en
+		The local point usage depends on the manifold type:
+		-e_circles: the local center of circleB
+		-e_faceA: the local center of circleB or the clip point of polygonB
+		-e_faceB: the clip point of polygonA
+		!#zh
+		本地坐标点的用途取决于 manifold 的类型
+		- e_circles: circleB 的本地中心点
+		- e_faceA: circleB 的本地中心点 或者是 polygonB 的截取点
+		- e_faceB: polygonB 的截取点 */
+		localPoint: Vec2;		
+		/** !#en
+		Normal impulse.
+		!#zh
+		法线冲量。 */
+		normalImpulse: number;		
+		/** !#en
+		Tangent impulse.
+		!#zh
+		切线冲量。 */
+		tangentImpulse: number;	
+	}	
+	/** undefined */
+	export class Manifold {		
+		/** !#en
+		Manifold type :  0: e_circles, 1: e_faceA, 2: e_faceB
+		!#zh
+		Manifold 类型 :  0: e_circles, 1: e_faceA, 2: e_faceB */
+		type: number;		
+		/** !#en
+		The local point usage depends on the manifold type:
+		-e_circles: the local center of circleA
+		-e_faceA: the center of faceA
+		-e_faceB: the center of faceB
+		!#zh
+		用途取决于 manifold 类型
+		-e_circles: circleA 的本地中心点
+		-e_faceA: faceA 的本地中心点
+		-e_faceB: faceB 的本地中心点 */
+		localPoint: Vec2;		
+		/** !#en
+		-e_circles: not used
+		-e_faceA: the normal on polygonA
+		-e_faceB: the normal on polygonB
+		!#zh
+		-e_circles: 没被使用到
+		-e_faceA: polygonA 的法向量
+		-e_faceB: polygonB 的法向量 */
+		localNormal: Vec2;		
+		/** !#en
+		the points of contact.
+		!#zh
+		接触点信息。 */
+		points: ManifoldPoint[];	
+	}	
+	/** !#en
+	Contact impulses for reporting.
+	!#zh
+	用于返回给回调的接触冲量。 */
+	export class PhysicsImpulse {		
+		/** !#en
+		Normal impulses.
+		!#zh
+		法线方向的冲量 */
+		normalImpulses: any;		
+		/** !#en
+		Tangent impulses
+		!#zh
+		切线方向的冲量 */
+		tangentImpulses: any;	
+	}	
+	/** !#en
+	PhysicsContact will be generated during begin and end collision as a parameter of the collision callback.
+	Note that contacts will be reused for speed up cpu time, so do not cache anything in the contact.
+	!#zh
+	物理接触会在开始和结束碰撞之间生成，并作为参数传入到碰撞回调函数中。
+	注意：传入的物理接触会被系统进行重用，所以不要在使用中缓存里面的任何信息。 */
+	export class PhysicsContact {		
 		/**
-		!#en This is a callback which will be invoked while an item flow out the pipeline.
-		You can pass the callback function in LoadingItems.create or set it later.
-		!#zh 这个回调函数将在 item 加载结束后被调用。你可以在构造时传递这个回调函数或者是在构造之后直接设置。
-		@param completedCount The number of the items that are already completed.
-		@param totalCount The total number of the items.
-		@param item The latest item which flow out the pipeline.
+		!#en
+		Get the world manifold.
+		!#zh
+		获取世界坐标系下的碰撞信息。 
+		*/
+		getWorldManifold(): WorldManifold;		
+		/**
+		!#en
+		Get the manifold.
+		!#zh
+		获取本地（局部）坐标系下的碰撞信息。 
+		*/
+		getManifold(): Manifold;		
+		/**
+		!#en
+		Get the impulses.
+		Note: PhysicsImpulse can only used in onPostSolve callback.
+		!#zh
+		获取冲量信息
+		注意：这个信息只有在 onPostSolve 回调中才能获取到 
+		*/
+		getImpulse(): PhysicsImpulse;		
+		/** !#en
+		One of the collider that collided
+		!#zh
+		发生碰撞的碰撞体之一 */
+		colliderA: Collider;		
+		/** !#en
+		One of the collider that collided
+		!#zh
+		发生碰撞的碰撞体之一 */
+		colliderB: Collider;		
+		/** !#en
+		If set disabled to true, the contact will be ignored until contact end.
+		If you just want to disabled contact for current time step or sub-step, please use disabledOnce.
+		!#zh
+		如果 disabled 被设置为 true，那么直到接触结束此接触都将被忽略。
+		如果只是希望在当前时间步或子步中忽略此接触，请使用 disabledOnce 。 */
+		disabled: boolean;		
+		/** !#en
+		Disabled contact for current time step or sub-step.
+		!#zh
+		在当前时间步或子步中忽略此接触。 */
+		disabledOnce: boolean;		
+		/**
+		!#en
+		Is this contact touching?
+		!#zh
+		返回碰撞体是否已经接触到。 
+		*/
+		isTouching(): boolean;		
+		/**
+		!#en
+		Set the desired tangent speed for a conveyor belt behavior.
+		!#zh
+		为传送带设置期望的切线速度
+		@param tangentSpeed tangentSpeed 
+		*/
+		setTangentSpeed(tangentSpeed: number): void;		
+		/**
+		!#en
+		Get the desired tangent speed.
+		!#zh
+		获取切线速度 
+		*/
+		getTangentSpeed(): number;		
+		/**
+		!#en
+		Override the default friction mixture. You can call this in onPreSolve callback.
+		!#zh
+		覆盖默认的摩擦力系数。你可以在 onPreSolve 回调中调用此函数。
+		@param friction friction 
+		*/
+		setFriction(friction: number): void;		
+		/**
+		!#en
+		Get the friction.
+		!#zh
+		获取当前摩擦力系数 
+		*/
+		getFriction(): number;		
+		/**
+		!#en
+		Reset the friction mixture to the default value.
+		!#zh
+		重置摩擦力系数到默认值 
+		*/
+		resetFriction(): void;		
+		/**
+		!#en
+		Override the default restitution mixture. You can call this in onPreSolve callback.
+		!#zh
+		覆盖默认的恢复系数。你可以在 onPreSolve 回调中调用此函数。
+		@param restitution restitution 
+		*/
+		setRestitution(restitution: number): void;		
+		/**
+		!#en
+		Get the restitution.
+		!#zh
+		获取当前恢复系数 
+		*/
+		getRestitution(): number;		
+		/**
+		!#en
+		Reset the restitution mixture to the default value.
+		!#zh
+		重置恢复系数到默认值 
+		*/
+		resetRestitution(): void;	
+	}	
+	/** !#en
+	Physics manager uses box2d as the inner physics system, and hide most box2d implement details(creating rigidbody, synchronize rigidbody info to node).
+	You can visit some common box2d function through physics manager(hit testing, raycast, debug info).
+	Physics manager distributes the collision information to each collision callback when collision is produced.
+	Note: You need first enable the collision listener in the rigidbody.
+	!#zh
+	物理系统将 box2d 作为内部物理系统，并且隐藏了大部分 box2d 实现细节（比如创建刚体，同步刚体信息到节点中等）。
+	你可以通过物理系统访问一些 box2d 常用的功能，比如点击测试，射线测试，设置测试信息等。
+	物理系统还管理碰撞信息的分发，她会在产生碰撞时，将碰撞信息分发到各个碰撞回调中。
+	注意：你需要先在刚体中开启碰撞接听才会产生相应的碰撞回调。<br>
+	支持的物理系统指定绘制信息事件，请参阅 {{#crossLink "PhysicsManager.DrawBits"}}{{/crossLink}} */
+	export class PhysicsManager implements EventTarget {		
+		/** !#en
+		The ratio transform between physics unit and pixel unit, generally is 32.
+		!#zh
+		物理单位与像素单位互相转换的比率，一般是 32。 */
+		static PTM_RATIO: number;		
+		/** !#en
+		The velocity iterations for the velocity constraint solver.
+		!#zh
+		速度更新迭代数 */
+		static VELOCITY_ITERATIONS: number;		
+		/** !#en
+		The position Iterations for the position constraint solver.
+		!#zh
+		位置迭代更新数 */
+		static POSITION_ITERATIONS: number;		
+		/** !#en
+		Specify the fixed time step.
+		Need enabledAccumulator to make it work.
+		!#zh
+		指定固定的物理更新间隔时间，需要开启 enabledAccumulator 才有效。 */
+		static FIXED_TIME_STEP: number;		
+		/** !#en
+		Specify the max accumulator time.
+		Need enabledAccumulator to make it work.
+		!#zh
+		每次可用于更新物理系统的最大时间，需要开启 enabledAccumulator 才有效。 */
+		static MAX_ACCUMULATOR: number;		
+		/** !#en
+		If enabled accumulator, then will call step function with the fixed time step FIXED_TIME_STEP.
+		And if the update dt is bigger than the time step, then will call step function several times.
+		If disabled accumulator, then will call step function with a time step calculated with the frame rate.
+		!#zh
+		如果开启此选项，那么将会以固定的间隔时间 FIXED_TIME_STEP 来更新物理引擎，如果一个 update 的间隔时间大于 FIXED_TIME_STEP，则会对物理引擎进行多次更新。
+		如果关闭此选项，那么将会根据设定的 frame rate 计算出一个间隔时间来更新物理引擎。 */
+		enabledAccumulator: boolean;		
+		/**
+		!#en
+		Test which collider contains the given world point
+		!#zh
+		获取包含给定世界坐标系点的碰撞体
+		@param point the world point 
+		*/
+		testPoint(point: Vec2): PhysicsCollider;		
+		/**
+		!#en
+		Test which colliders intersect the given world rect
+		!#zh
+		获取与给定世界坐标系矩形相交的碰撞体
+		@param rect the world rect 
+		*/
+		testAABB(rect: Rect): PhysicsCollider[];		
+		/**
+		!#en
+		Raycast the world for all colliders in the path of the ray.
+		The raycast ignores colliders that contain the starting point.
+		!#zh
+		检测哪些碰撞体在给定射线的路径上，射线检测将忽略包含起始点的碰撞体。
+		@param p1 start point of the raycast
+		@param p2 end point of the raycast
+		@param type optional, default is RayCastType.Closest 
+		*/
+		rayCast(p1: Vec2, p2: Vec2, type: RayCastType): PhysicsRayCastResult[];		
+		/** !#en
+		Enabled the physics manager?
+		!#zh
+		指定是否启用物理系统？ */
+		enabled: boolean;		
+		/** !#en
+		Debug draw flags.
+		!#zh
+		设置调试绘制标志 */
+		debugDrawFlags: number;		
+		/** !#en
+		The physics world gravity.
+		!#zh
+		物理世界重力值 */
+		gravity: Vec2;		
+		/**
+		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
+		!#zh 检查事件目标对象是否有为特定类型的事件注册的回调。
+		@param type The type of event. 
+		*/
+		hasEventListener(type: string): boolean;		
+		/**
+		!#en
+		Register an callback of a specific event type on the EventTarget.
+		This type of event should be triggered via `emit`.
+		!#zh
+		注册事件目标的特定事件类型回调。这种类型的事件应该被 `emit` 触发。
+		@param type A string representing the event type to listen for.
+		@param callback The callback that will be invoked when the event is dispatched.
+		                             The callback is ignored if it is a duplicate (the callbacks are unique).
+		@param target The target (this object) to invoke the callback, can be null
 		
 		@example 
 		```js
-		loadingItems.onProgress = function (completedCount, totalCount, item) {
-		     var progress = (100 * completedCount / totalCount).toFixed(2);
-		     cc.log(progress + '%');
-		 }
+		eventTarget.on('fire', function () {
+		    cc.log("fire in the hole");
+		}, node);
 		``` 
 		*/
-		onProgress(completedCount: number, totalCount: number, item: any): void;		
+		on<T extends Function>(type: string, callback: T, target?: any, useCapture?: boolean): T;		
 		/**
-		!#en This is a callback which will be invoked while all items is completed,
-		You can pass the callback function in LoadingItems.create or set it later.
-		!#zh 该函数将在加载队列全部完成时被调用。你可以在构造时传递这个回调函数或者是在构造之后直接设置。
-		@param errors All errored urls will be stored in this array, if no error happened, then it will be null
-		@param items All items.
+		!#en
+		Removes the listeners previously registered with the same type, callback, target and or useCapture,
+		if only type is passed as parameter, all listeners registered with that type will be removed.
+		!#zh
+		删除之前用同类型，回调，目标或 useCapture 注册的事件监听器，如果只传递 type，将会删除 type 类型的所有事件监听器。
+		@param type A string representing the event type being removed.
+		@param callback The callback to remove.
+		@param target The target (this object) to invoke the callback, if it's not given, only callback without target will be removed
 		
 		@example 
 		```js
-		loadingItems.onComplete = function (errors, items) {
-		     if (error)
-		         cc.log('Completed with ' + errors.length + ' errors');
-		     else
-		         cc.log('Completed ' + items.totalCount + ' items');
-		 }
+		// register fire eventListener
+		var callback = eventTarget.on('fire', function () {
+		    cc.log("fire in the hole");
+		}, target);
+		// remove fire event listener
+		eventTarget.off('fire', callback, target);
+		// remove all fire event listeners
+		eventTarget.off('fire');
 		``` 
 		*/
-		onComplete(errors: any[], items: LoadingItems): void;		
-		/** !#en The map of all items.
-		!#zh 存储所有加载项的对象。 */
-		map: any;		
-		/** !#en The map of completed items.
-		!#zh 存储已经完成的加载项。 */
-		completed: any;		
-		/** !#en Total count of all items.
-		!#zh 所有加载项的总数。 */
-		totalCount: number;		
-		/** !#en Total count of completed items.
-		!#zh 所有完成加载项的总数。 */
-		completedCount: number;		
-		/** !#en Activated or not.
-		!#zh 是否启用。 */
+		off(type: string, callback?: Function, target?: any): void;		
+		/**
+		!#en Removes all callbacks previously registered with the same target (passed as parameter).
+		This is not for removing all listeners in the current event target,
+		and this is not for removing all listeners the target parameter have registered.
+		It's only for removing all listeners (callback and target couple) registered on the current event target by the target parameter.
+		!#zh 在当前 EventTarget 上删除指定目标（target 参数）注册的所有事件监听器。
+		这个函数无法删除当前 EventTarget 的所有事件监听器，也无法删除 target 参数所注册的所有事件监听器。
+		这个函数只能删除 target 参数在当前 EventTarget 上注册的所有事件监听器。
+		@param target The target to be searched for all related listeners 
+		*/
+		targetOff(target: any): void;		
+		/**
+		!#en
+		Register an callback of a specific event type on the EventTarget,
+		the callback will remove itself after the first time it is triggered.
+		!#zh
+		注册事件目标的特定事件类型回调，回调会在第一时间被触发后删除自身。
+		@param type A string representing the event type to listen for.
+		@param callback The callback that will be invoked when the event is dispatched.
+		                             The callback is ignored if it is a duplicate (the callbacks are unique).
+		@param target The target (this object) to invoke the callback, can be null
+		
+		@example 
+		```js
+		eventTarget.once('fire', function () {
+		    cc.log("this is the callback and will be invoked only once");
+		}, node);
+		``` 
+		*/
+		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
+		/**
+		!#en
+		Send an event with the event object.
+		!#zh
+		通过事件对象派发事件
+		@param event event 
+		*/
+		dispatchEvent(event: Event): void;	
+	}	
+	/** undefined */
+	export class PhysicsRayCastResult {		
+		/** !#en
+		The PhysicsCollider which intersects with the raycast
+		!#zh
+		与射线相交的碰撞体 */
+		collider: PhysicsCollider;		
+		/** !#en
+		The intersection point
+		!#zh
+		射线与碰撞体相交的点 */
+		point: Vec2;		
+		/** !#en
+		The normal vector at the point of intersection
+		!#zh
+		射线与碰撞体相交的点的法向量 */
+		normal: Vec2;		
+		/** !#en
+		The fraction of the raycast path at the point of intersection
+		!#zh
+		射线与碰撞体相交的点占射线长度的分数 */
+		fraction: number;	
+	}	
+	/** !#en Enum for RigidBodyType.
+	!#zh 刚体类型 */
+	export enum RigidBodyType {		
+		Static = 0,
+		Kinematic = 0,
+		Dynamic = 0,
+		Animated = 0,	
+	}	
+	/** !#en Enum for RayCastType.
+	!#zh 射线检测类型 */
+	export enum RayCastType {		
+		Closest = 0,
+		Any = 0,
+		AllClosest = 0,
+		All = 0,	
+	}	
+	/** undefined */
+	export class RigidBody extends Component {		
+		/** !#en
+		Should enabled contact listener?
+		When a collision is trigger, the collision callback will only be called when enabled contact listener.
+		!#zh
+		是否启用接触接听器。
+		当 collider 产生碰撞时，只有开启了接触接听器才会调用相应的回调函数 */
+		enabledContactListener: boolean;		
+		/**
+		!#en
+		Collision callback.
+		Called when two collider begin to touch.
+		!#zh
+		碰撞回调。
+		如果你的脚本中实现了这个函数，那么它将会在两个碰撞体开始接触时被调用。
+		@param contact contact information
+		@param selfCollider the collider belong to this rigidbody
+		@param otherCollider the collider belong to another rigidbody 
+		*/
+		onBeginContact(contact: PhysicsContact, selfCollider: PhysicsCollider, otherCollider: PhysicsCollider): void;		
+		/**
+		!#en
+		Collision callback.
+		Called when two collider cease to touch.
+		!#zh
+		碰撞回调。
+		如果你的脚本中实现了这个函数，那么它将会在两个碰撞体停止接触时被调用。
+		@param contact contact information
+		@param selfCollider the collider belong to this rigidbody
+		@param otherCollider the collider belong to another rigidbody 
+		*/
+		onEndContact(contact: PhysicsContact, selfCollider: PhysicsCollider, otherCollider: PhysicsCollider): void;		
+		/**
+		!#en
+		Collision callback.
+		This is called when a contact is updated.
+		This allows you to inspect a contact before it goes to the solver(e.g. disable contact).
+		Note: this is called only for awake bodies.
+		Note: this is called even when the number of contact points is zero.
+		Note: this is not called for sensors.
+		!#zh
+		碰撞回调。
+		如果你的脚本中实现了这个函数，那么它将会在接触更新时被调用。
+		你可以在接触被处理前根据他包含的信息作出相应的处理，比如将这个接触禁用掉。
+		注意：回调只会为醒着的刚体调用。
+		注意：接触点为零的时候也有可能被调用。
+		注意：感知体(sensor)的回调不会被调用。
+		@param contact contact information
+		@param selfCollider the collider belong to this rigidbody
+		@param otherCollider the collider belong to another rigidbody 
+		*/
+		onPreSolve(contact: PhysicsContact, selfCollider: PhysicsCollider, otherCollider: PhysicsCollider): void;		
+		/**
+		!#en
+		Collision callback.
+		This is called after a contact is updated.
+		You can get the impulses from the contact in this callback.
+		!#zh
+		碰撞回调。
+		如果你的脚本中实现了这个函数，那么它将会在接触更新完后被调用。
+		你可以在这个回调中从接触信息中获取到冲量信息。
+		@param contact contact information
+		@param selfCollider the collider belong to this rigidbody
+		@param otherCollider the collider belong to another rigidbody 
+		*/
+		onPostSolve(contact: PhysicsContact, selfCollider: PhysicsCollider, otherCollider: PhysicsCollider): void;		
+		/** !#en
+		Is this a fast moving body that should be prevented from tunneling through
+		other moving bodies?
+		Note :
+		- All bodies are prevented from tunneling through kinematic and static bodies. This setting is only considered on dynamic bodies.
+		- You should use this flag sparingly since it increases processing time.
+		!#zh
+		这个刚体是否是一个快速移动的刚体，并且需要禁止穿过其他快速移动的刚体？
+		需要注意的是 :
+		 - 所有刚体都被禁止从 运动刚体 和 静态刚体 中穿过。此选项只关注于 动态刚体。
+		 - 应该尽量少的使用此选项，因为它会增加程序处理时间。 */
+		bullet: boolean;		
+		/** !#en
+		Rigidbody type : Static, Kinematic, Dynamic or Animated.
+		!#zh
+		刚体类型： Static, Kinematic, Dynamic or Animated. */
+		type: RigidBodyType;		
+		/** !#en
+		Set this flag to false if this body should never fall asleep.
+		Note that this increases CPU usage.
+		!#zh
+		如果此刚体永远都不应该进入睡眠，那么设置这个属性为 false。
+		需要注意这将使 CPU 占用率提高。 */
+		allowSleep: boolean;		
+		/** !#en
+		Scale the gravity applied to this body.
+		!#zh
+		缩放应用在此刚体上的重力值 */
+		gravityScale: number;		
+		/** !#en
+		Linear damping is use to reduce the linear velocity.
+		The damping parameter can be larger than 1, but the damping effect becomes sensitive to the
+		time step when the damping parameter is large.
+		!#zh
+		Linear damping 用于衰减刚体的线性速度。衰减系数可以大于 1，但是当衰减系数比较大的时候，衰减的效果会变得比较敏感。 */
+		linearDamping: number;		
+		/** !#en
+		Angular damping is use to reduce the angular velocity. The damping parameter
+		can be larger than 1 but the damping effect becomes sensitive to the
+		time step when the damping parameter is large.
+		!#zh
+		Angular damping 用于衰减刚体的角速度。衰减系数可以大于 1，但是当衰减系数比较大的时候，衰减的效果会变得比较敏感。 */
+		angularDamping: number;		
+		/** !#en
+		The linear velocity of the body's origin in world co-ordinates.
+		!#zh
+		刚体在世界坐标下的线性速度 */
+		linearVelocity: Vec2;		
+		/** !#en
+		The angular velocity of the body.
+		!#zh
+		刚体的角速度 */
+		angularVelocity: number;		
+		/** !#en
+		Should this body be prevented from rotating?
+		!#zh
+		是否禁止此刚体进行旋转 */
+		fixedRotation: boolean;		
+		/** !#en
+		Set the sleep state of the body. A sleeping body has very low CPU cost.(When the rigid body is hit, if the rigid body is in sleep state, it will be immediately awakened.)
+		!#zh
+		设置刚体的睡眠状态。 睡眠的刚体具有非常低的 CPU 成本。（当刚体被碰撞到时，如果刚体处于睡眠状态，它会立即被唤醒） */
+		awake: boolean;		
+		/** !#en
+		Whether to wake up this rigid body during initialization
+		!#zh
+		是否在初始化时唤醒此刚体 */
+		awakeOnLoad: boolean;		
+		/** !#en
+		Set the active state of the body. An inactive body is not
+		simulated and cannot be collided with or woken up.
+		If body is active, all fixtures will be added to the
+		broad-phase.
+		If body is inactive, all fixtures will be removed from
+		the broad-phase and all contacts will be destroyed.
+		Fixtures on an inactive body are implicitly inactive and will
+		not participate in collisions, ray-casts, or queries.
+		Joints connected to an inactive body are implicitly inactive.
+		!#zh
+		设置刚体的激活状态。一个非激活状态下的刚体是不会被模拟和碰撞的，不管它是否处于睡眠状态下。
+		如果刚体处于激活状态下，所有夹具会被添加到 粗测阶段（broad-phase）。
+		如果刚体处于非激活状态下，所有夹具会被从 粗测阶段（broad-phase）中移除。
+		在非激活状态下的夹具不会参与到碰撞，射线，或者查找中
+		链接到非激活状态下刚体的关节也是非激活的。 */
 		active: boolean;		
 		/**
-		!#en The constructor function of LoadingItems, this will use recycled LoadingItems in the internal pool if possible.
-		You can pass onProgress and onComplete callbacks to visualize the loading process.
-		!#zh LoadingItems 的构造函数，这种构造方式会重用内部对象缓冲池中的 LoadingItems 队列，以尽量避免对象创建。
-		你可以传递 onProgress 和 onComplete 回调函数来获知加载进度信息。
-		@param pipeline The pipeline to process the queue.
-		@param urlList The items array.
-		@param onProgress The progression callback, refer to {{#crossLink "LoadingItems.onProgress"}}{{/crossLink}}
-		@param onComplete The completion callback, refer to {{#crossLink "LoadingItems.onComplete"}}{{/crossLink}}
-		
-		@example 
-		```js
-		cc.LoadingItems.create(cc.loader, ['a.png', 'b.plist'], function (completedCount, totalCount, item) {
-		     var progress = (100 * completedCount / totalCount).toFixed(2);
-		     cc.log(progress + '%');
-		 }, function (errors, items) {
-		     if (errors) {
-		         for (var i = 0; i < errors.length; ++i) {
-		             cc.log('Error url: ' + errors[i] + ', error: ' + items.getError(errors[i]));
-		         }
-		     }
-		     else {
-		         var result_a = items.getContent('a.png');
-		         // ...
-		     }
-		 })
-		``` 
-		*/
-		static create(pipeline: Pipeline, urlList: any[], onProgress: Function, onComplete: Function): LoadingItems;		
-		/**
-		!#en Retrieve the LoadingItems queue object for an item.
-		!#zh 通过 item 对象获取它的 LoadingItems 队列。
-		@param item The item to query 
-		*/
-		static getQueue(item: any): LoadingItems;		
-		/**
-		!#en Complete an item in the LoadingItems queue, please do not call this method unless you know what's happening.
-		!#zh 通知 LoadingItems 队列一个 item 对象已完成，请不要调用这个函数，除非你知道自己在做什么。
-		@param item The item which has completed 
-		*/
-		static itemComplete(item: any): void;		
-		/**
-		!#en Add urls to the LoadingItems queue.
-		!#zh 向一个 LoadingItems 队列添加加载项。
-		@param urlList The url list to be appended, the url can be object or string 
-		*/
-		append(urlList: any[]): any[];		
-		/**
-		!#en Complete a LoadingItems queue, please do not call this method unless you know what's happening.
-		!#zh 完成一个 LoadingItems 队列，请不要调用这个函数，除非你知道自己在做什么。 
-		*/
-		allComplete(): void;		
-		/**
-		!#en Check whether all items are completed.
-		!#zh 检查是否所有加载项都已经完成。 
-		*/
-		isCompleted(): boolean;		
-		/**
-		!#en Check whether an item is completed.
-		!#zh 通过 id 检查指定加载项是否已经加载完成。
-		@param id The item's id. 
-		*/
-		isItemCompleted(id: string): boolean;		
-		/**
-		!#en Check whether an item exists.
-		!#zh 通过 id 检查加载项是否存在。
-		@param id The item's id. 
-		*/
-		exists(id: string): boolean;		
-		/**
-		!#en Returns the content of an internal item.
-		!#zh 通过 id 获取指定对象的内容。
-		@param id The item's id. 
-		*/
-		getContent(id: string): any;		
-		/**
-		!#en Returns the error of an internal item.
-		!#zh 通过 id 获取指定对象的错误信息。
-		@param id The item's id. 
-		*/
-		getError(id: string): any;		
-		/**
-		!#en Add a listener for an item, the callback will be invoked when the item is completed.
-		!#zh 监听加载项（通过 key 指定）的完成事件。
-		@param key key
-		@param callback can be null
-		@param target can be null 
-		*/
-		addListener(key: string, callback: Function, target: any): boolean;		
-		/**
 		!#en
-		Check if the specified key has any registered callback.
-		If a callback is also specified, it will only return true if the callback is registered.
+		Gets a local point relative to the body's origin given a world point.
 		!#zh
-		检查指定的加载项是否有完成事件监听器。
-		如果同时还指定了一个回调方法，并且回调有注册，它只会返回 true。
-		@param key key
-		@param callback callback
-		@param target target 
+		将一个给定的世界坐标系下的点转换为刚体本地坐标系下的点
+		@param worldPoint a point in world coordinates.
+		@param out optional, the receiving point 
 		*/
-		hasListener(key: string, callback?: Function, target?: any): boolean;		
+		getLocalPoint(worldPoint: Vec2, out: Vec2): Vec2;		
 		/**
 		!#en
-		Removes a listener.
-		It will only remove when key, callback, target all match correctly.
+		Get the world coordinates of a point given the local coordinates.
 		!#zh
-		移除指定加载项已经注册的完成事件监听器。
-		只会删除 key, callback, target 均匹配的监听器。
-		@param key key
-		@param callback callback
-		@param target target 
+		将一个给定的刚体本地坐标系下的点转换为世界坐标系下的点
+		@param localPoint a point in local coordinates.
+		@param out optional, the receiving point 
 		*/
-		remove(key: string, callback: Function, target: any): boolean;		
+		getWorldPoint(localPoint: Vec2, out: Vec2): Vec2;		
 		/**
 		!#en
-		Removes all callbacks registered in a certain event
-		type or all callbacks registered with a certain target.
-		!#zh 删除指定目标的所有完成事件监听器。
-		@param key The event key to be removed or the target to be removed 
-		*/
-		removeAllListeners(key: string|any): void;		
-		/**
-		!#en Complete an item in the LoadingItems queue, please do not call this method unless you know what's happening.
-		!#zh 通知 LoadingItems 队列一个 item 对象已完成，请不要调用这个函数，除非你知道自己在做什么。
-		@param id The item url 
-		*/
-		itemComplete(id: string): void;		
-		/**
-		!#en Destroy the LoadingItems queue, the queue object won't be garbage collected, it will be recycled, so every after destroy is not reliable.
-		!#zh 销毁一个 LoadingItems 队列，这个队列对象会被内部缓冲池回收，所以销毁后的所有内部信息都是不可依赖的。 
-		*/
-		destroy(): void;	
-	}	
-	/** !#en
-	A pipeline describes a sequence of manipulations, each manipulation is called a pipe.<br/>
-	It's designed for loading process. so items should be urls, and the url will be the identity of each item during the process.<br/>
-	A list of items can flow in the pipeline and it will output the results of all pipes.<br/>
-	They flow in the pipeline like water in tubes, they go through pipe by pipe separately.<br/>
-	Finally all items will flow out the pipeline and the process is finished.
-	
-	!#zh
-	pipeline 描述了一系列的操作，每个操作都被称为 pipe。<br/>
-	它被设计来做加载过程的流程管理。所以 item 应该是 url，并且该 url 将是在处理中的每个 item 的身份标识。<br/>
-	一个 item 列表可以在 pipeline 中流动，它将输出加载项经过所有 pipe 之后的结果。<br/>
-	它们穿过 pipeline 就像水在管子里流动，将会按顺序流过每个 pipe。<br/>
-	最后当所有加载项都流出 pipeline 时，整个加载流程就结束了。 */
-	export class Pipeline {		
-		/**
-		!#en
-		Constructor, pass an array of pipes to construct a new Pipeline,
-		the pipes will be chained in the given order.<br/>
-		A pipe is an object which must contain an `id` in string and a `handle` function,
-		the id must be unique in the pipeline.<br/>
-		It can also include `async` property to identify whether it's an asynchronous process.
+		Get the world coordinates of a vector given the local coordinates.
 		!#zh
-		构造函数，通过一系列的 pipe 来构造一个新的 pipeline，pipes 将会在给定的顺序中被锁定。<br/>
-		一个 pipe 就是一个对象，它包含了字符串类型的 ‘id’ 和 ‘handle’ 函数，在 pipeline 中 id 必须是唯一的。<br/>
-		它还可以包括 ‘async’ 属性以确定它是否是一个异步过程。
-		@param pipes pipes
-		
-		@example 
-		```js
-		var pipeline = new Pipeline([
-		     {
-		         id: 'Downloader',
-		         handle: function (item, callback) {},
-		         async: true
-		     },
-		     {id: 'Parser', handle: function (item) {}, async: false}
-		 ]);
-		``` 
+		将一个给定的世界坐标系下的向量转换为刚体本地坐标系下的向量
+		@param localVector a vector in world coordinates.
+		@param out optional, the receiving vector 
 		*/
-		constructor(pipes: any[]);		
+		getWorldVector(localVector: Vec2, out: Vec2): Vec2;		
 		/**
 		!#en
-		Insert a new pipe at the given index of the pipeline. <br/>
-		A pipe must contain an `id` in string and a `handle` function, the id must be unique in the pipeline.
+		Gets a local vector relative to the body's origin given a world vector.
 		!#zh
-		在给定的索引位置插入一个新的 pipe。<br/>
-		一个 pipe 必须包含一个字符串类型的 ‘id’ 和 ‘handle’ 函数，该 id 在 pipeline 必须是唯一标识。
-		@param pipe The pipe to be inserted
-		@param index The index to insert 
+		将一个给定的世界坐标系下的点转换为刚体本地坐标系下的点
+		@param worldVector a vector in world coordinates.
+		@param out optional, the receiving vector 
 		*/
-		insertPipe(pipe: any, index: number): void;		
-		/**
-		!en
-		Insert a pipe to the end of an existing pipe. The existing pipe must be a valid pipe in the pipeline.
-		!zh
-		在当前 pipeline 的一个已知 pipe 后面插入一个新的 pipe。
-		@param refPipe An existing pipe in the pipeline.
-		@param newPipe The pipe to be inserted. 
-		*/
-		insertPipeAfter(refPipe: any, newPipe: any): void;		
+		getLocalVector(worldVector: Vec2, out: Vec2): Vec2;		
 		/**
 		!#en
-		Add a new pipe at the end of the pipeline. <br/>
-		A pipe must contain an `id` in string and a `handle` function, the id must be unique in the pipeline.
+		Get the world body origin position.
 		!#zh
-		添加一个新的 pipe 到 pipeline 尾部。 <br/>
-		该 pipe 必须包含一个字符串类型 ‘id’ 和 ‘handle’ 函数，该 id 在 pipeline 必须是唯一标识。
-		@param pipe The pipe to be appended 
+		获取刚体世界坐标系下的原点值
+		@param out optional, the receiving point 
 		*/
-		appendPipe(pipe: any): void;		
+		getWorldPosition(out: Vec2): Vec2;		
 		/**
 		!#en
-		Let new items flow into the pipeline. <br/>
-		Each item can be a simple url string or an object,
-		if it's an object, it must contain `id` property. <br/>
-		You can specify its type by `type` property, by default, the type is the extension name in url. <br/>
-		By adding a `skips` property including pipe ids, you can skip these pipe. <br/>
-		The object can contain any supplementary property as you want. <br/>
+		Get the world body rotation angle.
 		!#zh
-		让新的 item 流入 pipeline 中。<br/>
-		这里的每个 item 可以是一个简单字符串类型的 url 或者是一个对象,
-		如果它是一个对象的话，他必须要包含 ‘id’ 属性。<br/>
-		你也可以指定它的 ‘type’ 属性类型，默认情况下，该类型是 ‘url’ 的后缀名。<br/>
-		也通过添加一个 包含 ‘skips’ 属性的 item 对象，你就可以跳过 skips 中包含的 pipe。<br/>
-		该对象可以包含任何附加属性。
-		@param items items
-		
-		@example 
-		```js
-		pipeline.flowIn([
-		     'res/Background.png',
-		     {
-		         id: 'res/scene.json',
-		         type: 'scene',
-		         name: 'scene',
-		         skips: ['Downloader']
-		     }
-		 ]);
-		``` 
+		获取刚体世界坐标系下的旋转值。 
 		*/
-		flowIn(items: any[]): void;		
+		getWorldRotation(): number;		
 		/**
 		!#en
-		Copy the item states from one source item to all destination items. <br/>
-		It's quite useful when a pipe generate new items from one source item,<br/>
-		then you should flowIn these generated items into pipeline, <br/>
-		but you probably want them to skip all pipes the source item already go through,<br/>
-		you can achieve it with this API. <br/>
-		<br/>
-		For example, an unzip pipe will generate more items, but you won't want them to pass unzip or download pipe again.
+		Get the local position of the center of mass.
 		!#zh
-		从一个源 item 向所有目标 item 复制它的 pipe 状态，用于避免重复通过部分 pipe。<br/>
-		当一个源 item 生成了一系列新的 items 时很有用，<br/>
-		你希望让这些新的依赖项进入 pipeline，但是又不希望它们通过源 item 已经经过的 pipe，<br/>
-		但是你可能希望他们源 item 已经通过并跳过所有 pipes，<br/>
-		这个时候就可以使用这个 API。
-		@param srcItem The source item
-		@param dstItems A single destination item or an array of destination items 
+		获取刚体本地坐标系下的质心 
 		*/
-		copyItemStates(srcItem: any, dstItems: any[]|any): void;		
+		getLocalCenter(): Vec2;		
 		/**
-		!#en Returns an item in pipeline.
-		!#zh 根据 id 获取一个 item
-		@param id The id of the item 
+		!#en
+		Get the world position of the center of mass.
+		!#zh
+		获取刚体世界坐标系下的质心 
 		*/
-		getItem(id: any): any;		
+		getWorldCenter(): Vec2;		
 		/**
-		!#en Removes an completed item in pipeline.
-		It will only remove the cache in the pipeline or loader, its dependencies won't be released.
-		cc.loader provided another method to completely cleanup the resource and its dependencies,
-		please refer to {{#crossLink "loader/release:method"}}cc.loader.release{{/crossLink}}
-		!#zh 移除指定的已完成 item。
-		这将仅仅从 pipeline 或者 loader 中删除其缓存，并不会释放它所依赖的资源。
-		cc.loader 中提供了另一种删除资源及其依赖的清理方法，请参考 {{#crossLink "loader/release:method"}}cc.loader.release{{/crossLink}}
-		@param id The id of the item 
+		!#en
+		Get the world linear velocity of a world point attached to this body.
+		!#zh
+		获取刚体上指定点的线性速度
+		@param worldPoint a point in world coordinates.
+		@param out optional, the receiving point 
 		*/
-		removeItem(id: any): boolean;		
+		getLinearVelocityFromWorldPoint(worldPoint: Vec2, out: Vec2): Vec2;		
 		/**
-		!#en Clear the current pipeline, this function will clean up the items.
-		!#zh 清空当前 pipeline，该函数将清理 items。 
+		!#en
+		Get total mass of the body.
+		!#zh
+		获取刚体的质量。 
 		*/
-		clear(): void;	
+		getMass(): number;		
+		/**
+		!#en
+		Get the rotational inertia of the body about the local origin.
+		!#zh
+		获取刚体本地坐标系下原点的旋转惯性 
+		*/
+		getInertia(): number;		
+		/**
+		!#en
+		Get all the joints connect to the rigidbody.
+		!#zh
+		获取链接到此刚体的所有关节 
+		*/
+		getJointList(): Joint[];		
+		/**
+		!#en
+		Apply a force at a world point. If the force is not
+		applied at the center of mass, it will generate a torque and
+		affect the angular velocity.
+		!#zh
+		施加一个力到刚体上的一个点。如果力没有施加到刚体的质心上，还会产生一个扭矩并且影响到角速度。
+		@param force the world force vector.
+		@param point the world position.
+		@param wake also wake up the body. 
+		*/
+		applyForce(force: Vec2, point: Vec2, wake: boolean): void;		
+		/**
+		!#en
+		Apply a force to the center of mass.
+		!#zh
+		施加一个力到刚体上的质心上。
+		@param force the world force vector.
+		@param wake also wake up the body. 
+		*/
+		applyForceToCenter(force: Vec2, wake: boolean): void;		
+		/**
+		!#en
+		Apply a torque. This affects the angular velocity.
+		!#zh
+		施加一个扭矩力，将影响刚体的角速度
+		@param torque about the z-axis (out of the screen), usually in N-m.
+		@param wake also wake up the body 
+		*/
+		applyTorque(torque: number, wake: boolean): void;		
+		/**
+		!#en
+		Apply a impulse at a world point, This immediately modifies the velocity.
+		If the impulse is not applied at the center of mass, it will generate a torque and
+		affect the angular velocity.
+		!#zh
+		施加冲量到刚体上的一个点，将立即改变刚体的线性速度。
+		如果冲量施加到的点不是刚体的质心，那么将产生一个扭矩并影响刚体的角速度。
+		@param impulse the world impulse vector, usually in N-seconds or kg-m/s.
+		@param point the world position
+		@param wake alse wake up the body 
+		*/
+		applyLinearImpulse(impulse: Vec2, point: Vec2, wake: boolean): void;		
+		/**
+		!#en
+		Apply an angular impulse.
+		!#zh
+		施加一个角速度冲量。
+		@param impulse the angular impulse in units of kg*m*m/s
+		@param wake also wake up the body 
+		*/
+		applyAngularImpulse(impulse: number, wake: boolean): void;		
+		/**
+		!#en
+		Synchronize node's world position to box2d rigidbody's position.
+		If enableAnimated is true and rigidbody's type is Animated type,
+		will set linear velocity instead of directly set rigidbody's position.
+		!#zh
+		同步节点的世界坐标到 box2d 刚体的坐标上。
+		如果 enableAnimated 是 true，并且刚体的类型是 Animated ，那么将设置刚体的线性速度来代替直接设置刚体的位置。
+		@param enableAnimated enableAnimated 
+		*/
+		syncPosition(enableAnimated: boolean): void;		
+		/**
+		!#en
+		Synchronize node's world angle to box2d rigidbody's angle.
+		If enableAnimated is true and rigidbody's type is Animated type,
+		will set angular velocity instead of directly set rigidbody's angle.
+		!#zh
+		同步节点的世界旋转角度值到 box2d 刚体的旋转值上。
+		如果 enableAnimated 是 true，并且刚体的类型是 Animated ，那么将设置刚体的角速度来代替直接设置刚体的角度。
+		@param enableAnimated enableAnimated 
+		*/
+		syncRotation(enableAnimated: boolean): void;	
 	}	
 	/** !#en the device accelerometer reports values for each axis in units of g-force.
 	!#zh 设备重力传感器传递的各个轴的数据。 */
@@ -9162,168 +10435,6 @@ declare namespace cc {
 		@param interval interval 
 		*/
 		setAccelerometerInterval(interval: number): void;	
-	}	
-	/** Predefined constants */
-	export class macro {		
-		/** PI / 180 */
-		static RAD: number;		
-		/** One degree */
-		static DEG: number;		
-		static REPEAT_FOREVER: number;		
-		static FLT_EPSILON: number;		
-		/** Minimum z index value for node */
-		static MIN_ZINDEX: number;		
-		/** Maximum z index value for node */
-		static MAX_ZINDEX: number;		
-		static ONE: number;		
-		static ZERO: number;		
-		static SRC_ALPHA: number;		
-		static SRC_ALPHA_SATURATE: number;		
-		static SRC_COLOR: number;		
-		static DST_ALPHA: number;		
-		static DST_COLOR: number;		
-		static ONE_MINUS_SRC_ALPHA: number;		
-		static ONE_MINUS_SRC_COLOR: number;		
-		static ONE_MINUS_DST_ALPHA: number;		
-		static ONE_MINUS_DST_COLOR: number;		
-		static ONE_MINUS_CONSTANT_ALPHA: number;		
-		static ONE_MINUS_CONSTANT_COLOR: number;		
-		/** Oriented vertically */
-		static ORIENTATION_PORTRAIT: number;		
-		/** Oriented horizontally */
-		static ORIENTATION_LANDSCAPE: number;		
-		/** Oriented automatically */
-		static ORIENTATION_AUTO: number;		
-		/** <p>
-		  If enabled, the texture coordinates will be calculated by using this formula: <br/>
-		     - texCoord.left = (rect.x*2+1) / (texture.wide*2);                  <br/>
-		     - texCoord.right = texCoord.left + (rect.width*2-2)/(texture.wide*2); <br/>
-		                                                                                <br/>
-		 The same for bottom and top.                                                   <br/>
-		                                                                                <br/>
-		 This formula prevents artifacts by using 99% of the texture.                   <br/>
-		 The "correct" way to prevent artifacts is by expand the texture's border with the same color by 1 pixel<br/>
-		                                                                                 <br/>
-		 Affected component:                                                                 <br/>
-		     - cc.TMXLayer                                                       <br/>
-		                                                                                 <br/>
-		 Enabled by default. To disabled set it to 0. <br/>
-		 To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h
-		</p> */
-		static FIX_ARTIFACTS_BY_STRECHING_TEXEL_TMX: number;		
-		/** Position of the FPS (Default: 0,0 (bottom-left corner))<br/>
-		To modify it, in Web engine please refer to CCMacro.js, in JSB please refer to CCConfig.h */
-		static DIRECTOR_STATS_POSITION: Vec2;		
-		/** <p>
-		   If enabled, actions that alter the position property (eg: CCMoveBy, CCJumpBy, CCBezierBy, etc..) will be stacked.                  <br/>
-		   If you run 2 or more 'position' actions at the same time on a node, then end position will be the sum of all the positions.        <br/>
-		   If disabled, only the last run action will take effect.
-		</p> */
-		static ENABLE_STACKABLE_ACTIONS: number;		
-		/** !#en
-		The timeout to determine whether a touch is no longer active and should be removed.
-		The reason to add this timeout is due to an issue in X5 browser core,
-		when X5 is presented in wechat on Android, if a touch is glissed from the bottom up, and leave the page area,
-		no touch cancel event is triggered, and the touch will be considered active forever.
-		After multiple times of this action, our maximum touches number will be reached and all new touches will be ignored.
-		So this new mechanism can remove the touch that should be inactive if it's not updated during the last 5000 milliseconds.
-		Though it might remove a real touch if it's just not moving for the last 5 seconds which is not easy with the sensibility of mobile touch screen.
-		You can modify this value to have a better behavior if you find it's not enough.
-		!#zh
-		用于甄别一个触点对象是否已经失效并且可以被移除的延时时长
-		添加这个时长的原因是 X5 内核在微信浏览器中出现的一个 bug。
-		在这个环境下，如果用户将一个触点从底向上移出页面区域，将不会触发任何 touch cancel 或 touch end 事件，而这个触点会被永远当作停留在页面上的有效触点。
-		重复这样操作几次之后，屏幕上的触点数量将达到我们的事件系统所支持的最高触点数量，之后所有的触摸事件都将被忽略。
-		所以这个新的机制可以在触点在一定时间内没有任何更新的情况下视为失效触点并从事件系统中移除。
-		当然，这也可能移除一个真实的触点，如果用户的触点真的在一定时间段内完全没有移动（这在当前手机屏幕的灵敏度下会很难）。
-		你可以修改这个值来获得你需要的效果，默认值是 5000 毫秒。 */
-		static TOUCH_TIMEOUT: number;		
-		/** !#en
-		The maximum vertex count for a single batched draw call.
-		!#zh
-		最大可以被单次批处理渲染的顶点数量。 */
-		static BATCH_VERTEX_COUNT: number;		
-		/** !#en
-		Whether or not enabled tiled map auto culling. If you set the TiledMap skew or rotation, then need to manually disable this, otherwise, the rendering will be wrong.
-		!#zh
-		是否开启瓦片地图的自动裁减功能。瓦片地图如果设置了 skew, rotation 的话，需要手动关闭，否则渲染会出错。 */
-		static ENABLE_TILEDMAP_CULLING: boolean;		
-		/** !#en
-		The max concurrent task number for the downloader
-		!#zh
-		下载任务的最大并发数限制，在安卓平台部分机型或版本上可能需要限制在较低的水平 */
-		static DOWNLOAD_MAX_CONCURRENT: number;		
-		/** !#en
-		Boolean that indicates if the canvas contains an alpha channel, default sets to false for better performance.
-		Though if you want to make your canvas background transparent and show other dom elements at the background,
-		you can set it to true before `cc.game.run`.
-		Web only.
-		!#zh
-		用于设置 Canvas 背景是否支持 alpha 通道，默认为 false，这样可以有更高的性能表现。
-		如果你希望 Canvas 背景是透明的，并显示背后的其他 DOM 元素，你可以在 `cc.game.run` 之前将这个值设为 true。
-		仅支持 Web */
-		static ENABLE_TRANSPARENT_CANVAS: boolean;		
-		/** !#en
-		Boolean that indicates if the WebGL context is created with `antialias` option turned on, default value is false.
-		Set it to true could make your game graphics slightly smoother, like texture hard edges when rotated.
-		Whether to use this really depend on your game design and targeted platform,
-		device with retina display usually have good detail on graphics with or without this option,
-		you probably don't want antialias if your game style is pixel art based.
-		Also, it could have great performance impact with some browser / device using software MSAA.
-		You can set it to true before `cc.game.run`.
-		Web only.
-		!#zh
-		用于设置在创建 WebGL Context 时是否开启抗锯齿选项，默认值是 false。
-		将这个选项设置为 true 会让你的游戏画面稍稍平滑一些，比如旋转硬边贴图时的锯齿。是否开启这个选项很大程度上取决于你的游戏和面向的平台。
-		在大多数拥有 retina 级别屏幕的设备上用户往往无法区分这个选项带来的变化；如果你的游戏选择像素艺术风格，你也多半不会想开启这个选项。
-		同时，在少部分使用软件级别抗锯齿算法的设备或浏览器上，这个选项会对性能产生比较大的影响。
-		你可以在 `cc.game.run` 之前设置这个值，否则它不会生效。
-		仅支持 Web */
-		static ENABLE_WEBGL_ANTIALIAS: boolean;		
-		/** !#en
-		Whether or not enable auto culling.
-		This feature have been removed in v2.0 new renderer due to overall performance consumption.
-		We have no plan currently to re-enable auto culling.
-		If your game have more dynamic objects, we suggest to disable auto culling.
-		If your game have more static objects, we suggest to enable auto culling.
-		!#zh
-		是否开启自动裁减功能，开启裁减功能将会把在屏幕外的物体从渲染队列中去除掉。
-		这个功能在 v2.0 的新渲染器中被移除了，因为它在大多数游戏中所带来的损耗要高于性能的提升，目前我们没有计划重新支持自动裁剪。
-		如果游戏中的动态物体比较多的话，建议将此选项关闭。
-		如果游戏中的静态物体比较多的话，建议将此选项打开。 */
-		static ENABLE_CULLING: boolean;		
-		/** !#en
-		Whether or not clear dom Image object cache after uploading to gl texture.
-		Concretely, we are setting image.src to empty string to release the cache.
-		Normally you don't need to enable this option, because on web the Image object doesn't consume too much memory.
-		But on WeChat Game platform, the current version cache decoded data in Image object, which has high memory usage.
-		So we enabled this option by default on WeChat, so that we can release Image cache immediately after uploaded to GPU.
-		!#zh
-		是否在将贴图上传至 GPU 之后删除 DOM Image 缓存。
-		具体来说，我们通过设置 image.src 为空字符串来释放这部分内存。
-		正常情况下，你不需要开启这个选项，因为在 web 平台，Image 对象所占用的内存很小。
-		但是在微信小游戏平台的当前版本，Image 对象会缓存解码后的图片数据，它所占用的内存空间很大。
-		所以我们在微信平台默认开启了这个选项，这样我们就可以在上传 GL 贴图之后立即释放 Image 对象的内存，避免过高的内存占用。 */
-		static CLEANUP_IMAGE_CACHE: boolean;		
-		/** !#en
-		Whether or not show mesh wire frame.
-		!#zh
-		是否显示网格的线框。 */
-		static SHOW_MESH_WIREFRAME: boolean;		
-		/** !#en
-		Set cc.RotateTo/cc.RotateBy rotate direction.
-		If need set rotate positive direction to counterclockwise, please change setting to : cc.macro.ROTATE_ACTION_CCW = true;
-		!#zh
-		设置 cc.RotateTo/cc.RotateBy 的旋转方向。
-		如果需要设置旋转的正方向为逆时针方向，请设置选项为： cc.macro.ROTATE_ACTION_CCW = true; */
-		static ROTATE_ACTION_CCW: boolean;		
-		/** !en
-		The image format supported by the engine defaults, and the supported formats may differ in different build platforms and device types.
-		Currently all platform and device support ['.webp', '.jpg', '.jpeg', '.bmp', '.png'], The iOS mobile platform also supports the PVR format。
-		!zh
-		引擎默认支持的图片格式，支持的格式可能在不同的构建平台和设备类型上有所差别。
-		目前所有平台和设备支持的格式有 ['.webp', '.jpg', '.jpeg', '.bmp', '.png']. 另外 Ios 手机平台还额外支持了 PVR 格式。 */
-		static SUPPORT_TEXTURE_FORMATS: [String];	
 	}	
 	/** undefined */
 	export enum VerticalTextAlignment {		
@@ -9351,12 +10462,12 @@ declare namespace cc {
 		!#en
 		Destroy this Object, and release all its own references to other objects.<br/>
 		Actual object destruction will delayed until before rendering.
-		From the next frame, this object is not usable any more.
-		You can use cc.isValid(obj) to check whether the object is destroyed before accessing it.
+		From the next frame, this object is not usable anymore.
+		You can use `cc.isValid(obj)` to check whether the object is destroyed before accessing it.
 		!#zh
 		销毁该对象，并释放所有它对其它对象的引用。<br/>
 		实际销毁操作会延迟到当前帧渲染前执行。从下一帧开始，该对象将不再可用。
-		您可以在访问对象之前使用 cc.isValid(obj) 来检查对象是否已被销毁。
+		您可以在访问对象之前使用 `cc.isValid(obj)` 来检查对象是否已被销毁。
 		
 		@example 
 		```js
@@ -9385,9 +10496,10 @@ declare namespace cc {
 		/**
 		change the screen to full mode.
 		@param element element
-		@param onFullScreenChange onFullScreenChange 
+		@param onFullScreenChange onFullScreenChange
+		@param onFullScreenError onFullScreenError 
 		*/
-		requestFullScreen(element: Element, onFullScreenChange: Function): void;		
+		requestFullScreen(element: Element, onFullScreenChange: Function, onFullScreenError: Function): void;		
 		/**
 		exit the full mode. 
 		*/
@@ -9480,22 +10592,18 @@ declare namespace cc {
 		static HUAWEI_GAME: number;		
 		static XIAOMI_GAME: number;		
 		static JKW_GAME: number;		
+		static ALIPAY_GAME: number;		
+		static WECHAT_GAME_SUB: number;		
+		static BAIDU_GAME_SUB: number;		
+		static QTT_GAME: number;		
+		static BYTEDANCE_GAME: number;		
+		static BYTEDANCE_GAME_SUB: number;		
+		static LINKSURE: number;		
 		/** BROWSER_TYPE_WECHAT */
 		static BROWSER_TYPE_WECHAT: string;		
-		/** BROWSER_TYPE_WECHAT_GAME */
-		static BROWSER_TYPE_WECHAT_GAME: string;		
-		/** BROWSER_TYPE_WECHAT_GAME_SUB */
-		static BROWSER_TYPE_WECHAT_GAME_SUB: string;		
-		/** BROWSER_TYPE_BAIDU_GAME */
-		static BROWSER_TYPE_BAIDU_GAME: string;		
-		/** BROWSER_TYPE_BAIDU_GAME_SUB */
-		static BROWSER_TYPE_BAIDU_GAME_SUB: string;		
-		/** BROWSER_TYPE_XIAOMI_GAME */
-		static BROWSER_TYPE_XIAOMI_GAME: string;		
-		/** BROWSER_TYPE_QQ_PLAY */
-		static BROWSER_TYPE_QQ_PLAY: string;		
 		static BROWSER_TYPE_ANDROID: string;		
 		static BROWSER_TYPE_IE: string;		
+		static BROWSER_TYPE_EDGE: string;		
 		static BROWSER_TYPE_QQ: string;		
 		static BROWSER_TYPE_MOBILE_QQ: string;		
 		static BROWSER_TYPE_UC: string;		
@@ -9523,11 +10631,19 @@ declare namespace cc {
 		Is webgl extension support?
 		@param name name 
 		*/
-		static glExtension(name: void): void;		
+		static glExtension(name: any): void;		
 		/**
 		Get max joint matrix size for skinned mesh renderer. 
 		*/
 		static getMaxJointMatrixSize(): void;		
+		/**
+		!#en
+		Returns the safe area of the screen. If the screen is not notched, the design resolution will be returned by default.
+		Only supported on Android, iOS and WeChat Mini Game platform.
+		!#zh
+		返回手机屏幕安全区域，如果不是异形屏将默认返回设计分辨率尺寸。目前只支持安卓、iOS 原生平台和微信小游戏平台。 
+		*/
+		static getSafeAreaRect(): Rect;		
 		/** Indicate whether system is mobile system */
 		static isMobile: boolean;		
 		/** Indicate the running platform */
@@ -9545,9 +10661,9 @@ declare namespace cc {
 		/** Indicate the running os main version */
 		static osMainVersion: number;		
 		/** Indicate the running browser type */
-		static browserType: string;		
+		static browserType: string|void;		
 		/** Indicate the running browser version */
-		static browserVersion: string;		
+		static browserVersion: string|void;		
 		/** Indicate the real pixel resolution of the whole game window */
 		static windowPixelResolution: Size;		
 		/** cc.sys.localStorage is a local storage component. */
@@ -9560,7 +10676,7 @@ declare namespace cc {
 		!#zh
 		获取当前设备的网络类型, 如果网络类型无法获取，默认将返回 cc.sys.NetworkType.LAN 
 		*/
-		static getNetworkType(): NetworkType;		
+		static getNetworkType(): sys.NetworkType;		
 		/**
 		!#en
 		Get the battery level of current device, return 1.0 if failure.
@@ -9576,14 +10692,6 @@ declare namespace cc {
 		Restart the JS VM, only available in JSB 
 		*/
 		static restartVM(): void;		
-		/**
-		!#en
-		Return the safe area rect. <br/>
-		only available on the iOS native platform, otherwise it will return a rect with design resolution size.
-		!#zh
-		返回手机屏幕安全区域，目前仅在 iOS 原生平台有效。其它平台将默认返回设计分辨率尺寸。 
-		*/
-		static getSafeAreaRect(): Rect;		
 		/**
 		Check whether an object is valid,
 		In web engine, it will return true if the object exist
@@ -9605,15 +10713,6 @@ declare namespace cc {
 		*/
 		static now(): number;	
 	}	
-	/** !#en
-	Network type enumeration
-	!#zh
-	网络类型枚举 */
-	export enum NetworkType {		
-		NONE = 0,
-		LAN = 0,
-		WWAN = 0,	
-	}	
 	/** cc.view is the singleton object which represents the game window.<br/>
 	It's main task include: <br/>
 	 - Apply the design resolution policy<br/>
@@ -9624,7 +10723,7 @@ declare namespace cc {
 	Since the cc.view is a singleton, you don't need to call any constructor or create functions,<br/>
 	the standard way to use it is by calling:<br/>
 	 - cc.view.methodName(); <br/> */
-	export class View {		
+	export class View extends EventTarget {		
 		/**
 		!#en
 		Sets view's target-densitydpi for android mobile browser. it can be set to:           <br/>
@@ -10055,74 +11154,80 @@ declare namespace cc {
 		initialize
 		@param visibleRect visibleRect 
 		*/
-		init(visibleRect: Rect): void;		
+		static init(visibleRect: Rect): void;		
 		/** Top left coordinate of the screen related to the game scene. */
-		topLeft: Vec2;		
+		static topLeft: Vec2;		
 		/** Top right coordinate of the screen related to the game scene. */
-		topRight: Vec2;		
+		static topRight: Vec2;		
 		/** Top center coordinate of the screen related to the game scene. */
-		top: Vec2;		
+		static top: Vec2;		
 		/** Bottom left coordinate of the screen related to the game scene. */
-		bottomLeft: Vec2;		
+		static bottomLeft: Vec2;		
 		/** Bottom right coordinate of the screen related to the game scene. */
-		bottomRight: Vec2;		
+		static bottomRight: Vec2;		
 		/** Bottom center coordinate of the screen related to the game scene. */
-		bottom: Vec2;		
+		static bottom: Vec2;		
 		/** Center coordinate of the screen related to the game scene. */
-		center: Vec2;		
+		static center: Vec2;		
 		/** Left center coordinate of the screen related to the game scene. */
-		left: Vec2;		
+		static left: Vec2;		
 		/** Right center coordinate of the screen related to the game scene. */
-		right: Vec2;		
+		static right: Vec2;		
 		/** Width of the screen. */
-		width: number;		
+		static width: number;		
 		/** Height of the screen. */
-		height: number;	
+		static height: number;	
 	}	
-	/** The CallbacksHandler is an abstract class that can register and unregister callbacks by key.
-	Subclasses should implement their own methods about how to invoke the callbacks. */
-	export class _CallbacksHandler {		
+	/** !#en The callbacks invoker to handle and invoke callbacks by key.
+	!#zh CallbacksInvoker 用来根据 Key 管理并调用回调方法。 */
+	export class CallbacksInvoker {		
 		/**
-		
-		@param key key
-		@param callback callback
-		@param target can be null 
-		*/
-		add(key: string, callback: Function, target?: any): void;		
-		/**
-		Check if the specified key has any registered callback. If a callback is also specified,
-		it will only return true if the callback is registered.
+		!#zh
+		 检查指定事件是否已注册回调。
+		!#en
+		 Check if the specified key has any registered callback. If a callback is also specified,
+		 it will only return true if the callback is registered.
 		@param key key
 		@param callback callback
 		@param target target 
 		*/
 		hasEventListener(key: string, callback?: Function, target?: any): boolean;		
 		/**
+		!#zh
+		移除在特定事件类型中注册的所有回调或在某个目标中注册的所有回调。
+		
+		!#en
 		Removes all callbacks registered in a certain event type or all callbacks registered with a certain target
 		@param keyOrTarget The event key to be removed or the target to be removed 
 		*/
 		removeAll(keyOrTarget: string|any): void;		
 		/**
-		
+		!#zh
+		删除之前与同类型，回调，目标注册的回调。
 		@param key key
 		@param callback callback
 		@param target target 
 		*/
-		remove(key: string, callback: Function, target?: any): void;	
-	}	
-	/** !#en The callbacks invoker to handle and invoke callbacks by key.
-	!#zh CallbacksInvoker 用来根据 Key 管理并调用回调方法。 */
-	export class CallbacksInvoker extends _CallbacksHandler {		
+		off(key: string, callback: Function, target?: any): void;		
 		/**
+		!#en
+		Trigger an event directly with the event name and necessary arguments.
+		!#zh
+		通过事件名发送自定义事件
+		@param key event type
+		@param arg1 First argument
+		@param arg2 Second argument
+		@param arg3 Third argument
+		@param arg4 Fourth argument
+		@param arg5 Fifth argument
 		
-		@param key key
-		@param p1 p1
-		@param p2 p2
-		@param p3 p3
-		@param p4 p4
-		@param p5 p5 
+		@example 
+		```js
+		eventTarget.emit('fire', event);
+		eventTarget.emit('fire', message, emitter);
+		``` 
 		*/
-		invoke(key: string, p1?: any, p2?: any, p3?: any, p4?: any, p5?: any): void;	
+		emit(key: string, arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any): void;	
 	}	
 	/** !#en Contains information collected during deserialization
 	!#zh 包含反序列化时的一些信息 */
@@ -10142,315 +11247,96 @@ declare namespace cc {
 		*/
 		push(obj: any, propName: string, uuid: string): void;	
 	}	
-	/** undefined */
-	export class url {		
-		/**
-		Returns the url of raw assets, you will only need this if the raw asset is inside the "resources" folder.
-		@param url url
-		
-		@example 
-		```js
-		---
-		var url = cc.url.raw("textures/myTexture.png");
-		console.log(url);   // "resources/raw/textures/myTexture.png"
-		
-		``` 
-		*/
-		static raw(url: string): string;	
+	/** !#en The renderer object which provide access to render system APIs,
+	detailed APIs will be available progressively.
+	!#zh 提供基础渲染接口的渲染器对象，渲染层的基础接口将逐步开放给用户 */
+	export class renderer {		
+		/** !#en The render engine is available only after cc.game.EVENT_ENGINE_INITED event.<br/>
+		Normally it will be inited as the webgl render engine, but in wechat open context domain,
+		it will be inited as the canvas render engine. Canvas render engine is no longer available for other use case since v2.0.
+		!#zh 基础渲染引擎对象只在 cc.game.EVENT_ENGINE_INITED 事件触发后才可获取。<br/>
+		大多数情况下，它都会是 WebGL 渲染引擎实例，但是在微信开放数据域当中，它会是 Canvas 渲染引擎实例。请注意，从 2.0 开始，我们在其他平台和环境下都废弃了 Canvas 渲染器。 */
+		static renderEngine: any;		
+		/** !#en The total draw call count in last rendered frame.
+		!#zh 上一次渲染帧所提交的渲染批次总数。 */
+		static drawCalls: number;	
 	}	
-	/** undefined */
-	export class WorldManifold {		
-		/** !#en
-		world contact point (point of intersection)
-		!#zh
-		碰撞点集合 */
-		points: [Vec2];		
-		/** !#en
-		world vector pointing from A to B
-		!#zh
-		世界坐标系下由 A 指向 B 的向量 */
-		normal: Vec2;	
-	}	
-	/** !#en
-	A manifold point is a contact point belonging to a contact manifold.
-	It holds details related to the geometry and dynamics of the contact points.
-	Note: the impulses are used for internal caching and may not
-	provide reliable contact forces, especially for high speed collisions.
-	!#zh
-	ManifoldPoint 是接触信息中的接触点信息。它拥有关于几何和接触点的详细信息。
-	注意：信息中的冲量用于系统内部缓存，提供的接触力可能不是很准确，特别是高速移动中的碰撞信息。 */
-	export class ManifoldPoint {		
-		/** !#en
-		The local point usage depends on the manifold type:
-		-e_circles: the local center of circleB
-		-e_faceA: the local center of circleB or the clip point of polygonB
-		-e_faceB: the clip point of polygonA
-		!#zh
-		本地坐标点的用途取决于 manifold 的类型
-		- e_circles: circleB 的本地中心点
-		- e_faceA: circleB 的本地中心点 或者是 polygonB 的截取点
-		- e_faceB: polygonB 的截取点 */
-		localPoint: Vec2;		
-		/** !#en
-		Normal impulse.
-		!#zh
-		法线冲量。 */
-		normalImpulse: number;		
-		/** !#en
-		Tangent impulse.
-		!#zh
-		切线冲量。 */
-		tangentImpulse: number;	
-	}	
-	/** undefined */
-	export class Manifold {		
-		/** !#en
-		Manifold type :  0: e_circles, 1: e_faceA, 2: e_faceB
-		!#zh
-		Manifold 类型 :  0: e_circles, 1: e_faceA, 2: e_faceB */
-		type: number;		
-		/** !#en
-		The local point usage depends on the manifold type:
-		-e_circles: the local center of circleA
-		-e_faceA: the center of faceA
-		-e_faceB: the center of faceB
-		!#zh
-		用途取决于 manifold 类型
-		-e_circles: circleA 的本地中心点
-		-e_faceA: faceA 的本地中心点
-		-e_faceB: faceB 的本地中心点 */
-		localPoint: Vec2;		
-		/** !#en
-		-e_circles: not used
-		-e_faceA: the normal on polygonA
-		-e_faceB: the normal on polygonB
-		!#zh
-		-e_circles: 没被使用到
-		-e_faceA: polygonA 的法向量
-		-e_faceB: polygonB 的法向量 */
-		localNormal: Vec2;		
-		/** !#en
-		the points of contact.
-		!#zh
-		接触点信息。 */
-		points: [ManifoldPoint];	
-	}	
-	/** !#en
-	Contact impulses for reporting.
-	!#zh
-	用于返回给回调的接触冲量。 */
-	export class PhysicsImpulse {		
-		/** !#en
-		Normal impulses.
-		!#zh
-		法线方向的冲量 */
-		normalImpulses: void;		
-		/** !#en
-		Tangent impulses
-		!#zh
-		切线方向的冲量 */
-		tangentImpulses: void;	
-	}	
-	/** !#en
-	PhysicsContact will be generated during begin and end collision as a parameter of the collision callback.
-	Note that contacts will be reused for speed up cpu time, so do not cache anything in the contact.
-	!#zh
-	物理接触会在开始和结束碰撞之间生成，并作为参数传入到碰撞回调函数中。
-	注意：传入的物理接触会被系统进行重用，所以不要在使用中缓存里面的任何信息。 */
-	export class PhysicsContact {		
+	/** !#en Mesh Asset.
+	!#zh 网格资源。 */
+	export class Mesh extends Asset implements EventTarget {		
+		/** !#en Get ir set the sub meshes.
+		!#zh 设置或者获取子网格。 */
+		subMeshes: InputAssembler[];		
 		/**
 		!#en
-		Get the world manifold.
+		Init vertex buffer according to the vertex format.
 		!#zh
-		获取世界坐标系下的碰撞信息。 
+		根据顶点格式初始化顶点内存。
+		@param vertexFormat vertex format
+		@param vertexCount how much vertex should be create in this buffer.
+		@param dynamic whether or not to use dynamic buffer.
+		@param index index 
 		*/
-		getWorldManifold(): WorldManifold;		
+		init(vertexFormat: gfx.VertexFormat, vertexCount: number, dynamic?: boolean, index?: boolean): void;		
 		/**
 		!#en
-		Get the manifold.
+		Set the vertex values.
 		!#zh
-		获取本地（局部）坐标系下的碰撞信息。 
+		设置顶点数据
+		@param name the attribute name, e.g. gfx.ATTR_POSITION
+		@param values the vertex values 
 		*/
-		getManifold(): Manifold;		
+		setVertices(name: string, values: Vec2[]|Vec3[]|Color[]|number[]|Uint8Array|Float32Array): void;		
 		/**
 		!#en
-		Get the impulses.
-		Note: PhysicsImpulse can only used in onPostSolve callback.
+		Set the sub mesh indices.
 		!#zh
-		获取冲量信息
-		注意：这个信息只有在 onPostSolve 回调中才能获取到 
+		设置子网格索引。
+		@param indices the sub mesh indices.
+		@param index sub mesh index.
+		@param dynamic whether or not to use dynamic buffer. 
 		*/
-		getImpulse(): PhysicsImpulse;		
-		colliderA: Collider;		
-		colliderB: Collider;		
-		/** !#en
-		If set disabled to true, the contact will be ignored until contact end.
-		If you just want to disabled contact for current time step or sub-step, please use disabledOnce.
-		!#zh
-		如果 disabled 被设置为 true，那么直到接触结束此接触都将被忽略。
-		如果只是希望在当前时间步或子步中忽略此接触，请使用 disabledOnce 。 */
-		disabled: boolean;		
-		/** !#en
-		Disabled contact for current time step or sub-step.
-		!#zh
-		在当前时间步或子步中忽略此接触。 */
-		disabledOnce: boolean;		
+		setIndices(indices: number[]|Uint16Array|Uint8Array, index?: number, dynamic?: boolean): void;		
 		/**
 		!#en
-		Is this contact touching?
+		Set the sub mesh primitive type.
 		!#zh
-		返回碰撞体是否已经接触到。 
+		设置子网格绘制线条的方式。
+		@param type type
+		@param index index 
 		*/
-		isTouching(): boolean;		
+		setPrimitiveType(type: number, index: number): void;		
 		/**
 		!#en
-		Set the desired tangent speed for a conveyor belt behavior.
+		Clear the buffer data.
 		!#zh
-		为传送带设置期望的切线速度
-		@param tangentSpeed tangentSpeed 
+		清除网格创建的内存数据。 
 		*/
-		setTangentSpeed(tangentSpeed: number): void;		
+		clear(): void;		
 		/**
-		!#en
-		Get the desired tangent speed.
-		!#zh
-		获取切线速度 
+		!#en Set mesh bounding box
+		!#zh 设置网格的包围盒
+		@param min min
+		@param max max 
 		*/
-		getTangentSpeed(): number;		
+		setBoundingBox(min: Vec3, max: Vec3): void;		
 		/**
-		!#en
-		Override the default friction mixture. You can call this in onPreSolve callback.
-		!#zh
-		覆盖默认的摩擦力系数。你可以在 onPreSolve 回调中调用此函数。
-		@param friction friction 
+		!#en Read the specified attributes of the subgrid into the target buffer.
+		!#zh 读取子网格的指定属性到目标缓冲区中。
+		@param primitiveIndex The subgrid index.
+		@param attributeName attribute name.
+		@param buffer The target buffer.
+		@param stride The byte interval between adjacent attributes in the target buffer.
+		@param offset The offset of the first attribute in the target buffer. 
 		*/
-		setFriction(friction: number): void;		
+		copyAttribute(primitiveIndex: number, attributeName: string, buffer: ArrayBuffer, stride: number, offset: number): boolean;		
 		/**
-		!#en
-		Get the friction.
-		!#zh
-		获取当前摩擦力系数 
+		!#en Read the index data of the subgrid into the target array.
+		!#zh 读取子网格的索引数据到目标数组中。
+		@param primitiveIndex The subgrid index.
+		@param outputArray The target array. 
 		*/
-		getFriction(): number;		
-		/**
-		!#en
-		Reset the friction mixture to the default value.
-		!#zh
-		重置摩擦力系数到默认值 
-		*/
-		resetFriction(): void;		
-		/**
-		!#en
-		Override the default restitution mixture. You can call this in onPreSolve callback.
-		!#zh
-		覆盖默认的恢复系数。你可以在 onPreSolve 回调中调用此函数。
-		@param restitution restitution 
-		*/
-		setRestitution(restitution: number): void;		
-		/**
-		!#en
-		Get the restitution.
-		!#zh
-		获取当前恢复系数 
-		*/
-		getRestitution(): number;		
-		/**
-		!#en
-		Reset the restitution mixture to the default value.
-		!#zh
-		重置恢复系数到默认值 
-		*/
-		resetRestitution(): void;	
-	}	
-	/** !#en
-	Physics manager uses box2d as the inner physics system, and hide most box2d implement details(creating rigidbody, synchronize rigidbody info to node).
-	You can visit some common box2d function through physics manager(hit testing, raycast, debug info).
-	Physics manager distributes the collision information to each collision callback when collision is produced.
-	Note: You need first enable the collision listener in the rigidbody.
-	!#zh
-	物理系统将 box2d 作为内部物理系统，并且隐藏了大部分 box2d 实现细节（比如创建刚体，同步刚体信息到节点中等）。
-	你可以通过物理系统访问一些 box2d 常用的功能，比如点击测试，射线测试，设置测试信息等。
-	物理系统还管理碰撞信息的分发，她会在产生碰撞时，将碰撞信息分发到各个碰撞回调中。
-	注意：你需要先在刚体中开启碰撞接听才会产生相应的碰撞回调。<br>
-	支持的物理系统指定绘制信息事件，请参阅 {{#crossLink "PhysicsManager.DrawBits"}}{{/crossLink}} */
-	export class PhysicsManager implements EventTarget {		
-		/** !#en
-		The ratio transform between physics unit and pixel unit, generally is 32.
-		!#zh
-		物理单位与像素单位互相转换的比率，一般是 32。 */
-		static PTM_RATIO: number;		
-		/** !#en
-		The velocity iterations for the velocity constraint solver.
-		!#zh
-		速度更新迭代数 */
-		static VELOCITY_ITERATIONS: number;		
-		/** !#en
-		The position Iterations for the position constraint solver.
-		!#zh
-		位置迭代更新数 */
-		static POSITION_ITERATIONS: number;		
-		/** !#en
-		Specify the fixed time step.
-		Need enabledAccumulator to make it work.
-		!#zh
-		指定固定的物理更新间隔时间，需要开启 enabledAccumulator 才有效。 */
-		static FIXED_TIME_STEP: number;		
-		/** !#en
-		Specify the max accumulator time.
-		Need enabledAccumulator to make it work.
-		!#zh
-		每次可用于更新物理系统的最大时间，需要开启 enabledAccumulator 才有效。 */
-		static MAX_ACCUMULATOR: number;		
-		/** !#en
-		If enabled accumulator, then will call step function with the fixed time step FIXED_TIME_STEP.
-		And if the update dt is bigger than the time step, then will call step function several times.
-		If disabled accumulator, then will call step function with a time step calculated with the frame rate.
-		!#zh
-		如果开启此选项，那么将会以固定的间隔时间 FIXED_TIME_STEP 来更新物理引擎，如果一个 update 的间隔时间大于 FIXED_TIME_STEP，则会对物理引擎进行多次更新。
-		如果关闭此选项，那么将会根据设定的 frame rate 计算出一个间隔时间来更新物理引擎。 */
-		enabledAccumulator: boolean;		
-		/**
-		!#en
-		Test which collider contains the given world point
-		!#zh
-		获取包含给定世界坐标系点的碰撞体
-		@param point the world point 
-		*/
-		testPoint(point: Vec2): PhysicsCollider;		
-		/**
-		!#en
-		Test which colliders intersect the given world rect
-		!#zh
-		获取与给定世界坐标系矩形相交的碰撞体
-		@param rect the world rect 
-		*/
-		testAABB(rect: Rect): [PhysicsCollider];		
-		/**
-		!#en
-		Raycast the world for all colliders in the path of the ray.
-		The raycast ignores colliders that contain the starting point.
-		!#zh
-		检测哪些碰撞体在给定射线的路径上，射线检测将忽略包含起始点的碰撞体。
-		@param p1 start point of the raycast
-		@param p2 end point of the raycast
-		@param type optional, default is RayCastType.Closest 
-		*/
-		rayCast(p1: Vec2, p2: Vec2, type: RayCastType): [PhysicsRayCastResult];		
-		/** !#en
-		Enabled the physics manager?
-		!#zh
-		指定是否启用物理系统？ */
-		enabled: boolean;		
-		/** !#en
-		Debug draw flags.
-		!#zh
-		设置调试绘制标志 */
-		debugDrawFlags: number;		
-		/** !#en
-		The physics world gravity.
-		!#zh
-		物理世界重力值 */
-		gravity: Vec2;		
+		copyIndices(primitiveIndex: number, outputArray: DataView): boolean;		
 		/**
 		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
 		!#zh 检查事件目标对象是否有为特定类型的事件注册的回调。
@@ -10531,25 +11417,6 @@ declare namespace cc {
 		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
 		/**
 		!#en
-		Trigger an event directly with the event name and necessary arguments.
-		!#zh
-		通过事件名发送自定义事件
-		@param type event type
-		@param arg1 First argument
-		@param arg2 Second argument
-		@param arg3 Third argument
-		@param arg4 Fourth argument
-		@param arg5 Fifth argument
-		
-		@example 
-		```js
-		eventTarget.emit('fire', event);
-		eventTarget.emit('fire', message, emitter);
-		``` 
-		*/
-		emit(type: string, arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any): void;		
-		/**
-		!#en
 		Send an event with the event object.
 		!#zh
 		通过事件对象派发事件
@@ -10557,380 +11424,2933 @@ declare namespace cc {
 		*/
 		dispatchEvent(event: Event): void;	
 	}	
-	/** undefined */
-	export class PhysicsRayCastResult {		
+	/** !#en
+	Mesh Renderer Component
+	!#zh
+	网格渲染组件 */
+	export class MeshRenderer extends RenderComponent {		
 		/** !#en
-		The PhysicsCollider which intersects with the raycast
+		The mesh which the renderer uses.
 		!#zh
-		与射线相交的碰撞体 */
-		collider: PhysicsCollider;		
+		设置使用的网格 */
+		mesh: Mesh;		
 		/** !#en
-		The intersection point
+		Whether the mesh should receive shadows.
 		!#zh
-		射线与碰撞体相交的点 */
-		point: Vec2;		
+		网格是否接受光源投射的阴影 */
+		receiveShadows: boolean;		
 		/** !#en
-		The normal vector at the point of intersection
+		Shadow Casting Mode
 		!#zh
-		射线与碰撞体相交的点的法向量 */
-		normal: Vec2;		
+		网格投射阴影的模式 */
+		shadowCastingMode: MeshRenderer.ShadowCastingMode;		
 		/** !#en
-		The fraction of the raycast path at the point of intersection
+		Enable auto merge mesh, only support when mesh's VertexFormat, PrimitiveType, materials are all the same
 		!#zh
-		射线与碰撞体相交的点占射线长度的分数 */
-		fraction: number;	
+		开启自动合并 mesh 功能，只有在网格的 顶点格式，PrimitiveType, 使用的材质 都一致的情况下才会有效 */
+		enableAutoBatch: boolean;	
 	}	
-	/** !#en Enum for RigidBodyType.
-	!#zh 刚体类型 */
-	export enum RigidBodyType {		
-		Static = 0,
-		Kinematic = 0,
-		Dynamic = 0,
-		Animated = 0,	
-	}	
-	/** !#en Enum for RayCastType.
-	!#zh 射线检测类型 */
-	export enum RayCastType {		
-		Closest = 0,
-		Any = 0,
-		AllClosest = 0,
-		All = 0,	
+	/** The class BufferRange denotes a range of the buffer. */
+	export class BufferRange {		
+		/** The offset of the range. */
+		offset: number;		
+		/** The length of the range. */
+		length: number;	
 	}	
 	/** undefined */
-	export class RigidBody extends Component {		
-		/** !#en
-		Should enabled contact listener?
-		When a collision is trigger, the collision callback will only be called when enabled contact listener.
-		!#zh
-		是否启用接触接听器。
-		当 collider 产生碰撞时，只有开启了接触接听器才会调用相应的回调函数 */
-		enabledContactListener: boolean;		
-		/**
-		!#en
-		Collision callback.
-		Called when two collider begin to touch.
-		!#zh
-		碰撞回调。
-		如果你的脚本中实现了这个函数，那么它将会在两个碰撞体开始接触时被调用。
-		@param contact contact information
-		@param selfCollider the collider belong to this rigidbody
-		@param otherCollider the collider belong to another rigidbody 
-		*/
-		onBeginContact(contact: PhysicsContact, selfCollider: PhysicsCollider, otherCollider: PhysicsCollider): void;		
-		/**
-		!#en
-		Collision callback.
-		Called when two collider cease to touch.
-		!#zh
-		碰撞回调。
-		如果你的脚本中实现了这个函数，那么它将会在两个碰撞体停止接触时被调用。
-		@param contact contact information
-		@param selfCollider the collider belong to this rigidbody
-		@param otherCollider the collider belong to another rigidbody 
-		*/
-		onEndContact(contact: PhysicsContact, selfCollider: PhysicsCollider, otherCollider: PhysicsCollider): void;		
-		/**
-		!#en
-		Collision callback.
-		This is called when a contact is updated.
-		This allows you to inspect a contact before it goes to the solver(e.g. disable contact).
-		Note: this is called only for awake bodies.
-		Note: this is called even when the number of contact points is zero.
-		Note: this is not called for sensors.
-		!#zh
-		碰撞回调。
-		如果你的脚本中实现了这个函数，那么它将会在接触更新时被调用。
-		你可以在接触被处理前根据他包含的信息作出相应的处理，比如将这个接触禁用掉。
-		注意：回调只会为醒着的刚体调用。
-		注意：接触点为零的时候也有可能被调用。
-		注意：感知体(sensor)的回调不会被调用。
-		@param contact contact information
-		@param selfCollider the collider belong to this rigidbody
-		@param otherCollider the collider belong to another rigidbody 
-		*/
-		onPreSolve(contact: PhysicsContact, selfCollider: PhysicsCollider, otherCollider: PhysicsCollider): void;		
-		/**
-		!#en
-		Collision callback.
-		This is called after a contact is updated.
-		You can get the impulses from the contact in this callback.
-		!#zh
-		碰撞回调。
-		如果你的脚本中实现了这个函数，那么它将会在接触更新完后被调用。
-		你可以在这个回调中从接触信息中获取到冲量信息。
-		@param contact contact information
-		@param selfCollider the collider belong to this rigidbody
-		@param otherCollider the collider belong to another rigidbody 
-		*/
-		onPostSolve(contact: PhysicsContact, selfCollider: PhysicsCollider, otherCollider: PhysicsCollider): void;		
-		/** !#en
-		Is this a fast moving body that should be prevented from tunneling through
-		other moving bodies?
-		Note :
-		- All bodies are prevented from tunneling through kinematic and static bodies. This setting is only considered on dynamic bodies.
-		- You should use this flag sparingly since it increases processing time.
-		!#zh
-		这个刚体是否是一个快速移动的刚体，并且需要禁止穿过其他快速移动的刚体？
-		需要注意的是 :
-		 - 所有刚体都被禁止从 运动刚体 和 静态刚体 中穿过。此选项只关注于 动态刚体。
-		 - 应该尽量少的使用此选项，因为它会增加程序处理时间。 */
-		bullet: boolean;		
-		/** !#en
-		Rigidbody type : Static, Kinematic, Dynamic or Animated.
-		!#zh
-		刚体类型： Static, Kinematic, Dynamic or Animated. */
-		type: RigidBodyType;		
-		/** !#en
-		Set this flag to false if this body should never fall asleep.
-		Note that this increases CPU usage.
-		!#zh
-		如果此刚体永远都不应该进入睡眠，那么设置这个属性为 false。
-		需要注意这将使 CPU 占用率提高。 */
-		allowSleep: boolean;		
-		/** !#en
-		Scale the gravity applied to this body.
-		!#zh
-		缩放应用在此刚体上的重力值 */
-		gravityScale: number;		
-		/** !#en
-		Linear damping is use to reduce the linear velocity.
-		The damping parameter can be larger than 1, but the damping effect becomes sensitive to the
-		time step when the damping parameter is large.
-		!#zh
-		Linear damping 用于衰减刚体的线性速度。衰减系数可以大于 1，但是当衰减系数比较大的时候，衰减的效果会变得比较敏感。 */
-		linearDamping: number;		
-		/** !#en
-		Angular damping is use to reduce the angular velocity. The damping parameter
-		can be larger than 1 but the damping effect becomes sensitive to the
-		time step when the damping parameter is large.
-		!#zh
-		Angular damping 用于衰减刚体的角速度。衰减系数可以大于 1，但是当衰减系数比较大的时候，衰减的效果会变得比较敏感。 */
-		angularDamping: number;		
-		/** !#en
-		The linear velocity of the body's origin in world co-ordinates.
-		!#zh
-		刚体在世界坐标下的线性速度 */
-		linearVelocity: Vec2;		
-		/** !#en
-		The angular velocity of the body.
-		!#zh
-		刚体的角速度 */
-		angularVelocity: number;		
-		/** !#en
-		Should this body be prevented from rotating?
-		!#zh
-		是否禁止此刚体进行旋转 */
-		fixedRotation: boolean;		
-		/** !#en
-		Set the sleep state of the body. A sleeping body has very low CPU cost.(When the rigid body is hit, if the rigid body is in sleep state, it will be immediately awakened.)
-		!#zh
-		设置刚体的睡眠状态。 睡眠的刚体具有非常低的 CPU 成本。（当刚体被碰撞到时，如果刚体处于睡眠状态，它会立即被唤醒） */
-		awake: boolean;		
-		/** !#en
-		Whether to wake up this rigid body during initialization
-		!#zh
-		是否在初始化时唤醒此刚体 */
-		awakeOnLoad: boolean;		
-		/** !#en
-		Set the active state of the body. An inactive body is not
-		simulated and cannot be collided with or woken up.
-		If body is active, all fixtures will be added to the
-		broad-phase.
-		If body is inactive, all fixtures will be removed from
-		the broad-phase and all contacts will be destroyed.
-		Fixtures on an inactive body are implicitly inactive and will
-		not participate in collisions, ray-casts, or queries.
-		Joints connected to an inactive body are implicitly inactive.
-		!#zh
-		设置刚体的激活状态。一个非激活状态下的刚体是不会被模拟和碰撞的，不管它是否处于睡眠状态下。
-		如果刚体处于激活状态下，所有夹具会被添加到 粗测阶段（broad-phase）。
-		如果刚体处于非激活状态下，所有夹具会被从 粗测阶段（broad-phase）中移除。
-		在非激活状态下的夹具不会参与到碰撞，射线，或者查找中
-		链接到非激活状态下刚体的关节也是非激活的。 */
-		active: boolean;		
-		/**
-		!#en
-		Gets a local point relative to the body's origin given a world point.
-		!#zh
-		将一个给定的世界坐标系下的点转换为刚体本地坐标系下的点
-		@param worldPoint a point in world coordinates.
-		@param out optional, the receiving point 
-		*/
-		getLocalPoint(worldPoint: Vec2, out: Vec2): Vec2;		
-		/**
-		!#en
-		Get the world coordinates of a point given the local coordinates.
-		!#zh
-		将一个给定的刚体本地坐标系下的点转换为世界坐标系下的点
-		@param localPoint a point in local coordinates.
-		@param out optional, the receiving point 
-		*/
-		getWorldPoint(localPoint: Vec2, out: Vec2): Vec2;		
-		/**
-		!#en
-		Get the world coordinates of a vector given the local coordinates.
-		!#zh
-		将一个给定的世界坐标系下的向量转换为刚体本地坐标系下的向量
-		@param localVector a vector in world coordinates.
-		@param out optional, the receiving vector 
-		*/
-		getWorldVector(localVector: Vec2, out: Vec2): Vec2;		
-		/**
-		!#en
-		Gets a local vector relative to the body's origin given a world vector.
-		!#zh
-		将一个给定的世界坐标系下的点转换为刚体本地坐标系下的点
-		@param worldVector a vector in world coordinates.
-		@param out optional, the receiving vector 
-		*/
-		getLocalVector(worldVector: Vec2, out: Vec2): Vec2;		
-		/**
-		!#en
-		Get the world body origin position.
-		!#zh
-		获取刚体世界坐标系下的原点值
-		@param out optional, the receiving point 
-		*/
-		getWorldPosition(out: Vec2): Vec2;		
-		/**
-		!#en
-		Get the world body rotation angle.
-		!#zh
-		获取刚体世界坐标系下的旋转值。 
-		*/
-		getWorldRotation(): number;		
-		/**
-		!#en
-		Get the local position of the center of mass.
-		!#zh
-		获取刚体本地坐标系下的质心 
-		*/
-		getLocalCenter(): Vec2;		
-		/**
-		!#en
-		Get the world position of the center of mass.
-		!#zh
-		获取刚体世界坐标系下的质心 
-		*/
-		getWorldCenter(): Vec2;		
-		/**
-		!#en
-		Get the world linear velocity of a world point attached to this body.
-		!#zh
-		获取刚体上指定点的线性速度
-		@param worldPoint a point in world coordinates.
-		@param out optional, the receiving point 
-		*/
-		getLinearVelocityFromWorldPoint(worldPoint: Vec2, out: Vec2): Vec2;		
-		/**
-		!#en
-		Get total mass of the body.
-		!#zh
-		获取刚体的质量。 
-		*/
-		getMass(): number;		
-		/**
-		!#en
-		Get the rotational inertia of the body about the local origin.
-		!#zh
-		获取刚体本地坐标系下原点的旋转惯性 
-		*/
-		getInertia(): number;		
-		/**
-		!#en
-		Get all the joints connect to the rigidbody.
-		!#zh
-		获取链接到此刚体的所有关节 
-		*/
-		getJointList(): [Joint];		
-		/**
-		!#en
-		Apply a force at a world point. If the force is not
-		applied at the center of mass, it will generate a torque and
-		affect the angular velocity.
-		!#zh
-		施加一个力到刚体上的一个点。如果力没有施加到刚体的质心上，还会产生一个扭矩并且影响到角速度。
-		@param force the world force vector.
-		@param point the world position.
-		@param wake also wake up the body. 
-		*/
-		applyForce(force: Vec2, point: Vec2, wake: boolean): void;		
-		/**
-		!#en
-		Apply a force to the center of mass.
-		!#zh
-		施加一个力到刚体上的质心上。
-		@param force the world force vector.
-		@param wake also wake up the body. 
-		*/
-		applyForceToCenter(force: Vec2, wake: boolean): void;		
-		/**
-		!#en
-		Apply a torque. This affects the angular velocity.
-		!#zh
-		施加一个扭矩力，将影响刚体的角速度
-		@param torque about the z-axis (out of the screen), usually in N-m.
-		@param wake also wake up the body 
-		*/
-		applyTorque(torque: number, wake: boolean): void;		
-		/**
-		!#en
-		Apply a impulse at a world point, This immediately modifies the velocity.
-		If the impulse is not applied at the center of mass, it will generate a torque and
-		affect the angular velocity.
-		!#zh
-		施加冲量到刚体上的一个点，将立即改变刚体的线性速度。
-		如果冲量施加到的点不是刚体的质心，那么将产生一个扭矩并影响刚体的角速度。
-		@param impulse the world impulse vector, usually in N-seconds or kg-m/s.
-		@param point the world position
-		@param wake alse wake up the body 
-		*/
-		applyLinearImpulse(impulse: Vec2, point: Vec2, wake: boolean): void;		
-		/**
-		!#en
-		Apply an angular impulse.
-		!#zh
-		施加一个角速度冲量。
-		@param impulse the angular impulse in units of kg*m*m/s
-		@param wake also wake up the body 
-		*/
-		applyAngularImpulse(impulse: number, wake: boolean): void;		
-		/**
-		!#en
-		Synchronize node's world position to box2d rigidbody's position.
-		If enableAnimated is true and rigidbody's type is Animated type,
-		will set linear velocity instead of directly set rigidbody's position.
-		!#zh
-		同步节点的世界坐标到 box2d 刚体的坐标上。
-		如果 enableAnimated 是 true，并且刚体的类型是 Animated ，那么将设置刚体的线性速度来代替直接设置刚体的位置。
-		@param enableAnimated enableAnimated 
-		*/
-		syncPosition(enableAnimated: boolean): void;		
-		/**
-		!#en
-		Synchronize node's world angle to box2d rigidbody's angle.
-		If enableAnimated is true and rigidbody's type is Animated type,
-		will set angular velocity instead of directly set rigidbody's angle.
-		!#zh
-		同步节点的世界旋转角度值到 box2d 刚体的旋转值上。
-		如果 enableAnimated 是 true，并且刚体的类型是 Animated ，那么将设置刚体的角速度来代替直接设置刚体的角度。
-		@param enableAnimated enableAnimated 
-		*/
-		syncRotation(enableAnimated: boolean): void;	
+	export class VertexFormat {		
+		/** The data range of this bundle.
+		This range of data is essentially mapped to a GPU vertex buffer. */
+		data: BufferRange;		
+		/** The attribute formats. */
+		formats: VertexFormat;		
+		/** The vertex bundle that the primitive use. */
+		vertexBundleIndices: number[];		
+		/** The data range of the primitive.
+		This range of data is essentially mapped to a GPU indices buffer. */
+		data: BufferRange;		
+		/** The type of this primitive's indices. */
+		indexUnit: number;		
+		/** The primitive's topology. */
+		topology: number;	
 	}	
-	/** !#en The renderer object which provide access to render system APIs,
-	detailed APIs will be available progressively.
-	!#zh 提供基础渲染接口的渲染器对象，渲染层的基础接口将逐步开放给用户 */
-	export class renderer {		
-		/** !#en The render engine is available only after cc.game.EVENT_ENGINE_INITED event.<br/>
-		Normally it will be inited as the webgl render engine, but in wechat open context domain,
-		it will be inited as the canvas render engine. Canvas render engine is no longer available for other use case since v2.0.
-		!#zh 基础渲染引擎对象只在 cc.game.EVENT_ENGINE_INITED 事件触发后才可获取。<br/>
-		大多数情况下，它都会是 WebGL 渲染引擎实例，但是在微信开放数据域当中，它会是 Canvas 渲染引擎实例。请注意，从 2.0 开始，我们在其他平台和环境下都废弃了 Canvas 渲染器。 */
-		static renderEngine: any;		
-		/** !#en The total draw call count in last rendered frame.
-		!#zh 上一次渲染帧所提交的渲染批次总数。 */
-		static drawCalls: number;	
+	/** !#en
+	Representation of RGBA colors.
+	
+	Each color component is a floating point value with a range from 0 to 255.
+	
+	You can also use the convenience method {{#crossLink "cc/color:method"}}cc.color{{/crossLink}} to create a new Color.
+	
+	!#zh
+	cc.Color 用于表示颜色。
+	
+	它包含 RGBA 四个以浮点数保存的颜色分量，每个的值都在 0 到 255 之间。
+	
+	您也可以通过使用 {{#crossLink "cc/color:method"}}cc.color{{/crossLink}} 的便捷方法来创建一个新的 Color。 */
+	export class Color extends ValueType {		
+		/** !#en Solid white, RGBA is [255, 255, 255, 255].
+		!#zh 纯白色，RGBA 是 [255, 255, 255, 255]。 */
+		static WHITE: Color;		
+		/** !#en Solid black, RGBA is [0, 0, 0, 255].
+		!#zh 纯黑色，RGBA 是 [0, 0, 0, 255]。 */
+		static BLACK: Color;		
+		/** !#en Transparent, RGBA is [0, 0, 0, 0].
+		!#zh 透明，RGBA 是 [0, 0, 0, 0]。 */
+		static TRANSPARENT: Color;		
+		/** !#en Grey, RGBA is [127.5, 127.5, 127.5].
+		!#zh 灰色，RGBA 是 [127.5, 127.5, 127.5]。 */
+		static GRAY: Color;		
+		/** !#en Solid red, RGBA is [255, 0, 0].
+		!#zh 纯红色，RGBA 是 [255, 0, 0]。 */
+		static RED: Color;		
+		/** !#en Solid green, RGBA is [0, 255, 0].
+		!#zh 纯绿色，RGBA 是 [0, 255, 0]。 */
+		static GREEN: Color;		
+		/** !#en Solid blue, RGBA is [0, 0, 255].
+		!#zh 纯蓝色，RGBA 是 [0, 0, 255]。 */
+		static BLUE: Color;		
+		/** !#en Yellow, RGBA is [255, 235, 4].
+		!#zh 黄色，RGBA 是 [255, 235, 4]。 */
+		static YELLOW: Color;		
+		/** !#en Orange, RGBA is [255, 127, 0].
+		!#zh 橙色，RGBA 是 [255, 127, 0]。 */
+		static ORANGE: Color;		
+		/** !#en Cyan, RGBA is [0, 255, 255].
+		!#zh 青色，RGBA 是 [0, 255, 255]。 */
+		static CYAN: Color;		
+		/** !#en Magenta, RGBA is [255, 0, 255].
+		!#zh 洋红色（品红色），RGBA 是 [255, 0, 255]。 */
+		static MAGENTA: Color;		
+		/**
+		Copy content of a color into another. 
+		*/
+		static copy (out: Color, a: Color): Color;		
+		/**
+		Clone a new color. 
+		*/
+		static clone (a: Color): Color;		
+		/**
+		Set the components of a color to the given values. 
+		*/
+		static set (out: Color, r?: number, g?: number, b?: number, a?: number): Color;		
+		/**
+		Converts the hexadecimal formal color into rgb formal. 
+		*/
+		static fromHex (out: Color, hex: number): Color;		
+		/**
+		Converts the hexadecimal formal color into rgb formal. 
+		*/
+		static fromHEX (out: Color, hex: string): Color;		
+		/**
+		Add components of two colors, respectively. 
+		*/
+		static add (out: Color, a: Color, b: Color): Color;		
+		/**
+		Subtract components of color b from components of color a, respectively. 
+		*/
+		static subtract (out: Color, a: Color, b: Color): Color;		
+		/**
+		Multiply components of two colors, respectively. 
+		*/
+		static multiply (out: Color, a: Color, b: Color): Color;		
+		/**
+		Divide components of color a by components of color b, respectively. 
+		*/
+		static divide (out: Color, a: Color, b: Color): Color;		
+		/**
+		Scales a color by a number. 
+		*/
+		static scale (out: Color, a: Color, b: number): Color;		
+		/**
+		Performs a linear interpolation between two colors. 
+		*/
+		static lerp (out: Color, a: Color, b: Color, t: number): Color;		
+		/**
+		!#zh 颜色转数组
+		!#en Turn an array of colors
+		@param ofs 数组起始偏移量 
+		*/
+		static toArray <Out extends IWritableArrayLike<number>> (out: Out, a: IColorLike, ofs?: number): Out;		
+		/**
+		!#zh 数组转颜色
+		!#en An array of colors turn
+		@param ofs 数组起始偏移量 
+		*/
+		static fromArray <Out extends IColorLike> (arr: IWritableArrayLike<number>, out: Out, ofs?: number): Out;		
+		/**
+		!#zh 颜色 RGB 预乘 Alpha 通道
+		!#en RGB premultiply alpha channel
+		@param out 返回颜色
+		@param color 预乘处理的目标颜色 
+		*/
+		static premultiplyAlpha <Out extends IColorLike> (out: Out, a: IColorLike);		
+		/**
+		
+		@param r red component of the color, default value is 0.
+		@param g green component of the color, defualt value is 0.
+		@param b blue component of the color, default value is 0.
+		@param a alpha component of the color, default value is 255. 
+		*/
+		constructor(r?: number, g?: number, b?: number, a?: number);		
+		/**
+		!#en Clone a new color from the current color.
+		!#zh 克隆当前颜色。
+		
+		@example 
+		```js
+		var color = new cc.Color();
+		var newColor = color.clone();// Color {r: 0, g: 0, b: 0, a: 255}
+		``` 
+		*/
+		clone(): Color;		
+		/**
+		!#en TODO
+		!#zh 判断两个颜色是否相等。
+		@param other other
+		
+		@example 
+		```js
+		var color1 = cc.Color.WHITE;
+		var color2 = new cc.Color(255, 255, 255);
+		cc.log(color1.equals(color2)); // true;
+		color2 = cc.Color.RED;
+		cc.log(color2.equals(color1)); // false;
+		``` 
+		*/
+		equals(other: Color): boolean;		
+		/**
+		!#en TODO
+		!#zh 线性插值
+		@param to to
+		@param ratio the interpolation coefficient.
+		@param out optional, the receiving vector.
+		
+		@example 
+		```js
+		// Converts a white color to a black one trough time.
+		update: function (dt) {
+		    var color = this.node.color;
+		    if (color.equals(cc.Color.BLACK)) {
+		        return;
+		    }
+		    this.ratio += dt * 0.1;
+		    this.node.color = cc.Color.WHITE.lerp(cc.Color.BLACK, ratio);
+		}
+		
+		``` 
+		*/
+		lerp(to: Color, ratio: number, out?: Color): Color;		
+		/**
+		!#en TODO
+		!#zh 转换为方便阅读的字符串。
+		
+		@example 
+		```js
+		var color = cc.Color.WHITE;
+		color.toString(); // "rgba(255, 255, 255, 255)"
+		``` 
+		*/
+		toString(): string;		
+		/** !#en Get or set red channel value
+		!#zh 获取或者设置红色通道 */
+		r: number;		
+		/** !#en Get or set green channel value
+		!#zh 获取或者设置绿色通道 */
+		g: number;		
+		/** !#en Get or set blue channel value
+		!#zh 获取或者设置蓝色通道 */
+		b: number;		
+		/** !#en Get or set alpha channel value
+		!#zh 获取或者设置透明通道 */
+		a: number;		
+		/**
+		!#en Gets red channel value
+		!#zh 获取当前颜色的红色值。 
+		*/
+		getR(): number;		
+		/**
+		!#en Sets red value and return the current color object
+		!#zh 设置当前的红色值，并返回当前对象。
+		@param red the new Red component.
+		
+		@example 
+		```js
+		var color = new cc.Color();
+		color.setR(255); // Color {r: 255, g: 0, b: 0, a: 255}
+		``` 
+		*/
+		setR(red: number): Color;		
+		/**
+		!#en Gets green channel value
+		!#zh 获取当前颜色的绿色值。 
+		*/
+		getG(): number;		
+		/**
+		!#en Sets green value and return the current color object
+		!#zh 设置当前的绿色值，并返回当前对象。
+		@param green the new Green component.
+		
+		@example 
+		```js
+		var color = new cc.Color();
+		color.setG(255); // Color {r: 0, g: 255, b: 0, a: 255}
+		``` 
+		*/
+		setG(green: number): Color;		
+		/**
+		!#en Gets blue channel value
+		!#zh 获取当前颜色的蓝色值。 
+		*/
+		getB(): number;		
+		/**
+		!#en Sets blue value and return the current color object
+		!#zh 设置当前的蓝色值，并返回当前对象。
+		@param blue the new Blue component.
+		
+		@example 
+		```js
+		var color = new cc.Color();
+		color.setB(255); // Color {r: 0, g: 0, b: 255, a: 255}
+		``` 
+		*/
+		setB(blue: number): Color;		
+		/**
+		!#en Gets alpha channel value
+		!#zh 获取当前颜色的透明度值。 
+		*/
+		getA(): number;		
+		/**
+		!#en Sets alpha value and return the current color object
+		!#zh 设置当前的透明度，并返回当前对象。
+		@param alpha the new Alpha component.
+		
+		@example 
+		```js
+		var color = new cc.Color();
+		color.setA(0); // Color {r: 0, g: 0, b: 0, a: 0}
+		``` 
+		*/
+		setA(alpha: number): Color;		
+		/**
+		!#en Convert color to css format.
+		!#zh 转换为 CSS 格式。
+		@param opt "rgba", "rgb", "#rgb" or "#rrggbb".
+		
+		@example 
+		```js
+		var color = cc.Color.BLACK;
+		color.toCSS();          // "rgba(0,0,0,1.00)";
+		color.toCSS("rgba");    // "rgba(0,0,0,1.00)";
+		color.toCSS("rgb");     // "rgba(0,0,0)";
+		color.toCSS("#rgb");    // "#000";
+		color.toCSS("#rrggbb"); // "#000000";
+		``` 
+		*/
+		toCSS(opt?: string): string;		
+		/**
+		!#en Read hex string and store color data into the current color object, the hex string must be formated as rgba or rgb.
+		!#zh 读取 16 进制颜色。
+		@param hexString hexString
+		
+		@example 
+		```js
+		var color = cc.Color.BLACK;
+		color.fromHEX("#FFFF33"); // Color {r: 255, g: 255, b: 51, a: 255};
+		``` 
+		*/
+		fromHEX(hexString: string): Color;		
+		/**
+		!#en convert Color to HEX color string.
+		!#zh 转换为 16 进制。
+		@param fmt "#rgb", "#rrggbb" or "#rrggbbaa".
+		
+		@example 
+		```js
+		var color = cc.Color.BLACK;
+		color.toHEX("#rgb");     // "000";
+		color.toHEX("#rrggbb");  // "000000";
+		``` 
+		*/
+		toHEX(fmt?: string): string;		
+		/**
+		!#en Convert to 24bit rgb value.
+		!#zh 转换为 24bit 的 RGB 值。
+		
+		@example 
+		```js
+		var color = cc.Color.YELLOW;
+		color.toRGBValue(); // 16771844;
+		``` 
+		*/
+		toRGBValue(): number;		
+		/**
+		!#en Read HSV model color and convert to RGB color
+		!#zh 读取 HSV（色彩模型）格式。
+		@param h h
+		@param s s
+		@param v v
+		
+		@example 
+		```js
+		var color = cc.Color.YELLOW;
+		color.fromHSV(0, 0, 1); // Color {r: 255, g: 255, b: 255, a: 255};
+		``` 
+		*/
+		fromHSV(h: number, s: number, v: number): Color;		
+		/**
+		!#en Transform to HSV model color
+		!#zh 转换为 HSV（色彩模型）格式。
+		
+		@example 
+		```js
+		var color = cc.Color.YELLOW;
+		color.toHSV(); // Object {h: 0.1533864541832669, s: 0.9843137254901961, v: 1};
+		``` 
+		*/
+		toHSV(): any;		
+		/**
+		!#en Set the color
+		!#zh 设置颜色
+		@param color color 
+		*/
+		set (color: Color): Color;		
+		/**
+		!#en Multiplies the current color by the specified color
+		!#zh 将当前颜色乘以与指定颜色
+		@param other other 
+		*/
+		multiply(other: Color): Color;	
+	}	
+	/** Mathematical 3x3 matrix.
+	
+	NOTE: we use column-major matrix for all matrix calculation.
+	
+	This may lead to some confusion when referencing OpenGL documentation,
+	however, which represents out all matricies in column-major format.
+	This means that while in code a matrix may be typed out as:
+	
+	[1, 0, 0, 0,
+	 0, 1, 0, 0,
+	 0, 0, 1, 0,
+	 x, y, z, 0]
+	
+	The same matrix in the [OpenGL documentation](https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glTranslate.xml)
+	is written as:
+	
+	 1 0 0 x
+	 0 1 0 y
+	 0 0 1 z
+	 0 0 0 0
+	
+	Please rest assured, however, that they are the same thing!
+	This is not unique to glMatrix, either, as OpenGL developers have long been confused by the
+	apparent lack of consistency between the memory layout and the documentation. */
+	export class Mat3 extends ValueType {		
+		/** Identity  of Mat3 */
+		static IDENTITY: Mat3;		
+		/**
+		!#zh 矩阵转数组
+		!#en Matrix transpose array
+		@param ofs 数组内的起始偏移量 
+		*/
+		static toArray <Out extends IWritableArrayLike<number>> (out: Out, mat: IMat3Like, ofs?: number): Out;		
+		/**
+		!#zh 数组转矩阵
+		!#en Transfer matrix array
+		@param ofs 数组起始偏移量 
+		*/
+		static fromArray <Out extends IMat3Like> (out: Out, arr: IWritableArrayLike<number>, ofs?: number): Out;		
+		/** !#en Matrix Data
+		!#zh 矩阵数据 */
+		m: Float64Array|Float32Array;		
+		constructor (m00?: number | Float32Array, m01?: number, m02?: number, m03?: number, m04?: number, m05?: number, m06?: number, m07?: number, m08?: number);	
+	}	
+	/** !#en Representation of 4*4 matrix.
+	!#zh 表示 4*4 矩阵 */
+	export class Mat4 extends ValueType {		
+		/**
+		!#en Multiply the current matrix with another one
+		!#zh 将当前矩阵与指定矩阵相乘
+		@param other the second operand
+		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created 
+		*/
+		mul(other: Mat4, out?: Mat4): Mat4;		
+		/**
+		!#en Multiply each element of the matrix by a scalar.
+		!#zh 将矩阵的每一个元素都乘以指定的缩放值。
+		@param number amount to scale the matrix's elements by
+		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created 
+		*/
+		mulScalar(number: number, out?: Mat4): Mat4;		
+		/**
+		!#en Subtracts the current matrix with another one
+		!#zh 将当前矩阵与指定的矩阵相减
+		@param other the second operand
+		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created 
+		*/
+		sub(other: Mat4, out?: Mat4): Mat4;		
+		/** Identity  of Mat4 */
+		static IDENTITY: Mat4;		
+		/**
+		!#zh 获得指定矩阵的拷贝
+		!#en Copy of the specified matrix to obtain 
+		*/
+		static clone<Out extends IMat4Like> (a: Out): Mat4;		
+		/**
+		!#zh 复制目标矩阵
+		!#en Copy the target matrix 
+		*/
+		static copy<Out extends IMat4Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 将目标赋值为单位矩阵
+		!#en The target of an assignment is the identity matrix 
+		*/
+		static identity<Out extends IMat4Like> (out: Out): Out;		
+		/**
+		!#zh 转置矩阵
+		!#en Transposed matrix 
+		*/
+		static transpose<Out extends IMat4Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 矩阵求逆
+		!#en Matrix inversion 
+		*/
+		static invert<Out extends IMat4Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 矩阵行列式
+		!#en Matrix determinant 
+		*/
+		static determinant<Out extends IMat4Like> (a: Out): number;		
+		/**
+		!#zh 矩阵乘法
+		!#en Matrix Multiplication 
+		*/
+		static multiply<Out extends IMat4Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 在给定矩阵变换基础上加入变换
+		!#en Was added in a given transformation matrix transformation on the basis of 
+		*/
+		static transform<Out extends IMat4Like, VecLike extends IVec3Like> (out: Out, a: Out, v: VecLike): Out;		
+		/**
+		!#zh 在给定矩阵变换基础上加入新位移变换
+		!#en Add new displacement transducer in a matrix transformation on the basis of a given 
+		*/
+		static translate<Out extends IMat4Like, VecLike extends IVec3Like> (out: Out, a: Out, v: VecLike): Out;		
+		/**
+		!#zh 在给定矩阵变换基础上加入新缩放变换
+		!#en Add new scaling transformation in a given matrix transformation on the basis of 
+		*/
+		static scale<Out extends IMat4Like, VecLike extends IVec3Like> (out: Out, a: Out, v: VecLike): Out;		
+		/**
+		!#zh 在给定矩阵变换基础上加入新旋转变换
+		!#en Add a new rotational transform matrix transformation on the basis of a given
+		@param rad 旋转角度
+		@param axis 旋转轴 
+		*/
+		static rotate<Out extends IMat4Like, VecLike extends IVec3Like> (out: Out, a: Out, rad: number, axis: VecLike): Out;		
+		/**
+		!#zh 在给定矩阵变换基础上加入绕 X 轴的旋转变换
+		!#en Add rotational transformation around the X axis at a given matrix transformation on the basis of
+		@param rad 旋转角度 
+		*/
+		static rotateX<Out extends IMat4Like> (out: Out, a: Out, rad: number): Out;		
+		/**
+		!#zh 在给定矩阵变换基础上加入绕 Y 轴的旋转变换
+		!#en Add about the Y axis rotation transformation in a given matrix transformation on the basis of
+		@param rad 旋转角度 
+		*/
+		static rotateY<Out extends IMat4Like> (out: Out, a: Out, rad: number): Out;		
+		/**
+		!#zh 在给定矩阵变换基础上加入绕 Z 轴的旋转变换
+		!#en Added about the Z axis at a given rotational transformation matrix transformation on the basis of
+		@param rad 旋转角度 
+		*/
+		static rotateZ<Out extends IMat4Like> (out: Out, a: Out, rad: number): Out;		
+		/**
+		!#zh 计算位移矩阵
+		!#en Displacement matrix calculation 
+		*/
+		static fromTranslation<Out extends IMat4Like, VecLike extends IVec3Like> (out: Out, v: VecLike): Out;		
+		/**
+		!#zh 计算缩放矩阵
+		!#en Scaling matrix calculation 
+		*/
+		static fromScaling<Out extends IMat4Like, VecLike extends IVec3Like> (out: Out, v: VecLike): Out;		
+		/**
+		!#zh 计算旋转矩阵
+		!#en Calculates the rotation matrix 
+		*/
+		static fromRotation<Out extends IMat4Like, VecLike extends IVec3Like> (out: Out, rad: number, axis: VecLike): Out;		
+		/**
+		!#zh 计算绕 X 轴的旋转矩阵
+		!#en Calculating rotation matrix about the X axis 
+		*/
+		static fromXRotation<Out extends IMat4Like> (out: Out, rad: number): Out;		
+		/**
+		!#zh 计算绕 Y 轴的旋转矩阵
+		!#en Calculating rotation matrix about the Y axis 
+		*/
+		static fromYRotation<Out extends IMat4Like> (out: Out, rad: number): Out;		
+		/**
+		!#zh 计算绕 Z 轴的旋转矩阵
+		!#en Calculating rotation matrix about the Z axis 
+		*/
+		static fromZRotation<Out extends IMat4Like> (out: Out, rad: number): Out;		
+		/**
+		!#zh 根据旋转和位移信息计算矩阵
+		!#en The rotation and displacement information calculating matrix 
+		*/
+		static fromRT<Out extends IMat4Like, VecLike extends IVec3Like> (out: Out, q: Quat, v: VecLike): Out;		
+		/**
+		!#zh 提取矩阵的位移信息, 默认矩阵中的变换以 S->R->T 的顺序应用
+		!#en Extracting displacement information of the matrix, the matrix transform to the default sequential application S-> R-> T is 
+		*/
+		static getTranslation<Out extends IMat4Like, VecLike extends IVec3Like> (out: VecLike, mat: Out): VecLike;		
+		/**
+		!#zh 提取矩阵的缩放信息, 默认矩阵中的变换以 S->R->T 的顺序应用
+		!#en Scaling information extraction matrix, the matrix transform to the default sequential application S-> R-> T is 
+		*/
+		static getScaling<Out extends IMat4Like, VecLike extends IVec3Like> (out: VecLike, mat: Out): VecLike;		
+		/**
+		!#zh 提取矩阵的旋转信息, 默认输入矩阵不含有缩放信息，如考虑缩放应使用 `toRTS` 函数。
+		!#en Rotation information extraction matrix, the matrix containing no default input scaling information, such as the use of `toRTS` should consider the scaling function. 
+		*/
+		static getRotation<Out extends IMat4Like> (out: Quat, mat: Out): Quat;		
+		/**
+		!#zh 提取旋转、位移、缩放信息， 默认矩阵中的变换以 S->R->T 的顺序应用
+		!#en Extracting rotational displacement, zoom information, the default matrix transformation in order S-> R-> T applications 
+		*/
+		static toRTS<Out extends IMat4Like, VecLike extends IVec3Like> (mat: Out, q: Quat, v: VecLike, s: VecLike): void;		
+		/**
+		!#zh 根据旋转、位移、缩放信息计算矩阵，以 S->R->T 的顺序应用
+		!#en The rotary displacement, the scaling matrix calculation information, the order S-> R-> T applications 
+		*/
+		static fromRTS<Out extends IMat4Like, VecLike extends IVec3Like> (out: Out, q: Quat, v: VecLike, s: VecLike): Out;		
+		/**
+		!#zh 根据指定的旋转、位移、缩放及变换中心信息计算矩阵，以 S->R->T 的顺序应用
+		!#en According to the specified rotation, displacement, and scale conversion matrix calculation information center, order S-> R-> T applications
+		@param q 旋转值
+		@param v 位移值
+		@param s 缩放值
+		@param o 指定变换中心 
+		*/
+		static fromRTSOrigin<Out extends IMat4Like, VecLike extends IVec3Like> (out: Out, q: Quat, v: VecLike, s: VecLike, o: VecLike): Out;		
+		/**
+		!#zh 根据指定的旋转信息计算矩阵
+		!#en The rotation matrix calculation information specified 
+		*/
+		static fromQuat<Out extends IMat4Like> (out: Out, q: Quat): Out;		
+		/**
+		!#zh 根据指定的视锥体信息计算矩阵
+		!#en The matrix calculation information specified frustum
+		@param left 左平面距离
+		@param right 右平面距离
+		@param bottom 下平面距离
+		@param top 上平面距离
+		@param near 近平面距离
+		@param far 远平面距离 
+		*/
+		static frustum<Out extends IMat4Like> (out: Out, left: number, right: number, bottom: number, top: number, near: number, far: number): Out;		
+		/**
+		!#zh 计算透视投影矩阵
+		!#en Perspective projection matrix calculation
+		@param fovy 纵向视角高度
+		@param aspect 长宽比
+		@param near 近平面距离
+		@param far 远平面距离 
+		*/
+		static perspective<Out extends IMat4Like> (out: Out, fovy: number, aspect: number, near: number, far: number): Out;		
+		/**
+		!#zh 计算正交投影矩阵
+		!#en Computing orthogonal projection matrix
+		@param left 左平面距离
+		@param right 右平面距离
+		@param bottom 下平面距离
+		@param top 上平面距离
+		@param near 近平面距离
+		@param far 远平面距离 
+		*/
+		static ortho<Out extends IMat4Like> (out: Out, left: number, right: number, bottom: number, top: number, near: number, far: number): Out;		
+		/**
+		!#zh 根据视点计算矩阵，注意 `eye - center` 不能为零向量或与 `up` 向量平行
+		!#en `Up` parallel vector or vector center` not be zero - the matrix calculation according to the viewpoint, note` eye
+		@param eye 当前位置
+		@param center 目标视点
+		@param up 视口上方向 
+		*/
+		static lookAt<Out extends IMat4Like, VecLike extends IVec3Like> (out: Out, eye: VecLike, center: VecLike, up: VecLike): Out;		
+		/**
+		!#zh 计算逆转置矩阵
+		!#en Reversal matrix calculation 
+		*/
+		static inverseTranspose<Out extends IMat4Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素矩阵加法
+		!#en Element by element matrix addition 
+		*/
+		static add<Out extends IMat4Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素矩阵减法
+		!#en Matrix element by element subtraction 
+		*/
+		static subtract<Out extends IMat4Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 矩阵标量乘法
+		!#en Matrix scalar multiplication 
+		*/
+		static multiplyScalar<Out extends IMat4Like> (out: Out, a: Out, b: number): Out;		
+		/**
+		!#zh 逐元素矩阵标量乘加: A + B * scale
+		!#en Elements of the matrix by the scalar multiplication and addition: A + B * scale 
+		*/
+		static multiplyScalarAndAdd<Out extends IMat4Like> (out: Out, a: Out, b: Out, scale: number): Out;		
+		/**
+		!#zh 矩阵等价判断
+		!#en Analyzing the equivalent matrix 
+		*/
+		static strictEquals<Out extends IMat4Like> (a: Out, b: Out): boolean;		
+		/**
+		!#zh 排除浮点数误差的矩阵近似等价判断
+		!#en Negative floating point error is approximately equivalent to determining a matrix 
+		*/
+		static equals<Out extends IMat4Like> (a: Out, b: Out, epsilon?: number): boolean;		
+		/**
+		!#zh 矩阵转数组
+		!#en Matrix transpose array
+		@param ofs 数组内的起始偏移量 
+		*/
+		static toArray <Out extends IWritableArrayLike<number>> (out: Out, mat: IMat4Like, ofs?: number): Out;		
+		/**
+		!#zh 数组转矩阵
+		!#en Transfer matrix array
+		@param ofs 数组起始偏移量 
+		*/
+		static fromArray <Out extends IMat4Like> (out: Out, arr: IWritableArrayLike<number>, ofs?: number): Out;		
+		/** !#en Matrix Data
+		!#zh 矩阵数据 */
+		m: Float64Array|Float32Array;		
+		/**
+		!#en
+		Constructor
+		see {{#crossLink "cc/mat4:method"}}cc.mat4{{/crossLink}}
+		!#zh
+		构造函数，可查看 {{#crossLink "cc/mat4:method"}}cc.mat4{{/crossLink}} 
+		*/
+		constructor ( m00?: number, m01?: number, m02?: number, m03?: number, m10?: number, m11?: number, m12?: number, m13?: number, m20?: number, m21?: number, m22?: number, m23?: number, m30?: number, m31?: number, m32?: number, m33?: number);		
+		/**
+		!#en clone a Mat4 object
+		!#zh 克隆一个 Mat4 对象 
+		*/
+		clone(): Mat4;		
+		/**
+		!#en Sets the matrix with another one's value
+		!#zh 用另一个矩阵设置这个矩阵的值。
+		@param srcObj srcObj 
+		*/
+		set(srcObj: Mat4): Mat4;		
+		/**
+		!#en Check whether two matrix equal
+		!#zh 当前的矩阵是否与指定的矩阵相等。
+		@param other other 
+		*/
+		equals(other: Mat4): boolean;		
+		/**
+		!#en Check whether two matrix equal with default degree of variance.
+		!#zh
+		近似判断两个矩阵是否相等。<br/>
+		判断 2 个矩阵是否在默认误差范围之内，如果在则返回 true，反之则返回 false。
+		@param other other 
+		*/
+		fuzzyEquals(other: Mat4): boolean;		
+		/**
+		!#en Transform to string with matrix informations
+		!#zh 转换为方便阅读的字符串。 
+		*/
+		toString(): string;		
+		/**
+		Set the matrix to the identity matrix 
+		*/
+		identity(): Mat4;		
+		/**
+		Transpose the values of a mat4
+		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created. 
+		*/
+		transpose(out?: Mat4): Mat4;		
+		/**
+		Inverts a mat4
+		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created. 
+		*/
+		invert(out?: Mat4): Mat4;		
+		/**
+		Calculates the adjugate of a mat4
+		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created. 
+		*/
+		adjoint(out?: Mat4): Mat4;		
+		/**
+		Calculates the determinant of a mat4 
+		*/
+		determinant(): number;		
+		/**
+		Adds two Mat4
+		@param other the second operand
+		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created. 
+		*/
+		add(other: Mat4, out?: Mat4): Mat4;		
+		/**
+		Subtracts the current matrix with another one
+		@param other the second operand 
+		*/
+		subtract(other: Mat4): Mat4;		
+		/**
+		Subtracts the current matrix with another one
+		@param other the second operand 
+		*/
+		multiply(other: Mat4): Mat4;		
+		/**
+		Multiply each element of the matrix by a scalar.
+		@param number amount to scale the matrix's elements by 
+		*/
+		multiplyScalar(number: number): Mat4;		
+		/**
+		Translate a mat4 by the given vector
+		@param v vector to translate by
+		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created 
+		*/
+		translate(v: Vec3, out?: Mat4): Mat4;		
+		/**
+		Scales the mat4 by the dimensions in the given vec3
+		@param v vector to scale by
+		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created 
+		*/
+		scale(v: Vec3, out?: Mat4): Mat4;		
+		/**
+		Rotates a mat4 by the given angle around the given axis
+		@param rad the angle to rotate the matrix by
+		@param axis the axis to rotate around
+		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created 
+		*/
+		rotate(rad: number, axis: Vec3, out?: Mat4): Mat4;		
+		/**
+		Returns the translation vector component of a transformation matrix.
+		@param out Vector to receive translation component, if not provided, a new vec3 will be created 
+		*/
+		getTranslation(out: Vec3): Vec3;		
+		/**
+		Returns the scale factor component of a transformation matrix
+		@param out Vector to receive scale component, if not provided, a new vec3 will be created 
+		*/
+		getScale(out: Vec3): Vec3;		
+		/**
+		Returns the rotation factor component of a transformation matrix
+		@param out Vector to receive rotation component, if not provided, a new quaternion object will be created 
+		*/
+		getRotation(out: Quat): Quat;		
+		/**
+		Restore the matrix values from a quaternion rotation, vector translation and vector scale
+		@param q Rotation quaternion
+		@param v Translation vector
+		@param s Scaling vector 
+		*/
+		fromRTS(q: Quat, v: Vec3, s: Vec3): Mat4;		
+		/**
+		Restore the matrix values from a quaternion rotation
+		@param q Rotation quaternion 
+		*/
+		fromQuat(q: Quat): Mat4;	
+	}	
+	/** !#en Representation of 2D vectors and points.
+	!#zh 表示 2D 向量和坐标 */
+	export class Quat extends ValueType {		
+		/**
+		!#en
+		Constructor
+		see {{#crossLink "cc/quat:method"}}cc.quat{{/crossLink}}
+		!#zh
+		构造函数，可查看 {{#crossLink "cc/quat:method"}}cc.quat{{/crossLink}}
+		@param x x
+		@param y y
+		@param z z
+		@param w w 
+		*/
+		constructor(x?: number, y?: number, z?: number, w?: number);		
+		/**
+		!#en Calculate the multiply result between this quaternion and another one
+		!#zh 计算四元数乘积的结果
+		@param other other
+		@param out out 
+		*/
+		mul(other: Quat, out?: Quat): Quat;		
+		/**
+		!#zh 获得指定四元数的拷贝
+		!#en Obtaining copy specified quaternion 
+		*/
+		static clone<Out extends IQuatLike> (a: Out): Quat;		
+		/**
+		!#zh 复制目标四元数
+		!#en Copy quaternion target 
+		*/
+		static copy<Out extends IQuatLike, QuatLike extends IQuatLike> (out: Out, a: QuatLike): Out;		
+		/**
+		!#zh 设置四元数值
+		!#en Provided Quaternion Value 
+		*/
+		static set<Out extends IQuatLike> (out: Out, x: number, y: number, z: number, w: number): Out;		
+		/**
+		!#zh 将目标赋值为单位四元数
+		!#en The target of an assignment as a unit quaternion 
+		*/
+		static identity<Out extends IQuatLike> (out: Out): Out;		
+		/**
+		!#zh 设置四元数为两向量间的最短路径旋转，默认两向量都已归一化
+		!#en Set quaternion rotation is the shortest path between two vectors, the default two vectors are normalized 
+		*/
+		static rotationTo<Out extends IQuatLike, VecLike extends IVec3Like> (out: Out, a: VecLike, b: VecLike): Out;		
+		/**
+		!#zh 获取四元数的旋转轴和旋转弧度
+		!#en Get the rotary shaft and the arc of rotation quaternion
+		@param outAxis 旋转轴输出
+		@param q 源四元数 
+		*/
+		static getAxisAngle<Out extends IQuatLike, VecLike extends IVec3Like> (outAxis: VecLike, q: Out): number;		
+		/**
+		!#zh 四元数乘法
+		!#en Quaternion multiplication 
+		*/
+		static multiply<Out extends IQuatLike, QuatLike_1 extends IQuatLike, QuatLike_2 extends IQuatLike> (out: Out, a: QuatLike_1, b: QuatLike_2): Out;		
+		/**
+		!#zh 四元数标量乘法
+		!#en Quaternion scalar multiplication 
+		*/
+		static multiplyScalar<Out extends IQuatLike> (out: Out, a: Out, b: number): Out;		
+		/**
+		!#zh 四元数乘加：A + B * scale
+		!#en Quaternion multiplication and addition: A + B * scale 
+		*/
+		static scaleAndAdd<Out extends IQuatLike> (out: Out, a: Out, b: Out, scale: number): Out;		
+		/**
+		!#zh 绕 X 轴旋转指定四元数
+		!#en About the X axis specified quaternion
+		@param rad 旋转弧度 
+		*/
+		static rotateX<Out extends IQuatLike> (out: Out, a: Out, rad: number): Out;		
+		/**
+		!#zh 绕 Y 轴旋转指定四元数
+		!#en Rotation about the Y axis designated quaternion
+		@param rad 旋转弧度 
+		*/
+		static rotateY<Out extends IQuatLike> (out: Out, a: Out, rad: number): Out;		
+		/**
+		!#zh 绕 Z 轴旋转指定四元数
+		!#en Around the Z axis specified quaternion
+		@param rad 旋转弧度 
+		*/
+		static rotateZ<Out extends IQuatLike> (out: Out, a: Out, rad: number): Out;		
+		/**
+		!#zh 绕世界空间下指定轴旋转四元数
+		!#en Space around the world at a given axis of rotation quaternion
+		@param axis 旋转轴，默认已归一化
+		@param rad 旋转弧度 
+		*/
+		static rotateAround<Out extends IQuatLike, VecLike extends IVec3Like> (out: Out, rot: Out, axis: VecLike, rad: number): Out;		
+		/**
+		!#zh 绕本地空间下指定轴旋转四元数
+		!#en Local space around the specified axis rotation quaternion
+		@param axis 旋转轴
+		@param rad 旋转弧度 
+		*/
+		static rotateAroundLocal<Out extends IQuatLike, VecLike extends IVec3Like> (out: Out, rot: Out, axis: VecLike, rad: number): Out;		
+		/**
+		!#zh 根据 xyz 分量计算 w 分量，默认已归一化
+		!#en The component w xyz components calculated, normalized by default 
+		*/
+		static calculateW<Out extends IQuatLike> (out: Out, a: Out): Out;		
+		/**
+		!#zh 四元数点积（数量积）
+		!#en Quaternion dot product (scalar product) 
+		*/
+		static dot<Out extends IQuatLike> (a: Out, b: Out): number;		
+		/**
+		!#zh 逐元素线性插值： A + t * (B - A)
+		!#en Element by element linear interpolation: A + t * (B - A) 
+		*/
+		static lerp<Out extends IQuatLike> (out: Out, a: Out, b: Out, t: number): Out;		
+		/**
+		!#zh 带两个控制点的四元数球面插值
+		!#en Quaternion with two spherical interpolation control points 
+		*/
+		static sqlerp<Out extends IQuatLike> (out: Out, a: Out, b: Out, c: Out, d: Out, t: number): Out;		
+		/**
+		!#zh 四元数求逆
+		!#en Quaternion inverse 
+		*/
+		static invert<Out extends IQuatLike, QuatLike extends IQuatLike> (out: Out, a: QuatLike): Out;		
+		/**
+		!#zh 求共轭四元数，对单位四元数与求逆等价，但更高效
+		!#en Conjugating a quaternion, and the unit quaternion equivalent to inversion, but more efficient 
+		*/
+		static conjugate<Out extends IQuatLike> (out: Out, a: Out): Out;		
+		/**
+		!#zh 求四元数长度
+		!#en Seek length quaternion 
+		*/
+		static len<Out extends IQuatLike> (a: Out): number;		
+		/**
+		!#zh 求四元数长度平方
+		!#en Seeking quaternion square of the length 
+		*/
+		static lengthSqr<Out extends IQuatLike> (a: Out): number;		
+		/**
+		!#zh 归一化四元数
+		!#en Normalized quaternions 
+		*/
+		static normalize<Out extends IQuatLike> (out: Out, a: Out): Out;		
+		/**
+		!#zh 根据本地坐标轴朝向计算四元数，默认三向量都已归一化且相互垂直
+		!#en Calculated according to the local orientation quaternion coordinate axis, the default three vectors are normalized and mutually perpendicular 
+		*/
+		static fromAxes<Out extends IQuatLike, VecLike extends IVec3Like> (out: Out, xAxis: VecLike, yAxis: VecLike, zAxis: VecLike): Out;		
+		/**
+		!#zh 根据视口的前方向和上方向计算四元数
+		!#en The forward direction and the direction of the viewport computing quaternion
+		@param view 视口面向的前方向，必须归一化
+		@param up 视口的上方向，必须归一化，默认为 (0, 1, 0) 
+		*/
+		static fromViewUp<Out extends IQuatLike> (out: Out, view: Vec3, up?: Vec3): Out;		
+		/**
+		!#zh 根据旋转轴和旋转弧度计算四元数
+		!#en The quaternion calculated and the arc of rotation of the rotary shaft 
+		*/
+		static fromAxisAngle<Out extends IQuatLike, VecLike extends IVec3Like> (out: Out, axis: VecLike, rad: number): Out;		
+		/**
+		!#zh 根据三维矩阵信息计算四元数，默认输入矩阵不含有缩放信息
+		!#en Calculating the three-dimensional quaternion matrix information, default zoom information input matrix does not contain 
+		*/
+		static fromMat3<Out extends IQuatLike> (out: Out, mat: Mat3): Out;		
+		/**
+		!#zh 根据欧拉角信息计算四元数，旋转顺序为 YZX
+		!#en The quaternion calculated Euler angle information, rotation order YZX 
+		*/
+		static fromEuler<Out extends IQuatLike> (out: Out, x: number, y: number, z: number): Out;		
+		/**
+		!#zh 返回定义此四元数的坐标系 X 轴向量
+		!#en This returns the result of the quaternion coordinate system X-axis vector 
+		*/
+		static toAxisX<Out extends IQuatLike, VecLike extends IVec3Like> (out: VecLike, q: Out): VecLike;		
+		/**
+		!#zh 返回定义此四元数的坐标系 Y 轴向量
+		!#en This returns the result of the quaternion coordinate system Y axis vector 
+		*/
+		static toAxisY<Out extends IQuatLike, VecLike extends IVec3Like> (out: VecLike, q: Out): VecLike;		
+		/**
+		!#zh 返回定义此四元数的坐标系 Z 轴向量
+		!#en This returns the result of the quaternion coordinate system the Z-axis vector 
+		*/
+		static toAxisZ<Out extends IQuatLike, VecLike extends IVec3Like> (out: VecLike, q: Out): VecLike;		
+		/**
+		!#zh 根据四元数计算欧拉角，返回角度 x, y 在 [-180, 180] 区间内, z 默认在 [-90, 90] 区间内，旋转顺序为 YZX
+		!#en The quaternion calculated Euler angles, return angle x, y in the [-180, 180] interval, z default the range [-90, 90] interval, the rotation order YZX
+		@param outerZ z 取值范围区间改为 [-180, -90] U [90, 180] 
+		*/
+		static toEuler<Out extends IVec3Like> (out: Out, q: IQuatLike, outerZ?: boolean): Out;		
+		/**
+		!#zh 四元数等价判断
+		!#en Analyzing quaternion equivalent 
+		*/
+		static strictEquals<Out extends IQuatLike> (a: Out, b: Out): boolean;		
+		/**
+		!#zh 排除浮点数误差的四元数近似等价判断
+		!#en Negative floating point error quaternion approximately equivalent Analyzing 
+		*/
+		static equals<Out extends IQuatLike> (a: Out, b: Out, epsilon?: number): boolean;		
+		/**
+		!#zh 四元数转数组
+		!#en Quaternion rotation array
+		@param ofs 数组内的起始偏移量 
+		*/
+		static toArray <Out extends IWritableArrayLike<number>> (out: Out, q: IQuatLike, ofs?: number): Out;		
+		/**
+		!#zh 数组转四元数
+		!#en Array to a quaternion
+		@param ofs 数组起始偏移量 
+		*/
+		static fromArray <Out extends IQuatLike> (out: Out, arr: IWritableArrayLike<number>, ofs?: number): Out;		
+		x: number;		
+		y: number;		
+		z: number;		
+		w: number;		
+		/**
+		!#en clone a Quat object and return the new object
+		!#zh 克隆一个四元数并返回 
+		*/
+		clone(): Quat;		
+		/**
+		!#en Set values with another quaternion
+		!#zh 用另一个四元数的值设置到当前对象上。
+		@param newValue !#en new value to set. !#zh 要设置的新值 
+		*/
+		set(newValue: Quat): Quat;		
+		/**
+		!#en Check whether current quaternion equals another
+		!#zh 当前的四元数是否与指定的四元数相等。
+		@param other other 
+		*/
+		equals(other: Quat): boolean;		
+		/**
+		!#en Convert quaternion to euler
+		!#zh 转换四元数到欧拉角
+		@param out out 
+		*/
+		toEuler(out: Vec3): Vec3;		
+		/**
+		!#en Convert euler to quaternion
+		!#zh 转换欧拉角到四元数
+		@param euler euler 
+		*/
+		fromEuler(euler: Vec3): Quat;		
+		/**
+		!#en Calculate the interpolation result between this quaternion and another one with given ratio
+		!#zh 计算四元数的插值结果
+		@param to to
+		@param ratio ratio
+		@param out out 
+		*/
+		lerp(to: Quat, ratio: number, out?: Quat): Quat;		
+		/**
+		!#en Calculate the multiply result between this quaternion and another one
+		!#zh 计算四元数乘积的结果
+		@param other other 
+		*/
+		multiply(other: Quat): Quat;		
+		/**
+		!#en Rotates a quaternion by the given angle (in radians) about a world space axis.
+		!#zh 围绕世界空间轴按给定弧度旋转四元数
+		@param rot Quaternion to rotate
+		@param axis The axis around which to rotate in world space
+		@param rad Angle (in radians) to rotate
+		@param out Quaternion to store result 
+		*/
+		rotateAround(rot: Quat, axis: Vec3, rad: number, out?: Quat): Quat;	
+	}	
+	/** !#en A 2D rectangle defined by x, y position and width, height.
+	!#zh 通过位置和宽高定义的 2D 矩形。 */
+	export class Rect extends ValueType {		
+		/**
+		!#en
+		Constructor of Rect class.
+		see {{#crossLink "cc/rect:method"}} cc.rect {{/crossLink}} for convenience method.
+		!#zh
+		Rect类的构造函数。可以通过 {{#crossLink "cc/rect:method"}} cc.rect {{/crossLink}} 简便方法进行创建。
+		@param x x
+		@param y y
+		@param w w
+		@param h h 
+		*/
+		constructor(x?: number, y?: number, w?: number, h?: number);		
+		/**
+		!#en Creates a rectangle from two coordinate values.
+		!#zh 根据指定 2 个坐标创建出一个矩形区域。
+		@param v1 v1
+		@param v2 v2
+		
+		@example 
+		```js
+		cc.Rect.fromMinMax(cc.v2(10, 10), cc.v2(20, 20)); // Rect {x: 10, y: 10, width: 10, height: 10};
+		``` 
+		*/
+		static fromMinMax(v1: Vec2, v2: Vec2): Rect;		
+		x: number;		
+		y: number;		
+		width: number;		
+		height: number;		
+		/**
+		!#en TODO
+		!#zh 克隆一个新的 Rect。
+		
+		@example 
+		```js
+		var a = new cc.Rect(0, 0, 10, 10);
+		a.clone();// Rect {x: 0, y: 0, width: 10, height: 10}
+		``` 
+		*/
+		clone(): Rect;		
+		/**
+		!#en TODO
+		!#zh 是否等于指定的矩形。
+		@param other other
+		
+		@example 
+		```js
+		var a = new cc.Rect(0, 0, 10, 10);
+		var b = new cc.Rect(0, 0, 10, 10);
+		a.equals(b);// true;
+		``` 
+		*/
+		equals(other: Rect): boolean;		
+		/**
+		!#en TODO
+		!#zh 线性插值
+		@param to to
+		@param ratio the interpolation coefficient.
+		@param out optional, the receiving vector.
+		
+		@example 
+		```js
+		var a = new cc.Rect(0, 0, 10, 10);
+		var b = new cc.Rect(50, 50, 100, 100);
+		update (dt) {
+		   // method 1;
+		   var c = a.lerp(b, dt * 0.1);
+		   // method 2;
+		   a.lerp(b, dt * 0.1, c);
+		}
+		``` 
+		*/
+		lerp(to: Rect, ratio: number, out?: Rect): Rect;		
+		/**
+		!#en Check whether the current rectangle intersects with the given one
+		!#zh 当前矩形与指定矩形是否相交。
+		@param rect rect
+		
+		@example 
+		```js
+		var a = new cc.Rect(0, 0, 10, 10);
+		var b = new cc.Rect(0, 0, 20, 20);
+		a.intersects(b);// true
+		``` 
+		*/
+		intersects(rect: Rect): boolean;		
+		/**
+		!#en Returns the overlapping portion of 2 rectangles.
+		!#zh 返回 2 个矩形重叠的部分。
+		@param out Stores the result
+		@param rectB rectB
+		
+		@example 
+		```js
+		var a = new cc.Rect(0, 10, 20, 20);
+		var b = new cc.Rect(0, 10, 10, 10);
+		var intersection = new cc.Rect();
+		a.intersection(intersection, b); // intersection {x: 0, y: 10, width: 10, height: 10};
+		``` 
+		*/
+		intersection(out: Rect, rectB: Rect): Rect;		
+		/**
+		!#en Check whether the current rect contains the given point
+		!#zh 当前矩形是否包含指定坐标点。
+		Returns true if the point inside this rectangle.
+		@param point point
+		
+		@example 
+		```js
+		var a = new cc.Rect(0, 0, 10, 10);
+		var b = new cc.Vec2(0, 5);
+		a.contains(b);// true
+		``` 
+		*/
+		contains(point: Vec2): boolean;		
+		/**
+		!#en Returns true if the other rect totally inside this rectangle.
+		!#zh 当前矩形是否包含指定矩形。
+		@param rect rect
+		
+		@example 
+		```js
+		var a = new cc.Rect(0, 0, 20, 20);
+		var b = new cc.Rect(0, 0, 10, 10);
+		a.containsRect(b);// true
+		``` 
+		*/
+		containsRect(rect: Rect): boolean;		
+		/**
+		!#en Returns the smallest rectangle that contains the current rect and the given rect.
+		!#zh 返回一个包含当前矩形和指定矩形的最小矩形。
+		@param out Stores the result
+		@param rectB rectB
+		
+		@example 
+		```js
+		var a = new cc.Rect(0, 10, 20, 20);
+		var b = new cc.Rect(0, 10, 10, 10);
+		var union = new cc.Rect();
+		a.union(union, b); // union {x: 0, y: 10, width: 20, height: 20};
+		``` 
+		*/
+		union(out: Rect, rectB: Rect): Rect;		
+		/**
+		!#en Apply matrix4 to the rect.
+		!#zh 使用 mat4 对矩形进行矩阵转换。
+		@param out The output rect
+		@param mat The matrix4 
+		*/
+		transformMat4(out: Rect, mat: Mat4): void;		
+		/**
+		!#en Output rect informations to string
+		!#zh 转换为方便阅读的字符串
+		
+		@example 
+		```js
+		var a = new cc.Rect(0, 0, 10, 10);
+		a.toString();// "(0.00, 0.00, 10.00, 10.00)";
+		``` 
+		*/
+		toString(): string;		
+		/** !#en The minimum x value, equals to rect.x
+		!#zh 矩形 x 轴上的最小值，等价于 rect.x。 */
+		xMin: number;		
+		/** !#en The minimum y value, equals to rect.y
+		!#zh 矩形 y 轴上的最小值。 */
+		yMin: number;		
+		/** !#en The maximum x value.
+		!#zh 矩形 x 轴上的最大值。 */
+		xMax: number;		
+		/** !#en The maximum y value.
+		!#zh 矩形 y 轴上的最大值。 */
+		yMax: number;		
+		/** !#en The position of the center of the rectangle.
+		!#zh 矩形的中心点。 */
+		center: Vec2;		
+		/** !#en The X and Y position of the rectangle.
+		!#zh 矩形的 x 和 y 坐标。 */
+		origin: Vec2;		
+		/** !#en Width and height of the rectangle.
+		!#zh 矩形的大小。 */
+		size: Size;	
+	}	
+	/** !#en
+	cc.Size is the class for size object,<br/>
+	please do not use its constructor to create sizes,<br/>
+	use {{#crossLink "cc/size:method"}}{{/crossLink}} alias function instead.<br/>
+	It will be deprecated soon, please use cc.Vec2 instead.
+	
+	!#zh
+	cc.Size 是 size 对象的类。<br/>
+	请不要使用它的构造函数创建的 size，<br/>
+	使用 {{#crossLink "cc/size:method"}}{{/crossLink}} 别名函数。<br/>
+	它不久将被取消，请使用cc.Vec2代替。 */
+	export class Size {		
+		/**
+		
+		@param width width
+		@param height height 
+		*/
+		constructor(width: number|Size, height?: number);		
+		/** !#en return a Size object with width = 0 and height = 0.
+		!#zh 返回一个宽度为 0 和高度为 0 的 Size 对象。 */
+		static ZERO: Size;		
+		width: number;		
+		height: number;		
+		/**
+		!#en TODO
+		!#zh 克隆 size 对象。
+		
+		@example 
+		```js
+		var a = new cc.size(10, 10);
+		a.clone();// return Size {width: 0, height: 0};
+		``` 
+		*/
+		clone(): Size;		
+		/**
+		!#en TODO
+		!#zh 当前 Size 对象是否等于指定 Size 对象。
+		@param other other
+		
+		@example 
+		```js
+		var a = new cc.size(10, 10);
+		a.equals(new cc.size(10, 10));// return true;
+		``` 
+		*/
+		equals(other: Size): boolean;		
+		/**
+		!#en TODO
+		!#zh 线性插值。
+		@param to to
+		@param ratio the interpolation coefficient.
+		@param out optional, the receiving vector.
+		
+		@example 
+		```js
+		var a = new cc.size(10, 10);
+		var b = new cc.rect(50, 50, 100, 100);
+		update (dt) {
+		   // method 1;
+		   var c = a.lerp(b, dt * 0.1);
+		   // method 2;
+		   a.lerp(b, dt * 0.1, c);
+		}
+		``` 
+		*/
+		lerp(to: Rect, ratio: number, out?: Size): Size;		
+		/**
+		!#en TODO
+		!#zh 转换为方便阅读的字符串。
+		
+		@example 
+		```js
+		var a = new cc.size(10, 10);
+		a.toString();// return "(10.00, 10.00)";
+		``` 
+		*/
+		toString(): string;	
+	}	
+	/** !#en The base class of all value types.
+	!#zh 所有值类型的基类。 */
+	export class ValueType {		
+		/**
+		!#en This method returns an exact copy of current value.
+		!#zh 克隆当前值，该方法返回一个新对象，新对象的值和原对象相等。 
+		*/
+		clone(): ValueType;		
+		/**
+		!#en Compares this object with the other one.
+		!#zh 当前对象是否等于指定对象。
+		@param other other 
+		*/
+		equals(other: ValueType): boolean;		
+		/**
+		!#en
+		Linearly interpolates between this value to to value by ratio which is in the range [0, 1].
+		When ratio = 0 returns this. When ratio = 1 return to. When ratio = 0.5 returns the average of this and to.
+		!#zh
+		线性插值。<br/>
+		当 ratio = 0 时返回自身，ratio = 1 时返回目标，ratio = 0.5 返回自身和目标的平均值。。
+		@param to the to value
+		@param ratio the interpolation coefficient 
+		*/
+		lerp(to: ValueType, ratio: number): ValueType;		
+		/**
+		!#en
+		Copys all the properties from another given object to this value.
+		!#zh
+		从其它对象把所有属性复制到当前对象。
+		@param source the source to copy 
+		*/
+		set(source: ValueType): void;		
+		/**
+		!#en Convert to a readable string.
+		!#zh 转换为方便阅读的字符串。 
+		*/
+		toString(): string;	
+	}	
+	/** !#en Representation of 2D vectors and points.
+	!#zh 表示 2D 向量和坐标 */
+	export class Vec2 extends ValueType {		
+		/**
+		!#en Returns the length of this vector.
+		!#zh 返回该向量的长度。
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.mag(); // return 14.142135623730951;
+		``` 
+		*/
+		mag(): number;		
+		/**
+		!#en Returns the squared length of this vector.
+		!#zh 返回该向量的长度平方。
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.magSqr(); // return 200;
+		``` 
+		*/
+		magSqr(): number;		
+		/**
+		!#en Subtracts one vector from this. If you want to save result to another vector, use sub() instead.
+		!#zh 向量减法。如果你想保存结果到另一个向量，可使用 sub() 代替。
+		@param vector vector
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.subSelf(cc.v2(5, 5));// return Vec2 {x: 5, y: 5};
+		``` 
+		*/
+		subSelf(vector: Vec2): Vec2;		
+		/**
+		!#en Subtracts one vector from this, and returns the new result.
+		!#zh 向量减法，并返回新结果。
+		@param vector vector
+		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.sub(cc.v2(5, 5));      // return Vec2 {x: 5, y: 5};
+		var v1;
+		v.sub(cc.v2(5, 5), v1);  // return Vec2 {x: 5, y: 5};
+		``` 
+		*/
+		sub(vector: Vec2, out?: Vec2): Vec2;		
+		/**
+		!#en Multiplies this by a number. If you want to save result to another vector, use mul() instead.
+		!#zh 缩放当前向量。如果你想结果保存到另一个向量，可使用 mul() 代替。
+		@param num num
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.mulSelf(5);// return Vec2 {x: 50, y: 50};
+		``` 
+		*/
+		mulSelf(num: number): Vec2;		
+		/**
+		!#en Multiplies by a number, and returns the new result.
+		!#zh 缩放向量，并返回新结果。
+		@param num num
+		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.mul(5);      // return Vec2 {x: 50, y: 50};
+		var v1;
+		v.mul(5, v1);  // return Vec2 {x: 50, y: 50};
+		``` 
+		*/
+		mul(num: number, out?: Vec2): Vec2;		
+		/**
+		!#en Divides by a number. If you want to save result to another vector, use div() instead.
+		!#zh 向量除法。如果你想结果保存到另一个向量，可使用 div() 代替。
+		@param num num
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.divSelf(5); // return Vec2 {x: 2, y: 2};
+		``` 
+		*/
+		divSelf(num: number): Vec2;		
+		/**
+		!#en Divides by a number, and returns the new result.
+		!#zh 向量除法，并返回新的结果。
+		@param num num
+		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.div(5);      // return Vec2 {x: 2, y: 2};
+		var v1;
+		v.div(5, v1);  // return Vec2 {x: 2, y: 2};
+		``` 
+		*/
+		div(num: number, out?: Vec2): Vec2;		
+		/**
+		!#en Multiplies two vectors.
+		!#zh 分量相乘。
+		@param vector vector
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.scaleSelf(cc.v2(5, 5));// return Vec2 {x: 50, y: 50};
+		``` 
+		*/
+		scaleSelf(vector: Vec2): Vec2;		
+		/**
+		!#en Multiplies two vectors, and returns the new result.
+		!#zh 分量相乘，并返回新的结果。
+		@param vector vector
+		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.scale(cc.v2(5, 5));      // return Vec2 {x: 50, y: 50};
+		var v1;
+		v.scale(cc.v2(5, 5), v1);  // return Vec2 {x: 50, y: 50};
+		``` 
+		*/
+		scale(vector: Vec2, out?: Vec2): Vec2;		
+		/**
+		!#en Negates the components. If you want to save result to another vector, use neg() instead.
+		!#zh 向量取反。如果你想结果保存到另一个向量，可使用 neg() 代替。
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.negSelf(); // return Vec2 {x: -10, y: -10};
+		``` 
+		*/
+		negSelf(): Vec2;		
+		/**
+		!#en Negates the components, and returns the new result.
+		!#zh 返回取反后的新向量。
+		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		var v1;
+		v.neg(v1);  // return Vec2 {x: -10, y: -10};
+		``` 
+		*/
+		neg(out?: Vec2): Vec2;		
+		/** !#en return a Vec2 object with x = 1 and y = 1.
+		!#zh 新 Vec2 对象。 */
+		static ONE: Vec2;		
+		/** !#en return a Vec2 object with x = 0 and y = 0.
+		!#zh 返回 x = 0 和 y = 0 的 Vec2 对象。 */
+		static ZERO: Vec2;		
+		/** !#en return a readonly Vec2 object with x = 0 and y = 0.
+		!#zh 返回一个 x = 0 和 y = 0 的 Vec2 只读对象。 */
+		static ZERO_R: Vec2;		
+		/** !#en return a Vec2 object with x = 0 and y = 1.
+		!#zh 返回 x = 0 和 y = 1 的 Vec2 对象。 */
+		static UP: Vec2;		
+		/** !#en return a readonly Vec2 object with x = 0 and y = 1.
+		!#zh 返回 x = 0 和 y = 1 的 Vec2 只读对象。 */
+		static UP_R: Vec2;		
+		/** !#en return a readonly Vec2 object with x = 1 and y = 0.
+		!#zh 返回 x = 1 和 y = 0 的 Vec2 只读对象。 */
+		static RIGHT: Vec2;		
+		/** !#en return a Vec2 object with x = 1 and y = 0.
+		!#zh 返回 x = 1 和 y = 0 的 Vec2 对象。 */
+		static RIGHT_R: Vec2;		
+		/**
+		!#zh 获得指定向量的拷贝 
+		*/
+		static clone <Out extends IVec2Like> (a: Out): Vec2;		
+		/**
+		!#zh 复制指定向量的值 
+		*/
+		static copy <Out extends IVec2Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh  设置向量值 
+		*/
+		static set <Out extends IVec2Like> (out: Out, x: number, y: number): Out;		
+		/**
+		!#zh 逐元素向量加法 
+		*/
+		static add <Out extends IVec2Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量减法 
+		*/
+		static subtract <Out extends IVec2Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量乘法 
+		*/
+		static multiply <Out extends IVec2Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量除法 
+		*/
+		static divide <Out extends IVec2Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量向上取整 
+		*/
+		static ceil <Out extends IVec2Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素向量向下取整 
+		*/
+		static floor <Out extends IVec2Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素向量最小值 
+		*/
+		static min <Out extends IVec2Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量最大值 
+		*/
+		static max <Out extends IVec2Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量四舍五入取整 
+		*/
+		static round <Out extends IVec2Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 向量标量乘法 
+		*/
+		static multiplyScalar <Out extends IVec2Like> (out: Out, a: Out, b: number): Out;		
+		/**
+		!#zh 逐元素向量乘加: A + B * scale 
+		*/
+		static scaleAndAdd <Out extends IVec2Like> (out: Out, a: Out, b: Out, scale: number): Out;		
+		/**
+		!#zh 求两向量的欧氏距离 
+		*/
+		static distance <Out extends IVec2Like> (a: Out, b: Out): number;		
+		/**
+		!#zh 求两向量的欧氏距离平方 
+		*/
+		static squaredDistance <Out extends IVec2Like> (a: Out, b: Out): number;		
+		/**
+		!#zh 求向量长度 
+		*/
+		static len <Out extends IVec2Like> (a: Out): number;		
+		/**
+		!#zh 求向量长度平方 
+		*/
+		static lengthSqr <Out extends IVec2Like> (a: Out): number;		
+		/**
+		!#zh 逐元素向量取负 
+		*/
+		static negate <Out extends IVec2Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素向量取倒数，接近 0 时返回 Infinity 
+		*/
+		static inverse <Out extends IVec2Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素向量取倒数，接近 0 时返回 0 
+		*/
+		static inverseSafe <Out extends IVec2Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 归一化向量 
+		*/
+		static normalize <Out extends IVec2Like, Vec2Like extends IVec2Like> (out: Out, a: Vec2Like): Out;		
+		/**
+		!#zh 向量点积（数量积） 
+		*/
+		static dot <Out extends IVec2Like> (a: Out, b: Out): number;		
+		/**
+		!#zh 向量叉积（向量积），注意二维向量的叉积为与 Z 轴平行的三维向量 
+		*/
+		static cross <Out extends IVec2Like> (out: Vec2, a: Out, b: Out): Vec2;		
+		/**
+		!#zh 逐元素向量线性插值： A + t * (B - A) 
+		*/
+		static lerp <Out extends IVec2Like> (out: Out, a: Out, b: Out, t: number): Out;		
+		/**
+		!#zh 生成一个在单位圆上均匀分布的随机向量 
+		*/
+		static random <Out extends IVec2Like> (out: Out, scale?: number): Out;		
+		/**
+		!#zh 向量与三维矩阵乘法，默认向量第三位为 1。 
+		*/
+		static transformMat3 <Out extends IVec2Like, MatLike extends IMat3Like> (out: Out, a: Out, mat: IMat3Like): Out;		
+		/**
+		!#zh 向量与四维矩阵乘法，默认向量第三位为 0，第四位为 1。 
+		*/
+		static transformMat4 <Out extends IVec2Like, MatLike extends IMat4Like> (out: Out, a: Out, mat: MatLike): Out;		
+		/**
+		!#zh 向量等价判断 
+		*/
+		static strictEquals <Out extends IVec2Like> (a: Out, b: Out): boolean;		
+		/**
+		!#zh 排除浮点数误差的向量近似等价判断 
+		*/
+		static equals <Out extends IVec2Like> (a: Out, b: Out,  epsilon?: number): boolean;		
+		/**
+		!#zh 排除浮点数误差的向量近似等价判断 
+		*/
+		static angle <Out extends IVec2Like> (a: Out, b: Out): number;		
+		/**
+		!#zh 向量转数组 
+		*/
+		static toArray <Out extends IWritableArrayLike<number>> (out: Out, v: IVec2Like, ofs?: number): Out;		
+		/**
+		!#zh 数组转向量 
+		*/
+		static fromArray <Out extends IVec2Like> (out: Out, arr: IWritableArrayLike<number>, ofs?: number): Out;		
+		x: number;		
+		y: number;		
+		/**
+		!#en
+		Constructor
+		see {{#crossLink "cc/vec2:method"}}cc.v2{{/crossLink}} or {{#crossLink "cc/p:method"}}cc.p{{/crossLink}}
+		!#zh
+		构造函数，可查看 {{#crossLink "cc/vec2:method"}}cc.v2{{/crossLink}} 或者 {{#crossLink "cc/p:method"}}cc.p{{/crossLink}}
+		@param x x
+		@param y y 
+		*/
+		constructor(x?: number, y?: number);		
+		/**
+		!#en clone a Vec2 object
+		!#zh 克隆一个 Vec2 对象 
+		*/
+		clone(): Vec2;		
+		/**
+		!#en Sets vector with another's value
+		!#zh 设置向量值。
+		@param newValue !#en new value to set. !#zh 要设置的新值 
+		*/
+		set(newValue: Vec2): Vec2;		
+		/**
+		!#en Check whether two vector equal
+		!#zh 当前的向量是否与指定的向量相等。
+		@param other other 
+		*/
+		equals(other: Vec2): boolean;		
+		/**
+		!#en Check whether two vector equal with some degree of variance.
+		!#zh
+		近似判断两个点是否相等。<br/>
+		判断 2 个向量是否在指定数值的范围之内，如果在则返回 true，反之则返回 false。
+		@param other other
+		@param variance variance 
+		*/
+		fuzzyEquals(other: Vec2, variance: number): boolean;		
+		/**
+		!#en Transform to string with vector informations
+		!#zh 转换为方便阅读的字符串。 
+		*/
+		toString(): string;		
+		/**
+		!#en Calculate linear interpolation result between this vector and another one with given ratio
+		!#zh 线性插值。
+		@param to to
+		@param ratio the interpolation coefficient
+		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created 
+		*/
+		lerp(to: Vec2, ratio: number, out?: Vec2): Vec2;		
+		/**
+		!#en Clamp the vector between from float and to float.
+		!#zh
+		返回指定限制区域后的向量。<br/>
+		向量大于 max_inclusive 则返回 max_inclusive。<br/>
+		向量小于 min_inclusive 则返回 min_inclusive。<br/>
+		否则返回自身。
+		@param min_inclusive min_inclusive
+		@param max_inclusive max_inclusive
+		
+		@example 
+		```js
+		var min_inclusive = cc.v2(0, 0);
+		var max_inclusive = cc.v2(20, 20);
+		var v1 = cc.v2(20, 20).clampf(min_inclusive, max_inclusive); // Vec2 {x: 20, y: 20};
+		var v2 = cc.v2(0, 0).clampf(min_inclusive, max_inclusive);   // Vec2 {x: 0, y: 0};
+		var v3 = cc.v2(10, 10).clampf(min_inclusive, max_inclusive); // Vec2 {x: 10, y: 10};
+		``` 
+		*/
+		clampf(min_inclusive: Vec2, max_inclusive: Vec2): Vec2;		
+		/**
+		!#en Adds this vector.
+		!#zh 向量加法。
+		@param vector vector
+		@param out out
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.add(cc.v2(5, 5));// return Vec2 {x: 15, y: 15};
+		``` 
+		*/
+		add(vector: Vec2, out?: Vec2): Vec2;		
+		/**
+		!#en Adds this vector. If you want to save result to another vector, use add() instead.
+		!#zh 向量加法。如果你想保存结果到另一个向量，使用 add() 代替。
+		@param vector vector 
+		*/
+		addSelf(vector: Vec2): Vec2;		
+		/**
+		!#en Subtracts one vector from this.
+		!#zh 向量减法。
+		@param vector vector
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.subSelf(cc.v2(5, 5));// return Vec2 {x: 5, y: 5};
+		``` 
+		*/
+		subtract(vector: Vec2): Vec2;		
+		/**
+		!#en Multiplies this by a number.
+		!#zh 缩放当前向量。
+		@param num num
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.multiply(5);// return Vec2 {x: 50, y: 50};
+		``` 
+		*/
+		multiplyScalar(num: number): Vec2;		
+		/**
+		!#en Multiplies two vectors.
+		!#zh 分量相乘。
+		@param vector vector
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.multiply(cc.v2(5, 5));// return Vec2 {x: 50, y: 50};
+		``` 
+		*/
+		multiply(vector: Vec2): Vec2;		
+		/**
+		!#en Divides by a number.
+		!#zh 向量除法。
+		@param num num
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.divide(5); // return Vec2 {x: 2, y: 2};
+		``` 
+		*/
+		divide(num: number): Vec2;		
+		/**
+		!#en Negates the components.
+		!#zh 向量取反。
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.negate(); // return Vec2 {x: -10, y: -10};
+		``` 
+		*/
+		negate(): Vec2;		
+		/**
+		!#en Dot product
+		!#zh 当前向量与指定向量进行点乘。
+		@param vector vector
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.dot(cc.v2(5, 5)); // return 100;
+		``` 
+		*/
+		dot(vector?: Vec2): number;		
+		/**
+		!#en Cross product
+		!#zh 当前向量与指定向量进行叉乘。
+		@param vector vector
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.cross(cc.v2(5, 5)); // return 0;
+		``` 
+		*/
+		cross(vector?: Vec2): number;		
+		/**
+		!#en Returns the length of this vector.
+		!#zh 返回该向量的长度。
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.len(); // return 14.142135623730951;
+		``` 
+		*/
+		len(): number;		
+		/**
+		!#en Returns the squared length of this vector.
+		!#zh 返回该向量的长度平方。
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.lengthSqr(); // return 200;
+		``` 
+		*/
+		lengthSqr(): number;		
+		/**
+		!#en Make the length of this vector to 1.
+		!#zh 向量归一化，让这个向量的长度为 1。
+		
+		@example 
+		```js
+		var v = cc.v2(10, 10);
+		v.normalizeSelf(); // return Vec2 {x: 0.7071067811865475, y: 0.7071067811865475};
+		``` 
+		*/
+		normalizeSelf(): Vec2;		
+		/**
+		!#en
+		Returns this vector with a magnitude of 1.<br/>
+		<br/>
+		Note that the current vector is unchanged and a new normalized vector is returned. If you want to normalize the current vector, use normalizeSelf function.
+		!#zh
+		返回归一化后的向量。<br/>
+		<br/>
+		注意，当前向量不变，并返回一个新的归一化向量。如果你想来归一化当前向量，可使用 normalizeSelf 函数。
+		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created 
+		*/
+		normalize(out?: Vec2): Vec2;		
+		/**
+		!#en Get angle in radian between this and vector.
+		!#zh 夹角的弧度。
+		@param vector vector 
+		*/
+		angle(vector: Vec2): number;		
+		/**
+		!#en Get angle in radian between this and vector with direction.
+		!#zh 带方向的夹角的弧度。
+		@param vector vector 
+		*/
+		signAngle(vector: Vec2): number;		
+		/**
+		!#en rotate
+		!#zh 返回旋转给定弧度后的新向量。
+		@param radians radians
+		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created 
+		*/
+		rotate(radians: number, out?: Vec2): Vec2;		
+		/**
+		!#en rotate self
+		!#zh 按指定弧度旋转向量。
+		@param radians radians 
+		*/
+		rotateSelf(radians: number): Vec2;		
+		/**
+		!#en Calculates the projection of the current vector over the given vector.
+		!#zh 返回当前向量在指定 vector 向量上的投影向量。
+		@param vector vector
+		
+		@example 
+		```js
+		var v1 = cc.v2(20, 20);
+		var v2 = cc.v2(5, 5);
+		v1.project(v2); // Vec2 {x: 20, y: 20};
+		``` 
+		*/
+		project(vector: Vec2): Vec2;		
+		/**
+		Transforms the vec2 with a mat4. 3rd vector component is implicitly '0', 4th vector component is implicitly '1'
+		@param m matrix to transform with
+		@param out the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created 
+		*/
+		transformMat4(m: Mat4, out?: Vec2): Vec2;		
+		/**
+		Returns the maximum value in x, y. 
+		*/
+		maxAxis(): number;	
+	}	
+	/** !#en Representation of 3D vectors and points.
+	!#zh 表示 3D 向量和坐标 */
+	export class Vec3 extends ValueType {		
+		/**
+		!#en Returns the length of this vector.
+		!#zh 返回该向量的长度。
+		
+		@example 
+		```js
+		var v = cc.v3(10, 10, 10);
+		v.mag(); // return 17.320508075688775;
+		``` 
+		*/
+		mag(): number;		
+		/**
+		!#en Returns the squared length of this vector.
+		!#zh 返回该向量的长度平方。 
+		*/
+		magSqr(): number;		
+		/**
+		!#en Subtracts one vector from this. If you want to save result to another vector, use sub() instead.
+		!#zh 向量减法。如果你想保存结果到另一个向量，可使用 sub() 代替。
+		@param vector vector 
+		*/
+		subSelf(vector: Vec3): Vec3;		
+		/**
+		!#en Subtracts one vector from this, and returns the new result.
+		!#zh 向量减法，并返回新结果。
+		@param vector vector
+		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
+		*/
+		sub(vector: Vec3, out?: Vec3): Vec3;		
+		/**
+		!#en Multiplies this by a number. If you want to save result to another vector, use mul() instead.
+		!#zh 缩放当前向量。如果你想结果保存到另一个向量，可使用 mul() 代替。
+		@param num num 
+		*/
+		mulSelf(num: number): Vec3;		
+		/**
+		!#en Multiplies by a number, and returns the new result.
+		!#zh 缩放向量，并返回新结果。
+		@param num num
+		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
+		*/
+		mul(num: number, out?: Vec3): Vec3;		
+		/**
+		!#en Divides by a number. If you want to save result to another vector, use div() instead.
+		!#zh 向量除法。如果你想结果保存到另一个向量，可使用 div() 代替。
+		@param num num 
+		*/
+		divSelf(num: number): Vec3;		
+		/**
+		!#en Divides by a number, and returns the new result.
+		!#zh 向量除法，并返回新的结果。
+		@param num num
+		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
+		*/
+		div(num: number, out?: Vec3): Vec3;		
+		/**
+		!#en Multiplies two vectors.
+		!#zh 分量相乘。
+		@param vector vector 
+		*/
+		scaleSelf(vector: Vec3): Vec3;		
+		/**
+		!#en Multiplies two vectors, and returns the new result.
+		!#zh 分量相乘，并返回新的结果。
+		@param vector vector
+		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
+		*/
+		scale(vector: Vec3, out?: Vec3): Vec3;		
+		/**
+		!#en Negates the components. If you want to save result to another vector, use neg() instead.
+		!#zh 向量取反。如果你想结果保存到另一个向量，可使用 neg() 代替。 
+		*/
+		negSelf(): Vec3;		
+		/**
+		!#en Negates the components, and returns the new result.
+		!#zh 返回取反后的新向量。
+		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
+		*/
+		neg(out?: Vec3): Vec3;		
+		/** !#en return a Vec3 object with x = 1, y = 1, z = 1.
+		!#zh 新 Vec3 对象。 */
+		static ONE: Vec3;		
+		/** !#en return a Vec3 object with x = 0, y = 0, z = 0.
+		!#zh 返回 x = 0，y = 0，z = 0 的 Vec3 对象。 */
+		static ZERO: Vec3;		
+		/** !#en return a Vec3 object with x = 0, y = 1, z = 0.
+		!#zh 返回 x = 0, y = 1, z = 0 的 Vec3 对象。 */
+		static UP: Vec3;		
+		/** !#en return a Vec3 object with x = 1, y = 0, z = 0.
+		!#zh 返回 x = 1，y = 0，z = 0 的 Vec3 对象。 */
+		static RIGHT: Vec3;		
+		/** !#en return a Vec3 object with x = 0, y = 0, z = 1.
+		!#zh 返回 x = 0，y = 0，z = 1 的 Vec3 对象。 */
+		static FORWARD: Vec3;		
+		/**
+		!#zh 将目标赋值为零向量
+		!#en The target of an assignment zero vector 
+		*/
+		static zero<Out extends IVec3Like> (out: Out): Out;		
+		/**
+		!#zh 获得指定向量的拷贝
+		!#en Obtaining copy vectors designated 
+		*/
+		static clone<Out extends IVec3Like> (a: Out): Vec3;		
+		/**
+		!#zh 复制目标向量
+		!#en Copy the target vector 
+		*/
+		static copy<Out extends IVec3Like, Vec3Like extends IVec3Like> (out: Out, a: Vec3Like): Out;		
+		/**
+		!#zh 设置向量值
+		!#en Set to value 
+		*/
+		static set<Out extends IVec3Like> (out: Out, x: number, y: number, z: number): Out;		
+		/**
+		!#zh 逐元素向量加法
+		!#en Element-wise vector addition 
+		*/
+		static add<Out extends IVec3Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量减法
+		!#en Element-wise vector subtraction 
+		*/
+		static subtract<Out extends IVec3Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量乘法 (分量积)
+		!#en Element-wise vector multiplication (product component) 
+		*/
+		static multiply<Out extends IVec3Like, Vec3Like_1 extends IVec3Like, Vec3Like_2 extends IVec3Like> (out: Out, a: Vec3Like_1, b: Vec3Like_2): Out;		
+		/**
+		!#zh 逐元素向量除法
+		!#en Element-wise vector division 
+		*/
+		static divide<Out extends IVec3Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量向上取整
+		!#en Rounding up by elements of the vector 
+		*/
+		static ceil<Out extends IVec3Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素向量向下取整
+		!#en Element vector by rounding down 
+		*/
+		static floor<Out extends IVec3Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素向量最小值
+		!#en The minimum by-element vector 
+		*/
+		static min<Out extends IVec3Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量最大值
+		!#en The maximum value of the element-wise vector 
+		*/
+		static max<Out extends IVec3Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量四舍五入取整
+		!#en Element-wise vector of rounding to whole 
+		*/
+		static round<Out extends IVec3Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 向量标量乘法
+		!#en Vector scalar multiplication 
+		*/
+		static multiplyScalar<Out extends IVec3Like, Vec3Like extends IVec3Like> (out: Out, a: Vec3Like, b: number): Out;		
+		/**
+		!#zh 逐元素向量乘加: A + B * scale
+		!#en Element-wise vector multiply add: A + B * scale 
+		*/
+		static scaleAndAdd<Out extends IVec3Like> (out: Out, a: Out, b: Out, scale: number): Out;		
+		/**
+		!#zh 求两向量的欧氏距离
+		!#en Seeking two vectors Euclidean distance 
+		*/
+		static distance<Out extends IVec3Like> (a: Out, b: Out): number;		
+		/**
+		!#zh 求两向量的欧氏距离平方
+		!#en Euclidean distance squared seeking two vectors 
+		*/
+		static squaredDistance<Out extends IVec3Like> (a: Out, b: Out): number;		
+		/**
+		!#zh 求向量长度
+		!#en Seeking vector length 
+		*/
+		static len<Out extends IVec3Like> (a: Out): number;		
+		/**
+		!#zh 求向量长度平方
+		!#en Seeking squared vector length 
+		*/
+		static lengthSqr<Out extends IVec3Like> (a: Out): number;		
+		/**
+		!#zh 逐元素向量取负
+		!#en By taking the negative elements of the vector 
+		*/
+		static negate<Out extends IVec3Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素向量取倒数，接近 0 时返回 Infinity
+		!#en Element vector by taking the inverse, return near 0 Infinity 
+		*/
+		static inverse<Out extends IVec3Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素向量取倒数，接近 0 时返回 0
+		!#en Element vector by taking the inverse, return near 0 0 
+		*/
+		static inverseSafe<Out extends IVec3Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 归一化向量
+		!#en Normalized vector 
+		*/
+		static normalize<Out extends IVec3Like, Vec3Like extends IVec3Like> (out: Out, a: Vec3Like): Out;		
+		/**
+		!#zh 向量点积（数量积）
+		!#en Vector dot product (scalar product) 
+		*/
+		static dot<Out extends IVec3Like> (a: Out, b: Out): number;		
+		/**
+		!#zh 向量叉积（向量积）
+		!#en Vector cross product (vector product) 
+		*/
+		static cross<Out extends IVec3Like, Vec3Like_1 extends IVec3Like, Vec3Like_2 extends IVec3Like> (out: Out, a: Vec3Like_1, b: Vec3Like_2): Out;		
+		/**
+		!#zh 逐元素向量线性插值： A + t * (B - A)
+		!#en Vector element by element linear interpolation: A + t * (B - A) 
+		*/
+		static lerp<Out extends IVec3Like> (out: Out, a: Out, b: Out, t: number): Out;		
+		/**
+		!#zh 生成一个在单位球体上均匀分布的随机向量
+		!#en Generates a uniformly distributed random vectors on the unit sphere
+		@param scale 生成的向量长度 
+		*/
+		static random<Out extends IVec3Like> (out: Out, scale?: number): Out;		
+		/**
+		!#zh 向量与四维矩阵乘法，默认向量第四位为 1。
+		!#en Four-dimensional vector and matrix multiplication, the default vectors fourth one. 
+		*/
+		static transformMat4<Out extends IVec3Like, Vec3Like extends IVec3Like, MatLike extends IMat4Like> (out: Out, a: Vec3Like, mat: MatLike): Out;		
+		/**
+		!#zh 向量与四维矩阵乘法，默认向量第四位为 0。
+		!#en Four-dimensional vector and matrix multiplication, vector fourth default is 0. 
+		*/
+		static transformMat4Normal<Out extends IVec3Like, MatLike extends IMat4Like> (out: Out, a: Out, mat: MatLike): Out;		
+		/**
+		!#zh 向量与三维矩阵乘法
+		!#en Dimensional vector matrix multiplication 
+		*/
+		static transformMat3<Out extends IVec3Like, MatLike extends IMat3Like> (out: Out, a: Out, mat: MatLike): Out;		
+		/**
+		!#zh 向量仿射变换
+		!#en Affine transformation vector 
+		*/
+		static transformAffine<Out extends IVec3Like, VecLike extends IVec3Like, MatLike extends IMat4Like>(out: Out, v: VecLike, mat: MatLike): Out;		
+		/**
+		!#zh 向量四元数乘法
+		!#en Vector quaternion multiplication 
+		*/
+		static transformQuat<Out extends IVec3Like, VecLike extends IVec3Like, QuatLike extends IQuatLike> (out: Out, a: VecLike, q: QuatLike): Out;		
+		/**
+		!#zh 以缩放 -> 旋转 -> 平移顺序变换向量
+		!#en To scale -> rotation -> transformation vector sequence translation 
+		*/
+		static transformRTS<Out extends IVec3Like, VecLike extends IVec3Like, QuatLike extends IQuatLike>(out: Out, a: VecLike, r: QuatLike, t: VecLike, s: VecLike): Out;		
+		/**
+		!#zh 以平移 -> 旋转 -> 缩放顺序逆变换向量
+		!#en Translational -> rotation -> Zoom inverse transformation vector sequence 
+		*/
+		static transformInverseRTS<Out extends IVec3Like, VecLike extends IVec3Like, QuatLike extends IQuatLike>(out: Out, a: VecLike, r: QuatLike, t: VecLike, s: VecLike): Out;		
+		/**
+		!#zh 绕 X 轴旋转向量指定弧度
+		!#en Rotation vector specified angle about the X axis
+		@param v 待旋转向量
+		@param o 旋转中心
+		@param a 旋转弧度 
+		*/
+		static rotateX<Out extends IVec3Like> (out: Out, v: Out, o: Out, a: number): Out;		
+		/**
+		!#zh 绕 Y 轴旋转向量指定弧度
+		!#en Rotation vector specified angle around the Y axis
+		@param v 待旋转向量
+		@param o 旋转中心
+		@param a 旋转弧度 
+		*/
+		static rotateY<Out extends IVec3Like> (out: Out, v: Out, o: Out, a: number): Out;		
+		/**
+		!#zh 绕 Z 轴旋转向量指定弧度
+		!#en Around the Z axis specified angle vector
+		@param v 待旋转向量
+		@param o 旋转中心
+		@param a 旋转弧度 
+		*/
+		static rotateZ<Out extends IVec3Like> (out: Out, v: Out, o: Out, a: number): Out;		
+		/**
+		!#zh 向量等价判断
+		!#en Equivalent vectors Analyzing 
+		*/
+		static strictEquals<Out extends IVec3Like> (a: Out, b: Out): boolean;		
+		/**
+		!#zh 排除浮点数误差的向量近似等价判断
+		!#en Negative error vector floating point approximately equivalent Analyzing 
+		*/
+		static equals<Out extends IVec3Like> (a: Out, b: Out, epsilon?: number): boolean;		
+		/**
+		!#zh 求两向量夹角弧度
+		!#en Radian angle between two vectors seek 
+		*/
+		static angle<Out extends IVec3Like> (a: Out, b: Out): number;		
+		/**
+		!#zh 计算向量在指定平面上的投影
+		!#en Calculating a projection vector in the specified plane
+		@param a 待投影向量
+		@param n 指定平面的法线 
+		*/
+		static projectOnPlane<Out extends IVec3Like> (out: Out, a: Out, n: Out): Out;		
+		/**
+		!#zh 计算向量在指定向量上的投影
+		!#en Projection vector calculated in the vector designated
+		@param a 待投影向量
+		@param n 目标向量 
+		*/
+		static project<Out extends IVec3Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 向量转数组
+		!#en Vector transfer array
+		@param ofs 数组起始偏移量 
+		*/
+		static toArray <Out extends IWritableArrayLike<number>> (out: Out, v: IVec3Like, ofs?: number): Out;		
+		/**
+		!#zh 数组转向量
+		!#en Array steering amount
+		@param ofs 数组起始偏移量 
+		*/
+		static fromArray <Out extends IVec3Like> (out: Out, arr: IWritableArrayLike<number>, ofs?: number): Out;		
+		x: number;		
+		y: number;		
+		z: number;		
+		/**
+		!#en
+		Constructor
+		see {{#crossLink "cc/vec3:method"}}cc.v3{{/crossLink}}
+		!#zh
+		构造函数，可查看 {{#crossLink "cc/vec3:method"}}cc.v3{{/crossLink}}
+		@param x x
+		@param y y
+		@param z z 
+		*/
+		constructor(x?: Vec3|number, y?: number, z?: number);		
+		/**
+		!#en clone a Vec3 value
+		!#zh 克隆一个 Vec3 值 
+		*/
+		clone(): Vec3;		
+		/**
+		!#en Set the current vector value with the given vector.
+		!#zh 用另一个向量设置当前的向量对象值。
+		@param newValue !#en new value to set. !#zh 要设置的新值 
+		*/
+		set(newValue: Vec3): Vec3;		
+		/**
+		!#en Check whether the vector equals another one
+		!#zh 当前的向量是否与指定的向量相等。
+		@param other other 
+		*/
+		equals(other: Vec3): boolean;		
+		/**
+		!#en Check whether two vector equal with some degree of variance.
+		!#zh
+		近似判断两个点是否相等。<br/>
+		判断 2 个向量是否在指定数值的范围之内，如果在则返回 true，反之则返回 false。
+		@param other other
+		@param variance variance 
+		*/
+		fuzzyEquals(other: Vec3, variance: number): boolean;		
+		/**
+		!#en Transform to string with vector informations
+		!#zh 转换为方便阅读的字符串。 
+		*/
+		toString(): string;		
+		/**
+		!#en Calculate linear interpolation result between this vector and another one with given ratio
+		!#zh 线性插值。
+		@param to to
+		@param ratio the interpolation coefficient
+		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
+		*/
+		lerp(to: Vec3, ratio: number, out?: Vec3): Vec3;		
+		/**
+		!#en Clamp the vector between from float and to float.
+		!#zh
+		返回指定限制区域后的向量。<br/>
+		向量大于 max_inclusive 则返回 max_inclusive。<br/>
+		向量小于 min_inclusive 则返回 min_inclusive。<br/>
+		否则返回自身。
+		@param min_inclusive min_inclusive
+		@param max_inclusive max_inclusive 
+		*/
+		clampf(min_inclusive: Vec3, max_inclusive: Vec3): Vec3;		
+		/**
+		!#en Adds this vector. If you want to save result to another vector, use add() instead.
+		!#zh 向量加法。如果你想保存结果到另一个向量，使用 add() 代替。
+		@param vector vector 
+		*/
+		addSelf(vector: Vec3): Vec3;		
+		/**
+		!#en Adds two vectors, and returns the new result.
+		!#zh 向量加法，并返回新结果。
+		@param vector vector
+		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
+		*/
+		add(vector: Vec3, out?: Vec3): Vec3;		
+		/**
+		!#en Subtracts one vector from this.
+		!#zh 向量减法。
+		@param vector vector 
+		*/
+		subtract(vector: Vec3): Vec3;		
+		/**
+		!#en Multiplies this by a number.
+		!#zh 缩放当前向量。
+		@param num num 
+		*/
+		multiplyScalar(num: number): Vec3;		
+		/**
+		!#en Multiplies two vectors.
+		!#zh 分量相乘。
+		@param vector vector 
+		*/
+		multiply(vector: Vec3): Vec3;		
+		/**
+		!#en Divides by a number.
+		!#zh 向量除法。
+		@param num num 
+		*/
+		divide(num: number): Vec3;		
+		/**
+		!#en Negates the components.
+		!#zh 向量取反。 
+		*/
+		negate(): Vec3;		
+		/**
+		!#en Dot product
+		!#zh 当前向量与指定向量进行点乘。
+		@param vector vector 
+		*/
+		dot(vector?: Vec3): number;		
+		/**
+		!#en Cross product
+		!#zh 当前向量与指定向量进行叉乘。
+		@param vector vector
+		@param out out 
+		*/
+		cross(vector: Vec3, out?: Vec3): Vec3;		
+		/**
+		!#en Returns the length of this vector.
+		!#zh 返回该向量的长度。
+		
+		@example 
+		```js
+		var v = cc.v3(10, 10, 10);
+		v.len(); // return 17.320508075688775;
+		``` 
+		*/
+		len(): number;		
+		/**
+		!#en Returns the squared length of this vector.
+		!#zh 返回该向量的长度平方。 
+		*/
+		lengthSqr(): number;		
+		/**
+		!#en Make the length of this vector to 1.
+		!#zh 向量归一化，让这个向量的长度为 1。 
+		*/
+		normalizeSelf(): Vec3;		
+		/**
+		!#en
+		Returns this vector with a magnitude of 1.<br/>
+		<br/>
+		Note that the current vector is unchanged and a new normalized vector is returned. If you want to normalize the current vector, use normalizeSelf function.
+		!#zh
+		返回归一化后的向量。<br/>
+		<br/>
+		注意，当前向量不变，并返回一个新的归一化向量。如果你想来归一化当前向量，可使用 normalizeSelf 函数。
+		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
+		*/
+		normalize(out?: Vec3): Vec3;		
+		/**
+		Transforms the vec3 with a mat4. 4th vector component is implicitly '1'
+		@param m matrix to transform with
+		@param out the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
+		*/
+		transformMat4(m: Mat4, out?: Vec3): Vec3;		
+		/**
+		Returns the maximum value in x, y, and z 
+		*/
+		maxAxis(): number;		
+		/**
+		!#en Get angle in radian between this and vector.
+		!#zh 夹角的弧度。
+		@param vector vector 
+		*/
+		angle(vector: Vec3): number;		
+		/**
+		!#en Calculates the projection of the current vector over the given vector.
+		!#zh 返回当前向量在指定 vector 向量上的投影向量。
+		@param vector vector
+		
+		@example 
+		```js
+		var v1 = cc.v3(20, 20, 20);
+		var v2 = cc.v3(5, 5, 5);
+		v1.project(v2); // Vec3 {x: 20, y: 20, z: 20};
+		``` 
+		*/
+		project(vector: Vec3): Vec3;		
+		/**
+		!#en Get angle in radian between this and vector with direction. <br/>
+		In order to compatible with the vec2 API.
+		!#zh 带方向的夹角的弧度。该方法仅用做兼容 2D 计算。
+		@param vector vector 
+		*/
+		signAngle(vector: Vec3|Vec2): number;		
+		/**
+		!#en rotate. In order to compatible with the vec2 API.
+		!#zh 返回旋转给定弧度后的新向量。该方法仅用做兼容 2D 计算。
+		@param radians radians
+		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created 
+		*/
+		rotate(radians: number, out?: Vec3): Vec2;		
+		/**
+		!#en rotate self. In order to compatible with the vec2 API.
+		!#zh 按指定弧度旋转向量。该方法仅用做兼容 2D 计算。
+		@param radians radians 
+		*/
+		rotateSelf(radians: number): Vec3;	
+	}	
+	/** !#en Representation of 3D vectors and points.
+	!#zh 表示 3D 向量和坐标 */
+	export class Vec4 extends ValueType {		
+		/**
+		!#en Subtracts one vector from this. If you want to save result to another vector, use sub() instead.
+		!#zh 向量减法。如果你想保存结果到另一个向量，可使用 sub() 代替。
+		@param vector vector 
+		*/
+		subSelf(vector: Vec4): Vec4;		
+		/**
+		!#en Subtracts one vector from this, and returns the new result.
+		!#zh 向量减法，并返回新结果。
+		@param vector vector
+		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
+		*/
+		sub(vector: Vec4, out?: Vec4): Vec4;		
+		/**
+		!#en Multiplies this by a number. If you want to save result to another vector, use mul() instead.
+		!#zh 缩放当前向量。如果你想结果保存到另一个向量，可使用 mul() 代替。
+		@param num num 
+		*/
+		mulSelf(num: number): Vec4;		
+		/**
+		!#en Multiplies by a number, and returns the new result.
+		!#zh 缩放向量，并返回新结果。
+		@param num num
+		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
+		*/
+		mul(num: number, out?: Vec4): Vec4;		
+		/**
+		!#en Divides by a number. If you want to save result to another vector, use div() instead.
+		!#zh 向量除法。如果你想结果保存到另一个向量，可使用 div() 代替。
+		@param num num 
+		*/
+		divSelf(num: number): Vec4;		
+		/**
+		!#en Divides by a number, and returns the new result.
+		!#zh 向量除法，并返回新的结果。
+		@param num num
+		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
+		*/
+		div(num: number, out?: Vec4): Vec4;		
+		/**
+		!#en Multiplies two vectors.
+		!#zh 分量相乘。
+		@param vector vector 
+		*/
+		scaleSelf(vector: Vec4): Vec4;		
+		/**
+		!#en Multiplies two vectors, and returns the new result.
+		!#zh 分量相乘，并返回新的结果。
+		@param vector vector
+		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
+		*/
+		scale(vector: Vec4, out?: Vec4): Vec4;		
+		/**
+		!#en Negates the components. If you want to save result to another vector, use neg() instead.
+		!#zh 向量取反。如果你想结果保存到另一个向量，可使用 neg() 代替。 
+		*/
+		negSelf(): Vec4;		
+		/**
+		!#en Negates the components, and returns the new result.
+		!#zh 返回取反后的新向量。
+		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
+		*/
+		neg(out?: Vec4): Vec4;		
+		/**
+		!#zh 获得指定向量的拷贝
+		!#en Obtaining copy vectors designated 
+		*/
+		static clone <Out extends IVec4Like> (a: Out): Vec4;		
+		/**
+		!#zh 复制目标向量
+		!#en Copy the target vector 
+		*/
+		static copy <Out extends IVec4Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 设置向量值
+		!#en Set to value 
+		*/
+		static set <Out extends IVec4Like> (out: Out, x: number, y: number, z: number, w: number): Out;		
+		/**
+		!#zh 逐元素向量加法
+		!#en Element-wise vector addition 
+		*/
+		static add <Out extends IVec4Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量减法
+		!#en Element-wise vector subtraction 
+		*/
+		static subtract <Out extends IVec4Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量乘法
+		!#en Element-wise vector multiplication 
+		*/
+		static multiply <Out extends IVec4Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量除法
+		!#en Element-wise vector division 
+		*/
+		static divide <Out extends IVec4Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量向上取整
+		!#en Rounding up by elements of the vector 
+		*/
+		static ceil <Out extends IVec4Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素向量向下取整
+		!#en Element vector by rounding down 
+		*/
+		static floor <Out extends IVec4Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素向量最小值
+		!#en The minimum by-element vector 
+		*/
+		static min <Out extends IVec4Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量最大值
+		!#en The maximum value of the element-wise vector 
+		*/
+		static max <Out extends IVec4Like> (out: Out, a: Out, b: Out): Out;		
+		/**
+		!#zh 逐元素向量四舍五入取整
+		!#en Element-wise vector of rounding to whole 
+		*/
+		static round <Out extends IVec4Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 向量标量乘法
+		!#en Vector scalar multiplication 
+		*/
+		static multiplyScalar <Out extends IVec4Like> (out: Out, a: Out, b: number): Out;		
+		/**
+		!#zh 逐元素向量乘加: A + B * scale
+		!#en Element-wise vector multiply add: A + B * scale 
+		*/
+		static scaleAndAdd <Out extends IVec4Like> (out: Out, a: Out, b: Out, scale: number): Out;		
+		/**
+		!#zh 求两向量的欧氏距离
+		!#en Seeking two vectors Euclidean distance 
+		*/
+		static distance <Out extends IVec4Like> (a: Out, b: Out): number;		
+		/**
+		!#zh 求两向量的欧氏距离平方
+		!#en Euclidean distance squared seeking two vectors 
+		*/
+		static squaredDistance <Out extends IVec4Like> (a: Out, b: Out): number;		
+		/**
+		!#zh 求向量长度
+		!#en Seeking vector length 
+		*/
+		static len <Out extends IVec4Like> (a: Out): number;		
+		/**
+		!#zh 求向量长度平方
+		!#en Seeking squared vector length 
+		*/
+		static lengthSqr <Out extends IVec4Like> (a: Out): number;		
+		/**
+		!#zh 逐元素向量取负
+		!#en By taking the negative elements of the vector 
+		*/
+		static negate <Out extends IVec4Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素向量取倒数，接近 0 时返回 Infinity
+		!#en Element vector by taking the inverse, return near 0 Infinity 
+		*/
+		static inverse <Out extends IVec4Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 逐元素向量取倒数，接近 0 时返回 0
+		!#en Element vector by taking the inverse, return near 0 0 
+		*/
+		static inverseSafe <Out extends IVec4Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 归一化向量
+		!#en Normalized vector 
+		*/
+		static normalize <Out extends IVec4Like> (out: Out, a: Out): Out;		
+		/**
+		!#zh 向量点积（数量积）
+		!#en Vector dot product (scalar product) 
+		*/
+		static dot <Out extends IVec4Like> (a: Out, b: Out): number;		
+		/**
+		!#zh 逐元素向量线性插值： A + t * (B - A)
+		!#en Vector element by element linear interpolation: A + t * (B - A) 
+		*/
+		static lerp <Out extends IVec4Like> (out: Out, a: Out, b: Out, t: number): Out;		
+		/**
+		!#zh 生成一个在单位球体上均匀分布的随机向量
+		!#en Generates a uniformly distributed random vectors on the unit sphere
+		@param scale 生成的向量长度 
+		*/
+		static random <Out extends IVec4Like> (out: Out, scale?: number): Out;		
+		/**
+		!#zh 向量矩阵乘法
+		!#en Vector matrix multiplication 
+		*/
+		static transformMat4 <Out extends IVec4Like, MatLike extends IMat4Like> (out: Out, a: Out, mat: MatLike): Out;		
+		/**
+		!#zh 向量仿射变换
+		!#en Affine transformation vector 
+		*/
+		static transformAffine<Out extends IVec4Like, VecLike extends IVec4Like, MatLike extends IMat4Like>(out: Out, v: VecLike, mat: MatLike): Out;		
+		/**
+		!#zh 向量四元数乘法
+		!#en Vector quaternion multiplication 
+		*/
+		static transformQuat <Out extends IVec4Like, QuatLike extends IQuatLike> (out: Out, a: Out, q: QuatLike): Out;		
+		/**
+		!#zh 向量等价判断
+		!#en Equivalent vectors Analyzing 
+		*/
+		static strictEquals <Out extends IVec4Like> (a: Out, b: Out): boolean;		
+		/**
+		!#zh 排除浮点数误差的向量近似等价判断
+		!#en Negative error vector floating point approximately equivalent Analyzing 
+		*/
+		static equals <Out extends IVec4Like> (a: Out, b: Out, epsilon?: number): boolean;		
+		/**
+		!#zh 向量转数组
+		!#en Vector transfer array
+		@param ofs 数组起始偏移量 
+		*/
+		static toArray <Out extends IWritableArrayLike<number>> (out: Out, v: IVec4Like, ofs?: number): Out;		
+		/**
+		!#zh 数组转向量
+		!#en Array steering amount
+		@param ofs 数组起始偏移量 
+		*/
+		static fromArray <Out extends IVec4Like> (out: Out, arr: IWritableArrayLike<number>, ofs?: number): Out;		
+		x: number;		
+		y: number;		
+		z: number;		
+		w: number;		
+		/**
+		!#en
+		Constructor
+		see {{#crossLink "cc/vec4:method"}}cc.v4{{/crossLink}}
+		!#zh
+		构造函数，可查看 {{#crossLink "cc/vec4:method"}}cc.v4{{/crossLink}}
+		@param x x
+		@param y y
+		@param z z
+		@param w w 
+		*/
+		constructor(x?: number, y?: number, z?: number, w?: number);		
+		/**
+		!#en clone a Vec4 value
+		!#zh 克隆一个 Vec4 值 
+		*/
+		clone(): Vec4;		
+		/**
+		!#en Set the current vector value with the given vector.
+		!#zh 用另一个向量设置当前的向量对象值。
+		@param newValue !#en new value to set. !#zh 要设置的新值 
+		*/
+		set(newValue: Vec4): Vec4;		
+		/**
+		!#en Check whether the vector equals another one
+		!#zh 当前的向量是否与指定的向量相等。
+		@param other other
+		@param epsilon epsilon 
+		*/
+		equals(other: Vec4, epsilon?: number): boolean;		
+		/**
+		!#en Check whether the vector equals another one
+		!#zh 判断当前向量是否在误差范围内与指定分量的向量相等。
+		@param x 相比较的向量的 x 分量。
+		@param y 相比较的向量的 y 分量。
+		@param z 相比较的向量的 z 分量。
+		@param w 相比较的向量的 w 分量。
+		@param epsilon 允许的误差，应为非负数。 
+		*/
+		equals4f(x: number, y: number, z: number, w: number, epsilon?: number): boolean;		
+		/**
+		!#en Check whether strict equals other Vec4
+		!#zh 判断当前向量是否与指定向量相等。两向量的各分量都分别相等时返回 `true`；否则返回 `false`。
+		@param other 相比较的向量。 
+		*/
+		strictEquals(other: Vec4): boolean;		
+		/**
+		!#en Check whether strict equals other Vec4
+		!#zh 判断当前向量是否与指定分量的向量相等。两向量的各分量都分别相等时返回 `true`；否则返回 `false`。
+		@param x 指定向量的 x 分量。
+		@param y 指定向量的 y 分量。
+		@param z 指定向量的 z 分量。
+		@param w 指定向量的 w 分量。 
+		*/
+		strictEquals4f(x: number, y: number, z: number, w: number): boolean;		
+		/**
+		!#en Calculate linear interpolation result between this vector and another one with given ratio
+		!#zh 根据指定的插值比率，从当前向量到目标向量之间做插值。
+		@param to 目标向量。
+		@param ratio 插值比率，范围为 [0,1]。 
+		*/
+		lerp(to: Vec4, ratio: number): Vec4;		
+		/**
+		!#en Transform to string with vector informations
+		!#zh 返回当前向量的字符串表示。 
+		*/
+		toString(): string;		
+		/**
+		!#en Clamp the vector between minInclusive and maxInclusive.
+		!#zh 设置当前向量的值，使其各个分量都处于指定的范围内。
+		@param minInclusive 每个分量都代表了对应分量允许的最小值。
+		@param maxInclusive 每个分量都代表了对应分量允许的最大值。 
+		*/
+		clampf(minInclusive: Vec4, maxInclusive: Vec4): Vec4;		
+		/**
+		!#en Adds this vector. If you want to save result to another vector, use add() instead.
+		!#zh 向量加法。如果你想保存结果到另一个向量，使用 add() 代替。
+		@param vector vector 
+		*/
+		addSelf(vector: Vec4): Vec4;		
+		/**
+		!#en Adds two vectors, and returns the new result.
+		!#zh 向量加法，并返回新结果。
+		@param vector vector
+		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
+		*/
+		add(vector: Vec4, out?: Vec4): Vec4;		
+		/**
+		!#en Subtracts one vector from this, and returns the new result.
+		!#zh 向量减法，并返回新结果。
+		@param vector vector
+		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
+		*/
+		subtract(vector: Vec4, out?: Vec4): Vec4;		
+		/**
+		!#en Multiplies this by a number.
+		!#zh 缩放当前向量。
+		@param num num 
+		*/
+		multiplyScalar(num: number): Vec4;		
+		/**
+		!#en Multiplies two vectors.
+		!#zh 分量相乘。
+		@param vector vector 
+		*/
+		multiply(vector: Vec4): Vec4;		
+		/**
+		!#en Divides by a number.
+		!#zh 向量除法。
+		@param num num 
+		*/
+		divide(num: number): Vec4;		
+		/**
+		!#en Negates the components.
+		!#zh 向量取反 
+		*/
+		negate(): Vec4;		
+		/**
+		!#en Dot product
+		!#zh 当前向量与指定向量进行点乘。
+		@param vector vector 
+		*/
+		dot(vector?: Vec4): number;		
+		/**
+		!#en Cross product
+		!#zh 当前向量与指定向量进行叉乘。
+		@param vector vector
+		@param out out 
+		*/
+		cross(vector: Vec4, out?: Vec4): Vec4;		
+		/**
+		!#en Returns the length of this vector.
+		!#zh 返回该向量的长度。
+		
+		@example 
+		```js
+		var v = cc.v4(10, 10);
+		v.len(); // return 14.142135623730951;
+		``` 
+		*/
+		len(): number;		
+		/**
+		!#en Returns the squared length of this vector.
+		!#zh 返回该向量的长度平方。 
+		*/
+		lengthSqr(): number;		
+		/**
+		!#en Make the length of this vector to 1.
+		!#zh 向量归一化，让这个向量的长度为 1。 
+		*/
+		normalizeSelf(): Vec4;		
+		/**
+		!#en
+		Returns this vector with a magnitude of 1.<br/>
+		<br/>
+		Note that the current vector is unchanged and a new normalized vector is returned. If you want to normalize the current vector, use normalizeSelf function.
+		!#zh
+		返回归一化后的向量。<br/>
+		<br/>
+		注意，当前向量不变，并返回一个新的归一化向量。如果你想来归一化当前向量，可使用 normalizeSelf 函数。
+		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
+		*/
+		normalize(out?: Vec4): Vec4;		
+		/**
+		Transforms the vec4 with a mat4. 4th vector component is implicitly '1'
+		@param m matrix to transform with
+		@param out the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
+		*/
+		transformMat4(m: Mat4, out?: Vec4): Vec4;		
+		/**
+		Returns the maximum value in x, y, z, w. 
+		*/
+		maxAxis(): number;	
 	}	
 	/** !#en The module provides utilities for working with file and directory paths
 	!#zh 用于处理文件与目录的路径的模块 */
@@ -11026,110 +14446,6 @@ declare namespace cc {
 		``` 
 		*/
 		static changeExtname(pathStr: string, extname?: string): string;	
-	}	
-	/** !#en
-	AffineTransform class represent an affine transform matrix. It's composed basically by translation, rotation, scale transformations.<br/>
-	!#zh
-	AffineTransform 类代表一个仿射变换矩阵。它基本上是由平移旋转，缩放转变所组成。<br/> */
-	export class AffineTransform {		
-		/**
-		!#en Create a AffineTransform object with all contents in the matrix.
-		!#zh 用在矩阵中的所有内容创建一个 AffineTransform 对象。
-		@param a a
-		@param b b
-		@param c c
-		@param d d
-		@param tx tx
-		@param ty ty 
-		*/
-		static create(a: number, b: number, c: number, d: number, tx: number, ty: number): AffineTransform;		
-		/**
-		!#en
-		Create a identity transformation matrix: <br/>
-		[ 1, 0, 0, <br/>
-		  0, 1, 0 ]
-		!#zh
-		单位矩阵：<br/>
-		[ 1, 0, 0, <br/>
-		  0, 1, 0 ] 
-		*/
-		static identity(): AffineTransform;		
-		/**
-		!#en Clone a AffineTransform object from the specified transform.
-		!#zh 克隆指定的 AffineTransform 对象。
-		@param t t 
-		*/
-		static clone(t: AffineTransform): AffineTransform;		
-		/**
-		!#en
-		Concatenate a transform matrix to another
-		The results are reflected in the out affine transform
-		out = t1 * t2
-		This function is memory free, you should create the output affine transform by yourself and manage its memory.
-		!#zh
-		拼接两个矩阵，将结果保存到 out 矩阵。这个函数不创建任何内存，你需要先创建 AffineTransform 对象用来存储结果，并作为第一个参数传入函数。
-		out = t1 * t2
-		@param out Out object to store the concat result
-		@param t1 The first transform object.
-		@param t2 The transform object to concatenate. 
-		*/
-		static concat(out: AffineTransform, t1: AffineTransform, t2: AffineTransform): AffineTransform;		
-		/**
-		!#en Get the invert transform of an AffineTransform object.
-		This function is memory free, you should create the output affine transform by yourself and manage its memory.
-		!#zh 求逆矩阵。这个函数不创建任何内存，你需要先创建 AffineTransform 对象用来存储结果，并作为第一个参数传入函数。
-		@param out out
-		@param t t 
-		*/
-		static invert(out: AffineTransform, t: AffineTransform): AffineTransform;		
-		/**
-		!#en Get an AffineTransform object from a given matrix 4x4.
-		This function is memory free, you should create the output affine transform by yourself and manage its memory.
-		!#zh 从一个 4x4 Matrix 获取 AffineTransform 对象。这个函数不创建任何内存，你需要先创建 AffineTransform 对象用来存储结果，并作为第一个参数传入函数。
-		@param out out
-		@param mat mat 
-		*/
-		static invert(out: AffineTransform, mat: Mat4): AffineTransform;		
-		/**
-		!#en Apply the affine transformation on a point.
-		This function is memory free, you should create the output Vec2 by yourself and manage its memory.
-		!#zh 对一个点应用矩阵变换。这个函数不创建任何内存，你需要先创建一个 Vec2 对象用来存储结果，并作为第一个参数传入函数。
-		@param out The output point to store the result
-		@param point Point to apply transform or x.
-		@param transOrY transform matrix or y.
-		@param t transform matrix. 
-		*/
-		static transformVec2(out: Vec2, point: Vec2|number, transOrY: AffineTransform|number, t?: AffineTransform): Vec2;		
-		/**
-		!#en Apply the affine transformation on a size.
-		This function is memory free, you should create the output Size by yourself and manage its memory.
-		!#zh 应用仿射变换矩阵到 Size 上。这个函数不创建任何内存，你需要先创建一个 Size 对象用来存储结果，并作为第一个参数传入函数。
-		@param out The output point to store the result
-		@param size size
-		@param t t 
-		*/
-		static transformSize(out: Size, size: Size, t: AffineTransform): Size;		
-		/**
-		!#en Apply the affine transformation on a rect.
-		This function is memory free, you should create the output Rect by yourself and manage its memory.
-		!#zh 应用仿射变换矩阵到 Rect 上。这个函数不创建任何内存，你需要先创建一个 Rect 对象用来存储结果，并作为第一个参数传入函数。
-		@param out out
-		@param rect rect
-		@param anAffineTransform anAffineTransform 
-		*/
-		static transformRect(out: Rect, rect: Rect, anAffineTransform: AffineTransform): Rect;		
-		/**
-		!#en Apply the affine transformation on a rect, and truns to an Oriented Bounding Box.
-		This function is memory free, you should create the output vectors by yourself and manage their memory.
-		!#zh 应用仿射变换矩阵到 Rect 上, 并转换为有向包围盒。这个函数不创建任何内存，你需要先创建包围盒的四个 Vector 对象用来存储结果，并作为前四个参数传入函数。
-		@param out_bl out_bl
-		@param out_tl out_tl
-		@param out_tr out_tr
-		@param out_br out_br
-		@param rect rect
-		@param anAffineTransform anAffineTransform 
-		*/
-		static transformObb(out_bl: Vec2, out_tl: Vec2, out_tr: Vec2, out_br: Vec2, rect: Rect, anAffineTransform: AffineTransform): void;	
 	}	
 	/** A base node for CCNode, it will:
 	- maintain scene hierarchy and active logic
@@ -11362,9 +14678,9 @@ declare namespace cc {
 		
 		@example 
 		```js
-		// get sprite component.
+		// get sprite component
 		var sprite = node.getComponent(cc.Sprite);
-		// get custom test calss.
+		// get custom test class
 		var test = node.getComponent("Test");
 		``` 
 		*/
@@ -11533,31 +14849,137 @@ declare namespace cc {
 		once(type: string, callback: (arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any) => void, target?: any): void;		
 		/**
 		!#en
-		Trigger an event directly with the event name and necessary arguments.
-		!#zh
-		通过事件名发送自定义事件
-		@param type event type
-		@param arg1 First argument
-		@param arg2 Second argument
-		@param arg3 Third argument
-		@param arg4 Fourth argument
-		@param arg5 Fifth argument
-		
-		@example 
-		```js
-		eventTarget.emit('fire', event);
-		eventTarget.emit('fire', message, emitter);
-		``` 
-		*/
-		emit(type: string, arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any): void;		
-		/**
-		!#en
 		Send an event with the event object.
 		!#zh
 		通过事件对象派发事件
 		@param event event 
 		*/
 		dispatchEvent(event: Event): void;	
+	}	
+	/** !#en
+	AffineTransform class represent an affine transform matrix. It's composed basically by translation, rotation, scale transformations.<br/>
+	!#zh
+	AffineTransform 类代表一个仿射变换矩阵。它基本上是由平移旋转，缩放转变所组成。<br/> */
+	export class AffineTransform {		
+		/**
+		!#en Create a AffineTransform object with all contents in the matrix.
+		!#zh 用在矩阵中的所有内容创建一个 AffineTransform 对象。
+		@param a a
+		@param b b
+		@param c c
+		@param d d
+		@param tx tx
+		@param ty ty 
+		*/
+		static create(a: number, b: number, c: number, d: number, tx: number, ty: number): AffineTransform;		
+		/**
+		!#en
+		Create a identity transformation matrix: <br/>
+		[ 1, 0, 0, <br/>
+		  0, 1, 0 ]
+		!#zh
+		单位矩阵：<br/>
+		[ 1, 0, 0, <br/>
+		  0, 1, 0 ] 
+		*/
+		static identity(): AffineTransform;		
+		/**
+		!#en Clone a AffineTransform object from the specified transform.
+		!#zh 克隆指定的 AffineTransform 对象。
+		@param t t 
+		*/
+		static clone(t: AffineTransform): AffineTransform;		
+		/**
+		!#en
+		Concatenate a transform matrix to another
+		The results are reflected in the out affine transform
+		out = t1 * t2
+		This function is memory free, you should create the output affine transform by yourself and manage its memory.
+		!#zh
+		拼接两个矩阵，将结果保存到 out 矩阵。这个函数不创建任何内存，你需要先创建 AffineTransform 对象用来存储结果，并作为第一个参数传入函数。
+		out = t1 * t2
+		@param out Out object to store the concat result
+		@param t1 The first transform object.
+		@param t2 The transform object to concatenate. 
+		*/
+		static concat(out: AffineTransform, t1: AffineTransform, t2: AffineTransform): AffineTransform;		
+		/**
+		!#en Get the invert transform of an AffineTransform object.
+		This function is memory free, you should create the output affine transform by yourself and manage its memory.
+		!#zh 求逆矩阵。这个函数不创建任何内存，你需要先创建 AffineTransform 对象用来存储结果，并作为第一个参数传入函数。
+		@param out out
+		@param t t 
+		*/
+		static invert(out: AffineTransform, t: AffineTransform): AffineTransform;		
+		/**
+		!#en Get an AffineTransform object from a given matrix 4x4.
+		This function is memory free, you should create the output affine transform by yourself and manage its memory.
+		!#zh 从一个 4x4 Matrix 获取 AffineTransform 对象。这个函数不创建任何内存，你需要先创建 AffineTransform 对象用来存储结果，并作为第一个参数传入函数。
+		@param out out
+		@param mat mat 
+		*/
+		static invert(out: AffineTransform, mat: Mat4): AffineTransform;		
+		/**
+		!#en Apply the affine transformation on a point.
+		This function is memory free, you should create the output Vec2 by yourself and manage its memory.
+		!#zh 对一个点应用矩阵变换。这个函数不创建任何内存，你需要先创建一个 Vec2 对象用来存储结果，并作为第一个参数传入函数。
+		@param out The output point to store the result
+		@param point Point to apply transform or x.
+		@param transOrY transform matrix or y.
+		@param t transform matrix. 
+		*/
+		static transformVec2(out: Vec2, point: Vec2|number, transOrY: AffineTransform|number, t?: AffineTransform): Vec2;		
+		/**
+		!#en Apply the affine transformation on a size.
+		This function is memory free, you should create the output Size by yourself and manage its memory.
+		!#zh 应用仿射变换矩阵到 Size 上。这个函数不创建任何内存，你需要先创建一个 Size 对象用来存储结果，并作为第一个参数传入函数。
+		@param out The output point to store the result
+		@param size size
+		@param t t 
+		*/
+		static transformSize(out: Size, size: Size, t: AffineTransform): Size;		
+		/**
+		!#en Apply the affine transformation on a rect.
+		This function is memory free, you should create the output Rect by yourself and manage its memory.
+		!#zh 应用仿射变换矩阵到 Rect 上。这个函数不创建任何内存，你需要先创建一个 Rect 对象用来存储结果，并作为第一个参数传入函数。
+		@param out out
+		@param rect rect
+		@param anAffineTransform anAffineTransform 
+		*/
+		static transformRect(out: Rect, rect: Rect, anAffineTransform: AffineTransform): Rect;		
+		/**
+		!#en Apply the affine transformation on a rect, and truns to an Oriented Bounding Box.
+		This function is memory free, you should create the output vectors by yourself and manage their memory.
+		!#zh 应用仿射变换矩阵到 Rect 上, 并转换为有向包围盒。这个函数不创建任何内存，你需要先创建包围盒的四个 Vector 对象用来存储结果，并作为前四个参数传入函数。
+		@param out_bl out_bl
+		@param out_tl out_tl
+		@param out_tr out_tr
+		@param out_br out_br
+		@param rect rect
+		@param anAffineTransform anAffineTransform 
+		*/
+		static transformObb(out_bl: Vec2, out_tl: Vec2, out_tr: Vec2, out_br: Vec2, rect: Rect, anAffineTransform: AffineTransform): void;	
+	}	
+	/** !#en
+	Helper class for setting material blend function.
+	!#zh
+	设置材质混合模式的辅助类。 */
+	export class BlendFunc {		
+		/** !#en specify the source Blend Factor, this will generate a custom material object, please pay attention to the memory cost.
+		!#zh 指定原图的混合模式，这会克隆一个新的材质对象，注意这带来的开销 */
+		srcBlendFactor: macro.BlendFactor;		
+		/** !#en specify the destination Blend Factor.
+		!#zh 指定目标的混合模式 */
+		dstBlendFactor: macro.BlendFactor;	
+	}	
+	/** An internal helper class for switching render component's material between normal sprite material and gray sprite material. */
+	export class GraySpriteState {		
+		/** !#en The normal material.
+		!#zh 正常状态的材质。 */
+		normalMaterial: Material;		
+		/** !#en The gray material.
+		!#zh 置灰状态的材质。 */
+		grayMaterial: Material;	
 	}	
 	/** misc utilities */
 	export class misc {		
@@ -11600,7 +15022,13 @@ declare namespace cc {
 		@param r ratio between 0 and 1
 		
 		@example 
-		```Not found for the example path: temp-src/engine/docs/utils/api/engine/docs/cocos2d/core/platform/CCMacro/lerp.js 
+		```js
+		----
+		lerp
+		cc.misc.lerp(2,10,0.5)//returns 6
+		cc.misc.lerp(2,10,0.2)//returns 3.6
+		
+		``` 
 		*/
 		static lerp(a: number, b: number, r: number): number;		
 		/**
@@ -11614,1789 +15042,166 @@ declare namespace cc {
 		*/
 		static radiansToDegrees(angle: number): number;	
 	}	
-	/** !#en
-	Camera is usefull when making reel game or other games which need scroll screen.
-	Using camera will be more efficient than moving node to scroll screen.
-	Camera
-	!#zh
-	摄像机在制作卷轴或是其他需要移动屏幕的游戏时比较有用，使用摄像机将会比移动节点来移动屏幕更加高效。 */
-	export class Camera extends Component {		
-		/** !#en
-		The camera zoom ratio.
-		!#zh
-		摄像机缩放比率 */
-		zoomRatio: number;		
-		/** !#en
-		Field of view. The width of the Camera’s view angle, measured in degrees along the local Y axis.
-		!#zh
-		决定摄像机视角的宽度，当摄像机处于透视投影模式下这个属性才会生效。 */
-		fov: number;		
-		/** !#en
-		The viewport size of the Camera when set to orthographic projection.
-		!#zh
-		摄像机在正交投影模式下的视窗大小。 */
-		orthoSize: number;		
-		/** !#en
-		The near clipping plane.
-		!#zh
-		摄像机的近剪裁面。 */
-		nearClip: number;		
-		/** !#en
-		The far clipping plane.
-		!#zh
-		摄像机的远剪裁面。 */
-		farClip: number;		
-		/** !#en
-		Is the camera orthographic (true) or perspective (false)?
-		!#zh
-		设置摄像机的投影模式是正交还是透视模式。 */
-		ortho: boolean;		
-		/** !#en
-		Four values (0-1) that indicate where on the screen this camera view will be drawn.
-		!#zh
-		决定摄像机绘制在屏幕上哪个位置，值为 0-1。 */
-		rect: Rect;		
-		/** !#en
-		This is used to render parts of the scene selectively.
-		!#zh
-		决定摄像机会渲染场景的哪一部分。 */
-		cullingMask: number;		
-		/** !#en
-		Determining what to clear when camera rendering.
-		!#zh
-		决定摄像机渲染时会清除哪些状态。 */
-		clearFlags: Camera.ClearFlags;		
-		/** !#en
-		The color with which the screen will be cleared.
-		!#zh
-		摄像机用于清除屏幕的背景色。 */
-		backgroundColor: Color;		
-		/** !#en
-		Camera's depth in the camera rendering order.
-		!#zh
-		摄像机深度，用于决定摄像机的渲染顺序。 */
-		depth: number;		
-		/** !#en
-		Destination render texture.
-		Usually cameras render directly to screen, but for some effects it is useful to make a camera render into a texture.
-		!#zh
-		摄像机渲染的目标 RenderTexture。
-		一般摄像机会直接渲染到屏幕上，但是有一些效果可以使用摄像机渲染到 RenderTexture 上再对 RenderTexture 进行处理来实现。 */
-		targetTexture: RenderTexture;		
-		/** !#en
-		The first enabled camera.
-		!#zh
-		第一个被激活的摄像机。 */
-		static main: Camera;		
-		/** !#en
-		All enabled cameras.
-		!#zh
-		激活的所有摄像机。 */
-		static cameras: [Camera];		
+	/** !#en The burst of 3d particle.
+	!#zh 3D 粒子发射时的爆发个数 */
+	export class Burst {		
+		/** !#en Time between the start of the particle system and the trigger of this Brust
+		!#zh 粒子系统开始运行到触发此次 Brust 的时间 */
+		time: number;		
+		/** !#en Minimum number of emitted particles
+		!#zh 发射粒子的最小数量 */
+		minCount: number;		
+		/** !#en Maximum number of emitted particles
+		!#zh 发射粒子的最大数量 */
+		maxCount: number;		
+		/** !#en The number of times Burst was triggered.
+		!#zh Burst 的触发次数 */
+		repeatCount: number;		
+		/** !#en Interval of each trigger
+		!#zh 每次触发的间隔时间 */
+		repeatInterval: number;		
+		/** !#en Number of particles emitted
+		!#zh 发射的粒子的数量 */
+		count: CurveRange;	
+	}	
+	/** !#en The animation curve of 3d particle.
+	!#zh 3D 粒子动画曲线 */
+	export class AnimationCurve {	
+	}	
+	/** !#en The ParticleSystem3D Component.
+	!#zh 3D 粒子组件 */
+	export class ParticleSystem3D extends RenderComponent {		
+		/** !#en The run time of particle.
+		!#zh 粒子系统运行时间 */
+		duration: number;		
+		/** !#en The maximum number of particles that a particle system can generate.
+		!#zh 粒子系统能生成的最大粒子数量 */
+		capacity: number;		
+		/** !#en Whether the particle system loops.
+		!#zh 粒子系统是否循环播放 */
+		loop: boolean;		
+		/** !#en Whether the particles start playing automatically after loaded.
+		!#zh 粒子系统加载后是否自动开始播放 */
+		playOnAwake: boolean;		
+		/** !#en When selected, the particle system will start playing after one round has been played (only effective when loop is enabled).
+		!#zh 选中之后，粒子系统会以已播放完一轮之后的状态开始播放（仅当循环播放启用时有效） */
+		prewarm: boolean;		
+		/** !#en The coordinate system in which the particle system is located.<br>
+		World coordinates (does not change when the position of other objects changes)<br>
+		Local coordinates (moving as the position of the parent node changes)<br>
+		Custom coordinates (moving with the position of a custom node)
+		!#zh 选择粒子系统所在的坐标系<br>
+		世界坐标（不随其他物体位置改变而变换）<br>
+		局部坐标（跟随父节点位置改变而移动）<br>
+		自定坐标（跟随自定义节点的位置改变而移动） */
+		simulationSpace: ParticleSystem3DAssembler.Space;		
+		/** !#en Controlling the update speed of the entire particle system.
+		!#zh 控制整个粒子系统的更新速度。 */
+		simulationSpeed: number;		
+		/** !#en Delay particle emission time after particle system starts running.
+		!#zh 粒子系统开始运行后，延迟粒子发射的时间。 */
+		startDelay: CurveRange;		
+		/** !#en Particle life cycle。
+		!#zh 粒子生命周期。 */
+		startLifetime: CurveRange;		
+		/** !#en Particle initial color
+		!#zh 粒子初始颜色 */
+		startColor: GradientRange;		
+		/** !#en Particle scale space
+		!#zh 缩放空间 */
+		scaleSpace: ParticleSystem3DAssembler.Space;		
+		/** !#en Initial particle size
+		!#zh 粒子初始大小 */
+		startSize: CurveRange;		
+		/** !#en Initial particle speed
+		!#zh 粒子初始速度 */
+		startSpeed: CurveRange;		
+		/** !#en Particle initial rotation angle
+		!#zh 粒子初始旋转角度 */
+		startRotation: CurveRange;		
+		/** !#en Gravity coefficient of particles affected by gravity
+		!#zh 粒子受重力影响的重力系数 */
+		gravityModifier: CurveRange;		
+		/** !#en Particles emitted per second
+		!#zh 每秒发射的粒子数 */
+		rateOverTime: CurveRange;		
+		/** !#en Number of particles emitted per unit distance moved
+		!#zh 每移动单位距离发射的粒子数 */
+		rateOverDistance: CurveRange;		
+		/** !#en The number of Brusts that emit a specified number of particles at a specified time
+		!#zh 设定在指定时间发射指定数量的粒子的 Brust 的数量 */
+		bursts: Burst[];		
+		/** !#en Particle emitter module
+		!#zh 粒子发射器模块 */
+		shapeModule: ShapeModule;		
+		/** !#en Color control module
+		!#zh 颜色控制模块 */
+		colorOverLifetimeModule: ColorOverLifetimeModule;		
+		/** !#en Particle size module
+		!#zh 粒子大小模块 */
+		sizeOvertimeModule: SizeOvertimeModule;		
+		/** !#en Particle speed module
+		!#zh 粒子速度模块 */
+		velocityOvertimeModule: VelocityOvertimeModule;		
+		/** !#en Particle acceleration module
+		!#zh 粒子加速度模块 */
+		forceOvertimeModule: ForceOvertimeModule;		
+		/** !#en Particle limit speed module (only CPU particles are supported)
+		!#zh 粒子限制速度模块（只支持 CPU 粒子） */
+		limitVelocityOvertimeModule: LimitVelocityOvertimeModule;		
+		/** !#en Particle rotation module
+		!#zh 粒子旋转模块 */
+		rotationOvertimeModule: RotationOvertimeModule;		
+		/** !#en Texture Animation Module
+		!#zh 贴图动画模块 */
+		textureAnimationModule: TextureAnimationModule;		
+		/** !#en Particle Trajectory Module
+		!#zh 粒子轨迹模块 */
+		trailModule: TrailModule;		
+		/** !#en Particle generation mode
+		!#zh 设定粒子生成模式 */
+		renderMode: ParticleSystem3DAssembler.RenderMode;		
+		/** !#en When the particle generation mode is StrecthedBillboard, in the direction of movement of the particles is stretched by velocity magnitude
+		!#zh 在粒子生成方式为 StrecthedBillboard 时,对粒子在运动方向上按速度大小进行拉伸 */
+		velocityScale: number;		
+		/** !#en When the particle generation method is StrecthedBillboard, the particles are stretched according to the particle size in the direction of motion
+		!#zh 在粒子生成方式为 StrecthedBillboard 时,对粒子在运动方向上按粒子大小进行拉伸 */
+		lengthScale: number;		
+		/** !#en Particle model
+		!#zh 粒子模型 */
+		mesh: Mesh;		
+		/** !#en Particle material
+		!#zh 粒子材质 */
+		particleMaterial: Material;		
+		/** !#en Particle trail material
+		!#zh 粒子轨迹材质 */
+		trailMaterial: Material;		
 		/**
-		!#en
-		Get the first camera which the node belong to.
-		!#zh
-		获取节点所在的第一个摄像机。
-		@param node node 
+		!#en Playing particle effects
+		!#zh 播放粒子效果 
 		*/
-		static findCamera(node: Node): Camera;		
+		play(): void;		
 		/**
-		!#en
-		Returns the matrix that transform the node's (local) space coordinates into the camera's space coordinates.
-		!#zh
-		返回一个将节点坐标系转换到摄像机坐标系下的矩阵
-		@param node the node which should transform 
+		!#en Pause particle effect
+		!#zh 暂停播放粒子效果 
 		*/
-		getNodeToCameraTransform(node: Node): AffineTransform;		
+		pause(): void;		
 		/**
-		!#en
-		Conver a camera coordinates point to world coordinates.
-		!#zh
-		将一个摄像机坐标系下的点转换到世界坐标系下。
-		@param point the point which should transform
-		@param out the point to receive the result 
+		!#en Stop particle effect
+		!#zh 停止播放粒子效果 
 		*/
-		getCameraToWorldPoint(point: Vec2, out: Vec2): Vec2;		
+		stop(): void;		
 		/**
-		!#en
-		Conver a world coordinates point to camera coordinates.
-		!#zh
-		将一个世界坐标系下的点转换到摄像机坐标系下。
-		@param point point
-		@param out the point to receive the result 
+		!#en Remove all particle effect
+		!#zh 将所有粒子从粒子系统中清除 
 		*/
-		getWorldToCameraPoint(point: Vec2, out: Vec2): Vec2;		
-		/**
-		!#en
-		Get the camera to world matrix
-		!#zh
-		获取摄像机坐标系到世界坐标系的矩阵
-		@param out the matrix to receive the result 
-		*/
-		getCameraToWorldMatrix(out: Mat4): Mat4;		
-		/**
-		!#en
-		Get the world to camera matrix
-		!#zh
-		获取世界坐标系到摄像机坐标系的矩阵
-		@param out the matrix to receive the result 
-		*/
-		getWorldToCameraMatrix(out: Mat4): Mat4;		
-		/**
-		!#en
-		Get a ray from screen position
-		!#zh
-		从屏幕坐标获取一条射线
-		@param screenPos screenPos 
-		*/
-		getRay(screenPos: Vec2): Ray;		
-		/**
-		!#en
-		Check whether the node is in the camera.
-		!#zh
-		检测节点是否被此摄像机影响
-		@param node the node which need to check 
-		*/
-		containsNode(node: Node): boolean;		
-		/**
-		!#en
-		Render the camera manually.
-		!#zh
-		手动渲染摄像机。
-		@param root root 
-		*/
-		render(root: Node): void;	
+		clear(): void;	
 	}	
 	/** !#en
-	Representation of RGBA colors.
-	
-	Each color component is a floating point value with a range from 0 to 255.
-	
-	You can also use the convenience method {{#crossLink "cc/color:method"}}cc.color{{/crossLink}} to create a new Color.
-	
+	Helper class for ES5 Map.
 	!#zh
-	cc.Color 用于表示颜色。
-	
-	它包含 RGBA 四个以浮点数保存的颜色分量，每个的值都在 0 到 255 之间。
-	
-	您也可以通过使用 {{#crossLink "cc/color:method"}}cc.color{{/crossLink}} 的便捷方法来创建一个新的 Color。 */
-	export class Color extends ValueType {		
-		/**
-		
-		@param r red component of the color, default value is 0.
-		@param g green component of the color, defualt value is 0.
-		@param b blue component of the color, default value is 0.
-		@param a alpha component of the color, default value is 255. 
-		*/
-		constructor(r?: number, g?: number, b?: number, a?: number);		
-		/** !#en Solid white, RGBA is [255, 255, 255, 255].
-		!#zh 纯白色，RGBA 是 [255, 255, 255, 255]。 */
-		static WHITE: Color;		
-		/** !#en Solid black, RGBA is [0, 0, 0, 255].
-		!#zh 纯黑色，RGBA 是 [0, 0, 0, 255]。 */
-		static BLACK: Color;		
-		/** !#en Transparent, RGBA is [0, 0, 0, 0].
-		!#zh 透明，RGBA 是 [0, 0, 0, 0]。 */
-		static TRANSPARENT: Color;		
-		/** !#en Grey, RGBA is [127.5, 127.5, 127.5].
-		!#zh 灰色，RGBA 是 [127.5, 127.5, 127.5]。 */
-		static GRAY: Color;		
-		/** !#en Solid red, RGBA is [255, 0, 0].
-		!#zh 纯红色，RGBA 是 [255, 0, 0]。 */
-		static RED: Color;		
-		/** !#en Solid green, RGBA is [0, 255, 0].
-		!#zh 纯绿色，RGBA 是 [0, 255, 0]。 */
-		static GREEN: Color;		
-		/** !#en Solid blue, RGBA is [0, 0, 255].
-		!#zh 纯蓝色，RGBA 是 [0, 0, 255]。 */
-		static BLUE: Color;		
-		/** !#en Yellow, RGBA is [255, 235, 4].
-		!#zh 黄色，RGBA 是 [255, 235, 4]。 */
-		static YELLOW: Color;		
-		/** !#en Orange, RGBA is [255, 127, 0].
-		!#zh 橙色，RGBA 是 [255, 127, 0]。 */
-		static ORANGE: Color;		
-		/** !#en Cyan, RGBA is [0, 255, 255].
-		!#zh 青色，RGBA 是 [0, 255, 255]。 */
-		static CYAN: Color;		
-		/** !#en Magenta, RGBA is [255, 0, 255].
-		!#zh 洋红色（品红色），RGBA 是 [255, 0, 255]。 */
-		static MAGENTA: Color;		
-		/**
-		!#en Clone a new color from the current color.
-		!#zh 克隆当前颜色。
-		
-		@example 
-		```js
-		var color = new cc.Color();
-		var newColor = color.clone();// Color {r: 0, g: 0, b: 0, a: 255}
-		``` 
-		*/
-		clone(): Color;		
-		/**
-		!#en TODO
-		!#zh 判断两个颜色是否相等。
-		@param other other
-		
-		@example 
-		```js
-		var color1 = cc.Color.WHITE;
-		var color2 = new cc.Color(255, 255, 255);
-		cc.log(color1.equals(color2)); // true;
-		color2 = cc.Color.RED;
-		cc.log(color2.equals(color1)); // false;
-		``` 
-		*/
-		equals(other: Color): boolean;		
-		/**
-		!#en TODO
-		!#zh 线性插值
-		@param to to
-		@param ratio the interpolation coefficient.
-		@param out optional, the receiving vector.
-		
-		@example 
-		```Not found for the example path: temp-src/engine/docs/utils/api/engine/docs/cocos2d/core/value-types/CCColor/lerp.js 
-		*/
-		lerp(to: Color, ratio: number, out?: Color): Color;		
-		/**
-		!#en TODO
-		!#zh 转换为方便阅读的字符串。
-		
-		@example 
-		```js
-		var color = cc.Color.WHITE;
-		color.toString(); // "rgba(255, 255, 255, 255)"
-		``` 
-		*/
-		toString(): string;		
-		/**
-		!#en Gets red channel value
-		!#zh 获取当前颜色的红色值。 
-		*/
-		getR(): number;		
-		/**
-		!#en Sets red value and return the current color object
-		!#zh 设置当前的红色值，并返回当前对象。
-		@param red the new Red component.
-		
-		@example 
-		```js
-		var color = new cc.Color();
-		color.setR(255); // Color {r: 255, g: 0, b: 0, a: 255}
-		``` 
-		*/
-		setR(red: number): Color;		
-		/**
-		!#en Gets green channel value
-		!#zh 获取当前颜色的绿色值。 
-		*/
-		getG(): number;		
-		/**
-		!#en Sets green value and return the current color object
-		!#zh 设置当前的绿色值，并返回当前对象。
-		@param green the new Green component.
-		
-		@example 
-		```js
-		var color = new cc.Color();
-		color.setG(255); // Color {r: 0, g: 255, b: 0, a: 255}
-		``` 
-		*/
-		setG(green: number): Color;		
-		/**
-		!#en Gets blue channel value
-		!#zh 获取当前颜色的蓝色值。 
-		*/
-		getB(): number;		
-		/**
-		!#en Sets blue value and return the current color object
-		!#zh 设置当前的蓝色值，并返回当前对象。
-		@param blue the new Blue component.
-		
-		@example 
-		```js
-		var color = new cc.Color();
-		color.setB(255); // Color {r: 0, g: 0, b: 255, a: 255}
-		``` 
-		*/
-		setB(blue: number): Color;		
-		/**
-		!#en Gets alpha channel value
-		!#zh 获取当前颜色的透明度值。 
-		*/
-		getA(): number;		
-		/**
-		!#en Sets alpha value and return the current color object
-		!#zh 设置当前的透明度，并返回当前对象。
-		@param alpha the new Alpha component.
-		
-		@example 
-		```js
-		var color = new cc.Color();
-		color.setA(0); // Color {r: 0, g: 0, b: 0, a: 0}
-		``` 
-		*/
-		setA(alpha: number): Color;		
-		/**
-		!#en Convert color to css format.
-		!#zh 转换为 CSS 格式。
-		@param opt "rgba", "rgb", "#rgb" or "#rrggbb".
-		
-		@example 
-		```Not found for the example path: temp-src/engine/docs/utils/api/engine/docs/cocos2d/core/value-types/CCColor/toCSS.js 
-		*/
-		toCSS(opt: string): string;		
-		/**
-		!#en Read hex string and store color data into the current color object, the hex string must be formated as rgba or rgb.
-		!#zh 读取 16 进制颜色。
-		@param hexString hexString
-		
-		@example 
-		```js
-		var color = cc.Color.BLACK;
-		color.fromHEX("#FFFF33"); // Color {r: 255, g: 255, b: 51, a: 255};
-		``` 
-		*/
-		fromHEX(hexString: string): Color;		
-		/**
-		!#en convert Color to HEX color string.
-		e.g.  cc.color(255,6,255)  to : "#ff06ff"
-		!#zh 转换为 16 进制。
-		@param fmt "#rgb", "#rrggbb" or "#rrggbbaa".
-		
-		@example 
-		```js
-		var color = cc.Color.BLACK;
-		color.toHEX("#rgb");     // "000";
-		color.toHEX("#rrggbb");  // "000000";
-		``` 
-		*/
-		toHEX(fmt: string): string;		
-		/**
-		!#en Convert to 24bit rgb value.
-		!#zh 转换为 24bit 的 RGB 值。
-		
-		@example 
-		```js
-		var color = cc.Color.YELLOW;
-		color.toRGBValue(); // 16771844;
-		``` 
-		*/
-		toRGBValue(): number;		
-		/**
-		!#en Read HSV model color and convert to RGB color
-		!#zh 读取 HSV（色彩模型）格式。
-		@param h h
-		@param s s
-		@param v v
-		
-		@example 
-		```js
-		var color = cc.Color.YELLOW;
-		color.fromHSV(0, 0, 1); // Color {r: 255, g: 255, b: 255, a: 255};
-		``` 
-		*/
-		fromHSV(h: number, s: number, v: number): Color;		
-		/**
-		!#en Transform to HSV model color
-		!#zh 转换为 HSV（色彩模型）格式。
-		
-		@example 
-		```js
-		var color = cc.Color.YELLOW;
-		color.toHSV(); // Object {h: 0.1533864541832669, s: 0.9843137254901961, v: 1};
-		``` 
-		*/
-		toHSV(): any;	
-	}	
-	/** !#en Representation of 4*4 matrix.
-	!#zh 表示 4*4 矩阵 */
-	export class Mat4 extends ValueType {		
-		/**
-		!#en
-		Constructor
-		see {{#crossLink "cc/mat4:method"}}cc.mat4{{/crossLink}}
-		!#zh
-		构造函数，可查看 {{#crossLink "cc/mat4:method"}}cc.mat4{{/crossLink}}
-		@param m00 Component in column 0, row 0 position (index 0)
-		@param m01 Component in column 0, row 1 position (index 1)
-		@param m02 Component in column 0, row 2 position (index 2)
-		@param m03 Component in column 0, row 3 position (index 3)
-		@param m10 Component in column 1, row 0 position (index 4)
-		@param m11 Component in column 1, row 1 position (index 5)
-		@param m12 Component in column 1, row 2 position (index 6)
-		@param m13 Component in column 1, row 3 position (index 7)
-		@param m20 Component in column 2, row 0 position (index 8)
-		@param m21 Component in column 2, row 1 position (index 9)
-		@param m22 Component in column 2, row 2 position (index 10)
-		@param m23 Component in column 2, row 3 position (index 11)
-		@param m30 Component in column 3, row 0 position (index 12)
-		@param m31 Component in column 3, row 1 position (index 13)
-		@param m32 Component in column 3, row 2 position (index 14)
-		@param m33 Component in column 3, row 3 position (index 15) 
-		*/
-		constructor(m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number, m20: number, m21: number, m22: number, m23: number, m30: number, m31: number, m32: number, m33: number);		
-		/**
-		!#en clone a Mat4 object
-		!#zh 克隆一个 Mat4 对象 
-		*/
-		clone(): Mat4;		
-		/**
-		!#en Sets the matrix with another one's value
-		!#zh 用另一个矩阵设置这个矩阵的值。
-		@param srcObj srcObj 
-		*/
-		set(srcObj: Mat4): Mat4;		
-		/**
-		!#en Check whether two matrix equal
-		!#zh 当前的矩阵是否与指定的矩阵相等。
-		@param other other 
-		*/
-		equals(other: Mat4): boolean;		
-		/**
-		!#en Check whether two matrix equal with default degree of variance.
-		!#zh
-		近似判断两个矩阵是否相等。<br/>
-		判断 2 个矩阵是否在默认误差范围之内，如果在则返回 true，反之则返回 false。
-		@param other other 
-		*/
-		fuzzyEquals(other: Mat4): boolean;		
-		/**
-		!#en Transform to string with matrix informations
-		!#zh 转换为方便阅读的字符串。 
-		*/
-		toString(): string;		
-		/**
-		Set the matrix to the identity matrix 
-		*/
-		identity(): Mat4;		
-		/**
-		Transpose the values of a mat4
-		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created. 
-		*/
-		transpose(out?: Mat4): Mat4;		
-		/**
-		Inverts a mat4
-		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created. 
-		*/
-		invert(out?: Mat4): Mat4;		
-		/**
-		Calculates the adjugate of a mat4
-		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created. 
-		*/
-		adjoint(out?: Mat4): Mat4;		
-		/**
-		Calculates the determinant of a mat4 
-		*/
-		determinant(): number;		
-		/**
-		Adds two Mat4
-		@param other the second operand
-		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created. 
-		*/
-		add(other: Mat4, out?: Mat4): Mat4;		
-		/**
-		Subtracts the current matrix with another one
-		@param other the second operand
-		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created 
-		*/
-		sub(other: Mat4, out?: Mat4): Mat4;		
-		/**
-		Subtracts the current matrix with another one
-		@param other the second operand
-		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created 
-		*/
-		mul(other: Mat4, out?: Mat4): Mat4;		
-		/**
-		Multiply each element of the matrix by a scalar.
-		@param number amount to scale the matrix's elements by
-		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created 
-		*/
-		mulScalar(number: number, out?: Mat4): Mat4;		
-		/**
-		Translate a mat4 by the given vector
-		@param v vector to translate by
-		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created 
-		*/
-		translate(v: Vec3, out?: Mat4): Mat4;		
-		/**
-		Scales the mat4 by the dimensions in the given vec3
-		@param v vector to scale by
-		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created 
-		*/
-		scale(v: Vec3, out?: Mat4): Mat4;		
-		/**
-		Rotates a mat4 by the given angle around the given axis
-		@param rad the angle to rotate the matrix by
-		@param axis the axis to rotate around
-		@param out the receiving matrix, you can pass the same matrix to save result to itself, if not provided, a new matrix will be created 
-		*/
-		rotate(rad: number, axis: Vec3, out?: Mat4): Mat4;		
-		/**
-		Returns the translation vector component of a transformation matrix.
-		@param out Vector to receive translation component, if not provided, a new vec3 will be created 
-		*/
-		getTranslation(out: Vec3): Vec3;		
-		/**
-		Returns the scale factor component of a transformation matrix
-		@param out Vector to receive scale component, if not provided, a new vec3 will be created 
-		*/
-		getScale(out: Vec3): Vec3;		
-		/**
-		Returns the rotation factor component of a transformation matrix
-		@param out Vector to receive rotation component, if not provided, a new quaternion object will be created 
-		*/
-		getRotation(out: Quat): Quat;		
-		/**
-		Restore the matrix values from a quaternion rotation, vector translation and vector scale
-		@param q Rotation quaternion
-		@param v Translation vector
-		@param s Scaling vector 
-		*/
-		fromRTS(q: Quat, v: Vec3, s: Vec3): Mat4;		
-		/**
-		Restore the matrix values from a quaternion rotation
-		@param q Rotation quaternion 
-		*/
-		fromQuat(q: Quat): Mat4;		
-		/**
-		!#en The convenience method to create a new {{#crossLink "Mat4"}}cc.Mat4{{/crossLink}}.
-		!#zh 通过该简便的函数进行创建 {{#crossLink "Mat4"}}cc.Mat4{{/crossLink}} 对象。
-		@param m00 Component in column 0, row 0 position (index 0)
-		@param m01 Component in column 0, row 1 position (index 1)
-		@param m02 Component in column 0, row 2 position (index 2)
-		@param m03 Component in column 0, row 3 position (index 3)
-		@param m10 Component in column 1, row 0 position (index 4)
-		@param m11 Component in column 1, row 1 position (index 5)
-		@param m12 Component in column 1, row 2 position (index 6)
-		@param m13 Component in column 1, row 3 position (index 7)
-		@param m20 Component in column 2, row 0 position (index 8)
-		@param m21 Component in column 2, row 1 position (index 9)
-		@param m22 Component in column 2, row 2 position (index 10)
-		@param m23 Component in column 2, row 3 position (index 11)
-		@param m30 Component in column 3, row 0 position (index 12)
-		@param m31 Component in column 3, row 1 position (index 13)
-		@param m32 Component in column 3, row 2 position (index 14)
-		@param m33 Component in column 3, row 3 position (index 15) 
-		*/
-		mat4(m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number, m20: number, m21: number, m22: number, m23: number, m30: number, m31: number, m32: number, m33: number): Mat4;	
-	}	
-	/** !#en Representation of 2D vectors and points.
-	!#zh 表示 2D 向量和坐标 */
-	export class Quat extends ValueType {		
-		/**
-		!#en
-		Constructor
-		see {{#crossLink "cc/quat:method"}}cc.quat{{/crossLink}}
-		!#zh
-		构造函数，可查看 {{#crossLink "cc/quat:method"}}cc.quat{{/crossLink}}
-		@param x x
-		@param y y
-		@param z z
-		@param w w 
-		*/
-		constructor(x?: number, y?: number, z?: number, w?: number);		
-		x: number;		
-		y: number;		
-		z: number;		
-		w: number;		
-		/**
-		!#en clone a Quat object and return the new object
-		!#zh 克隆一个四元数并返回 
-		*/
-		clone(): Quat;		
-		/**
-		!#en Set values with another quaternion
-		!#zh 用另一个四元数的值设置到当前对象上。
-		@param newValue !#en new value to set. !#zh 要设置的新值 
-		*/
-		set(newValue: Quat): Quat;		
-		/**
-		!#en Check whether current quaternion equals another
-		!#zh 当前的四元数是否与指定的四元数相等。
-		@param other other 
-		*/
-		equals(other: Quat): boolean;		
-		/**
-		!#en Convert quaternion to euler
-		!#zh 转换四元数到欧拉角
-		@param out out 
-		*/
-		toEuler(out: Vec3): Vec3;		
-		/**
-		!#en Convert euler to quaternion
-		!#zh 转换欧拉角到四元数
-		@param euler euler 
-		*/
-		fromEuler(euler: Vec3): Quat;		
-		/**
-		!#en Calculate the interpolation result between this quaternion and another one with given ratio
-		!#zh 计算四元数的插值结果
-		@param to to
-		@param ratio ratio
-		@param out out 
-		*/
-		lerp(to: Quat, ratio: number, out: Quat): void;		
-		/**
-		!#en Calculate the multiply result between this quaternion and another one
-		!#zh 计算四元数乘积的结果
-		@param to to
-		@param ratio ratio
-		@param out out 
-		*/
-		lerp(to: Quat, ratio: number, out: Quat): void;		
-		/**
-		!#en The convenience method to create a new {{#crossLink "Quat"}}cc.Quat{{/crossLink}}.
-		!#zh 通过该简便的函数进行创建 {{#crossLink "Quat"}}cc.Quat{{/crossLink}} 对象。
-		@param x x
-		@param y y
-		@param z z
-		@param w w 
-		*/
-		quat(x?: number|any, y?: number, z?: number, w?: number): Quat;	
-	}	
-	/** !#en A 2D rectangle defined by x, y position and width, height.
-	!#zh 通过位置和宽高定义的 2D 矩形。 */
-	export class Rect extends ValueType {		
-		/**
-		!#en
-		Constructor of Rect class.
-		see {{#crossLink "cc/rect:method"}} cc.rect {{/crossLink}} for convenience method.
-		!#zh
-		Rect类的构造函数。可以通过 {{#crossLink "cc/rect:method"}} cc.rect {{/crossLink}} 简便方法进行创建。
-		@param x x
-		@param y y
-		@param w w
-		@param h h 
-		*/
-		constructor(x?: number, y?: number, w?: number, h?: number);		
-		x: number;		
-		y: number;		
-		width: number;		
-		height: number;		
-		/**
-		!#en Creates a rectangle from two coordinate values.
-		!#zh 根据指定 2 个坐标创建出一个矩形区域。
-		@param v1 v1
-		@param v2 v2
-		
-		@example 
-		```js
-		cc.Rect.fromMinMax(cc.v2(10, 10), cc.v2(20, 20)); // Rect {x: 10, y: 10, width: 10, height: 10};
-		``` 
-		*/
-		static fromMinMax(v1: Vec2, v2: Vec2): Rect;		
-		/**
-		!#en TODO
-		!#zh 克隆一个新的 Rect。
-		
-		@example 
-		```js
-		var a = new cc.Rect(0, 0, 10, 10);
-		a.clone();// Rect {x: 0, y: 0, width: 10, height: 10}
-		``` 
-		*/
-		clone(): Rect;		
-		/**
-		!#en TODO
-		!#zh 是否等于指定的矩形。
-		@param other other
-		
-		@example 
-		```js
-		var a = new cc.Rect(0, 0, 10, 10);
-		var b = new cc.Rect(0, 0, 10, 10);
-		a.equals(b);// true;
-		``` 
-		*/
-		equals(other: Rect): boolean;		
-		/**
-		!#en TODO
-		!#zh 线性插值
-		@param to to
-		@param ratio the interpolation coefficient.
-		@param out optional, the receiving vector.
-		
-		@example 
-		```js
-		var a = new cc.Rect(0, 0, 10, 10);
-		var b = new cc.Rect(50, 50, 100, 100);
-		update (dt) {
-		   // method 1;
-		   var c = a.lerp(b, dt * 0.1);
-		   // method 2;
-		   a.lerp(b, dt * 0.1, c);
-		}
-		``` 
-		*/
-		lerp(to: Rect, ratio: number, out?: Rect): Rect;		
-		/**
-		!#en Check whether the current rectangle intersects with the given one
-		!#zh 当前矩形与指定矩形是否相交。
-		@param rect rect
-		
-		@example 
-		```js
-		var a = new cc.Rect(0, 0, 10, 10);
-		var b = new cc.Rect(0, 0, 20, 20);
-		a.intersects(b);// true
-		``` 
-		*/
-		intersects(rect: Rect): boolean;		
-		/**
-		!#en Returns the overlapping portion of 2 rectangles.
-		!#zh 返回 2 个矩形重叠的部分。
-		@param out Stores the result
-		@param rectB rectB
-		
-		@example 
-		```js
-		var a = new cc.Rect(0, 10, 20, 20);
-		var b = new cc.Rect(0, 10, 10, 10);
-		var intersection = new cc.Rect();
-		a.intersection(intersection, b); // intersection {x: 0, y: 10, width: 10, height: 10};
-		``` 
-		*/
-		intersection(out: Rect, rectB: Rect): Rect;		
-		/**
-		!#en Check whether the current rect contains the given point
-		!#zh 当前矩形是否包含指定坐标点。
-		Returns true if the point inside this rectangle.
-		@param point point
-		
-		@example 
-		```js
-		var a = new cc.Rect(0, 0, 10, 10);
-		var b = new cc.Vec2(0, 5);
-		a.contains(b);// true
-		``` 
-		*/
-		contains(point: Vec2): boolean;		
-		/**
-		!#en Returns true if the other rect totally inside this rectangle.
-		!#zh 当前矩形是否包含指定矩形。
-		@param rect rect
-		
-		@example 
-		```js
-		var a = new cc.Rect(0, 0, 20, 20);
-		var b = new cc.Rect(0, 0, 10, 10);
-		a.containsRect(b);// true
-		``` 
-		*/
-		containsRect(rect: Rect): boolean;		
-		/**
-		!#en Returns the smallest rectangle that contains the current rect and the given rect.
-		!#zh 返回一个包含当前矩形和指定矩形的最小矩形。
-		@param out Stores the result
-		@param rectB rectB
-		
-		@example 
-		```js
-		var a = new cc.Rect(0, 10, 20, 20);
-		var b = new cc.Rect(0, 10, 10, 10);
-		var union = new cc.Rect();
-		a.union(union, b); // union {x: 0, y: 10, width: 20, height: 20};
-		``` 
-		*/
-		union(out: Rect, rectB: Rect): Rect;		
-		/**
-		!#en Apply matrix4 to the rect.
-		!#zh 使用 mat4 对矩形进行矩阵转换。
-		@param out The output rect
-		@param mat The matrix4 
-		*/
-		transformMat4(out: Rect, mat: Mat4): void;		
-		/**
-		!#en Output rect informations to string
-		!#zh 转换为方便阅读的字符串
-		
-		@example 
-		```js
-		var a = new cc.Rect(0, 0, 10, 10);
-		a.toString();// "(0.00, 0.00, 10.00, 10.00)";
-		``` 
-		*/
-		toString(): string;		
-		/** !#en The minimum x value, equals to rect.x
-		!#zh 矩形 x 轴上的最小值，等价于 rect.x。 */
-		xMin: number;		
-		/** !#en The minimum y value, equals to rect.y
-		!#zh 矩形 y 轴上的最小值。 */
-		yMin: number;		
-		/** !#en The maximum x value.
-		!#zh 矩形 x 轴上的最大值。 */
-		xMax: number;		
-		/** !#en The maximum y value.
-		!#zh 矩形 y 轴上的最大值。 */
-		yMax: number;		
-		/** !#en The position of the center of the rectangle.
-		!#zh 矩形的中心点。 */
-		center: Vec2;		
-		/** !#en The X and Y position of the rectangle.
-		!#zh 矩形的 x 和 y 坐标。 */
-		origin: Vec2;		
-		/** !#en Width and height of the rectangle.
-		!#zh 矩形的大小。 */
-		size: Size;	
-	}	
-	/** !#en
-	cc.Size is the class for size object,<br/>
-	please do not use its constructor to create sizes,<br/>
-	use {{#crossLink "cc/size:method"}}{{/crossLink}} alias function instead.<br/>
-	It will be deprecated soon, please use cc.Vec2 instead.
-	
-	!#zh
-	cc.Size 是 size 对象的类。<br/>
-	请不要使用它的构造函数创建的 size，<br/>
-	使用 {{#crossLink "cc/size:method"}}{{/crossLink}} 别名函数。<br/>
-	它不久将被取消，请使用cc.Vec2代替。 */
-	export class Size {		
-		/**
-		
-		@param width width
-		@param height height 
-		*/
-		constructor(width: number|Size, height?: number);		
-		width: number;		
-		height: number;		
-		/** !#en return a Size object with width = 0 and height = 0.
-		!#zh 返回一个宽度为 0 和高度为 0 的 Size 对象。 */
-		static ZERO: Size;		
-		/**
-		!#en TODO
-		!#zh 克隆 size 对象。
-		
-		@example 
-		```js
-		var a = new cc.size(10, 10);
-		a.clone();// return Size {width: 0, height: 0};
-		``` 
-		*/
-		clone(): Size;		
-		/**
-		!#en TODO
-		!#zh 当前 Size 对象是否等于指定 Size 对象。
-		@param other other
-		
-		@example 
-		```js
-		var a = new cc.size(10, 10);
-		a.equals(new cc.size(10, 10));// return true;
-		``` 
-		*/
-		equals(other: Size): boolean;		
-		/**
-		!#en TODO
-		!#zh 线性插值。
-		@param to to
-		@param ratio the interpolation coefficient.
-		@param out optional, the receiving vector.
-		
-		@example 
-		```js
-		var a = new cc.size(10, 10);
-		var b = new cc.rect(50, 50, 100, 100);
-		update (dt) {
-		   // method 1;
-		   var c = a.lerp(b, dt * 0.1);
-		   // method 2;
-		   a.lerp(b, dt * 0.1, c);
-		}
-		``` 
-		*/
-		lerp(to: Rect, ratio: number, out?: Size): Size;		
-		/**
-		!#en TODO
-		!#zh 转换为方便阅读的字符串。
-		
-		@example 
-		```js
-		var a = new cc.size(10, 10);
-		a.toString();// return "(10.00, 10.00)";
-		``` 
-		*/
-		toString(): string;	
-	}	
-	/** !#en The base class of all value types.
-	!#zh 所有值类型的基类。 */
-	export class ValueType {		
-		/**
-		!#en This method returns an exact copy of current value.
-		!#zh 克隆当前值，该方法返回一个新对象，新对象的值和原对象相等。 
-		*/
-		clone(): ValueType;		
-		/**
-		!#en Compares this object with the other one.
-		!#zh 当前对象是否等于指定对象。
-		@param other other 
-		*/
-		equals(other: ValueType): boolean;		
-		/**
-		!#en
-		Linearly interpolates between this value to to value by ratio which is in the range [0, 1].
-		When ratio = 0 returns this. When ratio = 1 return to. When ratio = 0.5 returns the average of this and to.
-		!#zh
-		线性插值。<br/>
-		当 ratio = 0 时返回自身，ratio = 1 时返回目标，ratio = 0.5 返回自身和目标的平均值。。
-		@param to the to value
-		@param ratio the interpolation coefficient 
-		*/
-		lerp(to: ValueType, ratio: number): ValueType;		
-		/**
-		!#en
-		Copys all the properties from another given object to this value.
-		!#zh
-		从其它对象把所有属性复制到当前对象。
-		@param source the source to copy 
-		*/
-		set(source: ValueType): void;		
-		/**
-		!#en TODO
-		!#zh 转换为方便阅读的字符串。 
-		*/
-		toString(): string;	
-	}	
-	/** !#en Representation of 2D vectors and points.
-	!#zh 表示 2D 向量和坐标 */
-	export class Vec2 extends ValueType {		
-		/**
-		!#en
-		Constructor
-		see {{#crossLink "cc/vec2:method"}}cc.v2{{/crossLink}} or {{#crossLink "cc/p:method"}}cc.p{{/crossLink}}
-		!#zh
-		构造函数，可查看 {{#crossLink "cc/vec2:method"}}cc.v2{{/crossLink}} 或者 {{#crossLink "cc/p:method"}}cc.p{{/crossLink}}
-		@param x x
-		@param y y 
-		*/
-		constructor(x?: number, y?: number);		
-		x: number;		
-		y: number;		
-		/**
-		!#en clone a Vec2 object
-		!#zh 克隆一个 Vec2 对象 
-		*/
-		clone(): Vec2;		
-		/**
-		!#en Sets vector with another's value
-		!#zh 设置向量值。
-		@param newValue !#en new value to set. !#zh 要设置的新值 
-		*/
-		set(newValue: Vec2): Vec2;		
-		/**
-		!#en Check whether two vector equal
-		!#zh 当前的向量是否与指定的向量相等。
-		@param other other 
-		*/
-		equals(other: Vec2): boolean;		
-		/**
-		!#en Check whether two vector equal with some degree of variance.
-		!#zh
-		近似判断两个点是否相等。<br/>
-		判断 2 个向量是否在指定数值的范围之内，如果在则返回 true，反之则返回 false。
-		@param other other
-		@param variance variance 
-		*/
-		fuzzyEquals(other: Vec2, variance: number): boolean;		
-		/**
-		!#en Transform to string with vector informations
-		!#zh 转换为方便阅读的字符串。 
-		*/
-		toString(): string;		
-		/**
-		!#en Calculate linear interpolation result between this vector and another one with given ratio
-		!#zh 线性插值。
-		@param to to
-		@param ratio the interpolation coefficient
-		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created 
-		*/
-		lerp(to: Vec2, ratio: number, out?: Vec2): Vec2;		
-		/**
-		!#en Clamp the vector between from float and to float.
-		!#zh
-		返回指定限制区域后的向量。<br/>
-		向量大于 max_inclusive 则返回 max_inclusive。<br/>
-		向量小于 min_inclusive 则返回 min_inclusive。<br/>
-		否则返回自身。
-		@param min_inclusive min_inclusive
-		@param max_inclusive max_inclusive
-		
-		@example 
-		```js
-		var min_inclusive = cc.v2(0, 0);
-		var max_inclusive = cc.v2(20, 20);
-		var v1 = cc.v2(20, 20).clampf(min_inclusive, max_inclusive); // Vec2 {x: 20, y: 20};
-		var v2 = cc.v2(0, 0).clampf(min_inclusive, max_inclusive);   // Vec2 {x: 0, y: 0};
-		var v3 = cc.v2(10, 10).clampf(min_inclusive, max_inclusive); // Vec2 {x: 10, y: 10};
-		``` 
-		*/
-		clampf(min_inclusive: Vec2, max_inclusive: Vec2): Vec2;		
-		/**
-		!#en Adds this vector. If you want to save result to another vector, use add() instead.
-		!#zh 向量加法。如果你想保存结果到另一个向量，使用 add() 代替。
-		@param vector vector
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.addSelf(cc.v2(5, 5));// return Vec2 {x: 15, y: 15};
-		``` 
-		*/
-		addSelf(vector: Vec2): Vec2;		
-		/**
-		!#en Adds two vectors, and returns the new result.
-		!#zh 向量加法，并返回新结果。
-		@param vector vector
-		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.add(cc.v2(5, 5));      // return Vec2 {x: 15, y: 15};
-		var v1;
-		v.add(cc.v2(5, 5), v1);  // return Vec2 {x: 15, y: 15};
-		``` 
-		*/
-		add(vector: Vec2, out?: Vec2): Vec2;		
-		/**
-		!#en Subtracts one vector from this. If you want to save result to another vector, use sub() instead.
-		!#zh 向量减法。如果你想保存结果到另一个向量，可使用 sub() 代替。
-		@param vector vector
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.subSelf(cc.v2(5, 5));// return Vec2 {x: 5, y: 5};
-		``` 
-		*/
-		subSelf(vector: Vec2): Vec2;		
-		/**
-		!#en Subtracts one vector from this, and returns the new result.
-		!#zh 向量减法，并返回新结果。
-		@param vector vector
-		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.sub(cc.v2(5, 5));      // return Vec2 {x: 5, y: 5};
-		var v1;
-		v.sub(cc.v2(5, 5), v1);  // return Vec2 {x: 5, y: 5};
-		``` 
-		*/
-		sub(vector: Vec2, out?: Vec2): Vec2;		
-		/**
-		!#en Multiplies this by a number. If you want to save result to another vector, use mul() instead.
-		!#zh 缩放当前向量。如果你想结果保存到另一个向量，可使用 mul() 代替。
-		@param num num
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.mulSelf(5);// return Vec2 {x: 50, y: 50};
-		``` 
-		*/
-		mulSelf(num: number): Vec2;		
-		/**
-		!#en Multiplies by a number, and returns the new result.
-		!#zh 缩放向量，并返回新结果。
-		@param num num
-		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.mul(5);      // return Vec2 {x: 50, y: 50};
-		var v1;
-		v.mul(5, v1);  // return Vec2 {x: 50, y: 50};
-		``` 
-		*/
-		mul(num: number, out?: Vec2): Vec2;		
-		/**
-		!#en Multiplies two vectors.
-		!#zh 分量相乘。
-		@param vector vector
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.scaleSelf(cc.v2(5, 5));// return Vec2 {x: 50, y: 50};
-		``` 
-		*/
-		scaleSelf(vector: Vec2): Vec2;		
-		/**
-		!#en Multiplies two vectors, and returns the new result.
-		!#zh 分量相乘，并返回新的结果。
-		@param vector vector
-		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.scale(cc.v2(5, 5));      // return Vec2 {x: 50, y: 50};
-		var v1;
-		v.scale(cc.v2(5, 5), v1);  // return Vec2 {x: 50, y: 50};
-		``` 
-		*/
-		scale(vector: Vec2, out?: Vec2): Vec2;		
-		/**
-		!#en Divides by a number. If you want to save result to another vector, use div() instead.
-		!#zh 向量除法。如果你想结果保存到另一个向量，可使用 div() 代替。
-		@param divisor divisor
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.divSelf(5); // return Vec2 {x: 2, y: 2};
-		``` 
-		*/
-		divSelf(divisor: number): Vec2;		
-		/**
-		!#en Divides by a number, and returns the new result.
-		!#zh 向量除法，并返回新的结果。
-		@param divisor divisor
-		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.div(5);      // return Vec2 {x: 2, y: 2};
-		var v1;
-		v.div(5, v1);  // return Vec2 {x: 2, y: 2};
-		``` 
-		*/
-		div(divisor: Vec2, out?: Vec2): Vec2;		
-		/**
-		!#en Negates the components. If you want to save result to another vector, use neg() instead.
-		!#zh 向量取反。如果你想结果保存到另一个向量，可使用 neg() 代替。
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.negSelf(); // return Vec2 {x: -10, y: -10};
-		``` 
-		*/
-		negSelf(): Vec2;		
-		/**
-		!#en Negates the components, and returns the new result.
-		!#zh 返回取反后的新向量。
-		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		var v1;
-		v.neg(v1);  // return Vec2 {x: -10, y: -10};
-		``` 
-		*/
-		neg(out?: Vec2): Vec2;		
-		/**
-		!#en Dot product
-		!#zh 当前向量与指定向量进行点乘。
-		@param vector vector
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.dot(cc.v2(5, 5)); // return 100;
-		``` 
-		*/
-		dot(vector?: Vec2): number;		
-		/**
-		!#en Cross product
-		!#zh 当前向量与指定向量进行叉乘。
-		@param vector vector
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.cross(cc.v2(5, 5)); // return 0;
-		``` 
-		*/
-		cross(vector?: Vec2): number;		
-		/**
-		!#en Returns the length of this vector.
-		!#zh 返回该向量的长度。
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.mag(); // return 14.142135623730951;
-		``` 
-		*/
-		mag(): number;		
-		/**
-		!#en Returns the squared length of this vector.
-		!#zh 返回该向量的长度平方。
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.magSqr(); // return 200;
-		``` 
-		*/
-		magSqr(): number;		
-		/**
-		!#en Make the length of this vector to 1.
-		!#zh 向量归一化，让这个向量的长度为 1。
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.normalizeSelf(); // return Vec2 {x: 0.7071067811865475, y: 0.7071067811865475};
-		``` 
-		*/
-		normalizeSelf(): Vec2;		
-		/**
-		!#en
-		Returns this vector with a magnitude of 1.<br/>
-		<br/>
-		Note that the current vector is unchanged and a new normalized vector is returned. If you want to normalize the current vector, use normalizeSelf function.
-		!#zh
-		返回归一化后的向量。<br/>
-		<br/>
-		注意，当前向量不变，并返回一个新的归一化向量。如果你想来归一化当前向量，可使用 normalizeSelf 函数。
-		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created 
-		*/
-		normalize(out?: Vec2): Vec2;		
-		/**
-		!#en Get angle in radian between this and vector.
-		!#zh 夹角的弧度。
-		@param vector vector 
-		*/
-		angle(vector: Vec2): number;		
-		/**
-		!#en Get angle in radian between this and vector with direction.
-		!#zh 带方向的夹角的弧度。
-		@param vector vector 
-		*/
-		signAngle(vector: Vec2): number;		
-		/**
-		!#en rotate
-		!#zh 返回旋转给定弧度后的新向量。
-		@param radians radians
-		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created 
-		*/
-		rotate(radians: number, out?: Vec2): Vec2;		
-		/**
-		!#en rotate self
-		!#zh 按指定弧度旋转向量。
-		@param radians radians 
-		*/
-		rotateSelf(radians: number): Vec2;		
-		/**
-		!#en Calculates the projection of the current vector over the given vector.
-		!#zh 返回当前向量在指定 vector 向量上的投影向量。
-		@param vector vector
-		
-		@example 
-		```js
-		var v1 = cc.v2(20, 20);
-		var v2 = cc.v2(5, 5);
-		v1.project(v2); // Vec2 {x: 20, y: 20};
-		``` 
-		*/
-		project(vector: Vec2): Vec2;		
-		/**
-		Transforms the vec2 with a mat4. 3rd vector component is implicitly '0', 4th vector component is implicitly '1'
-		@param m matrix to transform with
-		@param out the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created 
-		*/
-		transformMat4(m: (m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number, m20: number, m21: number, m22: number, m23: number, m30: number, m31: number, m32: number, m33: number) => void, out?: Vec2): Vec2;		
-		/** !#en return a Vec2 object with x = 1 and y = 1.
-		!#zh 新 Vec2 对象。 */
-		static ONE: Vec2;		
-		/** !#en return a Vec2 object with x = 0 and y = 0.
-		!#zh 返回 x = 0 和 y = 0 的 Vec2 对象。 */
-		static ZERO: Vec2;		
-		/** !#en return a Vec2 object with x = 0 and y = 1.
-		!#zh 返回 x = 0 和 y = 1 的 Vec2 对象。 */
-		static UP: Vec2;		
-		/** !#en return a Vec2 object with x = 1 and y = 0.
-		!#zh 返回 x = 1 和 y = 0 的 Vec2 对象。 */
-		static RIGHT: Vec2;	
-	}	
-	/** !#en Representation of 3D vectors and points.
-	!#zh 表示 3D 向量和坐标 */
-	export class Vec3 extends ValueType {		
-		/**
-		!#en
-		Constructor
-		see {{#crossLink "cc/vec3:method"}}cc.v3{{/crossLink}}
-		!#zh
-		构造函数，可查看 {{#crossLink "cc/vec3:method"}}cc.v3{{/crossLink}}
-		@param x x
-		@param y y
-		@param z z 
-		*/
-		constructor(x?: number, y?: number, z?: number);		
-		x: number;		
-		y: number;		
-		z: number;		
-		/**
-		!#en clone a Vec3 value
-		!#zh 克隆一个 Vec3 值 
-		*/
-		clone(): Vec3;		
-		/**
-		!#en Set the current vector value with the given vector.
-		!#zh 用另一个向量设置当前的向量对象值。
-		@param newValue !#en new value to set. !#zh 要设置的新值 
-		*/
-		set(newValue: Vec3): Vec3;		
-		/**
-		!#en Check whether the vector equals another one
-		!#zh 当前的向量是否与指定的向量相等。
-		@param other other 
-		*/
-		equals(other: Vec3): boolean;		
-		/**
-		!#en Check whether two vector equal with some degree of variance.
-		!#zh
-		近似判断两个点是否相等。<br/>
-		判断 2 个向量是否在指定数值的范围之内，如果在则返回 true，反之则返回 false。
-		@param other other
-		@param variance variance 
-		*/
-		fuzzyEquals(other: Vec3, variance: number): boolean;		
-		/**
-		!#en Transform to string with vector informations
-		!#zh 转换为方便阅读的字符串。 
-		*/
-		toString(): string;		
-		/**
-		!#en Calculate linear interpolation result between this vector and another one with given ratio
-		!#zh 线性插值。
-		@param to to
-		@param ratio the interpolation coefficient
-		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
-		*/
-		lerp(to: Vec3, ratio: number, out?: Vec3): Vec3;		
-		/**
-		!#en Clamp the vector between from float and to float.
-		!#zh
-		返回指定限制区域后的向量。<br/>
-		向量大于 max_inclusive 则返回 max_inclusive。<br/>
-		向量小于 min_inclusive 则返回 min_inclusive。<br/>
-		否则返回自身。
-		@param min_inclusive min_inclusive
-		@param max_inclusive max_inclusive 
-		*/
-		clampf(min_inclusive: Vec3, max_inclusive: Vec3): Vec3;		
-		/**
-		!#en Adds this vector. If you want to save result to another vector, use add() instead.
-		!#zh 向量加法。如果你想保存结果到另一个向量，使用 add() 代替。
-		@param vector vector 
-		*/
-		addSelf(vector: Vec3): Vec3;		
-		/**
-		!#en Adds two vectors, and returns the new result.
-		!#zh 向量加法，并返回新结果。
-		@param vector vector
-		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
-		*/
-		add(vector: Vec3, out?: Vec3): Vec3;		
-		/**
-		!#en Subtracts one vector from this. If you want to save result to another vector, use sub() instead.
-		!#zh 向量减法。如果你想保存结果到另一个向量，可使用 sub() 代替。
-		@param vector vector 
-		*/
-		subSelf(vector: Vec3): Vec3;		
-		/**
-		!#en Subtracts one vector from this, and returns the new result.
-		!#zh 向量减法，并返回新结果。
-		@param vector vector
-		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
-		*/
-		sub(vector: Vec3, out?: Vec3): Vec3;		
-		/**
-		!#en Multiplies this by a number. If you want to save result to another vector, use mul() instead.
-		!#zh 缩放当前向量。如果你想结果保存到另一个向量，可使用 mul() 代替。
-		@param num num 
-		*/
-		mulSelf(num: number): Vec3;		
-		/**
-		!#en Multiplies by a number, and returns the new result.
-		!#zh 缩放向量，并返回新结果。
-		@param num num
-		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
-		*/
-		mul(num: number, out?: Vec3): Vec3;		
-		/**
-		!#en Multiplies two vectors.
-		!#zh 分量相乘。
-		@param vector vector 
-		*/
-		scaleSelf(vector: Vec3): Vec3;		
-		/**
-		!#en Multiplies two vectors, and returns the new result.
-		!#zh 分量相乘，并返回新的结果。
-		@param vector vector
-		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
-		*/
-		scale(vector: Vec3, out?: Vec3): Vec3;		
-		/**
-		!#en Divides by a number. If you want to save result to another vector, use div() instead.
-		!#zh 向量除法。如果你想结果保存到另一个向量，可使用 div() 代替。
-		@param divisor divisor 
-		*/
-		divSelf(divisor: number): Vec3;		
-		/**
-		!#en Divides by a number, and returns the new result.
-		!#zh 向量除法，并返回新的结果。
-		@param vector vector
-		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
-		*/
-		div(vector: Vec3, out?: Vec3): Vec3;		
-		/**
-		!#en Negates the components. If you want to save result to another vector, use neg() instead.
-		!#zh 向量取反。如果你想结果保存到另一个向量，可使用 neg() 代替。 
-		*/
-		negSelf(): Vec3;		
-		/**
-		!#en Negates the components, and returns the new result.
-		!#zh 返回取反后的新向量。
-		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
-		*/
-		neg(out?: Vec3): Vec3;		
-		/**
-		!#en Dot product
-		!#zh 当前向量与指定向量进行点乘。
-		@param vector vector 
-		*/
-		dot(vector?: Vec3): number;		
-		/**
-		!#en Cross product
-		!#zh 当前向量与指定向量进行叉乘。
-		@param vector vector
-		@param out out 
-		*/
-		cross(vector: Vec3, out?: Vec3): Vec3;		
-		/**
-		!#en Returns the length of this vector.
-		!#zh 返回该向量的长度。
-		
-		@example 
-		```js
-		var v = cc.v2(10, 10);
-		v.mag(); // return 14.142135623730951;
-		``` 
-		*/
-		mag(): number;		
-		/**
-		!#en Returns the squared length of this vector.
-		!#zh 返回该向量的长度平方。 
-		*/
-		magSqr(): number;		
-		/**
-		!#en Make the length of this vector to 1.
-		!#zh 向量归一化，让这个向量的长度为 1。 
-		*/
-		normalizeSelf(): Vec3;		
-		/**
-		!#en
-		Returns this vector with a magnitude of 1.<br/>
-		<br/>
-		Note that the current vector is unchanged and a new normalized vector is returned. If you want to normalize the current vector, use normalizeSelf function.
-		!#zh
-		返回归一化后的向量。<br/>
-		<br/>
-		注意，当前向量不变，并返回一个新的归一化向量。如果你想来归一化当前向量，可使用 normalizeSelf 函数。
-		@param out optional, the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
-		*/
-		normalize(out?: Vec3): Vec3;		
-		/**
-		Transforms the vec3 with a mat4. 4th vector component is implicitly '1'
-		@param m matrix to transform with
-		@param out the receiving vector, you can pass the same vec3 to save result to itself, if not provided, a new vec3 will be created 
-		*/
-		transformMat4(m: (m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number, m20: number, m21: number, m22: number, m23: number, m30: number, m31: number, m32: number, m33: number) => void, out?: Vec3): Vec3;		
-		/**
-		!#en Get angle in radian between this and vector.
-		!#zh 夹角的弧度。
-		@param vector vector 
-		*/
-		angle(vector: Vec3): number;		
-		/**
-		!#en Calculates the projection of the current vector over the given vector.
-		!#zh 返回当前向量在指定 vector 向量上的投影向量。
-		@param vector vector
-		
-		@example 
-		```js
-		var v1 = cc.v3(20, 20, 20);
-		var v2 = cc.v3(5, 5, 5);
-		v1.project(v2); // Vec3 {x: 20, y: 20, z: 20};
-		``` 
-		*/
-		project(vector: Vec3): Vec3;		
-		/**
-		!#en Get angle in radian between this and vector with direction. <br/>
-		In order to compatible with the vec2 API.
-		!#zh 带方向的夹角的弧度。该方法仅用做兼容 2D 计算。
-		@param vector vector 
-		*/
-		signAngle(vector: Vec3 | Vec2): number;		
-		/**
-		!#en rotate. In order to compatible with the vec2 API.
-		!#zh 返回旋转给定弧度后的新向量。该方法仅用做兼容 2D 计算。
-		@param radians radians
-		@param out optional, the receiving vector, you can pass the same vec2 to save result to itself, if not provided, a new vec2 will be created 
-		*/
-		rotate(radians: number, out?: Vec3): Vec2 ;		
-		/**
-		!#en rotate self. In order to compatible with the vec2 API.
-		!#zh 按指定弧度旋转向量。该方法仅用做兼容 2D 计算。
-		@param radians radians 
-		*/
-		rotateSelf(radians: number): Vec3;		
-		/** !#en return a Vec3 object with x = 1, y = 1, z = 1.
-		!#zh 新 Vec3 对象。 */
-		static ONE: Vec3;		
-		/** !#en return a Vec3 object with x = 0, y = 0, z = 0.
-		!#zh 返回 x = 0，y = 0，z = 0 的 Vec3 对象。 */
-		static ZERO: Vec3;		
-		/** !#en return a Vec3 object with x = 0, y = 1, z = 0.
-		!#zh 返回 x = 0, y = 1, z = 0 的 Vec3 对象。 */
-		static UP: Vec3;		
-		/** !#en return a Vec3 object with x = 1, y = 0, z = 0.
-		!#zh 返回 x = 1，y = 0，z = 0 的 Vec3 对象。 */
-		static RIGHT: Vec3;		
-		/** !#en return a Vec3 object with x = 0, y = 0, z = 1.
-		!#zh 返回 x = 0，y = 0，z = 1 的 Vec3 对象。 */
-		static FRONT: Vec3;		
-		/**
-		!#en The convenience method to create a new {{#crossLink "Vec3"}}cc.Vec3{{/crossLink}}.
-		!#zh 通过该简便的函数进行创建 {{#crossLink "Vec3"}}cc.Vec3{{/crossLink}} 对象。
-		@param x x
-		@param y y
-		@param z z
-		
-		@example 
-		```js
-		var v1 = cc.v3();
-		var v2 = cc.v3(0, 0, 0);
-		var v3 = cc.v3(v2);
-		var v4 = cc.v3({x: 100, y: 100, z: 0});
-		``` 
-		*/
-		v3(x?: number|any, y?: number, z?: number): Vec3;	
-	}	
-	/** !#en Representation of 3D vectors and points.
-	!#zh 表示 3D 向量和坐标 */
-	export class Vec4 extends ValueType {		
-		/**
-		!#en
-		Constructor
-		see {{#crossLink "cc/vec4:method"}}cc.v4{{/crossLink}}
-		!#zh
-		构造函数，可查看 {{#crossLink "cc/vec4:method"}}cc.v4{{/crossLink}}
-		@param x x
-		@param y y
-		@param z z
-		@param w w 
-		*/
-		constructor(x?: number, y?: number, z?: number, w?: number);		
-		x: number;		
-		y: number;		
-		z: number;		
-		z: number;		
-		/**
-		!#en clone a Vec4 value
-		!#zh 克隆一个 Vec4 值 
-		*/
-		clone(): Vec4;		
-		/**
-		!#en Set the current vector value with the given vector.
-		!#zh 用另一个向量设置当前的向量对象值。
-		@param newValue !#en new value to set. !#zh 要设置的新值 
-		*/
-		set(newValue: Vec4): Vec4;		
-		/**
-		!#en Check whether the vector equals another one
-		!#zh 当前的向量是否与指定的向量相等。
-		@param other other 
-		*/
-		equals(other: Vec4): boolean;		
-		/**
-		!#en Check whether two vector equal with some degree of variance.
-		!#zh
-		近似判断两个点是否相等。<br/>
-		判断 2 个向量是否在指定数值的范围之内，如果在则返回 true，反之则返回 false。
-		@param other other
-		@param variance variance 
-		*/
-		fuzzyEquals(other: Vec4, variance: number): boolean;		
-		/**
-		!#en Transform to string with vector informations
-		!#zh 转换为方便阅读的字符串。 
-		*/
-		toString(): string;		
-		/**
-		!#en Calculate linear interpolation result between this vector and another one with given ratio
-		!#zh 线性插值。
-		@param to to
-		@param ratio the interpolation coefficient
-		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
-		*/
-		lerp(to: Vec4, ratio: number, out?: Vec4): Vec4;		
-		/**
-		!#en Clamp the vector between from float and to float.
-		!#zh
-		返回指定限制区域后的向量。<br/>
-		向量大于 max_inclusive 则返回 max_inclusive。<br/>
-		向量小于 min_inclusive 则返回 min_inclusive。<br/>
-		否则返回自身。
-		@param min_inclusive min_inclusive
-		@param max_inclusive max_inclusive 
-		*/
-		clampf(min_inclusive: Vec4, max_inclusive: Vec4): Vec4;		
-		/**
-		!#en Adds this vector. If you want to save result to another vector, use add() instead.
-		!#zh 向量加法。如果你想保存结果到另一个向量，使用 add() 代替。
-		@param vector vector 
-		*/
-		addSelf(vector: Vec4): Vec4;		
-		/**
-		!#en Adds two vectors, and returns the new result.
-		!#zh 向量加法，并返回新结果。
-		@param vector vector
-		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
-		*/
-		add(vector: Vec4, out?: Vec4): Vec4;		
-		/**
-		!#en Subtracts one vector from this. If you want to save result to another vector, use sub() instead.
-		!#zh 向量减法。如果你想保存结果到另一个向量，可使用 sub() 代替。
-		@param vector vector 
-		*/
-		subSelf(vector: Vec4): Vec4;		
-		/**
-		!#en Subtracts one vector from this, and returns the new result.
-		!#zh 向量减法，并返回新结果。
-		@param vector vector
-		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
-		*/
-		sub(vector: Vec4, out?: Vec4): Vec4;		
-		/**
-		!#en Multiplies this by a number. If you want to save result to another vector, use mul() instead.
-		!#zh 缩放当前向量。如果你想结果保存到另一个向量，可使用 mul() 代替。
-		@param num num 
-		*/
-		mulSelf(num: number): Vec4;		
-		/**
-		!#en Multiplies by a number, and returns the new result.
-		!#zh 缩放向量，并返回新结果。
-		@param num num
-		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
-		*/
-		mul(num: number, out?: Vec4): Vec4;		
-		/**
-		!#en Multiplies two vectors.
-		!#zh 分量相乘。
-		@param vector vector 
-		*/
-		scaleSelf(vector: Vec4): Vec4;		
-		/**
-		!#en Multiplies two vectors, and returns the new result.
-		!#zh 分量相乘，并返回新的结果。
-		@param vector vector
-		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
-		*/
-		scale(vector: Vec4, out?: Vec4): Vec4;		
-		/**
-		!#en Divides by a number. If you want to save result to another vector, use div() instead.
-		!#zh 向量除法。如果你想结果保存到另一个向量，可使用 div() 代替。
-		@param vector vector 
-		*/
-		divSelf(vector: Vec4): Vec4;		
-		/**
-		!#en Divides by a number, and returns the new result.
-		!#zh 向量除法，并返回新的结果。
-		@param vector vector
-		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
-		*/
-		div(vector: Vec4, out?: Vec4): Vec4;		
-		/**
-		!#en Negates the components. If you want to save result to another vector, use neg() instead.
-		!#zh 向量取反。如果你想结果保存到另一个向量，可使用 neg() 代替。 
-		*/
-		negSelf(): Vec4;		
-		/**
-		!#en Negates the components, and returns the new result.
-		!#zh 返回取反后的新向量。
-		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
-		*/
-		neg(out?: Vec4): Vec4;		
-		/**
-		!#en Dot product
-		!#zh 当前向量与指定向量进行点乘。
-		@param vector vector 
-		*/
-		dot(vector?: Vec4): number;		
-		/**
-		!#en Cross product
-		!#zh 当前向量与指定向量进行叉乘。
-		@param vector vector
-		@param out out 
-		*/
-		cross(vector: Vec4, out?: Vec4): Vec4;		
-		/**
-		!#en Returns the length of this vector.
-		!#zh 返回该向量的长度。
-		
-		@example 
-		```js
-		var v = cc.v4(10, 10);
-		v.mag(); // return 14.142135623730951;
-		``` 
-		*/
-		mag(): number;		
-		/**
-		!#en Returns the squared length of this vector.
-		!#zh 返回该向量的长度平方。 
-		*/
-		magSqr(): number;		
-		/**
-		!#en Make the length of this vector to 1.
-		!#zh 向量归一化，让这个向量的长度为 1。 
-		*/
-		normalizeSelf(): Vec4;		
-		/**
-		!#en
-		Returns this vector with a magnitude of 1.<br/>
-		<br/>
-		Note that the current vector is unchanged and a new normalized vector is returned. If you want to normalize the current vector, use normalizeSelf function.
-		!#zh
-		返回归一化后的向量。<br/>
-		<br/>
-		注意，当前向量不变，并返回一个新的归一化向量。如果你想来归一化当前向量，可使用 normalizeSelf 函数。
-		@param out optional, the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
-		*/
-		normalize(out?: Vec4): Vec4;		
-		/**
-		Transforms the vec4 with a mat4. 4th vector component is implicitly '1'
-		@param m matrix to transform with
-		@param out the receiving vector, you can pass the same vec4 to save result to itself, if not provided, a new vec4 will be created 
-		*/
-		transformMat4(m: (m00: number, m01: number, m02: number, m03: number, m10: number, m11: number, m12: number, m13: number, m20: number, m21: number, m22: number, m23: number, m30: number, m31: number, m32: number, m33: number) => void, out?: vec4): vec4;		
-		/**
-		!#en The convenience method to create a new {{#crossLink "Vec4"}}cc.Vec4{{/crossLink}}.
-		!#zh 通过该简便的函数进行创建 {{#crossLink "Vec4"}}cc.Vec4{{/crossLink}} 对象。
-		@param x x
-		@param y y
-		@param z z
-		
-		@example 
-		```js
-		var v1 = cc.v4();
-		var v2 = cc.v4(0, 0, 0);
-		var v3 = cc.v4(v2);
-		var v4 = cc.v4({x: 100, y: 100, z: 0});
-		``` 
-		*/
-		v4(x?: number|any, y?: number, z?: number): Vec4;	
+	ES5 Map 辅助类。 */
+	export class MapUtils {	
 	}	
 	/** !#en .
 	!#zh 。 */
@@ -13422,9 +15227,139 @@ declare namespace cc {
 		骨骼根节点 */
 		rootBone: Node;	
 	}	
+	/** !#en Effect Asset.
+	!#zh Effect 资源类型。 */
+	export class EffectAsset extends Asset {	
+	}	
 	/** !#en Material Asset.
 	!#zh 材质资源类。 */
-	export class Material extends Asset {	
+	export class Material extends Asset {		
+		/**
+		!#en Get built-in materials
+		!#zh 获取内置材质
+		@param name name 
+		*/
+		static getBuiltinMaterial(name: string): Material;		
+		/**
+		!#en Creates a Material with builtin Effect.
+		!#zh 使用内建 Effect 创建一个材质。
+		@param effectName effectName
+		@param techniqueIndex techniqueIndex 
+		*/
+		static createWithBuiltin(effectName: string, techniqueIndex?: number): Material;		
+		/**
+		!#en Creates a Material.
+		!#zh 创建一个材质。
+		@param effectAsset effectAsset
+		@param techniqueIndex techniqueIndex 
+		*/
+		static create(effectAsset: EffectAsset, techniqueIndex?: number): Material;		
+		/**
+		!#en Sets the Material property
+		!#zh 设置材质的属性
+		@param name name
+		@param val val
+		@param passIdx passIdx
+		@param directly directly 
+		*/
+		setProperty(name: string, val: any, passIdx?: number, directly?: boolean): void;		
+		/**
+		!#en Gets the Material property.
+		!#zh 获取材质的属性。
+		@param name name
+		@param passIdx passIdx 
+		*/
+		getProperty(name: string, passIdx: number): any;		
+		/**
+		!#en Sets the Material define.
+		!#zh 设置材质的宏定义。
+		@param name name
+		@param val val
+		@param passIdx passIdx
+		@param force force 
+		*/
+		define(name: string, val: boolean|number, passIdx?: number, force?: boolean): void;		
+		/**
+		!#en Gets the Material define.
+		!#zh 获取材质的宏定义。
+		@param name name
+		@param passIdx passIdx 
+		*/
+		getDefine(name: string, passIdx?: number): boolean;		
+		/**
+		!#en Sets the Material cull mode.
+		!#zh 设置材质的裁减模式。
+		@param cullMode cullMode
+		@param passIdx passIdx 
+		*/
+		setCullMode(cullMode: number, passIdx: number): void;		
+		/**
+		!#en Sets the Material depth states.
+		!#zh 设置材质的深度渲染状态。
+		@param depthTest depthTest
+		@param depthWrite depthWrite
+		@param depthFunc depthFunc
+		@param passIdx passIdx 
+		*/
+		setDepth(depthTest: boolean, depthWrite: boolean, depthFunc: number, passIdx: number): void;		
+		/**
+		!#en Sets the Material blend states.
+		!#zh 设置材质的混合渲染状态。
+		@param enabled enabled
+		@param blendEq blendEq
+		@param blendSrc blendSrc
+		@param blendDst blendDst
+		@param blendAlphaEq blendAlphaEq
+		@param blendSrcAlpha blendSrcAlpha
+		@param blendDstAlpha blendDstAlpha
+		@param blendColor blendColor
+		@param passIdx passIdx 
+		*/
+		setBlend(enabled: boolean, blendEq: number, blendSrc: number, blendDst: number, blendAlphaEq: number, blendSrcAlpha: number, blendDstAlpha: number, blendColor: number, passIdx: number): void;		
+		/**
+		!#en Sets whether enable the stencil test.
+		!#zh 设置是否开启模板测试。
+		@param stencilTest stencilTest
+		@param passIdx passIdx 
+		*/
+		setStencilEnabled(stencilTest: number, passIdx: number): void;		
+		/**
+		!#en Sets the Material stencil render states.
+		!#zh 设置材质的模板测试渲染参数。
+		@param stencilTest stencilTest
+		@param stencilFunc stencilFunc
+		@param stencilRef stencilRef
+		@param stencilMask stencilMask
+		@param stencilFailOp stencilFailOp
+		@param stencilZFailOp stencilZFailOp
+		@param stencilZPassOp stencilZPassOp
+		@param stencilWriteMask stencilWriteMask
+		@param passIdx passIdx 
+		*/
+		setStencil(stencilTest: number, stencilFunc: number, stencilRef: number, stencilMask: number, stencilFailOp: number, stencilZFailOp: number, stencilZPassOp: number, stencilWriteMask: number, passIdx: number): void;	
+	}	
+	/** !#en
+	Material Variant is an extension of the Material Asset.
+	Changes to Material Variant do not affect other Material Variant or Material Asset,
+	and changes to Material Asset are synchronized to the Material Variant.
+	However, when a Material Variant had already modifies a state, the Material Asset state is not synchronized to the Material Variant.
+	!#zh
+	材质变体是材质资源的一个延伸。
+	材质变体的修改不会影响到其他的材质变体或者材质资源，而材质资源的修改会同步体现到材质变体上，
+	但是当材质变体对一个状态修改后，材质资源再对这个状态修改是不会同步到材质变体上的。 */
+	export class MaterialVariant extends Material {		
+		/**
+		
+		@param materialName materialName
+		@param owner owner 
+		*/
+		static createWithBuiltin (materialName: string, owner: cc.RenderComponent): MaterialVariant | null;		
+		/**
+		
+		@param material material
+		@param owner owner 
+		*/
+		static create (material: Material, owner: cc.RenderComponent): MaterialVariant | null;	
 	}	
 	/** !#en cc.EditBox is a component for inputing text, you can use it to gather small amounts of text from users.
 	!#zh EditBox 组件，用于获取用户的输入文本。 */
@@ -13435,8 +15370,8 @@ declare namespace cc {
 		/** !#en The Label component attached to the node for EditBox's input text label
 		!#zh 输入框输入文本节点上挂载的 Label 组件对象 */
 		textLabel: Label;		
-		/** !en The Label component attached to the node for EditBox's placeholder text label
-		!zh 输入框占位符节点上挂载的 Label 组件对象 */
+		/** !#en The Label component attached to the node for EditBox's placeholder text label
+		!#zh 输入框占位符节点上挂载的 Label 组件对象 */
 		placeholderLabel: Label;		
 		/** !#en The Sprite component attached to the node for EditBox's background
 		!#zh 输入框背景节点上挂载的 Sprite 组件对象 */
@@ -13541,6 +15476,84 @@ declare namespace cc {
 		*/
 		destroy(): boolean;	
 	}	
+	/** undefined */
+	export class PhysicsBoxCollider extends PhysicsCollider implements Collider.Box {		
+		/** !#en Position offset
+		!#zh 位置偏移量 */
+		offset: Vec2;		
+		/** !#en Box size
+		!#zh 包围盒大小 */
+		size: Size;	
+	}	
+	/** undefined */
+	export class PhysicsChainCollider extends PolygonCollider {		
+		/** !#en Whether the chain is loop
+		!#zh 链条是否首尾相连 */
+		loop: boolean;		
+		/** !#en Chain points
+		!#zh 链条顶点数组 */
+		points: Vec2[];	
+	}	
+	/** undefined */
+	export class PhysicsCircleCollider extends PhysicsCollider implements Collider.Circle {		
+		/** !#en Position offset
+		!#zh 位置偏移量 */
+		offset: Vec2;		
+		/** !#en Circle radius
+		!#zh 圆形半径 */
+		radius: number;	
+	}	
+	/** undefined */
+	export class PhysicsCollider extends Collider {		
+		/** !#en
+		The density.
+		!#zh
+		密度 */
+		density: number;		
+		/** !#en
+		A sensor collider collects contact information but never generates a collision response
+		!#zh
+		一个传感器类型的碰撞体会产生碰撞回调，但是不会发生物理碰撞效果。 */
+		sensor: boolean;		
+		/** !#en
+		The friction coefficient, usually in the range [0,1].
+		!#zh
+		摩擦系数，取值一般在 [0, 1] 之间 */
+		friction: number;		
+		/** !#en
+		The restitution (elasticity) usually in the range [0,1].
+		!#zh
+		弹性系数，取值一般在 [0, 1]之间 */
+		restitution: number;		
+		/** !#en
+		Physics collider will find the rigidbody component on the node and set to this property.
+		!#zh
+		碰撞体会在初始化时查找节点上是否存在刚体，如果查找成功则赋值到这个属性上。 */
+		body: RigidBody;		
+		/**
+		!#en
+		Apply current changes to collider, this will regenerate inner box2d fixtures.
+		!#zh
+		应用当前 collider 中的修改，调用此函数会重新生成内部 box2d 的夹具。 
+		*/
+		apply(): void;		
+		/**
+		!#en
+		Get the world aabb of the collider
+		!#zh
+		获取碰撞体的世界坐标系下的包围盒 
+		*/
+		getAABB(): void;	
+	}	
+	/** undefined */
+	export class PhysicsPolygonCollider extends PhysicsCollider implements Collider.Polygon {		
+		/** !#en Position offset
+		!#zh 位置偏移量 */
+		offset: Vec2;		
+		/** !#en Polygon points
+		!#zh 多边形顶点数组 */
+		points: Vec2[];	
+	}	
 	/** !#en
 	A distance joint constrains two points on two bodies
 	to remain at a fixed distance from each other. You can view
@@ -13628,50 +15641,6 @@ declare namespace cc {
 		getReactionTorque(timeStep: number): number;	
 	}	
 	/** !#en
-	A motor joint is used to control the relative motion
-	between two bodies. A typical usage is to control the movement
-	of a dynamic body with respect to the ground.
-	!#zh
-	马达关节被用来控制两个刚体间的相对运动。
-	一个典型的例子是用来控制一个动态刚体相对于地面的运动。 */
-	export class MotorJoint extends Joint {		
-		/** !#en
-		The anchor of the rigidbody.
-		!#zh
-		刚体的锚点。 */
-		anchor: Vec2;		
-		/** !#en
-		The anchor of the connected rigidbody.
-		!#zh
-		关节另一端刚体的锚点。 */
-		connectedAnchor: Vec2;		
-		/** !#en
-		The linear offset from connected rigidbody to rigidbody.
-		!#zh
-		关节另一端的刚体相对于起始端刚体的位置偏移量 */
-		linearOffset: Vec2;		
-		/** !#en
-		The angular offset from connected rigidbody to rigidbody.
-		!#zh
-		关节另一端的刚体相对于起始端刚体的角度偏移量 */
-		angularOffset: number;		
-		/** !#en
-		The maximum force can be applied to rigidbody.
-		!#zh
-		可以应用于刚体的最大的力值 */
-		maxForce: number;		
-		/** !#en
-		The maximum torque can be applied to rigidbody.
-		!#zh
-		可以应用于刚体的最大扭矩值 */
-		maxTorque: number;		
-		/** !#en
-		The position correction factor in the range [0,1].
-		!#zh
-		位置矫正系数，范围为 [0, 1] */
-		correctionFactor: number;	
-	}	
-	/** !#en
 	A mouse joint is used to make a point on a body track a
 	specified world point. This a soft constraint with a maximum
 	force. This allows the constraint to stretch and without
@@ -13723,6 +15692,50 @@ declare namespace cc {
 		!#zh
 		最大阻力值 */
 		maxForce: number;	
+	}	
+	/** !#en
+	A motor joint is used to control the relative motion
+	between two bodies. A typical usage is to control the movement
+	of a dynamic body with respect to the ground.
+	!#zh
+	马达关节被用来控制两个刚体间的相对运动。
+	一个典型的例子是用来控制一个动态刚体相对于地面的运动。 */
+	export class MotorJoint extends Joint {		
+		/** !#en
+		The anchor of the rigidbody.
+		!#zh
+		刚体的锚点。 */
+		anchor: Vec2;		
+		/** !#en
+		The anchor of the connected rigidbody.
+		!#zh
+		关节另一端刚体的锚点。 */
+		connectedAnchor: Vec2;		
+		/** !#en
+		The linear offset from connected rigidbody to rigidbody.
+		!#zh
+		关节另一端的刚体相对于起始端刚体的位置偏移量 */
+		linearOffset: Vec2;		
+		/** !#en
+		The angular offset from connected rigidbody to rigidbody.
+		!#zh
+		关节另一端的刚体相对于起始端刚体的角度偏移量 */
+		angularOffset: number;		
+		/** !#en
+		The maximum force can be applied to rigidbody.
+		!#zh
+		可以应用于刚体的最大的力值 */
+		maxForce: number;		
+		/** !#en
+		The maximum torque can be applied to rigidbody.
+		!#zh
+		可以应用于刚体的最大扭矩值 */
+		maxTorque: number;		
+		/** !#en
+		The position correction factor in the range [0,1].
+		!#zh
+		位置矫正系数，范围为 [0, 1] */
+		correctionFactor: number;	
 	}	
 	/** !#en
 	A prismatic joint. This joint provides one degree of freedom: translation
@@ -13910,99 +15923,667 @@ declare namespace cc {
 		阻尼，表示关节变形后，恢复到初始状态受到的阻力。 */
 		dampingRatio: number;	
 	}	
-	/** undefined */
-	export class PhysicsBoxCollider extends PhysicsCollider implements Collider.Box {		
-		/** !#en Position offset
-		!#zh 位置偏移量 */
-		offset: Vec2;		
-		/** !#en Box size
-		!#zh 包围盒大小 */
-		size: Size;	
+	/** !#en The rigid body type
+	!#zh 刚体类型 */
+	export enum ERigidBodyType {		
+		DYNAMIC = 0,
+		STATIC = 0,
+		KINEMATIC = 0,	
 	}	
-	/** undefined */
-	export class PhysicsChainCollider extends PolygonCollider {		
-		/** !#en Whether the chain is loop
-		!#zh 链条是否首尾相连 */
-		loop: boolean;		
-		/** !#en Chain points
-		!#zh 链条顶点数组 */
-		points: Vec2[];	
+	/** !#en
+	Trigger event
+	!#zh
+	触发事件。 */
+	export class ITriggerEvent {		
+		/** !#en
+		The type of event fired
+		!#zh
+		触发的事件类型 */
+		type: string;		
+		/** !#en
+		Triggers its own collider in the event
+		!#zh
+		触发事件中的自己的碰撞器 */
+		selfCollider: Collider3D;		
+		/** !#en
+		Triggers another collider in the event
+		!#zh
+		触发事件中的另一个碰撞器 */
+		otherCollider: Collider3D;	
 	}	
-	/** undefined */
-	export class PhysicsCircleCollider extends PhysicsCollider implements Collider.Circle {		
-		/** !#en Position offset
-		!#zh 位置偏移量 */
-		offset: Vec2;		
-		/** !#en Circle radius
-		!#zh 圆形半径 */
+	/** !#en
+	Collision information for collision events.
+	!#zh
+	碰撞事件的碰撞信息。 */
+	export class IContactEquation {		
+		/** !#en
+		The collision point A in the collision information.
+		!#zh
+		碰撞信息中的碰撞点 A。 */
+		contactA: Vec3;		
+		/** !#en
+		Collision point B in collision information.
+		!#zh
+		碰撞信息中的碰撞点 B。 */
+		contactB: Vec3;		
+		/** !#en
+		Normals in collision information.
+		!#zh
+		碰撞信息中的法线。 */
+		normal: Vec3;	
+	}	
+	/** !#en
+	Collision events.
+	!#zh
+	碰撞事件。 */
+	export class ICollisionEvent {		
+		/** !#en
+		Event type of collision.
+		!#zh
+		碰撞的事件类型。 */
+		type: string;		
+		/** !#en
+		Collider of its own in collision.
+		!#zh
+		碰撞中的自己的碰撞器。 */
+		selfCollider: Collider3D;		
+		/** !#en
+		Another collider in the collision.
+		!#zh
+		碰撞中的另一个碰撞器。 */
+		otherCollider: Collider3D;		
+		/** !#en
+		Information about all the points of impact in the collision.
+		!#zh
+		碰撞中的所有碰撞点的信息。 */
+		contacts: IContactEquation[];	
+	}	
+	/** !#en
+	Physical systems manager.
+	!#zh
+	物理系统管理器。 */
+	export class Physics3DManager {		
+		/** !#en
+		Whether to enable the physics system, default is false.
+		!#zh
+		是否启用物理系统，默认不启用。 */
+		enabled: boolean;		
+		/** !#en
+		Whether to allow the physics system to automatically hibernate, default is true.
+		!#zh
+		物理系统是否允许自动休眠，默认为 true。 */
+		allowSleep: boolean;		
+		/** !#en
+		The maximum number of sub-steps a full step is permitted to be broken into, default is 2.
+		!#zh
+		物理每帧模拟的最大子步数，默认为 2。 */
+		maxSubStep: number;		
+		/** !#en
+		Time spent in each simulation of physics, default is 1/60s.
+		!#zh
+		物理每步模拟消耗的固定时间，默认为 1/60 秒。 */
+		deltaTime: number;		
+		/** !#en
+		Whether to use a fixed time step.
+		!#zh
+		是否使用固定的时间步长。 */
+		useFixedTime: boolean;		
+		/** !#en
+		Gravity value of the physics simulation, default is (0, -10, 0).
+		!#zh
+		物理世界的重力数值，默认为 (0, -10, 0)。 */
+		gravity: Vec3;		
+		/** !#en
+		Gets the global default physical material. Note that builtin is null.
+		!#zh
+		获取全局的默认物理材质，注意：builtin 时为 null。 */
+		defaultMaterial: PhysicsMaterial|void;		
+		/**
+		!#en
+		A physical system simulation is performed once and will now be performed automatically once per frame.
+		!#zh
+		执行一次物理系统的模拟，目前将在每帧自动执行一次。
+		@param deltaTime The time difference from the last execution is currently elapsed per frame 
+		*/
+		update(deltaTime: number): void;		
+		/**
+		!#en Detect all collision boxes and return all detected results, or null if none is detected. Note that the return value is taken from the object pool, so do not save the result reference or modify the result.
+		!#zh 检测所有的碰撞盒，并返回所有被检测到的结果，若没有检测到，则返回空值。注意返回值是从对象池中取的，所以请不要保存结果引用或者修改结果。
+		@param worldRay A ray in world space
+		@param groupIndexOrName Collision group index or group name
+		@param maxDistance Maximum detection distance
+		@param queryTrigger Detect trigger or not 
+		*/
+		raycast(worldRay: geomUtils.Ray, groupIndexOrName: number|string, maxDistance: number, queryTrigger: boolean): PhysicsRayResult[];		
+		/**
+		!#en Detect all collision boxes and return the detection result with the shortest ray distance. If not, return null value. Note that the return value is taken from the object pool, so do not save the result reference or modify the result.
+		!#zh 检测所有的碰撞盒，并返回射线距离最短的检测结果，若没有，则返回空值。注意返回值是从对象池中取的，所以请不要保存结果引用或者修改结果。
+		@param worldRay A ray in world space
+		@param groupIndexOrName Collision group index or group name
+		@param maxDistance Maximum detection distance
+		@param queryTrigger Detect trigger or not 
+		*/
+		raycastClosest(worldRay: geomUtils.Ray, groupIndexOrName: number|string, maxDistance: number, queryTrigger: boolean): PhysicsRayResult;	
+	}	
+	/** !#en
+	Used to store physical ray detection results
+	!#zh
+	用于保存物理射线检测结果 */
+	export class PhysicsRayResult {		
+		/** !#en
+		Hit the point
+		!#zh
+		击中点 */
+		hitPoint: Vec3;		
+		/** !#en
+		Distance
+		!#zh
+		距离 */
+		distance: number;		
+		/** !#en
+		Hit the collision box
+		!#zh
+		击中的碰撞盒 */
+		collider: Collider3D;		
+		/**
+		!#en
+		Set up ray. This method is used internally by the engine. Do not call it from an external script
+		!#zh
+		设置射线，此方法由引擎内部使用，请勿在外部脚本调用
+		@param hitPoint hitPoint
+		@param distance distance
+		@param collider collider 
+		*/
+		_assign(hitPoint: Vec3, distance: number, collider: Collider3D): void;		
+		/**
+		!#en
+		Clone
+		!#zh
+		克隆 
+		*/
+		clone(): void;	
+	}	
+	/** Rigid body interface */
+	export class IRigidBody {		
+		rigidBody: RigidBody3D;		
+		mass: number;		
+		linearDamping: number;		
+		angularDamping: number;		
+		isKinematic: boolean;		
+		useGravity: boolean;		
+		fixedRotation: boolean;		
+		linearFactor: IVec3Like;		
+		angularFactor: IVec3Like;		
+		allowSleep: boolean;		
+		isAwake: boolean;		
+		isSleepy: boolean;		
+		isSleeping: boolean;		
+		wakeUp(): void;		
+		sleep(): void;		
+		/**
+		
+		@param out out 
+		*/
+		getLinearVelocity(out: IVec3Like): void;		
+		/**
+		
+		@param out out 
+		*/
+		setLinearVelocity(out: IVec3Like): void;		
+		/**
+		
+		@param out out 
+		*/
+		getAngularVelocity(out: IVec3Like): void;		
+		/**
+		
+		@param out out 
+		*/
+		setAngularVelocity(out: IVec3Like): void;		
+		/**
+		
+		@param force force
+		@param relativePoint relativePoint 
+		*/
+		applyForce(force: IVec3Like, relativePoint: IVec3Like): void;		
+		/**
+		
+		@param force force
+		@param relativePoint relativePoint 
+		*/
+		applyLocalForce(force: IVec3Like, relativePoint: IVec3Like): void;		
+		/**
+		
+		@param force force
+		@param relativePoint relativePoint 
+		*/
+		applyImpulse(force: IVec3Like, relativePoint: IVec3Like): void;		
+		/**
+		
+		@param force force
+		@param relativePoint relativePoint 
+		*/
+		applyLocalImpulse(force: IVec3Like, relativePoint: IVec3Like): void;		
+		/**
+		
+		@param torque torque 
+		*/
+		applyTorque(torque: IVec3Like): void;		
+		/**
+		
+		@param torque torque 
+		*/
+		applyLocalTorque(torque: IVec3Like): void;	
+	}	
+	/** Class has x y z properties */
+	export class IVec3Like {		
+		x: number;		
+		y: number;		
+		z: number;	
+	}	
+	/** Class has x y z w properties */
+	export class IQuatLike {		
+		x: number;		
+		y: number;		
+		z: number;		
+		w: number;	
+	}	
+	/** !#en Base shape interface. */
+	export class IBaseShape {		
+		collider: Collider3D;		
+		attachedRigidBody: RigidBody3D|void;		
+		material: any;		
+		isTrigger: boolean;		
+		center: IVec3Like;	
+	}	
+	/** !#en box shape interface */
+	export class IBoxShape {		
+		size: IVec3Like;	
+	}	
+	/** !#en Sphere shape interface */
+	export class ISphereShape {		
 		radius: number;	
 	}	
-	/** undefined */
-	export class PhysicsCollider extends Collider {		
-		/** !#en
-		The density.
-		!#zh
-		密度 */
-		density: number;		
-		/** !#en
-		A sensor collider collects contact information but never generates a collision response
-		!#zh
-		一个传感器类型的碰撞体会产生碰撞回调，但是不会发生物理碰撞效果。 */
-		sensor: boolean;		
-		/** !#en
-		The friction coefficient, usually in the range [0,1].
-		!#zh
-		摩擦系数，取值一般在 [0, 1] 之间 */
-		friction: number;		
-		/** !#en
-		The restitution (elasticity) usually in the range [0,1].
-		!#zh
-		弹性系数，取值一般在 [0, 1]之间 */
-		restitution: number;		
-		/** !#en
-		Physics collider will find the rigidbody component on the node and set to this property.
-		!#zh
-		碰撞体会在初始化时查找节点上是否存在刚体，如果查找成功则赋值到这个属性上。 */
-		body: RigidBody;		
-		/**
-		!#en
-		Apply current changes to collider, this will regenerate inner box2d fixtures.
-		!#zh
-		应用当前 collider 中的修改，调用此函数会重新生成内部 box2d 的夹具。 
-		*/
-		apply(): void;		
-		/**
-		!#en
-		Get the world aabb of the collider
-		!#zh
-		获取碰撞体的世界坐标系下的包围盒 
-		*/
-		getAABB(): void;	
+	/** Ray cast options */
+	export class IRaycastOptions {		
+		groupIndex: number;		
+		queryTrigger: boolean;		
+		maxDistance: number;	
 	}	
-	/** undefined */
-	export class PhysicsPolygonCollider extends PhysicsCollider implements Collider.Polygon {		
-		/** !#en Position offset
-		!#zh 位置偏移量 */
-		offset: Vec2;		
-		/** !#en Polygon points
-		!#zh 多边形顶点数组 */
-		points: Vec2[];	
+	/** Collision detect */
+	export class ICollisionDetect {		
+		/**
+		Ray cast, and return information of the closest hit.
+		@param worldRay worldRay
+		@param options options
+		@param out out 
+		*/
+		raycastClosest(worldRay: geomUtils.Ray, options: IRaycastOptions, out: PhysicsRayResult): boolean;		
+		/**
+		Ray cast against all bodies. The provided callback will be executed for each hit with a RaycastResult as single argument.
+		@param worldRay worldRay
+		@param options options
+		@param pool pool
+		@param resultes resultes 
+		*/
+		raycast(worldRay: geomUtils.Ray, options: IRaycastOptions, pool: RecyclePool, resultes: PhysicsRayResult[]): boolean;	
 	}	
-	/** !#en Manager the dynamic atlas.
-	!#zh 管理动态图集。 */
+	/** Physics world interface */
+	export class IPhysicsWorld {	
+	}	
+	/** !#en The shape module of 3d particle.
+	!#zh 3D 粒子的发射形状模块 */
+	export class ShapeModule {		
+		/** !#en The enable of shapeModule.
+		!#zh 是否启用 */
+		enable: boolean;		
+		/** !#en Particle emitter type.
+		!#zh 粒子发射器类型。 */
+		shapeType: shapeModule.ShapeType;		
+		/** !#en The emission site of the particle.
+		!#zh 粒子从发射器哪个部位发射。 */
+		emitFrom: shapeModule.EmitLocation;		
+		/** !#en Particle emitter radius.
+		!#zh 粒子发射器半径。 */
+		radius: number;		
+		/** !#en Particle emitter emission position (not valid for Box type emitters)：<bg>
+		- 0 means emitted from the surface;
+		- 1 means launch from the center;
+		- 0 ~ 1 indicates emission from the center to the surface.
+		!#zh 粒子发射器发射位置（对 Box 类型的发射器无效）：<bg>
+		- 0 表示从表面发射；
+		- 1 表示从中心发射；
+		- 0 ~ 1 之间表示在中心到表面之间发射。 */
+		radiusThickness: number;		
+		/** !#en The angle between the axis of the cone and the generatrix<bg>
+		Determines the opening and closing of the cone launcher
+		!#zh 圆锥的轴与母线的夹角<bg>。
+		决定圆锥发射器的开合程度。 */
+		angle: number;		
+		/** !#en Particle emitters emit in a fan-shaped range.
+		!#zh 粒子发射器在一个扇形范围内发射。 */
+		arc: number;		
+		/** !#en How particles are emitted in the sector range.
+		!#zh 粒子在扇形范围内的发射方式。 */
+		arcMode: shapeModule.ArcMode;		
+		/** !#en Controls the discrete intervals around the arcs where particles might be generated.
+		!#zh 控制可能产生粒子的弧周围的离散间隔。 */
+		arcSpread: number;		
+		/** !#en The speed at which particles are emitted around the circumference.
+		!#zh 粒子沿圆周发射的速度。 */
+		arcSpeed: CurveRange;		
+		/** !#en Axis length from top of cone to bottom of cone <bg>.
+		Determines the height of the cone emitter.
+		!#zh 圆锥顶部截面距离底部的轴长<bg>。
+		决定圆锥发射器的高度。 */
+		length: number;		
+		/** !#en Particle emitter emission location (for box-type particle emitters).
+		!#zh 粒子发射器发射位置（针对 Box 类型的粒子发射器。 */
+		boxThickness: Vec3;		
+		/** !#en Particle Emitter Position
+		!#zh 粒子发射器位置。 */
+		position: Vec3;		
+		/** !#en Particle emitter rotation angle.
+		!#zh 粒子发射器旋转角度。 */
+		rotation: Vec3;		
+		/** !#en Particle emitter scaling
+		!#zh 粒子发射器缩放比例。 */
+		scale: Vec3;		
+		/** !#en The direction of particle movement is determined based on the initial direction of the particles.
+		!#zh 根据粒子的初始方向决定粒子的移动方向。 */
+		alignToDirection: boolean;		
+		/** !#en Set particle generation direction randomly.
+		!#zh 粒子生成方向随机设定。 */
+		randomDirectionAmount: number;		
+		/** !#en Interpolation between the current emission direction and the direction from the current position to the center of the node.
+		!#zh 表示当前发射方向与当前位置到结点中心连线方向的插值。 */
+		sphericalDirectionAmount: number;	
+	}	
+	/** !#en The trail module of 3d particle.
+	!#zh 3D 粒子拖尾模块 */
+	export class TrailModule {		
+		/** !#en The enable of trailModule.
+		!#zh 是否启用 */
+		enable: boolean;		
+		/** !#en Sets how particles generate trajectories.
+		!#zh 设定粒子生成轨迹的方式。 */
+		mode: trailModule.TrailMode;		
+		/** !#en Life cycle of trajectory.
+		!#zh 轨迹存在的生命周期。 */
+		lifeTime: CurveRange;		
+		/** !#en Minimum spacing between each track particle
+		!#zh 每个轨迹粒子之间的最小间距。 */
+		minParticleDistance: number;		
+		/** !#en The coordinate system of trajectories.
+		!#zh 轨迹设定时的坐标系。 */
+		space: ParticleSystem3DAssembler.Space;		
+		/** !#en Whether the particle itself exists.
+		!#zh 粒子本身是否存在。 */
+		existWithParticles: boolean;		
+		/** !#en Set the texture fill method
+		!#zh 设定纹理填充方式。 */
+		textureMode: trailModule.TextureMode;		
+		/** !#en Whether to use particle width
+		!#zh 是否使用粒子的宽度。 */
+		widthFromParticle: boolean;		
+		/** !#en Curves that control track length
+		!#zh 控制轨迹长度的曲线。 */
+		widthRatio: CurveRange;		
+		/** !#en Whether to use particle color
+		!#zh 是否使用粒子的颜色。 */
+		colorFromParticle: boolean;		
+		/** !#en The color of trajectories.
+		!#zh 轨迹的颜色。 */
+		colorOverTrail: GradientRange;		
+		/** !#en Trajectories color over time.
+		!#zh 轨迹随时间变化的颜色。 */
+		colorOvertime: GradientRange;	
+	}	
+	/** !#en The color over time module of 3d particle.
+	!#zh 3D 粒子颜色变化模块 */
+	export class ColorOvertimeModule {		
+		/** !#en The enable of ColorOvertimeModule.
+		!#zh 是否启用 */
+		enable: boolean;	
+	}	
+	/** !#en The curve range of target value.
+	!#zh 目标值的曲线范围 */
+	export class CurveRange {		
+		/** !#en Curve type.
+		!#zh 曲线类型。 */
+		mode: debug.DebugMode;		
+		/** !#en The curve to use when mode is Curve.
+		!#zh 当 mode 为 Curve 时，使用的曲线。 */
+		curve: AnimationCurve;		
+		/** !#en The lower limit of the curve to use when mode is TwoCurves
+		!#zh 当 mode 为 TwoCurves 时，使用的曲线下限。 */
+		curveMin: AnimationCurve;		
+		/** !#en The upper limit of the curve to use when mode is TwoCurves
+		!#zh 当 mode 为 TwoCurves 时，使用的曲线上限。 */
+		curveMax: AnimationCurve;		
+		/** !#en When mode is Constant, the value of the curve.
+		!#zh 当 mode 为 Constant 时，曲线的值。 */
+		constant: number;		
+		/** !#en The lower limit of the curve to use when mode is TwoConstants
+		!#zh 当 mode 为 TwoConstants 时，曲线的下限。 */
+		constantMin: number;		
+		/** !#en The upper limit of the curve to use when mode is TwoConstants
+		!#zh 当 mode 为 TwoConstants 时，曲线的上限。 */
+		constantMax: number;		
+		/** !#en Coefficients applied to curve interpolation.
+		!#zh 应用于曲线插值的系数。 */
+		multiplier: number;	
+	}	
+	/** !#en The force over time module of 3d particle.
+	!#zh 3D 粒子的加速度模块 */
+	export class ForceOvertimeModule {		
+		/** !#en The enable of ColorOvertimeModule.
+		!#zh 是否启用 */
+		enable: boolean;		
+		/** !#en Coordinate system used in acceleration calculation.
+		!#zh 加速度计算时采用的坐标系。 */
+		space: ParticleSystem3DAssembler.Space;		
+		/** !#en X-axis acceleration component.
+		!#zh X 轴方向上的加速度分量。 */
+		x: CurveRange;		
+		/** !#en Y-axis acceleration component.
+		!#zh Y 轴方向上的加速度分量。 */
+		y: CurveRange;		
+		/** !#en Z-axis acceleration component.
+		!#zh Z 轴方向上的加速度分量。 */
+		z: CurveRange;	
+	}	
+	/** !#en The gradient range of color.
+	!#zh 颜色值的渐变范围 */
+	export class GradientRange {		
+		/** !#en Gradient type.
+		!#zh 渐变色类型。 */
+		mode: debug.DebugMode;		
+		/** !#en The color when mode is Color.
+		!#zh 当 mode 为 Color 时的颜色。 */
+		color: Color;		
+		/** !#en Lower color limit when mode is TwoColors.
+		!#zh 当 mode 为 TwoColors 时的颜色下限。 */
+		colorMin: Color;		
+		/** !#en Upper color limit when mode is TwoColors.
+		!#zh 当 mode 为 TwoColors 时的颜色上限。 */
+		colorMax: Color;		
+		/** !#en Color gradient when mode is Gradient
+		!#zh 当 mode 为 Gradient 时的颜色渐变。 */
+		gradient: Gradient;		
+		/** !#en Lower color gradient limit when mode is TwoGradients.
+		!#zh 当 mode 为 TwoGradients 时的颜色渐变下限。 */
+		gradientMin: Gradient;		
+		/** !#en Upper color gradient limit when mode is TwoGradients.
+		!#zh 当 mode 为 TwoGradients 时的颜色渐变上限。 */
+		gradientMax: Gradient;	
+	}	
+	/** !#en The color key of gradient.
+	!#zh color 关键帧 */
+	export class ColorKey {	
+	}	
+	/** !#en The alpha key of gradient.
+	!#zh alpha 关键帧 */
+	export class AlphaKey {	
+	}	
+	/** !#en The gradient data of color.
+	!#zh 颜色渐变数据 */
+	export class Gradient {	
+	}	
+	/** !#en The limit velocity module of 3d particle.
+	!#zh 3D 粒子的限速模块 */
+	export class LimitVelocityOvertimeModule {		
+		/** !#en The enable of LimitVelocityOvertimeModule.
+		!#zh 是否启用 */
+		enable: boolean;		
+		/** !#en The coordinate system used when calculating the lower speed limit.
+		!#zh 计算速度下限时采用的坐标系。 */
+		space: ParticleSystem3DAssembler.Space;		
+		/** !#en Whether to limit the three axes separately.
+		!#zh 是否三个轴分开限制。 */
+		separateAxes: boolean;		
+		/** !#en Lower speed limit
+		!#zh 速度下限。 */
+		limit: CurveRange;		
+		/** !#en Lower speed limit in X direction.
+		!#zh X 轴方向上的速度下限。 */
+		limitX: CurveRange;		
+		/** !#en Lower speed limit in Y direction.
+		!#zh Y 轴方向上的速度下限。 */
+		limitY: CurveRange;		
+		/** !#en Lower speed limit in Z direction.
+		!#zh Z 轴方向上的速度下限。 */
+		limitZ: CurveRange;		
+		/** !#en Interpolation of current speed and lower speed limit.
+		!#zh 当前速度与速度下限的插值。 */
+		dampen: number;	
+	}	
+	/** !#en The optimized curve.
+	!#zh 优化曲线 */
+	export class OptimizedCurve {	
+	}	
+	/** !#en The rotation module of 3d particle.
+	!#zh 3D 粒子的旋转模块 */
+	export class RotationOvertimeModule {		
+		/** !#en The enable of RotationOvertimeModule.
+		!#zh 是否启用 */
+		enable: boolean;		
+		/** !#en Whether to set the rotation of three axes separately (not currently supported)
+		!#zh 是否三个轴分开设定旋转（暂不支持）。 */
+		separateAxes: boolean;		
+		/** !#en Set rotation around X axis.
+		!#zh 绕 X 轴设定旋转。 */
+		x: CurveRange;		
+		/** !#en Set rotation around Y axis.
+		!#zh 绕 Y 轴设定旋转。 */
+		y: CurveRange;		
+		/** !#en Set rotation around Z axis.
+		!#zh 绕 Z 轴设定旋转。 */
+		z: CurveRange;	
+	}	
+	/** !#en The size module of 3d particle.
+	!#zh 3D 粒子的大小模块 */
+	export class SizeOvertimeModule {		
+		/** !#en The enable of SizeOvertimeModule.
+		!#zh 是否启用 */
+		enable: boolean;		
+		/** !#en Decide whether to control particle size independently on each axis.
+		!#zh 决定是否在每个轴上独立控制粒子大小。 */
+		separateAxes: boolean;		
+		/** !#en Define a curve to determine the size change of particles during their life cycle.
+		!#zh 定义一条曲线来决定粒子在其生命周期中的大小变化。 */
+		size: CurveRange;		
+		/** !#en Defines a curve to determine the size change of particles in the X-axis direction during their life cycle.
+		!#zh 定义一条曲线来决定粒子在其生命周期中 X 轴方向上的大小变化。 */
+		x: CurveRange;		
+		/** !#en Defines a curve to determine the size change of particles in the Y-axis direction during their life cycle.
+		!#zh 定义一条曲线来决定粒子在其生命周期中 Y 轴方向上的大小变化。 */
+		y: CurveRange;		
+		/** !#en Defines a curve to determine the size change of particles in the Z-axis direction during their life cycle.
+		!#zh 定义一条曲线来决定粒子在其生命周期中 Z 轴方向上的大小变化。 */
+		z: CurveRange;	
+	}	
+	/** !#en The texture animation module of 3d particle.
+	!#zh 3D 粒子的贴图动画模块 */
+	export class TextureAnimationModule {		
+		/** !#en The enable of TextureAnimationModule.
+		!#zh 是否启用 */
+		enable: boolean;		
+		/** !#en Set the type of particle map animation (only supports Grid mode for the time being)
+		!#zh 设定粒子贴图动画的类型（暂只支持 Grid 模式。 */
+		mode: debug.DebugMode;		
+		/** !#en Animation frames in X direction.
+		!#zh X 方向动画帧数。 */
+		numTilesX: number;		
+		/** !#en Animation frames in Y direction.
+		!#zh Y 方向动画帧数。 */
+		numTilesY: number;		
+		/** !#en The way of the animation plays.
+		!#zh 动画播放方式。 */
+		animation: Animation;		
+		/** !#en Randomly select a line from the animated map to generate the animation. <br>
+		This option only takes effect when the animation playback mode is SingleRow.
+		!#zh 随机从动画贴图中选择一行以生成动画。<br>
+		此选项仅在动画播放方式为 SingleRow 时生效。 */
+		randomRow: boolean;		
+		/** !#en Select specific lines from the animation map to generate the animation. <br>
+		This option is only available when the animation playback mode is SingleRow and randomRow is disabled.
+		!#zh 从动画贴图中选择特定行以生成动画。<br>
+		此选项仅在动画播放方式为 SingleRow 时且禁用 randomRow 时可用。 */
+		rowIndex: number;		
+		/** !#en Frame and time curve of animation playback in one cycle.
+		!#zh 一个周期内动画播放的帧与时间变化曲线。 */
+		frameOverTime: CurveRange;		
+		/** !#en Play from which frames, the time is the life cycle of the entire particle system.
+		!#zh 从第几帧开始播放，时间为整个粒子系统的生命周期。 */
+		startFrame: CurveRange;		
+		/** !#en Number of playback loops in a life cycle.
+		!#zh 一个生命周期内播放循环的次数。 */
+		cycleCount: number;	
+	}	
+	/** !#en The velocity module of 3d particle.
+	!#zh 3D 粒子的速度模块 */
+	export class VelocityOvertimeModule {		
+		/** !#en The enable of VelocityOvertimeModule.
+		!#zh 是否启用 */
+		enable: boolean;		
+		/** !#en Coordinate system used in speed calculation.
+		!#zh 速度计算时采用的坐标系。 */
+		space: ParticleSystem3DAssembler.Space;		
+		/** !#en Velocity component in X axis direction
+		!#zh X 轴方向上的速度分量。 */
+		x: CurveRange;		
+		/** !#en Velocity component in Y axis direction
+		!#zh Y 轴方向上的速度分量。 */
+		y: CurveRange;		
+		/** !#en Velocity component in Z axis direction
+		!#zh Z 轴方向上的速度分量。 */
+		z: CurveRange;		
+		/** !#en Speed correction factor (only supports CPU particles).
+		!#zh 速度修正系数（只支持 CPU 粒子）。 */
+		speedModifier: CurveRange;	
+	}	
+	/** !#en Manage Dynamic Atlas Manager. Dynamic Atlas Manager is used for merging textures at runtime, see [Dynamic Atlas](https://docs.cocos.com/creator/manual/en/advanced-topics/dynamic-atlas.html) for details.
+	!#zh 管理动态图集。动态图集用于在运行时对贴图进行合并，详见 [动态合图](https://docs.cocos.com/creator/manual/zh/advanced-topics/dynamic-atlas.html)。 */
 	export class DynamicAtlasManager {		
-		/** !#en Enabled or Disabled dynamic atlas.
-		!#zh 开启或者关闭动态图集。 */
+		/** !#en Enable or disable the dynamic atlas, see [Dynamic Atlas](https://docs.cocos.com/creator/manual/en/advanced-topics/dynamic-atlas.html) for details.
+		!#zh 开启或者关闭动态图集，详见 [动态合图](https://docs.cocos.com/creator/manual/zh/advanced-topics/dynamic-atlas.html)。 */
 		enabled: boolean;		
 		/** !#en The maximum number of atlas that can be created.
 		!#zh 可以创建的最大图集数量。 */
 		maxAtlasCount: number;		
+		/** !#en Is enable textureBleeding.
+		!#zh 是否开启 textureBleeding */
+		textureBleeding: boolean;		
 		/** !#en The size of the atlas that was created
 		!#zh 创建的图集的宽高 */
 		textureSize: number;		
 		/** !#en The maximum size of the picture that can be added to the atlas.
 		!#zh 可以添加进图集的图片的最大尺寸。 */
 		maxFrameSize: number;		
+		/** !#en The minimum size of the picture that can be added to the atlas.
+		!#zh 可以添加进图集的图片的最小尺寸。 */
+		minFrameSize: number;		
 		/**
 		!#en Append a sprite frame into the dynamic atlas.
 		!#zh 添加碎图进入动态图集。
@@ -14019,7 +16600,355 @@ declare namespace cc {
 		!#zh 在当前场景中显示所有动态图集，可以用来查看当前的合图状态。
 		@param show show 
 		*/
-		showDebug(show: boolean): void;	
+		showDebug(show: boolean): Node;	
+	}	
+	/** !#en
+	Physics material.
+	!#zh
+	物理材质。 */
+	export class PhysicsMaterial extends Asset {		
+		/** !#en
+		Friction for this material.
+		!#zh
+		物理材质的摩擦力。 */
+		friction: number;		
+		/** !#en
+		Restitution for this material.
+		!#zh
+		物理材质的弹力。 */
+		restitution: number;	
+	}	
+	/** !#en
+	Each frame applies a constant force to a rigid body, depending on the RigidBody3D
+	!#zh
+	在每帧对一个刚体施加持续的力，依赖 RigidBody3D 组件 */
+	export class ConstantForce extends Component {		
+		/** !#en
+		Set the force used in the world coordinate system, use `this.force = otherVec3`.
+		!#zh
+		设置世界坐标系中使用的力，设置时请用 `this.force = otherVec3` 的方式。 */
+		force: Vec3;		
+		/** !#en
+		Set the force used in the local coordinate system, using `this.localforce = otherVec3`.
+		!#zh
+		获取和设置本地坐标系中使用的力，设置时请用 `this.localForce = otherVec3` 的方式。 */
+		localForce: Vec3;		
+		/** !#en
+		Torque applied to the world orientation
+		!#zh
+		对世界朝向施加的扭矩 */
+		torque: Vec3;		
+		/** !#en
+		Torque applied to local orientation, using `this.localtorque = otherVec3`.
+		!#zh
+		对本地朝向施加的扭矩，设置时请用 `this.localTorque = otherVec3` 的方式。 */
+		localTorque: Vec3;	
+	}	
+	/** !#en
+	RigidBody is the basic object that make up the physical world, and it can make a node physically affected and react.
+	!#zh
+	刚体是组成物理世界的基本对象，可以让一个节点受到物理影响并产生反应。该组件在使用 Builtin 物理引擎时无效。 */
+	export class RigidBody3D extends Component {		
+		/** !#en
+		Whether sleep is allowed.
+		!#zh
+		是否允许休眠。 */
+		allowSleep: boolean;		
+		/** !#en
+		The mass of the rigidbody.
+		!#zh
+		刚体的质量。 */
+		mass: number;		
+		/** !#en
+		Used to reduce the linear rate of rigidbody. The larger the value, the slower the rigidbody moves.
+		!#zh
+		线性阻尼，用于减小刚体的线性速率，值越大物体移动越慢。 */
+		linearDamping: number;		
+		/** !#en
+		Used to reduce the rotation rate of rigidbody. The larger the value, the slower the rigidbody rotates.
+		!#zh
+		角阻尼，用于减小刚体的旋转速率，值越大刚体旋转越慢。 */
+		angularDamping: number;		
+		/** !#en
+		If enabled, the developer controls the displacement and rotation of the rigidbody, not the physics engine.
+		!#zh
+		是否由开发者来控制刚体的位移和旋转，而不是受物理引擎的影响。 */
+		isKinematic: boolean;		
+		/** !#en
+		If enabled, the rigidbody is affected by gravity.
+		!#zh
+		如果开启，刚体会受到重力影响。 */
+		useGravity: boolean;		
+		/** !#en
+		If enabled, the rigidbody will be fixed without rotation during a collision.
+		!#zh
+		如果开启，发生碰撞时会固定刚体不产生旋转。 */
+		fixedRotation: boolean;		
+		/** !#en
+		It can affect the linear velocity change of the rigidbody in each axis. The larger the value, the faster the rigidbody moves.
+		!#zh
+		线性因子，可影响刚体在每个轴向的线性速度变化，值越大刚体移动越快。 */
+		linearFactor: Vec3;		
+		/** !#en
+		It can affect the rotation speed change of the rigidbody in each axis. The larger the value, the faster the rigidbody rotates.
+		!#zh
+		旋转因子，可影响刚体在每个轴向的旋转速度变化，值越大刚体旋转越快。 */
+		angularFactor: Vec3;		
+		/** !#en
+		The rigidbody is awake.
+		!#zh
+		刚体是否为唤醒的状态。 */
+		isAwake: boolean;		
+		/** !#en
+		The rigidbody can enter hibernation.
+		!#zh
+		刚体是否为可进入休眠的状态。 */
+		isSleepy: boolean;		
+		/** !#en
+		The rigidbody is sleeping.
+		!#zh
+		刚体是否为正在休眠的状态。 */
+		isSleeping: boolean;		
+		/** !#en
+		Get the rigidbody object inside the physics engine.
+		!#zh
+		获得物理引擎内部刚体对象。 */
+		rigidBody: IRigidBody;		
+		/**
+		!#en
+		A force is applied to a rigid body at a point in world space.
+		!#zh
+		在世界空间中的某点上对刚体施加一个作用力。
+		@param force force
+		@param relativePoint The point of action, relative to the center of the rigid body. 
+		*/
+		applyForce(force: Vec3, relativePoint: Vec3): void;		
+		/**
+		!#en
+		Apply a force on the rigid body at a point in local space.
+		!#zh
+		在本地空间中的某点上对刚体施加一个作用力。
+		@param force force
+		@param localPoint Point of application 
+		*/
+		applyLocalForce(force: Vec3, localPoint: Vec3): void;		
+		/**
+		!#en
+		Apply an impulse to a rigid body at a point in world space.
+		!#zh
+		在世界空间的某点上对刚体施加一个冲量。
+		@param impulse impulse
+		@param relativePoint The point of action, relative to the center of the rigid body. 
+		*/
+		applyImpulse(impulse: Vec3, relativePoint: Vec3): void;		
+		/**
+		!#en
+		Apply an impulse to the rigid body at a point in local space.
+		!#zh
+		在本地空间的某点上对刚体施加一个冲量。
+		@param impulse impulse
+		@param localPoint Point of application 
+		*/
+		applyLocalImpulse(impulse: Vec3, localPoint: Vec3): void;		
+		/**
+		!#en
+		Apply a torque to the rigid body.
+		!#zh
+		对刚体施加扭转力。
+		@param torque torque 
+		*/
+		applyTorque(torque: Vec3): void;		
+		/**
+		!#en
+		Apply a local torque to the rigid body.
+		!#zh
+		对刚体施加本地扭转力。
+		@param torque torque 
+		*/
+		applyLocalTorque(torque: Vec3): void;		
+		/**
+		!#en
+		Awaken the rigid body.
+		!#zh
+		唤醒刚体。 
+		*/
+		wakeUp(): void;		
+		/**
+		!#en
+		Dormant rigid body.
+		!#zh
+		休眠刚体。 
+		*/
+		sleep(): void;		
+		/**
+		!#en
+		Get linear velocity.
+		!#zh
+		获取线性速度。
+		@param out out 
+		*/
+		getLinearVelocity(out: Vec3): void;		
+		/**
+		!#en
+		Set linear speed.
+		!#zh
+		设置线性速度。
+		@param value value 
+		*/
+		setLinearVelocity(value: Vec3): void;		
+		/**
+		!#en
+		Gets the rotation speed.
+		!#zh
+		获取旋转速度。
+		@param out out 
+		*/
+		getAngularVelocity(out: Vec3): void;		
+		/**
+		!#en
+		Set rotation speed.
+		!#zh
+		设置旋转速度。
+		@param value value 
+		*/
+		setAngularVelocity(value: Vec3): void;	
+	}	
+	/** !#en
+	Physics box collider
+	!#zh
+	物理盒子碰撞器 */
+	export class BoxCollider3D extends Collider3D {		
+		/** !#en
+		Get or set the size of the box, in local space.
+		!#zh
+		获取或设置盒的大小。 */
+		size: Vec3;		
+		boxShape: IBoxShape;	
+	}	
+	/** !#en
+	The base class of the collider.
+	!#zh
+	碰撞器的基类。 */
+	export class Collider3D extends Component implements EventTarget {		
+		sharedMaterial: PhysicsMaterial;		
+		/** !#en
+		get or set the collider is trigger, this will be always trigger if using builtin.
+		!#zh
+		获取或设置碰撞器是否为触发器。 */
+		isTrigger: boolean;		
+		/** !#en
+		get or set the center of the collider, in local space.
+		!#zh
+		获取或设置碰撞器的中心点。 */
+		center: Vec3;		
+		/** !#en
+		get the collider attached rigidbody, this may be null.
+		!#zh
+		获取碰撞器所绑定的刚体组件，可能为 null。 */
+		attachedRigidbody: RigidBody3D|void;		
+		/** !#en
+		get collider shape.
+		!#zh
+		获取碰撞器形状。 */
+		shape: IBaseShape;		
+		/**
+		!#en
+		Register an callback of a specific event type on the EventTarget.
+		This type of event should be triggered via `emit`.
+		!#zh
+		注册事件目标的特定事件类型回调。这种类型的事件应该被 `emit` 触发。
+		@param type The type of collider event can be `trigger-enter`, `trigger-stay`, `trigger-exit` or `collision-enter`, `collision-stay`, `collision-exit`.
+		@param callback The callback that will be invoked when the event is dispatched.
+		The callback is ignored if it is a duplicate (the callbacks are unique).
+		@param target The target (this object) to invoke the callback, can be null.
+		
+		@example 
+		```js
+		eventTarget.on('fire', function (event) {
+		    // event is ITriggerEvent or ICollisionEvent
+		}, node);
+		``` 
+		*/
+		on<T extends Function>(type: string, callback: T, target?: any, useCapture?: boolean): T;		
+		/**
+		!#en
+		Removes the listeners previously registered with the same type, callback, target and or useCapture,
+		if only type is passed as parameter, all listeners registered with that type will be removed.
+		!#zh
+		删除之前用同类型，回调，目标或 useCapture 注册的事件监听器，如果只传递 type，将会删除 type 类型的所有事件监听器。
+		@param type The type of collider event can be `trigger-enter`, `trigger-stay`, `trigger-exit` or `collision-enter`, `collision-stay`, `collision-exit`.
+		@param callback The callback to remove.
+		@param target The target (this object) to invoke the callback, if it's not given, only callback without target will be removed.
+		
+		@example 
+		```js
+		// register fire eventListener
+		var callback = eventTarget.on('fire', function () {
+		    cc.log("fire in the hole");
+		}, target);
+		// remove fire event listener
+		eventTarget.off('fire', callback, target);
+		// remove all fire event listeners
+		eventTarget.off('fire');
+		``` 
+		*/
+		off(type: string, callback?: Function, target?: any): void;		
+		/**
+		!#en
+		Register an callback of a specific event type on the EventTarget,
+		the callback will remove itself after the first time it is triggered.
+		!#zh
+		注册事件目标的特定事件类型回调，回调会在第一时间被触发后删除自身。
+		@param type The type of collider event can be `trigger-enter`, `trigger-stay`, `trigger-exit` or `collision-enter`, `collision-stay`, `collision-exit`.
+		@param callback The callback that will be invoked when the event is dispatched.
+		The callback is ignored if it is a duplicate (the callbacks are unique).
+		@param target The target (this object) to invoke the callback, can be null.
+		
+		@example 
+		```js
+		eventTarget.once('fire', function (event) {
+		    // event is ITriggerEvent or ICollisionEvent
+		}, node);
+		``` 
+		*/
+		once(type: string, callback: (event: ITriggerEvent|ICollisionEvent) => void, target?: any): void;		
+		/**
+		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
+		!#zh 检查事件目标对象是否有为特定类型的事件注册的回调。
+		@param type The type of event. 
+		*/
+		hasEventListener(type: string): boolean;		
+		/**
+		!#en Removes all callbacks previously registered with the same target (passed as parameter).
+		This is not for removing all listeners in the current event target,
+		and this is not for removing all listeners the target parameter have registered.
+		It's only for removing all listeners (callback and target couple) registered on the current event target by the target parameter.
+		!#zh 在当前 EventTarget 上删除指定目标（target 参数）注册的所有事件监听器。
+		这个函数无法删除当前 EventTarget 的所有事件监听器，也无法删除 target 参数所注册的所有事件监听器。
+		这个函数只能删除 target 参数在当前 EventTarget 上注册的所有事件监听器。
+		@param target The target to be searched for all related listeners 
+		*/
+		targetOff(target: any): void;		
+		/**
+		!#en
+		Send an event with the event object.
+		!#zh
+		通过事件对象派发事件
+		@param event event 
+		*/
+		dispatchEvent(event: Event): void;	
+	}	
+	/** !#en
+	Physics sphere collider
+	!#zh
+	物理球碰撞器 */
+	export class SphereCollider3D extends Collider3D {		
+		/** !#en
+		Get or set the radius of the sphere.
+		!#zh
+		获取或设置球的半径。 */
+		radius: number;		
+		sphereShape: ISphereShape;	
 	}	
 	/****************************************************
 	* audioEngine
@@ -14067,7 +16996,18 @@ declare namespace cc {
 			SCALE = 0,
 			ROTATION = 0,
 			SKEW = 0,
-			RT = 0,
+			TRS = 0,
+			RS = 0,
+			TRS = 0,
+			PHYSICS_POSITION = 0,
+			PHYSICS_SCALE = 0,
+			PHYSICS_ROTATION = 0,
+			PHYSICS_TRS = 0,
+			PHYSICS_RS = 0,
+			ALL_POSITION = 0,
+			ALL_SCALE = 0,
+			ALL_ROTATION = 0,
+			ALL_TRS = 0,
 			ALL = 0,		
 		}	
 	}
@@ -14157,7 +17097,102 @@ declare namespace cc {
 			static CHILD_REORDER: string;			
 			/** !#en The event type for node group changed events.
 			!#zh 当节点归属群组发生变化时触发的事件。 */
-			static GROUP_CHANGED: string;		
+			static GROUP_CHANGED: string;			
+			/** !#en The event type for node's sibling order changed.
+			!#zh 当节点在兄弟节点中的顺序发生变化时触发的事件。 */
+			static SIBLING_ORDER_CHANGED: string;		
+		}	
+	}
+		
+	/****************************************************
+	* TiledMap
+	*****************************************************/
+	
+	export namespace TiledMap {		
+		/** !#en The orientation of tiled map.
+		!#zh Tiled Map 地图方向。 */
+		export enum Orientation {			
+			ORTHO = 0,
+			HEX = 0,
+			ISO = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* TiledMap
+	*****************************************************/
+	
+	export namespace TiledMap {		
+		/** The property type of tiled map. */
+		export enum Property {			
+			NONE = 0,
+			MAP = 0,
+			LAYER = 0,
+			OBJECTGROUP = 0,
+			OBJECT = 0,
+			TILE = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* TiledMap
+	*****************************************************/
+	
+	export namespace TiledMap {		
+		/** The tile flags of tiled map. */
+		export enum TileFlag {			
+			HORIZONTAL = 0,
+			VERTICAL = 0,
+			DIAGONAL = 0,
+			FLIPPED_ALL = 0,
+			FLIPPED_MASK = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* TiledMap
+	*****************************************************/
+	
+	export namespace TiledMap {		
+		/** !#en The stagger axis of Hex tiled map.
+		!#zh 六边形地图的 stagger axis 值 */
+		export enum StaggerAxis {			
+			STAGGERAXIS_X = 0,
+			STAGGERAXIS_Y = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* TiledMap
+	*****************************************************/
+	
+	export namespace TiledMap {		
+		/** !#en The render order of tiled map.
+		!#zh 地图的渲染顺序 */
+		export enum RenderOrder {			
+			STAGGERINDEX_ODD = 0,
+			STAGGERINDEX_EVEN = 0,
+			RightDown = 0,
+			RightUp = 0,
+			LeftDown = 0,
+			LeftUp = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* TiledMap
+	*****************************************************/
+	
+	export namespace TiledMap {		
+		/** !#en TiledMap Object Type
+		!#zh 地图物体类型 */
+		export enum TMXObjectType {			
+			RECT = 0,
+			ELLIPSE = 0,
+			POLYGON = 0,
+			POLYLINE = 0,
+			IMAGE = 0,
+			TEXT = 0,		
 		}	
 	}
 		
@@ -14185,35 +17220,6 @@ declare namespace cc {
 			FREE = 0,
 			RELATIVE = 0,
 			GROUPED = 0,		
-		}	
-	}
-		
-	/****************************************************
-	* TiledMap
-	*****************************************************/
-	
-	export namespace TiledMap {		
-		/** !#en The orientation of tiled map.
-		!#zh Tiled Map 地图方向。 */
-		export enum Orientation {			
-			ORTHO = 0,
-			HEX = 0,
-			ISO = 0,
-			NONE = 0,
-			MAP = 0,
-			LAYER = 0,
-			OBJECTGROUP = 0,
-			OBJECT = 0,
-			TILE = 0,
-			HORIZONTAL = 0,
-			VERTICAL = 0,
-			DIAGONAL = 0,
-			FLIPPED_ALL = 0,
-			FLIPPED_MASK = 0,
-			STAGGERAXIS_X = 0,
-			STAGGERAXIS_Y = 0,
-			STAGGERINDEX_ODD = 0,
-			STAGGERINDEX_EVEN = 0,		
 		}	
 	}
 		
@@ -14273,7 +17279,8 @@ declare namespace cc {
 		export enum Type {			
 			DIRECTIONAL = 0,
 			POINT = 0,
-			SPOT = 0,		
+			SPOT = 0,
+			AMBIENT = 0,		
 		}	
 	}
 		
@@ -14287,7 +17294,23 @@ declare namespace cc {
 		!#zh 阴影类型 */
 		export enum ShadowType {			
 			NONE = 0,
-			HARD = 0,		
+			HARD = 0,
+			SOFT_PCF3X3 = 0,
+			SOFT_PCF5X5 = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* Camera
+	*****************************************************/
+	
+	export namespace Camera {		
+		/** !#en Values for Camera.clearFlags, determining what to clear when rendering a Camera.
+		!#zh 摄像机清除标记位，决定摄像机渲染时会清除哪些状态 */
+		export enum ClearFlags {			
+			COLOR = 0,
+			DEPTH = 0,
+			STENCIL = 0,		
 		}	
 	}
 		
@@ -14339,377 +17362,6 @@ declare namespace cc {
 			/** !#en Polygon points
 			!#zh 多边形顶点数组 */
 			points: Vec2[];		
-		}	
-	}
-		
-	/****************************************************
-	* Prefab
-	*****************************************************/
-	
-	export namespace Prefab {		
-		/** !#zh
-		Prefab 创建实例所用的优化策略，配合 {{#crossLink "Prefab.optimizationPolicy"}}cc.Prefab#optimizationPolicy{{/crossLink}} 使用。
-		!#en
-		An enumeration used with the {{#crossLink "Prefab.optimizationPolicy"}}cc.Prefab#optimizationPolicy{{/crossLink}}
-		to specify how to optimize the instantiate operation. */
-		export enum OptimizationPolicy {			
-			AUTO = 0,
-			SINGLE_INSTANCE = 0,
-			MULTI_INSTANCE = 0,		
-		}	
-	}
-		
-	/****************************************************
-	* Texture2D
-	*****************************************************/
-	
-	export namespace Texture2D {		
-		/** The texture pixel format, default value is RGBA8888,
-		you should note that textures loaded by normal image files (png, jpg) can only support RGBA8888 format,
-		other formats are supported by compressed file types or raw data. */
-		export enum PixelFormat {			
-			RGB565 = 0,
-			RGB5A1 = 0,
-			RGBA4444 = 0,
-			RGB888 = 0,
-			RGBA8888 = 0,
-			RGBA32F = 0,
-			A8 = 0,
-			I8 = 0,
-			AI88 = 0,
-			RGB_PVRTC_2BPPV1 = 0,
-			RGBA_PVRTC_2BPPV1 = 0,
-			RGB_PVRTC_4BPPV1 = 0,
-			RGBA_PVRTC_4BPPV1 = 0,
-			RGB_ETC1 = 0,
-			RGBA_ETC1 = 0,
-			RGB_ETC2 = 0,
-			RGBA_ETC2 = 0,		
-		}	
-	}
-		
-	/****************************************************
-	* Texture2D
-	*****************************************************/
-	
-	export namespace Texture2D {		
-		/** The texture wrap mode */
-		export enum WrapMode {			
-			REPEAT = 0,
-			CLAMP_TO_EDGE = 0,
-			MIRRORED_REPEAT = 0,		
-		}	
-	}
-		
-	/****************************************************
-	* Texture2D
-	*****************************************************/
-	
-	export namespace Texture2D {		
-		/** The texture filter mode */
-		export enum Filter {			
-			LINEAR = 0,
-			NEAREST = 0,		
-		}	
-	}
-		
-	/****************************************************
-	* Event
-	*****************************************************/
-	
-	export namespace Event {		
-		/** !#en The Custom event
-		!#zh 自定义事件 */
-		export class EventCustom extends Event {			
-			/**
-			
-			@param type The name of the event (case-sensitive), e.g. "click", "fire", or "submit"
-			@param bubbles A boolean indicating whether the event bubbles up through the tree or not 
-			*/
-			constructor(type: string, bubbles: boolean);			
-			/** !#en A reference to the detailed data of the event
-			!#zh 事件的详细数据 */
-			detail: any;			
-			/**
-			!#en Sets user data
-			!#zh 设置用户数据
-			@param data data 
-			*/
-			setUserData(data: any): void;			
-			/**
-			!#en Gets user data
-			!#zh 获取用户数据 
-			*/
-			getUserData(): any;			
-			/**
-			!#en Gets event name
-			!#zh 获取事件名称 
-			*/
-			getEventName(): string;		
-		}	
-	}
-		
-	/****************************************************
-	* SystemEvent
-	*****************************************************/
-	
-	export namespace SystemEvent {		
-		/** !#en The event type supported by SystemEvent
-		!#zh SystemEvent 支持的事件类型 */
-		export class EventType {			
-			/** !#en The event type for press the key down event, you can use its value directly: 'keydown'
-			!#zh 当按下按键时触发的事件 */
-			static KEY_DOWN: string;			
-			/** !#en The event type for press the key up event, you can use its value directly: 'keyup'
-			!#zh 当松开按键时触发的事件 */
-			static KEY_UP: string;			
-			/** !#en The event type for press the devicemotion event, you can use its value directly: 'devicemotion'
-			!#zh 重力感应 */
-			static DEVICEMOTION: string;		
-		}	
-	}
-		
-	/****************************************************
-	* Event
-	*****************************************************/
-	
-	export namespace Event {		
-		/** !#en The mouse event
-		!#zh 鼠标事件类型 */
-		export class EventMouse extends Event {			
-			/**
-			!#en Sets scroll data.
-			!#zh 设置鼠标的滚动数据。
-			@param scrollX scrollX
-			@param scrollY scrollY 
-			*/
-			setScrollData(scrollX: number, scrollY: number): void;			
-			/**
-			!#en Returns the x axis scroll value.
-			!#zh 获取鼠标滚动的X轴距离，只有滚动时才有效。 
-			*/
-			getScrollX(): number;			
-			/**
-			!#en Returns the y axis scroll value.
-			!#zh 获取滚轮滚动的 Y 轴距离，只有滚动时才有效。 
-			*/
-			getScrollY(): number;			
-			/**
-			!#en Sets cursor location.
-			!#zh 设置当前鼠标位置。
-			@param x x
-			@param y y 
-			*/
-			setLocation(x: number, y: number): void;			
-			/**
-			!#en Returns cursor location.
-			!#zh 获取鼠标位置对象，对象包含 x 和 y 属性。 
-			*/
-			getLocation(): Vec2;			
-			/**
-			!#en Returns the current cursor location in screen coordinates.
-			!#zh 获取当前事件在游戏窗口内的坐标位置对象，对象包含 x 和 y 属性。 
-			*/
-			getLocationInView(): Vec2;			
-			/**
-			!#en Returns the previous touch location.
-			!#zh 获取鼠标点击在上一次事件时的位置对象，对象包含 x 和 y 属性。 
-			*/
-			getPreviousLocation(): Vec2;			
-			/**
-			!#en Returns the delta distance from the previous location to current location.
-			!#zh 获取鼠标距离上一次事件移动的距离对象，对象包含 x 和 y 属性。 
-			*/
-			getDelta(): Vec2;			
-			/**
-			!#en Returns the X axis delta distance from the previous location to current location.
-			!#zh 获取鼠标距离上一次事件移动的 X 轴距离。 
-			*/
-			getDeltaX(): number;			
-			/**
-			!#en Returns the Y axis delta distance from the previous location to current location.
-			!#zh 获取鼠标距离上一次事件移动的 Y 轴距离。 
-			*/
-			getDeltaY(): number;			
-			/**
-			!#en Sets mouse button.
-			!#zh 设置鼠标按键。
-			@param button button 
-			*/
-			setButton(button: number): void;			
-			/**
-			!#en Returns mouse button.
-			!#zh 获取鼠标按键。 
-			*/
-			getButton(): number;			
-			/**
-			!#en Returns location X axis data.
-			!#zh 获取鼠标当前位置 X 轴。 
-			*/
-			getLocationX(): number;			
-			/**
-			!#en Returns location Y axis data.
-			!#zh 获取鼠标当前位置 Y 轴。 
-			*/
-			getLocationY(): number;			
-			/** !#en The none event code of mouse event.
-			!#zh 无。 */
-			static NONE: number;			
-			/** !#en The event type code of mouse down event.
-			!#zh 鼠标按下事件。 */
-			static DOWN: number;			
-			/** !#en The event type code of mouse up event.
-			!#zh 鼠标按下后释放事件。 */
-			static UP: number;			
-			/** !#en The event type code of mouse move event.
-			!#zh 鼠标移动事件。 */
-			static MOVE: number;			
-			/** !#en The event type code of mouse scroll event.
-			!#zh 鼠标滚轮事件。 */
-			static SCROLL: number;			
-			/** !#en The tag of Mouse left button.
-			!#zh 鼠标左键的标签。 */
-			static BUTTON_LEFT: number;			
-			/** !#en The tag of Mouse right button  (The right button number is 2 on browser).
-			!#zh 鼠标右键的标签。 */
-			static BUTTON_RIGHT: number;			
-			/** !#en The tag of Mouse middle button  (The right button number is 1 on browser).
-			!#zh 鼠标中键的标签。 */
-			static BUTTON_MIDDLE: number;			
-			/** !#en The tag of Mouse button 4.
-			!#zh 鼠标按键 4 的标签。 */
-			static BUTTON_4: number;			
-			/** !#en The tag of Mouse button 5.
-			!#zh 鼠标按键 5 的标签。 */
-			static BUTTON_5: number;			
-			/** !#en The tag of Mouse button 6.
-			!#zh 鼠标按键 6 的标签。 */
-			static BUTTON_6: number;			
-			/** !#en The tag of Mouse button 7.
-			!#zh 鼠标按键 7 的标签。 */
-			static BUTTON_7: number;			
-			/** !#en The tag of Mouse button 8.
-			!#zh 鼠标按键 8 的标签。 */
-			static BUTTON_8: number;		
-		}	
-	}
-		
-	/****************************************************
-	* Event
-	*****************************************************/
-	
-	export namespace Event {		
-		/** !#en The touch event
-		!#zh 触摸事件 */
-		export class EventTouch extends Event {			
-			/**
-			
-			@param touchArr The array of the touches
-			@param bubbles A boolean indicating whether the event bubbles up through the tree or not 
-			*/
-			constructor(touchArr: any[], bubbles: boolean);			
-			/** !#en The current touch object
-			!#zh 当前触点对象 */
-			touch: Touch;			
-			/**
-			!#en Returns event code.
-			!#zh 获取事件类型。 
-			*/
-			getEventCode(): number;			
-			/**
-			!#en Returns touches of event.
-			!#zh 获取触摸点的列表。 
-			*/
-			getTouches(): any[];			
-			/**
-			!#en Sets touch location.
-			!#zh 设置当前触点位置
-			@param x x
-			@param y y 
-			*/
-			setLocation(x: number, y: number): void;			
-			/**
-			!#en Returns touch location.
-			!#zh 获取触点位置。 
-			*/
-			getLocation(): Vec2;			
-			/**
-			!#en Returns the current touch location in screen coordinates.
-			!#zh 获取当前触点在游戏窗口中的位置。 
-			*/
-			getLocationInView(): Vec2;			
-			/**
-			!#en Returns the previous touch location.
-			!#zh 获取触点在上一次事件时的位置对象，对象包含 x 和 y 属性。 
-			*/
-			getPreviousLocation(): Vec2;			
-			/**
-			!#en Returns the start touch location.
-			!#zh 获获取触点落下时的位置对象，对象包含 x 和 y 属性。 
-			*/
-			getStartLocation(): Vec2;			
-			/**
-			!#en Returns the id of cc.Touch.
-			!#zh 触点的标识 ID，可以用来在多点触摸中跟踪触点。 
-			*/
-			getID(): number;			
-			/**
-			!#en Returns the delta distance from the previous location to current location.
-			!#zh 获取触点距离上一次事件移动的距离对象，对象包含 x 和 y 属性。 
-			*/
-			getDelta(): Vec2;			
-			/**
-			!#en Returns the X axis delta distance from the previous location to current location.
-			!#zh 获取触点距离上一次事件移动的 x 轴距离。 
-			*/
-			getDeltaX(): number;			
-			/**
-			!#en Returns the Y axis delta distance from the previous location to current location.
-			!#zh 获取触点距离上一次事件移动的 y 轴距离。 
-			*/
-			getDeltaY(): number;			
-			/**
-			!#en Returns location X axis data.
-			!#zh 获取当前触点 X 轴位置。 
-			*/
-			getLocationX(): number;			
-			/**
-			!#en Returns location Y axis data.
-			!#zh 获取当前触点 Y 轴位置。 
-			*/
-			getLocationY(): number;		
-		}	
-	}
-		
-	/****************************************************
-	* Event
-	*****************************************************/
-	
-	export namespace Event {		
-		/** !#en The acceleration event
-		!#zh 加速度事件 */
-		export class EventAcceleration extends Event {		
-		}	
-	}
-		
-	/****************************************************
-	* Event
-	*****************************************************/
-	
-	export namespace Event {		
-		/** !#en The keyboard event
-		!#zh 键盘事件 */
-		export class EventKeyboard extends Event {			
-			/** !#en
-			The keyCode read-only property represents a system and implementation dependent numerical code identifying the unmodified value of the pressed key.
-			This is usually the decimal ASCII (RFC 20) or Windows 1252 code corresponding to the key.
-			If the key can't be identified, this value is 0.
-			
-			!#zh
-			keyCode 是只读属性它表示一个系统和依赖于实现的数字代码，可以识别按键的未修改值。
-			这通常是十进制 ASCII (RFC20) 或者 Windows 1252 代码，所对应的密钥。
-			如果无法识别该键，则该值为 0。 */
-			keyCode: number;		
 		}	
 	}
 		
@@ -14771,24 +17423,24 @@ declare namespace cc {
 		该类允许用户设置回调目标节点，目标组件名，组件方法名，
 		并可通过 emit 方法调用目标函数。 */
 		export class EventHandler {			
-			/** !#en Event target
-			!#zh 目标节点 */
+			/** !#en the node that contains target callback, such as the node example script belongs to
+			!#zh 事件响应函数所在节点 ，比如例子中脚本归属的节点本身 */
 			target: Node;			
-			/** !#en Component name
-			!#zh 目标组件名 */
+			/** !#en name of the component(script) that contains target callback, such as the name 'MainMenu' of script in example
+			!#zh 事件响应函数所在组件名（脚本名）, 比如例子中的脚本名 'MainMenu' */
 			component: string;			
-			/** !#en Event handler
-			!#zh 响应事件函数名 */
+			/** !#en Event handler, such as function's name 'onClick' in example
+			!#zh 响应事件函数名，比如例子中的 'onClick' */
 			handler: string;			
-			/** !#en Custom Event Data
-			!#zh 自定义事件数据 */
+			/** !#en Custom Event Data, such as 'eventType' in example
+			!#zh 自定义事件数据，比如例子中的 eventType */
 			customEventData: string;			
 			/**
 			
 			@param events events
 			@param params params 
 			*/
-			static emitEvents(events: Component.EventHandler[], ...params: any[]): void;			
+			static emitEvents(events: EventHandler[], ...params: any[]): void;			
 			/**
 			!#en Emit event with params
 			!#zh 触发目标组件上的指定 handler 函数，该参数是回调函数的参数值（可不填）。
@@ -14861,7 +17513,18 @@ declare namespace cc {
 		export enum Type {			
 			TTF = 0,
 			BMFont = 0,
-			SystemFont = 0,
+			SystemFont = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* Label
+	*****************************************************/
+	
+	export namespace Label {		
+		/** !#en Enum for cache mode.
+		!#zh CacheMode 类型 */
+		export enum CacheMode {			
 			NONE = 0,
 			BITMAP = 0,
 			CHAR = 0,		
@@ -15139,6 +17802,1318 @@ declare namespace cc {
 	}
 		
 	/****************************************************
+	* Prefab
+	*****************************************************/
+	
+	export namespace Prefab {		
+		/** !#zh
+		Prefab 创建实例所用的优化策略，配合 {{#crossLink "Prefab.optimizationPolicy"}}cc.Prefab#optimizationPolicy{{/crossLink}} 使用。
+		!#en
+		An enumeration used with the {{#crossLink "Prefab.optimizationPolicy"}}cc.Prefab#optimizationPolicy{{/crossLink}}
+		to specify how to optimize the instantiate operation. */
+		export enum OptimizationPolicy {			
+			AUTO = 0,
+			SINGLE_INSTANCE = 0,
+			MULTI_INSTANCE = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* RenderTexture
+	*****************************************************/
+	
+	export namespace RenderTexture {		
+		/** !#en The depth buffer and stencil buffer format for RenderTexture.
+		!#zh RenderTexture 的深度缓冲以及模板缓冲格式。 */
+		export enum DepthStencilFormat {			
+			RB_FMT_D24S8 = 0,
+			RB_FMT_S8 = 0,
+			RB_FMT_D16 = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* Texture2D
+	*****************************************************/
+	
+	export namespace Texture2D {		
+		/** The texture pixel format, default value is RGBA8888,
+		you should note that textures loaded by normal image files (png, jpg) can only support RGBA8888 format,
+		other formats are supported by compressed file types or raw data. */
+		export enum PixelFormat {			
+			RGB565 = 0,
+			RGB5A1 = 0,
+			RGBA4444 = 0,
+			RGB888 = 0,
+			RGBA8888 = 0,
+			RGBA32F = 0,
+			A8 = 0,
+			I8 = 0,
+			AI88 = 0,
+			RGB_PVRTC_2BPPV1 = 0,
+			RGBA_PVRTC_2BPPV1 = 0,
+			RGB_A_PVRTC_2BPPV1 = 0,
+			RGB_PVRTC_4BPPV1 = 0,
+			RGBA_PVRTC_4BPPV1 = 0,
+			RGB_A_PVRTC_4BPPV1 = 0,
+			RGB_ETC1 = 0,
+			RGBA_ETC1 = 0,
+			RGB_ETC2 = 0,
+			RGBA_ETC2 = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* Texture2D
+	*****************************************************/
+	
+	export namespace Texture2D {		
+		/** The texture wrap mode */
+		export enum WrapMode {			
+			REPEAT = 0,
+			CLAMP_TO_EDGE = 0,
+			MIRRORED_REPEAT = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* Texture2D
+	*****************************************************/
+	
+	export namespace Texture2D {		
+		/** The texture filter mode */
+		export enum Filter {			
+			LINEAR = 0,
+			NEAREST = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* Event
+	*****************************************************/
+	
+	export namespace Event {		
+		/** !#en The mouse event
+		!#zh 鼠标事件类型 */
+		export class EventMouse extends Event {			
+			/**
+			!#en Sets scroll data.
+			!#zh 设置鼠标的滚动数据。
+			@param scrollX scrollX
+			@param scrollY scrollY 
+			*/
+			setScrollData(scrollX: number, scrollY: number): void;			
+			/**
+			!#en Returns the x axis scroll value.
+			!#zh 获取鼠标滚动的X轴距离，只有滚动时才有效。 
+			*/
+			getScrollX(): number;			
+			/**
+			!#en Returns the y axis scroll value.
+			!#zh 获取滚轮滚动的 Y 轴距离，只有滚动时才有效。 
+			*/
+			getScrollY(): number;			
+			/**
+			!#en Sets cursor location.
+			!#zh 设置当前鼠标位置。
+			@param x x
+			@param y y 
+			*/
+			setLocation(x: number, y: number): void;			
+			/**
+			!#en Returns cursor location.
+			!#zh 获取鼠标位置对象，对象包含 x 和 y 属性。 
+			*/
+			getLocation(): Vec2;			
+			/**
+			!#en Returns the current cursor location in screen coordinates.
+			!#zh 获取当前事件在游戏窗口内的坐标位置对象，对象包含 x 和 y 属性。 
+			*/
+			getLocationInView(): Vec2;			
+			/**
+			!#en Returns the previous touch location.
+			!#zh 获取鼠标点击在上一次事件时的位置对象，对象包含 x 和 y 属性。 
+			*/
+			getPreviousLocation(): Vec2;			
+			/**
+			!#en Returns the delta distance from the previous location to current location.
+			!#zh 获取鼠标距离上一次事件移动的距离对象，对象包含 x 和 y 属性。 
+			*/
+			getDelta(): Vec2;			
+			/**
+			!#en Returns the X axis delta distance from the previous location to current location.
+			!#zh 获取鼠标距离上一次事件移动的 X 轴距离。 
+			*/
+			getDeltaX(): number;			
+			/**
+			!#en Returns the Y axis delta distance from the previous location to current location.
+			!#zh 获取鼠标距离上一次事件移动的 Y 轴距离。 
+			*/
+			getDeltaY(): number;			
+			/**
+			!#en Sets mouse button.
+			!#zh 设置鼠标按键。
+			@param button button 
+			*/
+			setButton(button: number): void;			
+			/**
+			!#en Returns mouse button.
+			!#zh 获取鼠标按键。 
+			*/
+			getButton(): number;			
+			/**
+			!#en Returns location X axis data.
+			!#zh 获取鼠标当前位置 X 轴。 
+			*/
+			getLocationX(): number;			
+			/**
+			!#en Returns location Y axis data.
+			!#zh 获取鼠标当前位置 Y 轴。 
+			*/
+			getLocationY(): number;			
+			/** !#en The none event code of mouse event.
+			!#zh 无。 */
+			static NONE: number;			
+			/** !#en The event type code of mouse down event.
+			!#zh 鼠标按下事件。 */
+			static DOWN: number;			
+			/** !#en The event type code of mouse up event.
+			!#zh 鼠标按下后释放事件。 */
+			static UP: number;			
+			/** !#en The event type code of mouse move event.
+			!#zh 鼠标移动事件。 */
+			static MOVE: number;			
+			/** !#en The event type code of mouse scroll event.
+			!#zh 鼠标滚轮事件。 */
+			static SCROLL: number;			
+			/** !#en The tag of Mouse left button.
+			!#zh 鼠标左键的标签。 */
+			static BUTTON_LEFT: number;			
+			/** !#en The tag of Mouse right button  (The right button number is 2 on browser).
+			!#zh 鼠标右键的标签。 */
+			static BUTTON_RIGHT: number;			
+			/** !#en The tag of Mouse middle button  (The right button number is 1 on browser).
+			!#zh 鼠标中键的标签。 */
+			static BUTTON_MIDDLE: number;			
+			/** !#en The tag of Mouse button 4.
+			!#zh 鼠标按键 4 的标签。 */
+			static BUTTON_4: number;			
+			/** !#en The tag of Mouse button 5.
+			!#zh 鼠标按键 5 的标签。 */
+			static BUTTON_5: number;			
+			/** !#en The tag of Mouse button 6.
+			!#zh 鼠标按键 6 的标签。 */
+			static BUTTON_6: number;			
+			/** !#en The tag of Mouse button 7.
+			!#zh 鼠标按键 7 的标签。 */
+			static BUTTON_7: number;			
+			/** !#en The tag of Mouse button 8.
+			!#zh 鼠标按键 8 的标签。 */
+			static BUTTON_8: number;		
+		}	
+	}
+		
+	/****************************************************
+	* Event
+	*****************************************************/
+	
+	export namespace Event {		
+		/** !#en The touch event
+		!#zh 触摸事件 */
+		export class EventTouch extends Event {			
+			/**
+			
+			@param touchArr The array of the touches
+			@param bubbles A boolean indicating whether the event bubbles up through the tree or not 
+			*/
+			constructor(touchArr: any[], bubbles: boolean);			
+			/** !#en The current touch object
+			!#zh 当前触点对象 */
+			touch: Touch;			
+			/**
+			!#en Returns event code.
+			!#zh 获取事件类型。 
+			*/
+			getEventCode(): number;			
+			/**
+			!#en Returns touches of event.
+			!#zh 获取触摸点的列表。 
+			*/
+			getTouches(): any[];			
+			/**
+			!#en Sets touch location.
+			!#zh 设置当前触点位置
+			@param x x
+			@param y y 
+			*/
+			setLocation(x: number, y: number): void;			
+			/**
+			!#en Returns touch location.
+			!#zh 获取触点位置。 
+			*/
+			getLocation(): Vec2;			
+			/**
+			!#en Returns the current touch location in screen coordinates.
+			!#zh 获取当前触点在游戏窗口中的位置。 
+			*/
+			getLocationInView(): Vec2;			
+			/**
+			!#en Returns the previous touch location.
+			!#zh 获取触点在上一次事件时的位置对象，对象包含 x 和 y 属性。 
+			*/
+			getPreviousLocation(): Vec2;			
+			/**
+			!#en Returns the start touch location.
+			!#zh 获取触点落下时的位置对象，对象包含 x 和 y 属性。 
+			*/
+			getStartLocation(): Vec2;			
+			/**
+			!#en Returns the id of cc.Touch.
+			!#zh 触点的标识 ID，可以用来在多点触摸中跟踪触点。 
+			*/
+			getID(): number;			
+			/**
+			!#en Returns the delta distance from the previous location to current location.
+			!#zh 获取触点距离上一次事件移动的距离对象，对象包含 x 和 y 属性。 
+			*/
+			getDelta(): Vec2;			
+			/**
+			!#en Returns the X axis delta distance from the previous location to current location.
+			!#zh 获取触点距离上一次事件移动的 x 轴距离。 
+			*/
+			getDeltaX(): number;			
+			/**
+			!#en Returns the Y axis delta distance from the previous location to current location.
+			!#zh 获取触点距离上一次事件移动的 y 轴距离。 
+			*/
+			getDeltaY(): number;			
+			/**
+			!#en Returns location X axis data.
+			!#zh 获取当前触点 X 轴位置。 
+			*/
+			getLocationX(): number;			
+			/**
+			!#en Returns location Y axis data.
+			!#zh 获取当前触点 Y 轴位置。 
+			*/
+			getLocationY(): number;		
+		}	
+	}
+		
+	/****************************************************
+	* Event
+	*****************************************************/
+	
+	export namespace Event {		
+		/** !#en The acceleration event
+		!#zh 加速度事件 */
+		export class EventAcceleration extends Event {		
+		}	
+	}
+		
+	/****************************************************
+	* Event
+	*****************************************************/
+	
+	export namespace Event {		
+		/** !#en The keyboard event
+		!#zh 键盘事件 */
+		export class EventKeyboard extends Event {			
+			/** !#en
+			The keyCode read-only property represents a system and implementation dependent numerical code identifying the unmodified value of the pressed key.
+			This is usually the decimal ASCII (RFC 20) or Windows 1252 code corresponding to the key.
+			If the key can't be identified, this value is 0.
+			
+			!#zh
+			keyCode 是只读属性它表示一个系统和依赖于实现的数字代码，可以识别按键的未修改值。
+			这通常是十进制 ASCII (RFC20) 或者 Windows 1252 代码，所对应的密钥。
+			如果无法识别该键，则该值为 0。 */
+			keyCode: number;		
+		}	
+	}
+		
+	/****************************************************
+	* Event
+	*****************************************************/
+	
+	export namespace Event {		
+		/** !#en The Custom event
+		!#zh 自定义事件 */
+		export class EventCustom extends Event {			
+			/**
+			
+			@param type The name of the event (case-sensitive), e.g. "click", "fire", or "submit"
+			@param bubbles A boolean indicating whether the event bubbles up through the tree or not 
+			*/
+			constructor(type: string, bubbles: boolean);			
+			/** !#en A reference to the detailed data of the event
+			!#zh 事件的详细数据 */
+			detail: any;			
+			/**
+			!#en Sets user data
+			!#zh 设置用户数据
+			@param data data 
+			*/
+			setUserData(data: any): void;			
+			/**
+			!#en Gets user data
+			!#zh 获取用户数据 
+			*/
+			getUserData(): any;			
+			/**
+			!#en Gets event name
+			!#zh 获取事件名称 
+			*/
+			getEventName(): string;		
+		}	
+	}
+		
+	/****************************************************
+	* SystemEvent
+	*****************************************************/
+	
+	export namespace SystemEvent {		
+		/** !#en The event type supported by SystemEvent
+		!#zh SystemEvent 支持的事件类型 */
+		export class EventType {			
+			/** !#en The event type for press the key down event, you can use its value directly: 'keydown'
+			!#zh 当按下按键时触发的事件 */
+			static KEY_DOWN: string;			
+			/** !#en The event type for press the key up event, you can use its value directly: 'keyup'
+			!#zh 当松开按键时触发的事件 */
+			static KEY_UP: string;			
+			/** !#en The event type for press the devicemotion event, you can use its value directly: 'devicemotion'
+			!#zh 重力感应 */
+			static DEVICEMOTION: string;		
+		}	
+	}
+		
+	/****************************************************
+	* geomUtils
+	*****************************************************/
+	
+	export namespace geomUtils {		
+		/** Aabb */
+		export class Aabb {			
+			/**
+			create a new aabb
+			@param px X coordinates for aabb's original point
+			@param py Y coordinates for aabb's original point
+			@param pz Z coordinates for aabb's original point
+			@param w the half of aabb width
+			@param h the half of aabb height
+			@param l the half of aabb length 
+			*/
+			create(px: number, py: number, pz: number, w: number, h: number, l: number): Aabb;			
+			/**
+			clone a new aabb
+			@param a the source aabb 
+			*/
+			clone(a: Aabb): Aabb;			
+			/**
+			copy the values from one aabb to another
+			@param out the receiving aabb
+			@param a the source aabb 
+			*/
+			copy(out: Aabb, a: Aabb): Aabb;			
+			/**
+			create a new aabb from two corner points
+			@param out the receiving aabb
+			@param minPos lower corner position of the aabb
+			@param maxPos upper corner position of the aabb 
+			*/
+			fromPoints(out: Aabb, minPos: Vec3, maxPos: Vec3): Aabb;			
+			/**
+			Set the components of a aabb to the given values
+			@param out the receiving aabb
+			@param px X coordinates for aabb's original point
+			@param py Y coordinates for aabb's original point
+			@param pz Z coordinates for aabb's original point
+			@param w the half of aabb width
+			@param h the half of aabb height
+			@param l the half of aabb length 
+			*/
+			set(out: Aabb, px: number, py: number, pz: number, w: number, h: number, l: number): Aabb;			
+			center: Vec3;			
+			halfExtents: Vec3;			
+			_type: number;			
+			/**
+			Get the bounding points of this shape
+			@param minPos minPos
+			@param maxPos maxPos 
+			*/
+			getBoundary(minPos: Vec3, maxPos: Vec3): void;			
+			/**
+			Transform this shape
+			@param m the transform matrix
+			@param pos the position part of the transform
+			@param rot the rotation part of the transform
+			@param scale the scale part of the transform
+			@param out the target shape 
+			*/
+			transform(m: Mat4, pos: Vec3, rot: Quat, scale: Vec3, out?: Aabb): void;		
+		}	
+	}
+		
+	/****************************************************
+	* geomUtils
+	*****************************************************/
+	
+	export namespace geomUtils {		
+		/** !#en Shape type. */
+		export enum enums {			
+			SHAPE_RAY = 0,
+			SHAPE_LINE = 0,
+			SHAPE_SPHERE = 0,
+			SHAPE_AABB = 0,
+			SHAPE_OBB = 0,
+			SHAPE_PLANE = 0,
+			SHAPE_TRIANGLE = 0,
+			SHAPE_FRUSTUM = 0,
+			SHAPE_FRUSTUM_ACCURATE = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* geomUtils
+	*****************************************************/
+	
+	export namespace geomUtils {		
+		/** !#en frustum
+		!#zh 平截头体 */
+		export class Frustum {			
+			/** Set whether to use accurate intersection testing function on this frustum */
+			accurate: boolean;			
+			/**
+			create a new frustum 
+			*/
+			static create(): Frustum;			
+			/**
+			Clone a frustum
+			@param f f 
+			*/
+			static clone(f: Frustum): Frustum;			
+			/**
+			Copy the values from one frustum to another
+			@param out out
+			@param f f 
+			*/
+			copy(out: Frustum, f: Frustum): Frustum;			
+			planes: geomUtils.Plane[];			
+			planes: Vec3[];			
+			/**
+			!#en Update the frustum information according to the given transform matrix.
+			Note that the resulting planes are not normalized under normal mode.
+			@param m the view-projection matrix
+			@param inv the inverse view-projection matrix 
+			*/
+			update(m: Mat4, inv: Mat4): void;			
+			/**
+			!#en transform by matrix
+			@param mat mat 
+			*/
+			transform(mat: Mat4): void;		
+		}	
+	}
+		
+	/****************************************************
+	* geomUtils
+	*****************************************************/
+	
+	export namespace geomUtils {		
+		/** undefined */
+		export class intersect {			
+			/**
+			!#en
+			Check whether ray intersect with nodes
+			!#zh
+			检测射线是否与物体有交集
+			@param root If root is null, then traversal nodes from scene node
+			@param worldRay worldRay
+			@param handler handler
+			@param filter filter 
+			*/
+			static ray_cast(root: Node, worldRay: geomUtils.Ray, handler: Function, filter: Function): any[];			
+			/**
+			!#en ray-plane intersect<br/>
+			!#zh 射线与平面的相交性检测。
+			@param ray ray
+			@param plane plane 
+			*/
+			static ray_plane(ray: geomUtils.Ray, plane: geomUtils.Plane): number;			
+			/**
+			!#en line-plane intersect<br/>
+			!#zh 线段与平面的相交性检测。
+			@param line line
+			@param plane plane 
+			*/
+			static line_plane(line: geomUtils.Line, plane: geomUtils.Plane): number;			
+			/**
+			!#en ray-triangle intersect<br/>
+			!#zh 射线与三角形的相交性检测。
+			@param ray ray
+			@param triangle triangle
+			@param doubleSided doubleSided 
+			*/
+			static ray_triangle(ray: geomUtils.Ray, triangle: geomUtils.Triangle, doubleSided: boolean): number;			
+			/**
+			!#en line-triangle intersect<br/>
+			!#zh 线段与三角形的相交性检测。
+			@param line line
+			@param triangle triangle
+			@param outPt optional, The intersection point 
+			*/
+			static line_triangle(line: geomUtils.Line, triangle: geomUtils.Triangle, outPt: Vec3): number;			
+			/**
+			!#en line-quad intersect<br/>
+			!#zh 线段与四边形的相交性检测。
+			@param p A point on a line segment
+			@param q Another point on the line segment
+			@param a Quadrilateral point a
+			@param b Quadrilateral point b
+			@param c Quadrilateral point c
+			@param d Quadrilateral point d
+			@param outPt optional, The intersection point 
+			*/
+			static line_quad(p: Vec3, q: Vec3, a: Vec3, b: Vec3, c: Vec3, d: Vec3, outPt: Vec3): number;			
+			/**
+			!#en ray-sphere intersect<br/>
+			!#zh 射线和球的相交性检测。
+			@param ray ray
+			@param sphere sphere 
+			*/
+			static ray_sphere(ray: geomUtils.Ray, sphere: geomUtils.Sphere): number;			
+			/**
+			!#en ray-aabb intersect<br/>
+			!#zh 射线和轴对齐包围盒的相交性检测。
+			@param ray ray
+			@param aabb Align the axis around the box 
+			*/
+			static ray_aabb(ray: geomUtils.Ray, aabb: Aabb): number;			
+			/**
+			!#en ray-obb intersect<br/>
+			!#zh 射线和方向包围盒的相交性检测。
+			@param ray ray
+			@param obb Direction box 
+			*/
+			static ray_obb(ray: geomUtils.Ray, obb: geomUtils.Obb): number;			
+			/**
+			!#en aabb-aabb intersect<br/>
+			!#zh 轴对齐包围盒和轴对齐包围盒的相交性检测。
+			@param aabb1 Axis alignment surrounds box 1
+			@param aabb2 Axis alignment surrounds box 2 
+			*/
+			static aabb_aabb(aabb1: Aabb, aabb2: Aabb): number;			
+			/**
+			!#en aabb-obb intersect<br/>
+			!#zh 轴对齐包围盒和方向包围盒的相交性检测。
+			@param aabb Align the axis around the box
+			@param obb Direction box 
+			*/
+			static aabb_obb(aabb: Aabb, obb: geomUtils.Obb): number;			
+			/**
+			!#en aabb-plane intersect<br/>
+			!#zh 轴对齐包围盒和平面的相交性检测。
+			@param aabb Align the axis around the box
+			@param plane plane 
+			*/
+			static aabb_plane(aabb: Aabb, plane: geomUtils.Plane): number;			
+			/**
+			!#en aabb-frustum intersect, faster but has false positive corner cases<br/>
+			!#zh 轴对齐包围盒和锥台相交性检测，速度快，但有错误情况。
+			@param aabb Align the axis around the box
+			@param frustum frustum 
+			*/
+			static aabb_frustum(aabb: Aabb, frustum: Frustum): number;			
+			/**
+			!#en aabb-frustum intersect, handles most of the false positives correctly<br/>
+			!#zh 轴对齐包围盒和锥台相交性检测，正确处理大多数错误情况。
+			@param aabb Align the axis around the box
+			@param frustum frustum 
+			*/
+			static aabb_frustum_accurate(aabb: Aabb, frustum: Frustum): number;			
+			/**
+			!#en obb-point intersect<br/>
+			!#zh 方向包围盒和点的相交性检测。
+			@param obb Direction box
+			@param point point 
+			*/
+			static obb_point(obb: geomUtils.Obb, point: geomUtils.Vec3): boolean;			
+			/**
+			!#en obb-plane intersect<br/>
+			!#zh 方向包围盒和平面的相交性检测。
+			@param obb Direction box
+			@param plane plane 
+			*/
+			static obb_plane(obb: geomUtils.Obb, plane: geomUtils.Plane): number;			
+			/**
+			!#en obb-frustum intersect, faster but has false positive corner cases<br/>
+			!#zh 方向包围盒和锥台相交性检测，速度快，但有错误情况。
+			@param obb Direction box
+			@param frustum frustum 
+			*/
+			static obb_frustum(obb: geomUtils.Obb, frustum: Frustum): number;			
+			/**
+			!#en obb-frustum intersect, handles most of the false positives correctly<br/>
+			!#zh 方向包围盒和锥台相交性检测，正确处理大多数错误情况。
+			@param obb Direction box
+			@param frustum frustum 
+			*/
+			static obb_frustum_accurate(obb: geomUtils.Obb, frustum: Frustum): number;			
+			/**
+			!#en obb-obb intersect<br/>
+			!#zh 方向包围盒和方向包围盒的相交性检测。
+			@param obb1 Direction box1
+			@param obb2 Direction box2 
+			*/
+			static obb_obb(obb1: geomUtils.Obb, obb2: geomUtils.Obb): number;			
+			/**
+			!#en phere-plane intersect, not necessarily faster than obb-plane<br/>
+			due to the length calculation of the plane normal to factor out<br/>
+			the unnomalized plane distance<br/>
+			!#zh 球与平面的相交性检测。
+			@param sphere sphere
+			@param plane plane 
+			*/
+			static sphere_plane(sphere: geomUtils.Sphere, plane: geomUtils.Plane): number;			
+			/**
+			!#en sphere-frustum intersect, faster but has false positive corner cases<br/>
+			!#zh 球和锥台的相交性检测，速度快，但有错误情况。
+			@param sphere sphere
+			@param frustum frustum 
+			*/
+			static sphere_frustum(sphere: geomUtils.Sphere, frustum: Frustum): number;			
+			/**
+			!#en sphere-frustum intersect, handles the false positives correctly<br/>
+			!#zh 球和锥台的相交性检测，正确处理大多数错误情况。
+			@param sphere sphere
+			@param frustum frustum 
+			*/
+			static sphere_frustum_accurate(sphere: geomUtils.Sphere, frustum: Frustum): number;			
+			/**
+			!#en sphere-sphere intersect<br/>
+			!#zh 球和球的相交性检测。
+			@param sphere0 sphere0
+			@param sphere1 sphere1 
+			*/
+			static sphere_sphere(sphere0: geomUtils.Sphere, sphere1: geomUtils.Sphere): boolean;			
+			/**
+			!#en sphere-aabb intersect<br/>
+			!#zh 球和轴对齐包围盒的相交性检测。
+			@param sphere sphere
+			@param aabb aabb 
+			*/
+			static sphere_aabb(sphere: geomUtils.Sphere, aabb: Aabb): boolean;			
+			/**
+			!#en sphere-obb intersect<br/>
+			!#zh 球和方向包围盒的相交性检测。
+			@param sphere sphere
+			@param obb obb 
+			*/
+			static sphere_obb(sphere: geomUtils.Sphere, obb: geomUtils.Obb): boolean;			
+			/**
+			!#en
+			The intersection detection of g1 and g2 can fill in the shape in the basic geometry.
+			!#zh
+			g1 和 g2 的相交性检测，可填入基础几何中的形状。
+			@param g1 Geometry 1
+			@param g2 Geometry 2
+			@param outPt optional, Intersection point. (note: only partial shape detection with this return value) 
+			*/
+			static resolve(g1: any, g2: any, outPt: any): void;		
+		}	
+	}
+		
+	/****************************************************
+	* geomUtils
+	*****************************************************/
+	
+	export namespace geomUtils {		
+		/** !#en
+		line
+		!#zh
+		直线 */
+		export class Line {			
+			/**
+			!#en
+			create a new line
+			!#zh
+			创建一个新的 line。
+			@param sx The x part of the starting point.
+			@param sy The y part of the starting point.
+			@param sz The z part of the starting point.
+			@param ex The x part of the end point.
+			@param ey The y part of the end point.
+			@param ez The z part of the end point. 
+			*/
+			create(sx: number, sy: number, sz: number, ex: number, ey: number, ez: number): Line;			
+			/**
+			!#en
+			Creates a new line initialized with values from an existing line
+			!#zh
+			克隆一个新的 line。
+			@param a The source of cloning. 
+			*/
+			clone(a: Line): Line;			
+			/**
+			!#en
+			Copy the values from one line to another
+			!#zh
+			复制一个线的值到另一个。
+			@param out The object that accepts the action.
+			@param a The source of the copy. 
+			*/
+			copy(out: Line, a: Line): Line;			
+			/**
+			!#en
+			create a line from two points
+			!#zh
+			用两个点创建一个线。
+			@param out The object that accepts the action.
+			@param start The starting point.
+			@param end At the end. 
+			*/
+			fromPoints(out: Line, start: Vec3, end: Vec3): Line;			
+			/**
+			!#en
+			Set the components of a Vec3 to the given values
+			!#zh
+			将给定线的属性设置为给定值。
+			@param out The object that accepts the action.
+			@param sx The x part of the starting point.
+			@param sy The y part of the starting point.
+			@param sz The z part of the starting point.
+			@param ex The x part of the end point.
+			@param ey The y part of the end point.
+			@param ez The z part of the end point. 
+			*/
+			set(out: Line, sx: number, sy: number, sz: number, ex: number, ey: number, ez: number): Line;			
+			/**
+			!#en
+			Calculate the length of the line.
+			!#zh
+			计算线的长度。
+			@param a The line to calculate. 
+			*/
+			len(a: Line): number;			
+			/** !#en
+			Start points.
+			!#zh
+			起点。 */
+			s: Vec3;			
+			/** !#en
+			End points.
+			!#zh
+			终点。 */
+			e: Vec3;			
+			/**
+			!#en
+			Calculate the length of the line.
+			!#zh
+			计算线的长度。 
+			*/
+			length(): number;		
+		}	
+	}
+		
+	/****************************************************
+	* geomUtils
+	*****************************************************/
+	
+	export namespace geomUtils {		
+		/** !#en obb
+		!#zh
+		基础几何  方向包围盒。 */
+		export class Obb {			
+			/** !#zh
+			获取形状的类型。 */
+			type: number;			
+			/**
+			!#en
+			create a new obb
+			!#zh
+			创建一个新的 obb 实例。
+			@param cx X coordinates of the shape relative to the origin.
+			@param cy Y coordinates of the shape relative to the origin.
+			@param cz Z coordinates of the shape relative to the origin.
+			@param hw Obb is half the width.
+			@param hh Obb is half the height.
+			@param hl Obb is half the Length.
+			@param ox_1 Direction matrix parameter.
+			@param ox_2 Direction matrix parameter.
+			@param ox_3 Direction matrix parameter.
+			@param oy_1 Direction matrix parameter.
+			@param oy_2 Direction matrix parameter.
+			@param oy_3 Direction matrix parameter.
+			@param oz_1 Direction matrix parameter.
+			@param oz_2 Direction matrix parameter.
+			@param oz_3 Direction matrix parameter. 
+			*/
+			create(cx: number, cy: number, cz: number, hw: number, hh: number, hl: number, ox_1: number, ox_2: number, ox_3: number, oy_1: number, oy_2: number, oy_3: number, oz_1: number, oz_2: number, oz_3: number): Obb;			
+			/**
+			!#en
+			clone a new obb
+			!#zh
+			克隆一个 obb。
+			@param a The target of cloning. 
+			*/
+			clone(a: Obb): Obb;			
+			/**
+			!#en
+			copy the values from one obb to another
+			!#zh
+			将从一个 obb 的值复制到另一个 obb。
+			@param out Obb that accepts the operation.
+			@param a Obb being copied. 
+			*/
+			copy(out: Obb, a: Obb): Obb;			
+			/**
+			!#en
+			create a new obb from two corner points
+			!#zh
+			用两个点创建一个新的 obb。
+			@param out Obb that accepts the operation.
+			@param minPos The smallest point of obb.
+			@param maxPos Obb's maximum point. 
+			*/
+			fromPoints(out: Obb, minPos: Vec3, maxPos: Vec3): Obb;			
+			/**
+			!#en
+			Set the components of a obb to the given values
+			!#zh
+			将给定 obb 的属性设置为给定的值。
+			@param cx X coordinates of the shape relative to the origin.
+			@param cy Y coordinates of the shape relative to the origin.
+			@param cz Z coordinates of the shape relative to the origin.
+			@param hw Obb is half the width.
+			@param hh Obb is half the height.
+			@param hl Obb is half the Length.
+			@param ox_1 Direction matrix parameter.
+			@param ox_2 Direction matrix parameter.
+			@param ox_3 Direction matrix parameter.
+			@param oy_1 Direction matrix parameter.
+			@param oy_2 Direction matrix parameter.
+			@param oy_3 Direction matrix parameter.
+			@param oz_1 Direction matrix parameter.
+			@param oz_2 Direction matrix parameter.
+			@param oz_3 Direction matrix parameter. 
+			*/
+			set(cx: number, cy: number, cz: number, hw: number, hh: number, hl: number, ox_1: number, ox_2: number, ox_3: number, oy_1: number, oy_2: number, oy_3: number, oz_1: number, oz_2: number, oz_3: number): Obb;			
+			/** !#en
+			The center of the local coordinate.
+			!#zh
+			本地坐标的中心点。 */
+			center: Vec3;			
+			/** !#en
+			Half the length, width, and height.
+			!#zh
+			长宽高的一半。 */
+			halfExtents: Vec3;			
+			/** !#en
+			Direction matrix.
+			!#zh
+			方向矩阵。 */
+			orientation: Mat3;			
+			/**
+			!#en
+			Get the bounding points of this shape
+			!#zh
+			获取 obb 的最小点和最大点。
+			@param minPos minPos
+			@param maxPos maxPos 
+			*/
+			getBoundary(minPos: Vec3, maxPos: Vec3): void;			
+			/**
+			!#en Transform this shape
+			!#zh
+			将 out 根据这个 obb 的数据进行变换。
+			@param m The transformation matrix.
+			@param pos The position part of the transformation.
+			@param rot The rotating part of the transformation.
+			@param scale The scaling part of the transformation.
+			@param out Target of transformation. 
+			*/
+			transform(m: Mat4, pos: Vec3, rot: Quat, scale: Vec3, out: Obb): void;			
+			/**
+			!#en
+			Transform out based on this obb data.
+			!#zh
+			将 out 根据这个 obb 的数据进行变换。
+			@param m The transformation matrix.
+			@param rot The rotating part of the transformation.
+			@param out Target of transformation. 
+			*/
+			translateAndRotate(m: Mat4, rot: Quat, out: Obb): void;			
+			/**
+			!#en
+			Scale out based on this obb data.
+			!#zh
+			将 out 根据这个 obb 的数据进行缩放。
+			@param scale Scale value.
+			@param out Scaled target. 
+			*/
+			setScale(scale: Vec3, out: Obb): void;		
+		}	
+	}
+		
+	/****************************************************
+	* geomUtils
+	*****************************************************/
+	
+	export namespace geomUtils {		
+		/** !#en
+		plane。
+		!#zh
+		平面。 */
+		export class Plane {			
+			/**
+			!#en
+			create a new plane
+			!#zh
+			创建一个新的 plane。
+			@param nx The x part of the normal component.
+			@param ny The y part of the normal component.
+			@param nz The z part of the normal component.
+			@param d Distance from the origin. 
+			*/
+			create(nx: number, ny: number, nz: number, d: number): Plane;			
+			/**
+			!#en
+			clone a new plane
+			!#zh
+			克隆一个新的 plane。
+			@param p The source of cloning. 
+			*/
+			clone(p: Plane): Plane;			
+			/**
+			!#en
+			copy the values from one plane to another
+			!#zh
+			复制一个平面的值到另一个。
+			@param out The object that accepts the action.
+			@param p The source of the copy. 
+			*/
+			copy(out: Plane, p: Plane): Plane;			
+			/**
+			!#en
+			create a plane from three points
+			!#zh
+			用三个点创建一个平面。
+			@param out The object that accepts the action.
+			@param a Point a。
+			@param b Point b。
+			@param c Point c。 
+			*/
+			fromPoints(out: Plane, a: Vec3, b: Vec3, c: Vec3): Plane;			
+			/**
+			!#en
+			Set the components of a plane to the given values
+			!#zh
+			将给定平面的属性设置为给定值。
+			@param out The object that accepts the action.
+			@param nx The x part of the normal component.
+			@param ny The y part of the normal component.
+			@param nz The z part of the normal component.
+			@param d Distance from the origin. 
+			*/
+			set(out: Plane, nx: number, ny: number, nz: number, d: number): Plane;			
+			/**
+			!#en
+			create plane from normal and point
+			!#zh
+			用一条法线和一个点创建平面。
+			@param out The object that accepts the action.
+			@param normal The normal of a plane.
+			@param point A point on the plane. 
+			*/
+			fromNormalAndPoint(out: Plane, normal: Vec3, point: Vec3): Plane;			
+			/**
+			!#en
+			normalize a plane
+			!#zh
+			归一化一个平面。
+			@param out The object that accepts the action.
+			@param a Source data for operations. 
+			*/
+			normalize(out: Plane, a: Plane): Plane;			
+			/** !#en
+			A normal vector.
+			!#zh
+			法线向量。 */
+			n: Vec3;			
+			/** !#en
+			The distance from the origin to the plane.
+			!#zh
+			原点到平面的距离。 */
+			d: number;			
+			/**
+			!#en
+			Transform a plane.
+			!#zh
+			变换一个平面。
+			@param mat mat 
+			*/
+			transform(mat: Mat4): void;		
+		}	
+	}
+		
+	/****************************************************
+	* geomUtils
+	*****************************************************/
+	
+	export namespace geomUtils {		
+		/** !#en
+		ray
+		!#zh
+		射线。 */
+		export class Ray {			
+			/**
+			!#en
+			create a new ray
+			!#zh
+			创建一条射线。
+			@param ox The x part of the starting point.
+			@param oy The y part of the starting point.
+			@param oz The z part of the starting point.
+			@param dx X in the direction.
+			@param dy Y in the direction.
+			@param dz Z in the direction. 
+			*/
+			create(ox: number, oy: number, oz: number, dx: number, dy: number, dz: number): Ray;			
+			/**
+			!#en
+			Creates a new ray initialized with values from an existing ray
+			!#zh
+			从一条射线克隆出一条新的射线。
+			@param a Clone target 
+			*/
+			clone(a: Ray): Ray;			
+			/**
+			!#en
+			Copy the values from one ray to another
+			!#zh
+			将从一个 ray 的值复制到另一个 ray。
+			@param out Accept the ray of the operation.
+			@param a Copied ray. 
+			*/
+			copy(out: Ray, a: Ray): Ray;			
+			/**
+			!#en
+			create a ray from two points
+			!#zh
+			用两个点创建一条射线。
+			@param out Receive the operating ray.
+			@param origin Origin of ray
+			@param target A point on a ray. 
+			*/
+			fromPoints(out: Ray, origin: Vec3, target: Vec3): Ray;			
+			/**
+			!#en
+			Set the components of a ray to the given values
+			!#zh
+			将给定射线的属性设置为给定的值。
+			@param out Receive the operating ray.
+			@param ox The x part of the starting point.
+			@param oy The y part of the starting point.
+			@param oz The z part of the starting point.
+			@param dx X in the direction.
+			@param dy Y in the direction.
+			@param dz Z in the direction. 
+			*/
+			set(out: Ray, ox: number, oy: number, oz: number, dx: number, dy: number, dz: number): Ray;			
+			/** !#en
+			Start point.
+			!#zh
+			起点。 */
+			o: Vec3;			
+			/** !#e
+			Direction
+			!#zh
+			方向。 */
+			d: Vec3;			
+			/**
+			!#en Compute hit.
+			@param out out
+			@param distance distance 
+			*/
+			computeHit(out: IVec3Like, distance: number): void;		
+		}	
+	}
+		
+	/****************************************************
+	* geomUtils
+	*****************************************************/
+	
+	export namespace geomUtils {		
+		/** !#en
+		Sphere.
+		!#zh
+		轴对齐球。 */
+		export class Sphere {			
+			/**
+			!#en
+			create a new sphere
+			!#zh
+			创建一个新的 sphere 实例。
+			@param cx X coordinates of the shape relative to the origin.
+			@param cy Y coordinates of the shape relative to the origin.
+			@param cz Z coordinates of the shape relative to the origin.
+			@param r Radius of sphere 
+			*/
+			create(cx: any, cy: any, cz: any, r: any): Sphere;			
+			/**
+			!#en
+			clone a new sphere
+			!#zh
+			克隆一个新的 sphere 实例。
+			@param p The target of cloning. 
+			*/
+			clone(p: Sphere): Sphere;			
+			/**
+			!#en
+			copy the values from one sphere to another
+			!#zh
+			将从一个 sphere 的值复制到另一个 sphere。
+			@param out Accept the sphere of operations.
+			@param a Sphere being copied. 
+			*/
+			copy(out: Sphere, a: Sphere): Sphere;			
+			/**
+			!#en
+			create a new bounding sphere from two corner points
+			!#zh
+			从两个点创建一个新的 sphere。
+			@param out Accept the sphere of operations.
+			@param minPos The smallest point of sphere.
+			@param maxPos The maximum point of sphere. 
+			*/
+			fromPoints(out: any, minPos: any, maxPos: any): Sphere;			
+			/**
+			!#en Set the components of a sphere to the given values
+			!#zh 将球体的属性设置为给定的值。
+			@param out Accept the sphere of operations.
+			@param cx X coordinates of the shape relative to the origin.
+			@param cy Y coordinates of the shape relative to the origin.
+			@param cz Z coordinates of the shape relative to the origin.
+			@param r Radius. 
+			*/
+			set(out: Sphere, cx: any, cy: any, cz: any, r: number): Sphere;			
+			/** !#en
+			The center of the local coordinate.
+			!#zh
+			本地坐标的中心点。 */
+			center: Vec3;			
+			/** !#zh
+			半径。 */
+			radius: number;			
+			/**
+			!#en
+			Clone.
+			!#zh
+			获得克隆。 
+			*/
+			clone(): void;			
+			/**
+			!#en
+			Copy sphere
+			!#zh
+			拷贝对象。
+			@param a Copy target. 
+			*/
+			copy(a: any): void;			
+			/**
+			!#en
+			Get the bounding points of this shape
+			!#zh
+			获取此形状的边界点。
+			@param minPos minPos
+			@param maxPos maxPos 
+			*/
+			getBoundary(minPos: Vec3, maxPos: Vec3): void;			
+			/**
+			!#en
+			Transform this shape
+			!#zh
+			将 out 根据这个 sphere 的数据进行变换。
+			@param m The transformation matrix.
+			@param pos The position part of the transformation.
+			@param rot The rotating part of the transformation.
+			@param scale The scaling part of the transformation.
+			@param out The target of the transformation. 
+			*/
+			transform(m: any, pos: any, rot: any, scale: any, out: any): void;			
+			/**
+			!#en
+			Scale out based on the sphere data.
+			!#zh
+			将 out 根据这个 sphere 的数据进行缩放。
+			@param scale Scale value
+			@param out Scale target 
+			*/
+			setScale(scale: any, out: any): void;		
+		}	
+	}
+		
+	/****************************************************
+	* geomUtils
+	*****************************************************/
+	
+	export namespace geomUtils {		
+		/** Triangle */
+		export class Triangle {			
+			/**
+			create a new triangle
+			@param ax ax
+			@param ay ay
+			@param az az
+			@param bx bx
+			@param by by
+			@param bz bz
+			@param cx cx
+			@param cy cy
+			@param cz cz 
+			*/
+			create(ax: number, ay: number, az: number, bx: number, by: number, bz: number, cx: number, cy: number, cz: number): Triangle;			
+			/**
+			clone a new triangle
+			@param t the source plane 
+			*/
+			clone(t: Triangle): Triangle;			
+			/**
+			copy the values from one triangle to another
+			@param out the receiving triangle
+			@param t the source triangle 
+			*/
+			copy(out: Triangle, t: Triangle): Triangle;			
+			/**
+			Create a triangle from three points
+			@param out the receiving triangle
+			@param a a
+			@param b b
+			@param c c 
+			*/
+			fromPoints(out: Triangle, a: Vec3, b: Vec3, c: Vec3): Triangle;			
+			/**
+			Set the components of a triangle to the given values
+			@param out the receiving plane
+			@param ax X component of a
+			@param ay Y component of a
+			@param az Z component of a
+			@param bx X component of b
+			@param by Y component of b
+			@param bz Z component of b
+			@param cx X component of c
+			@param cy Y component of c
+			@param cz Z component of c 
+			*/
+			set(out: Triangle, ax: number, ay: number, az: number, bx: number, by: number, bz: number, cx: number, cy: number, cz: number): Plane;			
+			a: Vec3;			
+			b: Vec3;			
+			c: Vec3;		
+		}	
+	}
+		
+	/****************************************************
 	* Graphics
 	*****************************************************/
 	
@@ -15167,96 +19142,36 @@ declare namespace cc {
 	}
 		
 	/****************************************************
-	* Pipeline
+	* PhysicsManager
 	*****************************************************/
 	
-	export namespace Pipeline {		
-		/** The downloader pipe, it can download several types of files:
-		1. Text
-		2. Image
-		3. Script
-		4. Audio
-		5. Assets
-		All unknown type will be downloaded as plain text.
-		You can pass custom supported types in the constructor. */
-		export class Downloader {			
-			/**
-			Constructor of Downloader, you can pass custom supported types.
-			@param extMap Custom supported types with corresponded handler
-			
-			@example 
-			```js
-			var downloader = new Downloader({
-			     // This will match all url with `.scene` extension or all url with `scene` type
-			     'scene' : function (url, callback) {}
-			 });
-			``` 
-			*/
-			constructor(extMap: any);			
-			/**
-			Add custom supported types handler or modify existing type handler.
-			@param extMap Custom supported types with corresponded handler 
-			*/
-			addHandlers(extMap: any): void;			
-			/**
-			!#en
-			Load subpackage with name.
-			!#zh
-			通过子包名加载子包代码。
-			@param name Subpackage name
-			@param completeCallback Callback invoked when subpackage loaded 
-			*/
-			loadSubpackage(name: string, completeCallback?: (error: Error) => void): void;		
-		}	
-	}
-		
-	/****************************************************
-	* Pipeline
-	*****************************************************/
-	
-	export namespace Pipeline {		
-		/** The loader pipe, it can load several types of files:
-		1. Images
-		2. JSON
-		3. Plist
-		4. Audio
-		5. Font
-		6. Cocos Creator scene
-		It will not interfere with items of unknown type.
-		You can pass custom supported types in the constructor. */
-		export class Loader {			
-			/**
-			Constructor of Loader, you can pass custom supported types.
-			@param extMap Custom supported types with corresponded handler
-			
-			@example 
-			```js
-			var loader = new Loader({
-			   // This will match all url with `.scene` extension or all url with `scene` type
-			   'scene' : function (url, callback) {}
-			});
-			``` 
-			*/
-			constructor(extMap: any);			
-			/**
-			Add custom supported types handler or modify existing type handler.
-			@param extMap Custom supported types with corresponded handler 
-			*/
-			addHandlers(extMap: any): void;		
-		}	
-	}
-		
-	/****************************************************
-	* LoadingItems
-	*****************************************************/
-	
-	export namespace LoadingItems {		
-		/** !#en The item states of the LoadingItems, its value could be LoadingItems.ItemState.WORKING | LoadingItems.ItemState.COMPLETET | LoadingItems.ItemState.ERROR
-		!#zh LoadingItems 队列中的加载项状态，状态的值可能是 LoadingItems.ItemState.WORKING | LoadingItems.ItemState.COMPLETET | LoadingItems.ItemState.ERROR */
-		export enum ItemState {			
-			WORKING = 0,
-			COMPLETET = 0,
-			ERROR = 0,		
+	export namespace PhysicsManager {		
+		/** !#en
+		The draw bits for drawing physics debug information.<br>
+		example:<br>
+		```js
+		cc.director.getPhysicsManager().debugDrawFlags =
+		 // cc.PhysicsManager.DrawBits.e_aabbBit |
+		 // cc.PhysicsManager.DrawBits.e_pairBit |
+		 // cc.PhysicsManager.DrawBits.e_centerOfMassBit |
+		 cc.PhysicsManager.DrawBits.e_jointBit |
+		 cc.PhysicsManager.DrawBits.e_shapeBit;
+		```
+		!#zh
+		指定物理系统需要绘制哪些调试信息。<br>
+		example:<br>
+		```js
+		cc.director.getPhysicsManager().debugDrawFlags =
+		 // cc.PhysicsManager.DrawBits.e_aabbBit |
+		 // cc.PhysicsManager.DrawBits.e_pairBit |
+		 // cc.PhysicsManager.DrawBits.e_centerOfMassBit |
+		 cc.PhysicsManager.DrawBits.e_jointBit |
+		 cc.PhysicsManager.DrawBits.e_shapeBit;
+		``` */
+		export enum DrawBits {			
+			e_aabbBit = 0,
+			e_jointBit = 0,
+			e_shapeBit = 0,		
 		}	
 	}
 		
@@ -15432,50 +19347,114 @@ declare namespace cc {
 	}
 		
 	/****************************************************
-	* PhysicsManager
+	* sys
 	*****************************************************/
 	
-	export namespace PhysicsManager {		
+	export namespace sys {		
 		/** !#en
-		The draw bits for drawing physics debug information.<br>
-		example:<br>
-		```js
-		cc.director.getPhysicsManager().debugDrawFlags =
-		 // cc.PhysicsManager.DrawBits.e_aabbBit |
-		 // cc.PhysicsManager.DrawBits.e_pairBit |
-		 // cc.PhysicsManager.DrawBits.e_centerOfMassBit |
-		 cc.PhysicsManager.DrawBits.e_jointBit |
-		 cc.PhysicsManager.DrawBits.e_shapeBit;
-		```
+		Network type enumeration
 		!#zh
-		指定物理系统需要绘制哪些调试信息。<br>
-		example:<br>
-		```js
-		cc.director.getPhysicsManager().debugDrawFlags =
-		 // cc.PhysicsManager.DrawBits.e_aabbBit |
-		 // cc.PhysicsManager.DrawBits.e_pairBit |
-		 // cc.PhysicsManager.DrawBits.e_centerOfMassBit |
-		 cc.PhysicsManager.DrawBits.e_jointBit |
-		 cc.PhysicsManager.DrawBits.e_shapeBit;
-		``` */
-		export enum DrawBits {			
-			e_aabbBit = 0,
-			e_jointBit = 0,
-			e_shapeBit = 0,		
+		网络类型枚举 */
+		export enum NetworkType {			
+			NONE = 0,
+			LAN = 0,
+			WWAN = 0,		
 		}	
 	}
 		
 	/****************************************************
-	* Camera
+	* MeshRenderer
 	*****************************************************/
 	
-	export namespace Camera {		
-		/** !#en Values for Camera.clearFlags, determining what to clear when rendering a Camera.
-		!#zh 摄像机清除标记位，决定摄像机渲染时会清除哪些状态 */
-		export enum ClearFlags {			
-			COLOR = 0,
-			DEPTH = 0,
-			STENCIL = 0,		
+	export namespace MeshRenderer {		
+		/** !#en Shadow projection mode
+		
+		!#ch 阴影投射方式 */
+		export enum ShadowCastingMode {			
+			OFF = 0,
+			ON = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* ParticleSystem3DAssembler
+	*****************************************************/
+	
+	export namespace ParticleSystem3DAssembler {		
+		/** undefined */
+		export enum Space {					
+		}	
+	}
+		
+	/****************************************************
+	* ParticleSystem3DAssembler
+	*****************************************************/
+	
+	export namespace ParticleSystem3DAssembler {		
+		/** 粒子的生成模式 */
+		export enum RenderMode {					
+		}	
+	}
+		
+	/****************************************************
+	* shapeModule
+	*****************************************************/
+	
+	export namespace shapeModule {		
+		/** 粒子发射器类型 */
+		export enum ShapeType {			
+			Box = 0,
+			Circle = 0,
+			Cone = 0,
+			Sphere = 0,
+			Hemisphere = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* shapeModule
+	*****************************************************/
+	
+	export namespace shapeModule {		
+		/** 粒子从发射器的哪个部位发射 */
+		export enum EmitLocation {			
+			Base = 0,
+			Edge = 0,
+			Shell = 0,
+			Volume = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* shapeModule
+	*****************************************************/
+	
+	export namespace shapeModule {		
+		/** 粒子在扇形区域的发射方式 */
+		export enum ArcMode {			
+			Random = 0,
+			Loop = 0,
+			PingPong = 0,		
+		}	
+	}
+		
+	/****************************************************
+	* trailModule
+	*****************************************************/
+	
+	export namespace trailModule {		
+		/** 选择如何为粒子系统生成轨迹 */
+		export enum TrailMode {					
+		}	
+	}
+		
+	/****************************************************
+	* trailModule
+	*****************************************************/
+	
+	export namespace trailModule {		
+		/** 纹理填充模式 */
+		export enum TextureMode {					
 		}	
 	}
 		
@@ -15511,13 +19490,27 @@ declare namespace cc {
 	export namespace primitive {		
 		/** undefined */
 		export class VertexData {			
-			positions: [Number];			
-			normals: [Number];			
-			uvs: [Number];			
-			indices: [Number];			
+			positions: number[];			
+			normals: number[];			
+			uvs: number[];			
+			indices: number[];			
 			minPos: Vec3;			
 			maxPos: Vec3;			
 			boundingRadius: number;		
+		}	
+	}
+		
+	/****************************************************
+	* Material
+	*****************************************************/
+	
+	export namespace Material {		
+		/** !#en Material builtin name
+		!#zh 内置材质名字 */
+		export enum BUILTIN_NAME {			
+			SPRITE = 0,
+			GRAY_SPRITE = 0,
+			UNLIT = 0,		
 		}	
 	}
 		
@@ -15572,1352 +19565,330 @@ declare namespace cc {
 			DEFAULT = 0,		
 		}	
 	}
+		
+	/****************************************************
+	* textureAnimationModule
+	*****************************************************/
+	
+	export namespace textureAnimationModule {		
+		/** 粒子贴图动画类型 */
+		export enum Mode {					
+		}	
+	}
+		
+	/****************************************************
+	* textureAnimationModule
+	*****************************************************/
+	
+	export namespace textureAnimationModule {		
+		/** 贴图动画的播放方式 */
+		export enum Animation {					
+		}	
+	}
 	
 }
 
 /** !#en
-AnySDK is a third party solution that offers game developers SDK integration without making changes to the SDK's features or parameters.It can do all of this while remaining invisible to your end user.Our goal is to handle all the tedious SDK integration work for you so that you can use your time to focus on the game itself.No matter if it’s the channel SDK, user system, payment system, ad system, statistics system, sharing system or any other type of SDK: we’ll take care of it for you.
+The global main namespace of DragonBones, all classes, functions,
+properties and constants of DragonBones are defined in this namespace
 !#zh
-AnySDK 为 CP 提供一套第三方 SDK 接入解决方案，整个接入过程，不改变任何 SDK 的功能、特性、参数等，对于最终玩家而言是完全透明无感知的。
-目的是让 CP 商能有更多时间更专注于游戏本身的品质，所有 SDK 的接入工作统统交给我们吧。第三方 SDK 包括了渠道SDK、用户系统、支付系统、广告系统、统计系统、分享系统等等。 */
-declare namespace anysdk {	
+DragonBones 的全局的命名空间，
+与 DragonBones 相关的所有的类，函数，属性，常量都在这个命名空间中定义。 */
+declare namespace dragonBones {	
 	/** !#en
-	agent manager of plugin
+	The Armature Display of DragonBones <br/>
+	<br/>
+	(Armature Display has a reference to a DragonBonesAsset and stores the state for ArmatureDisplay instance,
+	which consists of the current pose's bone SRT, slot colors, and which slot attachments are visible. <br/>
+	Multiple Armature Display can use the same DragonBonesAsset which includes all animations, skins, and attachments.) <br/>
 	!#zh
-	插件管理对象 */
-	export var agentManager: anysdk.AgentManager;	
-	/** !#en
-	agent manager of plugin
-	!#zh
-	插件管理类 */
-	export class AgentManager {		
+	DragonBones 骨骼动画 <br/>
+	<br/>
+	(Armature Display 具有对骨骼数据的引用并且存储了骨骼实例的状态，
+	它由当前的骨骼动作，slot 颜色，和可见的 slot attachments 组成。<br/>
+	多个 Armature Display 可以使用相同的骨骼数据，其中包括所有的动画，皮肤和 attachments。)<br/> */
+	export class ArmatureDisplay extends cc.RenderComponent {		
+		/** !#en
+		The DragonBones data contains the armatures information (bind pose bones, slots, draw order,
+		attachments, skins, etc) and animations but does not hold any state.<br/>
+		Multiple ArmatureDisplay can share the same DragonBones data.
+		!#zh
+		骨骼数据包含了骨骼信息（绑定骨骼动作，slots，渲染顺序，
+		attachments，皮肤等等）和动画但不持有任何状态。<br/>
+		多个 ArmatureDisplay 可以共用相同的骨骼数据。 */
+		dragonAsset: DragonBonesAsset;		
+		/** !#en
+		The atlas asset for the DragonBones.
+		!#zh
+		骨骼数据所需的 Atlas Texture 数据。 */
+		dragonAtlasAsset: DragonBonesAtlasAsset;		
+		/** !#en The name of current armature.
+		!#zh 当前的 Armature 名称。 */
+		armatureName: string;		
+		/** !#en The name of current playing animation.
+		!#zh 当前播放的动画名称。 */
+		animationName: string;		
+		_defaultArmatureIndex: number;		
+		/** !#en The time scale of this armature.
+		!#zh 当前骨骼中所有动画的时间缩放率。 */
+		timeScale: number;		
+		/** !#en The play times of the default animation.
+		     -1 means using the value of config file;
+		     0 means repeat for ever
+		     >0 means repeat times
+		!#zh 播放默认动画的循环次数
+		     -1 表示使用配置文件中的默认值;
+		     0 表示无限循环
+		     >0 表示循环次数 */
+		playTimes: number;		
+		/** !#en Indicates whether to enable premultiplied alpha.
+		You should disable this option when image's transparent area appears to have opaque pixels,
+		or enable this option when image's half transparent area appears to be darken.
+		!#zh 是否启用贴图预乘。
+		当图片的透明区域出现色块时需要关闭该选项，当图片的半透明区域颜色变黑时需要启用该选项。 */
+		premultipliedAlpha: boolean;		
+		/** !#en Indicates whether open debug bones.
+		!#zh 是否显示 bone 的 debug 信息。 */
+		debugBones: boolean;		
+		/** !#en Enabled batch model, if skeleton is complex, do not enable batch, or will lower performance.
+		!#zh 开启合批，如果渲染大量相同纹理，且结构简单的骨骼动画，开启合批可以降低drawcall，否则请不要开启，cpu消耗会上升。 */
+		enableBatch: boolean;		
 		/**
 		!#en
-		AppKey appSecret and privateKey are the only three parameters generated
-		after the packing tool client finishes creating the game.
-		The oauthLoginServer parameter is the API address provided by the game service
-		to login verification
+		The key of dragonbones cache data, which is regard as 'dragonbonesName', when you want to change dragonbones cloth.
 		!#zh
-		appKey、appSecret、privateKey是通过 AnySDK 客户端工具创建游戏后生成的。
-		oauthLoginServer参数是游戏服务提供的用来做登陆验证转发的接口地址。
-		@param appKey appKey
-		@param appSecret appSecret
-		@param privateKey privateKey
-		@param oauthLoginServer oauthLoginServer 
+		缓存龙骨数据的key值，换装的时会使用到该值，作为dragonbonesName使用
+		
+		@example 
+		```js
+		let factory = dragonBones.CCFactory.getInstance();
+		let needChangeSlot = needChangeArmature.armature().getSlot("changeSlotName");
+		factory.replaceSlotDisplay(toChangeArmature.getArmatureKey(), "armatureName", "slotName", "displayName", needChangeSlot);
+		``` 
 		*/
-		init(appKey: string, appSecret: string, privateKey: string, oauthLoginServer: string): void;		
+		getArmatureKey(): string;		
 		/**
 		!#en
-		load all plugins, the operation includes SDK`s initialization
+		It's best to set cache mode before set property 'dragonAsset', or will waste some cpu time.
+		If set the mode in editor, then no need to worry about order problem.
 		!#zh
-		加载所有插件，该操作包含了 SDKs 初始化
-		@param callback callback
-		@param target The object to bind to. 
+		若想切换渲染模式，最好在设置'dragonAsset'之前，先设置好渲染模式，否则有运行时开销。
+		若在编辑中设置渲染模式，则无需担心设置次序的问题。
+		@param cacheMode cacheMode
+		
+		@example 
+		```js
+		armatureDisplay.setAnimationCacheMode(dragonBones.ArmatureDisplay.AnimationCacheMode.SHARED_CACHE);
+		``` 
 		*/
-		loadAllPlugins(callback: Function, target: any): void;		
+		setAnimationCacheMode(cacheMode: ArmatureDisplay.AnimationCacheMode): void;		
 		/**
-		!#en
-		unload all plugins
-		!#zh
-		卸载插件 
+		!#en Whether in cached mode.
+		!#zh 当前是否处于缓存模式。 
 		*/
-		unloadAllPlugins(): void;		
+		isAnimationCached(): boolean;		
 		/**
 		!#en
-		get user system plugin
+		Play the specified animation.
+		Parameter animName specify the animation name.
+		Parameter playTimes specify the repeat times of the animation.
+		-1 means use the value of the config file.
+		0 means play the animation for ever.
+		>0 means repeat times.
 		!#zh
-		获取用户系统插件 
+		播放指定的动画.
+		animName 指定播放动画的名称。
+		playTimes 指定播放动画的次数。
+		-1 为使用配置文件中的次数。
+		0 为无限循环播放。
+		>0 为动画的重复次数。
+		@param animName animName
+		@param playTimes playTimes 
 		*/
-		getUserPlugin(): anysdk.ProtocolUser;		
+		playAnimation(animName: string, playTimes: number): dragonBones.AnimationState;		
 		/**
 		!#en
-		get IAP system plugins
+		Updating an animation cache to calculate all frame data in the animation is a cost in
+		performance due to calculating all data in a single frame.
+		To update the cache, use the invalidAnimationCache method with high performance.
 		!#zh
-		获取支付系统插件 
+		更新某个动画缓存, 预计算动画中所有帧数据，由于在单帧计算所有数据，所以较消耗性能。
+		若想更新缓存，可使用 invalidAnimationCache 方法，具有较高性能。
+		@param animName animName 
 		*/
-		getIAPPlugins(): anysdk.ProtocolIAP[];		
+		updateAnimationCache(animName: string): void;		
 		/**
 		!#en
-		get IAP system plugin
+		Invalidates the animation cache, which is then recomputed on each frame..
 		!#zh
-		获取支付系统插件 
+		使动画缓存失效，之后会在每帧重新计算。 
 		*/
-		getIAPPlugin(): anysdk.ProtocolIAP;		
+		invalidAnimationCache(): void;		
 		/**
 		!#en
-		get social system plugin
+		Get the all armature names in the DragonBones Data.
 		!#zh
-		获取社交系统插件 
+		获取 DragonBones 数据中所有的 armature 名称 
 		*/
-		getSocialPlugin(): anysdk.ProtocolSocial;		
+		getArmatureNames(): any[];		
 		/**
 		!#en
-		get share system plugin
+		Get the all animation names of specified armature.
 		!#zh
-		获取分享系统插件 
+		获取指定的 armature 的所有动画名称。
+		@param armatureName armatureName 
 		*/
-		getSharePlugin(): anysdk.ProtocolShare;		
+		getAnimationNames(armatureName: string): any[];		
 		/**
 		!#en
-		get analytics system plugin
+		Add event listener for the DragonBones Event, the same to addEventListener.
 		!#zh
-		获取统计系统插件 
+		添加 DragonBones 事件监听器，与 addEventListener 作用相同。
+		@param type A string representing the event type to listen for.
+		@param listener The callback that will be invoked when the event is dispatched.
+		@param target The target (this object) to invoke the callback, can be null 
 		*/
-		getAnalyticsPlugin(): anysdk.ProtocolAnalytics;		
+		on(type: string, listener: (event: cc.Event) => void, target?: any): void;		
 		/**
 		!#en
-		get ads system plugin
+		Remove the event listener for the DragonBones Event, the same to removeEventListener.
 		!#zh
-		获取广告系统插件 
-		*/
-		getAdsPlugin(): anysdk.ProtocolAds;		
-		/**
-		!#en
-		get push system plugin
-		!#zh
-		获取推送系统插件 
-		*/
-		getPushPlugin(): anysdk.ProtocolPush;		
-		/**
-		!#en
-		get REC system plugin
-		!#zh
-		获取录屏系统插件 
-		*/
-		getRECPlugin(): anysdk.ProtocolREC;		
-		/**
-		!#en
-		get crash system plugin
-		!#zh
-		获取崩溃分析系统插件 
-		*/
-		getCrashPlugin(): anysdk.ProtocolCrash;		
-		/**
-		!#en
-		get ad track system plugin
-		!#zh
-		获取广告追踪系统插件 
-		*/
-		getAdTrackingPlugin(): anysdk.ProtocolAdTracking;		
-		/**
-		!#en
-		get custom system plugin
-		!#zh
-		获取自定义系统插件 
-		*/
-		getCustomPlugin(): anysdk.ProtocolCustom;		
-		/**
-		!#en
-		get custom parameter
-		!#zh
-		获取自定义参数 
-		*/
-		getCustomParam(): string;		
-		/**
-		!#en
-		get channel id
-		!#zh
-		获取渠道唯一表示符 
-		*/
-		getChannelId(): string;		
-		/**
-		!#en
-		get status of analytics
-		!#zh
-		获取统计状态 
-		*/
-		isAnaylticsEnabled(): boolean;		
-		/**
-		!#en
-		set whether to analytics
-		!#zh
-		设置是否统计
-		@param enabled enabled 
-		*/
-		setIsAnaylticsEnabled(enabled: boolean): void;		
-		/**
-		!#en
-		destory instance
-		!#zh
-		销毁单例 
-		*/
-		static end(): void;		
-		/**
-		!#en
-		get instance
-		!#zh
-		获取单例 
-		*/
-		static getInstance(): anysdk.AgentManager;	
-	}	
-	/** !#en
-	plugin protocol
-	!#zh
-	插件协议 */
-	export class PluginProtocol {		
-		/**
-		!#en
-		Check whether the function is supported
-		!#zh
-		判断函数是否支持
-		@param functionName functionName 
-		*/
-		isFunctionSupported(functionName: string): boolean;		
-		/**
-		!#en
-		get plugin name
-		!#zh
-		获取插件名称 
-		*/
-		getPluginName(): string;		
-		/**
-		!#en
-		get plugin version
-		!#zh
-		获取插件版本 
-		*/
-		getPluginVersion(): string;		
-		/**
-		!#en
-		get SDK version
-		!#zh
-		获取 SDK 版本 
-		*/
-		getSDKVersion(): string;		
-		/**
-		!#en
-		void methods for reflections with parameter
-		!#zh
-		反射调用带参数的void方法
-		@param funName funName
-		@param args optional arguments 
-		*/
-		callFuncWithParam(funName: string, ...args: any|anysdk.PluginParam[]): void;		
-		/**
-		!#en
-		String methods for reflections with parameter
-		!#zh
-		反射调用带参数的 String 方法
-		@param funName funName
-		@param args optional arguments 
-		*/
-		callStringFuncWithParam(funName: string, ...args: any|anysdk.PluginParam[]): string;		
-		/**
-		!#en
-		int methods for reflections with parameter
-		!#zh
-		反射调用带参数的 Int 方法
-		@param funName funName
-		@param args optional arguments 
-		*/
-		callIntFuncWithParam(funName: string, ...args: any|anysdk.PluginParam[]): number;		
-		/**
-		!#en
-		boolean methods for reflections with parameter
-		!#zh
-		反射调用带参数的 boolean 方法
-		@param funName funName
-		@param args optional arguments 
-		*/
-		callBoolFuncWithParam(funName: string, ...args: any|anysdk.PluginParam[]): boolean;		
-		/**
-		!#en
-		float methods for reflections with parameter
-		!#zh
-		反射调用带参数的 float 方法
-		@param funName funName
-		@param args optional arguments 
-		*/
-		callFloatFuncWithParam(funName: string, ...args: any|anysdk.PluginParam[]): number;	
-	}	
-	/** !#en
-	user protocol
-	!#zh
-	用户系统协议接口 */
-	export class ProtocolUser extends PluginProtocol {		
-		/**
-		!#en
-		login interface
-		!#zh
-		登录接口
-		@param args optional arguments 
-		*/
-		login(...args: string|any[]): void;		
-		/**
-		!#en
-		get status of login
-		!#zh
-		获取登录状态 
-		*/
-		isLogined(): boolean;		
-		/**
-		!#en
-		get user ID
-		!#zh
-		获取用户唯一标示符 
-		*/
-		getUserID(): string;		
-		/**
-		!#en
-		get plugin ID
-		!#zh
-		获取插件ID 
-		*/
-		getPluginId(): string;		
-		/**
-		!#en
-		set listener
-		!#zh
-		设置用户系统的监听
+		移除 DragonBones 事件监听器，与 removeEventListener 作用相同。
+		@param type A string representing the event type to listen for.
 		@param listener listener
 		@param target target 
 		*/
-		setListener(listener: Function, target: any): void;		
+		off(type: string, listener?: Function, target?: any): void;		
 		/**
 		!#en
-		get listener
+		Add DragonBones one-time event listener, the callback will remove itself after the first time it is triggered.
 		!#zh
-		获取用户系统的监听 
+		添加 DragonBones 一次性事件监听器，回调会在第一时间被触发后删除自身。
+		@param type A string representing the event type to listen for.
+		@param listener The callback that will be invoked when the event is dispatched.
+		@param target The target (this object) to invoke the callback, can be null 
 		*/
-		getListener(): Function;		
+		once(type: string, listener: (event: cc.Event) => void, target?: any): void;		
 		/**
 		!#en
-		logout
-		Before to invoke, you need to verdict whether this properties existed
+		Add event listener for the DragonBones Event.
 		!#zh
-		登出，调用前需要判断属性是否存在 
+		添加 DragonBones 事件监听器。
+		@param type A string representing the event type to listen for.
+		@param listener The callback that will be invoked when the event is dispatched.
+		@param target The target (this object) to invoke the callback, can be null 
 		*/
-		logout(): void;		
+		addEventListener(type: string, listener: (event: cc.Event) => void, target?: any): void;		
 		/**
 		!#en
-		show toolbar
-		Before to invoke, you need to verdict whether this properties existed
+		Remove the event listener for the DragonBones Event.
 		!#zh
-		显示悬浮窗，调用前需要判断属性是否存在
-		@param place place 
-		*/
-		showToolBar(place: anysdk.ToolBarPlace): void;		
-		/**
-		!#en
-		hide toolbar
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		隐藏悬浮窗，调用前需要判断属性是否存在 
-		*/
-		hideToolBar(): void;		
-		/**
-		!#en
-		enter platform
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		显示平台中心，调用前需要判断属性是否存在 
-		*/
-		enterPlatform(): void;		
-		/**
-		!#en
-		show exit page
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		显示退出界面，调用前需要判断属性是否存在 
-		*/
-		exit(): void;		
-		/**
-		!#en
-		show pause page
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		显示暂停界面，调用前需要判断属性是否存在 
-		*/
-		pause(): void;		
-		/**
-		!#en
-		Real-name registration
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		实名注册，调用前需要判断属性是否存在 
-		*/
-		realNameRegister(): void;		
-		/**
-		!#en
-		Anti-addiction query
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		防沉迷查询，调用前需要判断属性是否存在 
-		*/
-		antiAddictionQuery(): void;		
-		/**
-		!#en
-		submit game role information
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		提交角色信息，调用前需要判断属性是否存在
-		@param data data 
-		*/
-		submitLoginGameRole(data: any): void;		
-		/**
-		!#en
-		get user information
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		获取用户信息，调用前需要判断属性是否存在
-		@param info info 
-		*/
-		getUserInfo(info: any): void;		
-		/**
-		!#en
-		set login type
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		设置登录类型，调用前需要判断属性是否存在
-		@param info info 
-		*/
-		getAvailableLoginType(info: any): void;		
-		/**
-		!#en
-		set login type
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		设置登录类型，调用前需要判断属性是否存在
-		@param loginType loginType 
-		*/
-		setLoginType(loginType: string): void;		
-		/**
-		!#en
-		send to desktop
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		发送到桌面，调用前需要判断属性是否存在 
-		*/
-		sendToDesktop(): void;		
-		/**
-		!#en
-		open bbs
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		打开论坛，调用前需要判断属性是否存在 
-		*/
-		openBBS(): void;	
-	}	
-	/** !#en
-	IAP protocol
-	!#zh
-	支付系统协议接口 */
-	export class ProtocolIAP extends PluginProtocol {		
-		/**
-		!#en
-		pay interface
-		!#zh
-		支付接口
-		@param info Type:map 
-		*/
-		payForProduct(info: any): void;		
-		/**
-		!#en
-		get order ID
-		!#zh
-		获取订单ID 
-		*/
-		getOrderId(): string;		
-		/**
-		!#en
-		reset the pay status
-		!#zh
-		重置支付状态 
-		*/
-		static resetPayState(): void;		
-		/**
-		!#en
-		get plugin ID
-		!#zh
-		获取插件ID 
-		*/
-		getPluginId(): string;		
-		/**
-		!#en
-		set listener
-		!#zh
-		设置支付系统的监听
+		移除 DragonBones 事件监听器。
+		@param type A string representing the event type to listen for.
 		@param listener listener
 		@param target target 
 		*/
-		setListener(listener: Function, target: any): void;		
+		removeEventListener(type: string, listener?: Function, target?: any): void;		
 		/**
 		!#en
-		get listener
+		Build the armature for specified name.
 		!#zh
-		获取支付系统的监听 
+		构建指定名称的 armature 对象
+		@param armatureName armatureName
+		@param node node 
 		*/
-		getListener(): Function;	
+		buildArmature(armatureName: string, node: cc.Node): ArmatureDisplay;		
+		/**
+		!#en
+		Get the current armature object of the ArmatureDisplay.
+		!#zh
+		获取 ArmatureDisplay 当前使用的 Armature 对象 
+		*/
+		armature(): any;	
 	}	
-	/** !#en
-	analytics protocol
-	!#zh
-	统计系统协议接口 */
-	export class ProtocolAnalytics extends PluginProtocol {		
+	/** DragonBones factory */
+	export class CCFactory extends BaseFactory {		
 		/**
-		!#en
-		Start a new session.
-		!#zh
-		启动会话 
+		
+		
+		@example 
+		```js
+		let factory = dragonBones.CCFactory.getInstance();
+		``` 
 		*/
-		startSession(): void;		
-		/**
-		!#en
-		 Stop a session.
-		!#zh
-		关闭会话 
-		*/
-		stopSession(): void;		
-		/**
-		!#en
-		Set the timeout for expiring a session.
-		!#zh
-		设置会话超时时间
-		@param millis Type: long 
-		*/
-		setSessionContinueMillis(millis: number): void;		
-		/**
-		!#en
-		log an error
-		!#zh
-		捕捉异常
-		@param errorId errorId
-		@param message message 
-		*/
-		logError(errorId: string, message: string): void;		
-		/**
-		!#en
-		log an event.
-		!#zh
-		捕捉事件
-		@param errorId errorId
-		@param args optional arguments Type: map 
-		*/
-		logEvent(errorId: string, ...args: any[]): void;		
-		/**
-		!#en
-		Track an event begin.
-		!#zh
-		统计事件开始
-		@param eventId eventId 
-		*/
-		logTimedEventBegin(eventId: string): void;		
-		/**
-		!#en
-		Track an event end.
-		!#zh
-		统计事件结束
-		@param eventId eventId 
-		*/
-		logTimedEventEnd(eventId: string): void;		
-		/**
-		!#en
-		set Whether to catch uncaught exceptions to server.
-		!#zh
-		设置是否开启自动异常捕捉
-		@param enabled enabled 
-		*/
-		setCaptureUncaughtException(enabled: boolean): void;		
-		/**
-		!#en
-		analytics account information
-		!#zh
-		统计玩家帐户信息
-		@param paramMap Type: map 
-		*/
-		setAccount(paramMap: any): void;		
-		/**
-		!#en
-		track user to request payment
-		!#zh
-		跟踪用户支付请求
-		@param paramMap Type: map 
-		*/
-		onChargeRequest(paramMap: any): void;		
-		/**
-		!#en
-		track Successful payment
-		!#zh
-		追踪用户支付成功
-		@param orderID orderID 
-		*/
-		onChargeSuccess(orderID: string): void;		
-		/**
-		!#en
-		track failed payment
-		!#zh
-		追踪用户支付失败
-		@param paramMap Type: map 
-		*/
-		onChargeFail(paramMap: any): void;		
-		/**
-		!#en
-		track Successful payment
-		!#zh
-		统计玩家支付成功
-		@param paramMap Type: map 
-		*/
-		onChargeOnlySuccess(paramMap: any): void;		
-		/**
-		!#en
-		track user purchase
-		!#zh
-		统计玩家消费
-		@param paramMap Type: map 
-		*/
-		onPurchase(paramMap: any): void;		
-		/**
-		!#en
-		track user to use goods
-		!#zh
-		统计玩家使用道具
-		@param paramMap Type: map 
-		*/
-		onUse(paramMap: any): void;		
-		/**
-		!#en
-		track user to reward goods
-		!#zh
-		统计玩家获取奖励
-		@param paramMap Type: map 
-		*/
-		onReward(paramMap: any): void;		
-		/**
-		!#en
-		 start level
-		!#zh
-		开始关卡
-		@param paramMap Type: map 
-		*/
-		startLevel(paramMap: any): void;		
-		/**
-		!#en
-		finish level
-		!#zh
-		结束关卡
-		@param levelID levelID 
-		*/
-		finishLevel(levelID: string): void;		
-		/**
-		!#en
-		failed level
-		!#zh
-		关卡失败
-		@param paramMap Type: map 
-		*/
-		failLevel(paramMap: any): void;		
-		/**
-		!#en
-		start task
-		!#zh
-		开始任务
-		@param paramMap Type: map 
-		*/
-		startTask(paramMap: any): void;		
-		/**
-		!#en
-		finish task
-		!#zh
-		完成任务
-		@param taskID taskID 
-		*/
-		finishTask(taskID: string): void;		
-		/**
-		!#en
-		failed task
-		!#zh
-		任务失败
-		@param paramMap Type: map 
-		*/
-		failTask(paramMap: any): void;	
+		static getInstance(): CCFactory;	
 	}	
-	/** !#en
-	share protocol
-	!#zh
-	分享系统协议接口 */
-	export class ProtocolShare extends PluginProtocol {		
-		/**
-		!#en
-		share interface
-		!#zh
-		分享
-		@param info Type: map 
-		*/
-		share(info: any): void;		
-		/**
-		!#en
-		set listener
-		!#zh
-		设置分享系统的监听
-		@param listener listener
-		@param target target 
-		*/
-		setListener(listener: Function, target: any): void;		
-		/**
-		!#en
-		get listener
-		!#zh
-		获取分享系统的监听 
-		*/
-		getListener(): Function;	
+	/** !#en The skeleton data of dragonBones.
+	!#zh dragonBones 的 骨骼数据。 */
+	export class DragonBonesAsset extends cc.Asset {		
+		/** !#en See http://developer.egret.com/cn/github/egret-docs/DB/dbLibs/dataFormat/index.html
+		!#zh 可查看 DragonBones 官方文档 http://developer.egret.com/cn/github/egret-docs/DB/dbLibs/dataFormat/index.html */
+		dragonBonesJson: string;	
 	}	
-	/** !#en
-	ads protocol
-	!#zh
-	广告系统协议接口 */
-	export class ProtocolAds extends PluginProtocol {		
-		/**
-		!#en
-		hide ads view
-		!#zh
-		隐藏广告
-		@param adstype adstype
-		@param idx idx 
-		*/
-		hideAds(adstype: anysdk.AdsType, idx: number): void;		
-		/**
-		!#en
-		preload ads view
-		!#zh
-		预加载广告
-		@param adstype adstype
-		@param idx idx 
-		*/
-		preloadAds(adstype: anysdk.AdsType, idx: number): void;		
-		/**
-		!#en
-		query points
-		!#zh
-		查询分数 
-		*/
-		queryPoints(): number;		
-		/**
-		!#en
-		get whether the ads type is supported
-		!#zh
-		获取广告类型是否支持
-		@param arg0 arg0 
-		*/
-		isAdTypeSupported(arg0: anysdk.AdsType): boolean;		
-		/**
-		!#en
-		spend point
-		!#zh
-		消费分数
-		@param points points 
-		*/
-		spendPoints(points: number): void;		
-		/**
-		!#en
-		set listener
-		!#zh
-		设置广告系统的监听
-		@param listener listener
-		@param target target 
-		*/
-		setListener(listener: Function, target: any): void;		
-		/**
-		!#en
-		get listener
-		!#zh
-		获取广告系统的监听 
-		*/
-		getListener(): Function;	
+	/** !#en The skeleton atlas data of dragonBones.
+	!#zh dragonBones 的骨骼纹理数据。 */
+	export class DragonBonesAtlasAsset extends cc.Asset {		
+		atlasJson: string;		
+		texture: cc.Texture2D;	
 	}	
-	/** !#en
-	social protocol
-	!#zh
-	社交系统协议接口 */
-	export class ProtocolSocial extends PluginProtocol {		
-		/**
-		!#en
-		sign in
-		!#zh
-		登录 
-		*/
-		signIn(): void;		
-		/**
-		!#en
-		 sign out
-		!#zh
-		登出 
-		*/
-		signOut(): void;		
-		/**
-		!#en
-		submit score
-		!#zh
-		提交分数
-		@param leadboardID leadboardID
-		@param score Type: long 
-		*/
-		submitScore(leadboardID: string, score: number): void;		
-		/**
-		!#en
-		show the id of Leaderboard page
-		!#zh
-		根据唯一标识符显示排行榜
-		@param leaderboardID leaderboardID 
-		*/
-		showLeaderboard(leaderboardID: string): void;		
-		/**
-		!#en
-		show the page of achievements
-		!#zh
-		显示成就榜 
-		*/
-		showAchievements(): void;		
-		/**
-		!#en
-		unlock achievement
-		!#zh
-		解锁成就
-		@param info Type: map 
-		*/
-		share(info: any): void;		
-		/**
-		!#en
-		set listener
-		!#zh
-		设置社交系统的监听
-		@param listener listener
-		@param target target 
-		*/
-		setListener(listener: Function, target: any): void;		
-		/**
-		!#en
-		get listener
-		!#zh
-		获取社交系统的监听 
-		*/
-		getListener(): Function;		
-		/**
-		!#en
-		get friends info
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		获取好友信息，调用前需要判断属性是否存在 
-		*/
-		pauseRecording(): void;		
-		/**
-		!#en
-		interact
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		订阅，调用前需要判断属性是否存在 
-		*/
-		interact(): void;		
-		/**
-		!#en
-		subscribe
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		关注，调用前需要判断属性是否存在 
-		*/
-		subscribe(): void;	
-	}	
-	/** !#en
-	push protocol
-	!#zh
-	推送系统协议接口 */
-	export class ProtocolPush extends PluginProtocol {		
-		/**
-		!#en
-		start Push services
-		!#zh
-		启动推送服务 
-		*/
-		startPush(): void;		
-		/**
-		!#en
-		close Push services
-		!#zh
-		暂停推送服务 
-		*/
-		closePush(): void;		
-		/**
-		!#en
-		delete alias
-		!#zh
-		删除别名
-		@param alias alias 
-		*/
-		delAlias(alias: string): void;		
-		/**
-		!#en
-		set alias
-		!#zh
-		设置别名
-		@param alias alias 
-		*/
-		setAlias(alias: string): void;		
-		/**
-		!#en
-		delete tags
-		!#zh
-		删除标签
-		@param tags Type: list 
-		*/
-		delTags(tags: any): void;		
-		/**
-		!#en
-		set tags
-		!#zh
-		设置标签
-		@param tags Type: list 
-		*/
-		setTags(tags: any): void;		
-		/**
-		!#en
-		set listener
-		!#zh
-		设置推送系统的监听
-		@param listener listener
-		@param target target 
-		*/
-		setListener(listener: Function, target: any): void;		
-		/**
-		!#en
-		get listener
-		!#zh
-		获取推送系统的监听 
-		*/
-		getListener(): Function;	
-	}	
-	/** !#en
-	crash protocol
-	!#zh
-	崩溃分析系统协议接口 */
-	export class ProtocolCrash extends PluginProtocol {		
-		/**
-		!#en
-		set user identifier
-		!#zh
-		统计用户唯一标识符
-		@param identifier identifier 
-		*/
-		setUserIdentifier(identifier: string): void;		
-		/**
-		!#en
-		The uploader captured in exception information
-		!#zh
-		上报异常信息
-		@param message message
-		@param exception exception 
-		*/
-		reportException(message: string, exception: string): void;		
-		/**
-		!#en
-		customize logging
-		!#zh
-		自定义日志记录
-		@param breadcrumb breadcrumb 
-		*/
-		leaveBreadcrumb(breadcrumb: string): void;	
-	}	
-	/** !#en
-	REC protocol
-	!#zh
-	录屏系统协议接口 */
-	export class ProtocolREC extends PluginProtocol {		
-		/**
-		!#en
-		share video
-		!#zh
-		分享视频
-		@param info Type: map 
-		*/
-		share(info: any): void;		
-		/**
-		!#en
-		Start to record video
-		!#zh
-		开始录制视频 
-		*/
-		startRecording(): void;		
-		/**
-		!#en
-		Start to record video
-		!#zh
-		结束录制视频 
-		*/
-		stopRecording(): void;		
-		/**
-		!#en
-		set listener
-		!#zh
-		设置录屏系统的监听
-		@param listener listener
-		@param target target 
-		*/
-		setListener(listener: Function, target: any): void;		
-		/**
-		!#en
-		get listener
-		!#zh
-		获取录屏系统的监听 
-		*/
-		getListener(): Function;		
-		/**
-		!#en
-		pause to record video
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		暂停录制视频，调用前需要判断属性是否存在 
-		*/
-		pauseRecording(): void;		
-		/**
-		!#en
-		resume to record video
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		恢复录制视频，调用前需要判断属性是否存在 
-		*/
-		resumeRecording(): void;		
-		/**
-		!#en
-		get whether the device is isAvailable
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		获取设备是否可用，调用前需要判断属性是否存在 
-		*/
-		isAvailable(): boolean;		
-		/**
-		!#en
-		get status of recording
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		获取录制状态，调用前需要判断属性是否存在 
-		*/
-		isRecording(): boolean;		
-		/**
-		!#en
-		show toolbar
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		显示悬浮窗，调用前需要判断属性是否存在 
-		*/
-		showToolBar(): void;		
-		/**
-		!#en
-		hide toolbar
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		隐藏悬浮窗，调用前需要判断属性是否存在 
-		*/
-		hideToolBar(): void;		
-		/**
-		!#en
-		show video center
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		显示视频中心，调用前需要判断属性是否存在 
-		*/
-		showVideoCenter(): void;		
-		/**
-		!#en
-		enter platform
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		显示平台中心，调用前需要判断属性是否存在 
-		*/
-		enterPlatform(): void;		
-		/**
-		!#en
-		Set the video data, it is recommended to check whether are recorded firstly
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		设置视频相关数据，建议先检查是否是正在录制，调用前需要判断属性是否存在
-		@param info Type: map 
-		*/
-		setMetaData(info: any): void;	
-	}	
-	/** !#en
-	ad tracking protocol
-	!#zh
-	广告追踪系统协议接口 */
-	export class ProtocolAdTracking extends PluginProtocol {		
-		/**
-		!#en
-		Call this method if you want to track register events as happening during a section.
-		!#zh
-		统计用户注册信息
-		@param productInfo Type: map 
-		*/
-		onPay(productInfo: any): void;		
-		/**
-		!#en
-		Call this method if you want to track register events as happening during a section.
-		!#zh
-		统计用户注册信息
-		@param userInfo Type: map 
-		*/
-		onLogin(userInfo: any): void;		
-		/**
-		!#en
-		Call this method if you want to track register events as happening during a section.
-		!#zh
-		统计用户注册信息
-		@param userId userId 
-		*/
-		onRegister(userId: string): void;		
-		/**
-		!#en
-		Call this method if you want to track custom events with parameters as happening during a section.
-		!#zh
-		统计自定义事件
-		@param eventId eventId
-		@param paramMap Type: map 
-		*/
-		trackEvent(eventId: string, paramMap: any): void;		
-		/**
-		!#en
-		Call this method with parameters if you want to create role as happening during a section.
-		!#zh
-		统计创建角色事件，调用前需要判断属性是否存在
-		@param userInfo Type: map 
-		*/
-		onCreateRole(userInfo: any): void;		
-		/**
-		!#en
-		Call this method if you want to track levelup events with parameters as happening during a section.
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		统计角色升级事件，调用前需要判断属性是否存在
-		@param info Type: map 
-		*/
-		onLevelUp(info: any): void;		
-		/**
-		!#en
-		Invoke this method with parameters if you want to start to pay as happening during a section.
-		Before to invoke, you need to verdict whether this properties existed
-		!#zh
-		统计开始充值事件，调用前需要判断属性是否存在
-		@param info Type: map 
-		*/
-		onStartToPay(info: any): void;	
-	}	
-	/** !#en
-	custom protocol
-	!#zh
-	自定义系统协议接口 */
-	export class ProtocolCustom extends PluginProtocol {		
-		/**
-		!#en
-		set listener
-		!#zh
-		设置自定义系统的监听
-		@param listener listener
-		@param target target 
-		*/
-		setListener(listener: Function, target: any): void;		
-		/**
-		!#en
-		get listener
-		!#zh
-		获取自定义系统的监听 
-		*/
-		getListener(): Function;	
-	}	
-	/** !#en
-	Data structure class
-	!#zh
-	数据结构类 */
-	export class PluginParam {		
-		/**
-		!#en
-		create plugin parameters
-		!#zh
-		创建对象
-		@param parameters parameters 
-		*/
-		static create(parameters: number|string|any): anysdk.PluginParam;	
-	}	
-	/** !#en The callback of user system
-	!#zh 用户系统回调 */
-	export enum UserActionResultCode {		
-		kInitSuccess = 0,
-		kInitFail = 0,
-		kLoginSuccess = 0,
-		kLoginNetworkError = 0,
-		kLoginNoNeed = 0,
-		kLoginFail = 0,
-		kLoginCancel = 0,
-		kLogoutSuccess = 0,
-		kLogoutFail = 0,
-		kPlatformEnter = 0,
-		kPlatformBack = 0,
-		kPausePage = 0,
-		kExitPage = 0,
-		kAntiAddictionQuery = 0,
-		kRealNameRegister = 0,
-		kAccountSwitchSuccess = 0,
-		kAccountSwitchFail = 0,
-		kOpenShop = 0,
-		kAccountSwitchCancel = 0,
-		kUserExtension = 0,
-		kSendToDesktopSuccess = 0,
-		kSendToDesktopFail = 0,
-		kGetAvailableLoginTypeSuccess = 0,
-		kGetAvailableLoginTypeFail = 0,
-		kGetUserInfoSuccess = 0,
-		kGetUserInfoFail = 0,
-		kOpenBBSSuccess = 0,
-		kOpenBBSFail = 0,	
-	}	
-	/** !#en The toolbar position of user type
-	!#zh 用户系统悬浮窗位置 */
-	export enum ToolBarPlace {		
-		kToolBarTopLeft = 0,
-		kToolBarTopRight = 0,
-		kToolBarMidLeft = 0,
-		kToolBarMidRight = 0,
-		kToolBarBottomLeft = 0,
-		kToolBarBottomRight = 0,	
-	}	
-	/** !#en The callback of requesting reStringge
-	!#zh 支付系统支付请求回调 */
-	export enum PayResultCode {		
-		kPaySuccess = 0,
-		kPayFail = 0,
-		kPayCancel = 0,
-		kPayNetworkError = 0,
-		kPayProductionInforIncomplete = 0,
-		kPayInitSuccess = 0,
-		kPayInitFail = 0,
-		kPayNowPaying = 0,
-		kPayReStringgeSuccess = 0,
-		kPayExtension = 0,
-		kPayNeedLoginAgain = 0,
-		kRequestSuccess = 0,
-		kRequestFail = 0,	
-	}	
-	/** !#en The enum of account type
-	!#zh 统计系统的账号类型 */
-	export enum AccountType {		
-		ANONYMOUS = 0,
-		REGISTED = 0,
-		SINA_WEIBO = 0,
-		TENCENT_WEIBO = 0,
-		QQ = 0,
-		ND91 = 0,	
-	}	
-	/** !#en The enum of account operation
-	!#zh 统计系统的账号操作 */
-	export enum AccountOperate {		
-		LOGIN = 0,
-		LOGOUT = 0,
-		REGISTER = 0,	
-	}	
-	/** !#en The enum of gender
-	!#zh 统计系统的账号性别 */
-	export enum AccountGender {		
-		MALE = 0,
-		FEMALE = 0,
-		UNKNOWN = 0,	
-	}	
-	/** !#en The enum of task type
-	!#zh 统计系统的任务类型 */
-	export enum TaskType {		
-		GUIDE_LINE = 0,
-		MAIN_LINE = 0,
-		BRANCH_LINE = 0,
-		DAILY = 0,
-		ACTIVITY = 0,
-		OTHER = 0,	
-	}	
-	/** !#en The callback of share system
-	!#zh 分享系统回调 */
-	export enum ShareResultCode {		
-		kShareSuccess = 0,
-		kShareFail = 0,
-		kShareCancel = 0,
-		kShareNetworkError = 0,
-		kShareExtension = 0,	
-	}	
-	/** !#en The callback of social system
-	!#zh 社交系统回调 */
-	export enum SocialRetCode {		
-		kScoreSubmitSucceed = 0,
-		kScoreSubmitfail = 0,
-		kAchUnlockSucceed = 0,
-		kAchUnlockFail = 0,
-		kSocialSignInSucceed = 0,
-		kSocialSignInFail = 0,
-		kSocialSignOutSucceed = 0,
-		kSocialSignOutFail = 0,
-		kSocialGetGameFriends = 0,
-		kSocialExtensionCode = 0,
-		kSocialGetFriendsInfoSuccess = 0,
-		kSocialGetFriendsInfoFail = 0,
-		kSocialAlreadySubscription = 0,
-		kSocialNoSubscription = 0,
-		kSocialSubscriptionFail = 0,	
-	}	
-	/** !#en The callback of ads system
-	!#zh 广告系统回调 */
-	export enum AdsResultCode {		
-		kAdsReceived = 0,
-		kAdsShown = 0,
-		kAdsDismissed = 0,
-		kPointsSpendSucceed = 0,
-		kPointsSpendFailed = 0,
-		kNetworkError = 0,
-		kUnknownError = 0,
-		kOfferWallOnPointsChanged = 0,
-		kRewardedVideoWithReward = 0,
-		kInAppPurchaseFinished = 0,
-		kAdsClicked = 0,
-		kAdsExtension = 0,	
-	}	
-	/** !#en The enum of ads position
-	!#zh 广告位置 */
-	export enum AdsPos {		
-		kPosCenter = 0,
-		kPosTop = 0,
-		kPosTopLeft = 0,
-		kPosTopRight = 0,
-		kPosBottom = 0,
-		kPosBottomLeft = 0,
-		kPosBottomRight = 0,	
-	}	
-	/** !#en The enum of ads type
-	!#zh 广告类型 */
-	export enum AdsType {		
-		AD_TYPE_BANNER = 0,
-		AD_TYPE_FULLSCREEN = 0,
-		AD_TYPE_MOREAPP = 0,
-		AD_TYPE_OFFERWALL = 0,
-		AD_TYPE_REWARDEDVIDEO = 0,
-		AD_TYPE_NATIVEEXPRESS = 0,
-		AD_TYPE_NATIVEADVANCED = 0,	
-	}	
-	/** !#en The callback of push system
-	!#zh 推送系统回调 */
-	export enum PushActionResultCode {		
-		kPushReceiveMessage = 0,
-		kPushExtensionCode = 0,	
-	}	
-	/** !#en The callback of custom system
-	!#zh 自定义系统回调 */
-	export enum CustomResultCode {		
-		kCustomExtension = 0,	
-	}	
-	/** !#en The callback of REC system
-	!#zh 录屏系统回调 */
-	export enum RECResultCode {		
-		kRECInitSuccess = 0,
-		kRECInitFail = 0,
-		kRECStartRecording = 0,
-		kRECStopRecording = 0,
-		kRECPauseRecording = 0,
-		kRECResumeRecording = 0,
-		kRECEnterSDKPage = 0,
-		kRECQuitSDKPage = 0,
-		kRECShareSuccess = 0,
-		kRECShareFail = 0,
-		kRECExtension = 0,	
+	/****************************************************
+	* ArmatureDisplay
+	*****************************************************/
+	
+	export namespace ArmatureDisplay {		
+		/** !#en Enum for cache mode type.
+		!#zh Dragonbones渲染类型 */
+		export enum AnimationCacheMode {			
+			REALTIME = 0,
+			SHARED_CACHE = 0,
+			PRIVATE_CACHE = 0,		
+		}	
 	}
+		
+	/****************************************************
+	* dragonBones
+	*****************************************************/
+	
+	export namespace dragonBones {		
+		/** !#en Attach node tool
+		!#zh 挂点工具类 */
+		export class AttachUtil {			
+			/**
+			!#en Gets attached root node.
+			!#zh 获取挂接节点树的根节点 
+			*/
+			getAttachedRootNode(): cc.Node;			
+			/**
+			!#en Gets attached node which you want.
+			!#zh 获得对应的挂点
+			@param boneName boneName 
+			*/
+			getAttachedNodes(boneName: string): cc.Node[];			
+			/**
+			!#en Destroy attached node which you want.
+			!#zh 销毁对应的挂点
+			@param boneName boneName 
+			*/
+			destroyAttachedNodes(boneName: string): void;			
+			/**
+			!#en Traverse all bones to generate the minimum node tree containing the given bone names, NOTE that make sure the skeleton has initialized before calling this interface.
+			!#zh 遍历所有插槽，生成包含所有给定插槽名称的最小节点树，注意，调用该接口前请确保骨骼动画已经初始化好。
+			@param boneName boneName 
+			*/
+			generateAttachedNodes(boneName: string): cc.Node[];			
+			/**
+			!#en Destroy all attached node.
+			!#zh 销毁所有挂点 
+			*/
+			destroyAllAttachedNodes(): void;			
+			/**
+			!#en Traverse all bones to generate a tree containing all bones nodes, NOTE that make sure the skeleton has initialized before calling this interface.
+			!#zh 遍历所有插槽，生成包含所有插槽的节点树，注意，调用该接口前请确保骨骼动画已经初始化好。 
+			*/
+			generateAllAttachedNodes(): cc.Node;		
+		}	
+	}
+	
 }
 
 /** !#en
@@ -16927,6 +19898,14 @@ properties and constants of Spine are defined in this namespace
 Spine 的全局的命名空间，
 与 Spine 相关的所有的类，函数，属性，常量都在这个命名空间中定义。 */
 declare namespace sp {	
+	/** !#en The event type of spine skeleton animation.
+	!#zh 骨骼动画事件类型。 */
+	export enum AnimationEventType {		
+		START = 0,
+		END = 0,
+		COMPLETE = 0,
+		EVENT = 0,	
+	}	
 	/** !#en
 	The skeleton of Spine <br/>
 	<br/>
@@ -16980,6 +19959,9 @@ declare namespace sp {
 		/** !#en Indicates whether open debug bones.
 		!#zh 是否显示 bone 的 debug 信息。 */
 		debugBones: boolean;		
+		/** !#en Indicates whether open debug mesh.
+		!#zh 是否显示 mesh 的 debug 信息。 */
+		debugMesh: boolean;		
 		/** !#en Enabled two color tint.
 		!#zh 是否启用染色效果。 */
 		useTint: boolean;		
@@ -16999,9 +19981,10 @@ declare namespace sp {
 		/**
 		!#en Sets slots visible range.
 		!#zh 设置骨骼插槽可视范围。
-		@param skeletonData skeletonData 
+		@param startSlotIndex startSlotIndex
+		@param endSlotIndex endSlotIndex 
 		*/
-		setSlotsRange(skeletonData: sp.spine.SkeletonData): void;		
+		setSlotsRange(startSlotIndex: number, endSlotIndex: number): void;		
 		/**
 		!#en Sets animation state data.<br>
 		The parameter type is {{#crossLinkModule "sp.spine"}}sp.spine{{/crossLinkModule}}.AnimationStateData.
@@ -17024,12 +20007,18 @@ declare namespace sp {
 		skeleton.setAnimationCacheMode(sp.Skeleton.AnimationCacheMode.SHARED_CACHE);
 		``` 
 		*/
-		setAnimationCacheMode(cacheMode: AnimationCacheMode): void;		
+		setAnimationCacheMode(cacheMode: Skeleton.AnimationCacheMode): void;		
 		/**
 		!#en Whether in cached mode.
 		!#zh 当前是否处于缓存模式。 
 		*/
-		isAnimationCached(): void;		
+		isAnimationCached(): boolean;		
+		/**
+		!#en Sets vertex effect delegate.
+		!#zh 设置顶点动画代理
+		@param effectDelegate effectDelegate 
+		*/
+		setVertexEffectDelegate(effectDelegate: VertexEffectDelegate): void;		
 		/**
 		!#en Computes the world SRT from the local SRT for each bone.
 		!#zh 重新更新所有骨骼的世界 Transform，
@@ -17070,12 +20059,22 @@ declare namespace sp {
 		setSlotsToSetupPose(): void;		
 		/**
 		!#en
-		Update an animation cache.
+		Updating an animation cache to calculate all frame data in the animation is a cost in
+		performance due to calculating all data in a single frame.
+		To update the cache, use the invalidAnimationCache method with high performance.
 		!#zh
-		更新某个动画缓存。
+		更新某个动画缓存, 预计算动画中所有帧数据，由于在单帧计算所有数据，所以较消耗性能。
+		若想更新缓存，可使用 invalidAnimationCache 方法，具有较高性能。
 		@param animName animName 
 		*/
 		updateAnimationCache(animName: string): void;		
+		/**
+		!#en
+		Invalidates the animation cache, which is then recomputed on each frame..
+		!#zh
+		使动画缓存失效，之后会在每帧重新计算。 
+		*/
+		invalidAnimationCache(): void;		
 		/**
 		!#en
 		Finds a bone by name.
@@ -17183,7 +20182,7 @@ declare namespace sp {
 		返回一个 {{#crossLinkModule "sp.spine"}}sp.spine{{/crossLinkModule}}.TrackEntry 对象。
 		@param trackIndex trackIndex 
 		*/
-		getCurrent(trackIndex: void): sp.spine.TrackEntry;		
+		getCurrent(trackIndex: any): sp.spine.TrackEntry;		
 		/**
 		!#en Clears all tracks of animation state.
 		!#zh 清除所有 track 的动画状态。 
@@ -17275,17 +20274,9 @@ declare namespace sp {
 		setTrackEventListener(entry: sp.spine.TrackEntry, listener: Function): void;		
 		/**
 		!#en Get the animation state object
-		!#zh 获取 
+		!#zh 获取动画状态 
 		*/
-		setTrackEventListener(): sp.spine.AnimationState;	
-	}	
-	/** !#en The event type of spine skeleton animation.
-	!#zh 骨骼动画事件类型。 */
-	export enum AnimationEventType {		
-		START = 0,
-		END = 0,
-		COMPLETE = 0,
-		EVENT = 0,	
+		getState(): sp.spine.AnimationState;	
 	}	
 	/** !#en The skeleton data of spine.
 	!#zh Spine 的 骨骼数据。 */
@@ -17314,6 +20305,102 @@ declare namespace sp {
 		*/
 		getRuntimeData(quiet?: boolean): sp.spine.SkeletonData;	
 	}	
+	/** !#en
+	The delegate of spine vertex effect
+	!#zh
+	Spine 顶点动画代理 */
+	export class VertexEffectDelegate {		
+		/**
+		!#en Clears vertex effect.
+		!#zh 清空顶点效果 
+		*/
+		clear(): void;		
+		/**
+		!#en Inits delegate with jitter effect
+		!#zh 设置顶点抖动效果
+		@param jitterX jitterX
+		@param jitterY jitterY 
+		*/
+		initJitter(jitterX: number, jitterY: number): void;		
+		/**
+		!#en Inits delegate with swirl effect
+		!#zh 设置顶点漩涡效果
+		@param radius radius
+		@param power power 
+		*/
+		initSwirlWithPow(radius: number, power: number): sp.spine.JitterEffect;		
+		/**
+		!#en Inits delegate with swirl effect
+		!#zh 设置顶点漩涡效果
+		@param radius radius
+		@param power power 
+		*/
+		initSwirlWithPowOut(radius: number, power: number): sp.spine.SwirlEffect;		
+		/**
+		!#en Gets jitter vertex effect
+		!#zh 获取顶点抖动效果 
+		*/
+		getJitterVertexEffect(): sp.spine.JitterEffect;		
+		/**
+		!#en Gets swirl vertex effect
+		!#zh 获取顶点漩涡效果 
+		*/
+		getSwirlVertexEffect(): sp.spine.SwirlEffect;		
+		/**
+		!#en Gets vertex effect
+		!#zh 获取顶点效果 
+		*/
+		getVertexEffect(): sp.spine.JitterEffect;		
+		/**
+		!#en Gets effect type
+		!#zh 获取效果类型 
+		*/
+		getEffectType(): string;	
+	}	
+	/****************************************************
+	* sp
+	*****************************************************/
+	
+	export namespace sp {		
+		/** !#en Attach node tool
+		!#zh 挂点工具类 */
+		export class AttachUtil {			
+			/**
+			!#en Gets attached root node.
+			!#zh 获取挂接节点树的根节点 
+			*/
+			getAttachedRootNode(): cc.Node;			
+			/**
+			!#en Gets attached node which you want.
+			!#zh 获得对应的挂点
+			@param boneName boneName 
+			*/
+			getAttachedNodes(boneName: string): cc.Node[];			
+			/**
+			!#en Destroy attached node which you want.
+			!#zh 销毁对应的挂点
+			@param boneName boneName 
+			*/
+			destroyAttachedNodes(boneName: string): void;			
+			/**
+			!#en Traverse all bones to generate the minimum node tree containing the given bone names, NOTE that make sure the skeleton has initialized before calling this interface.
+			!#zh 遍历所有插槽，生成包含所有给定插槽名称的最小节点树，注意，调用该接口前请确保骨骼动画已经初始化好。
+			@param boneName boneName 
+			*/
+			generateAttachedNodes(boneName: string): cc.Node[];			
+			/**
+			!#en Destroy all attached node.
+			!#zh 销毁所有挂点 
+			*/
+			destroyAllAttachedNodes(): void;			
+			/**
+			!#en Traverse all bones to generate a tree containing all bones nodes, NOTE that make sure the skeleton has initialized before calling this interface.
+			!#zh 遍历所有插槽，生成包含所有插槽的节点树，注意，调用该接口前请确保骨骼动画已经初始化好。 
+			*/
+			generateAllAttachedNodes(): cc.Node;		
+		}	
+	}
+		
 	/****************************************************
 	* Skeleton
 	*****************************************************/
@@ -17339,252 +20426,1542 @@ declare namespace sp.spine {
 }
 
 /** !#en
-The global main namespace of DragonBones, all classes, functions,
-properties and constants of DragonBones are defined in this namespace
+This module controls asset's behaviors and information, include loading, releasing etc.
+All member can be accessed with `cc.assetManager`. All class or enum can be accessed with `cc.AssetManager`
+
 !#zh
-DragonBones 的全局的命名空间，
-与 DragonBones 相关的所有的类，函数，属性，常量都在这个命名空间中定义。 */
-declare namespace dragonBones {	
+此模块管理资源的行为和信息，包括加载，释放等，所有成员能够通过 `cc.assetManager` 调用. 所有类型或枚举能通过 `cc.AssetManager` 访问 */
+declare namespace cc.AssetManager {	
 	/** !#en
-	The Armature Display of DragonBones <br/>
-	<br/>
-	(Armature Display has a reference to a DragonBonesAsset and stores the state for ArmatureDisplay instance,
-	which consists of the current pose's bone SRT, slot colors, and which slot attachments are visible. <br/>
-	Multiple Armature Display can use the same DragonBonesAsset which includes all animations, skins, and attachments.) <br/>
+	This module contains the builtin asset, it's a singleton, all member can be accessed with `cc.assetManager.builtins`
+	
 	!#zh
-	DragonBones 骨骼动画 <br/>
-	<br/>
-	(Armature Display 具有对骨骼数据的引用并且存储了骨骼实例的状态，
-	它由当前的骨骼动作，slot 颜色，和可见的 slot attachments 组成。<br/>
-	多个 Armature Display 可以使用相同的骨骼数据，其中包括所有的动画，皮肤和 attachments。)<br/> */
-	export class ArmatureDisplay extends cc.RenderComponent {		
-		/** !#en
-		The DragonBones data contains the armatures information (bind pose bones, slots, draw order,
-		attachments, skins, etc) and animations but does not hold any state.<br/>
-		Multiple ArmatureDisplay can share the same DragonBones data.
-		!#zh
-		骨骼数据包含了骨骼信息（绑定骨骼动作，slots，渲染顺序，
-		attachments，皮肤等等）和动画但不持有任何状态。<br/>
-		多个 ArmatureDisplay 可以共用相同的骨骼数据。 */
-		dragonAsset: DragonBonesAsset;		
-		/** !#en
-		The atlas asset for the DragonBones.
-		!#zh
-		骨骼数据所需的 Atlas Texture 数据。 */
-		dragonAtlasAsset: DragonBonesAtlasAsset;		
-		/** !#en The name of current armature.
-		!#zh 当前的 Armature 名称。 */
-		armatureName: string;		
-		/** !#en The name of current playing animation.
-		!#zh 当前播放的动画名称。 */
-		animationName: string;		
-		_defaultArmatureIndex: number;		
-		/** !#en The time scale of this armature.
-		!#zh 当前骨骼中所有动画的时间缩放率。 */
-		timeScale: number;		
-		/** !#en The play times of the default animation.
-		     -1 means using the value of config file;
-		     0 means repeat for ever
-		     >0 means repeat times
-		!#zh 播放默认动画的循环次数
-		     -1 表示使用配置文件中的默认值;
-		     0 表示无限循环
-		     >0 表示循环次数 */
-		playTimes: number;		
-		/** !#en Indicates whether to enable premultiplied alpha.
-		You should disable this option when image's transparent area appears to have opaque pixels,
-		or enable this option when image's half transparent area appears to be darken.
-		!#zh 是否启用贴图预乘。
-		当图片的透明区域出现色块时需要关闭该选项，当图片的半透明区域颜色变黑时需要启用该选项。 */
-		premultipliedAlpha: boolean;		
-		/** !#en Indicates whether open debug bones.
-		!#zh 是否显示 bone 的 debug 信息。 */
-		debugBones: boolean;		
-		/** !#en Enabled batch model, if skeleton is complex, do not enable batch, or will lower performance.
-		!#zh 开启合批，如果渲染大量相同纹理，且结构简单的骨骼动画，开启合批可以降低drawcall，否则请不要开启，cpu消耗会上升。 */
-		enableBatch: boolean;		
+	此模块包含内建资源，这是一个单例，所有成员能通过 `cc.assetManager.builtins` 访问 */
+	export class Builtins {		
 		/**
 		!#en
-		The key of dragonbones cache data, which is regard as 'dragonbonesName', when you want to change dragonbones cloth.
+		Initialize
+		
 		!#zh
-		缓存龙骨数据的key值，换装的时会使用到该值，作为dragonbonesName使用
+		初始化
+		@param cb Callback when finish loading built-in assets 
+		*/
+		init (cb: () => void): void;		
+		/**
+		!#en
+		Get the built-in asset using specific type and name.
+		
+		!#zh
+		通过特定的类型和名称获取内建资源
+		@param type The type of asset, such as `effect`
+		@param name The name of asset, such as `phong`
 		
 		@example 
 		```js
-		let factory = dragonBones.CCFactory.getInstance();
-		let needChangeSlot = needChangeArmature.armature().getSlot("changeSlotName");
-		factory.replaceSlotDisplay(toChangeArmature.getArmatureKey(), "armatureName", "slotName", "displayName", needChangeSlot);
+		cc.assetManaer.builtins.getBuiltin('effect', 'phone');
 		``` 
 		*/
-		getArmatureKey(): void;		
+		getBuiltin(type?: string, name?: string): cc.Asset | Cache<cc.Asset>;		
 		/**
 		!#en
-		It's best to set cache mode before set property 'dragonAsset', or will waste some cpu time.
-		If set the mode in editor, then no need to worry about order problem.
-		!#zh
-		若想切换渲染模式，最好在设置'dragonAsset'之前，先设置好渲染模式，否则有运行时开销。
-		若在编辑中设置渲染模式，则无需担心设置次序的问题。
-		@param cacheMode cacheMode
+		Clear all builtin assets
 		
-		@example 
-		```js
-		armatureDisplay.setAnimationCacheMode(dragonBones.ArmatureDisplay.AnimationCacheMode.SHARED_CACHE);
-		``` 
-		*/
-		setAnimationCacheMode(cacheMode: AnimationCacheMode): void;		
-		/**
-		!#en Whether in cached mode.
-		!#zh 当前是否处于缓存模式。 
-		*/
-		isAnimationCached(): void;		
-		/**
-		!#en
-		Play the specified animation.
-		Parameter animName specify the animation name.
-		Parameter playTimes specify the repeat times of the animation.
-		-1 means use the value of the config file.
-		0 means play the animation for ever.
-		>0 means repeat times.
 		!#zh
-		播放指定的动画.
-		animName 指定播放动画的名称。
-		playTimes 指定播放动画的次数。
-		-1 为使用配置文件中的次数。
-		0 为无限循环播放。
-		>0 为动画的重复次数。
-		@param animName animName
-		@param playTimes playTimes 
+		清空所有内置资源 
 		*/
-		playAnimation(animName: string, playTimes: number): dragonBones.AnimationState;		
-		/**
-		!#en
-		Update an animation cache.
-		!#zh
-		更新某个动画缓存。
-		@param animName animName 
-		*/
-		updateAnimationCache(animName: string): void;		
-		/**
-		!#en
-		Get the all armature names in the DragonBones Data.
-		!#zh
-		获取 DragonBones 数据中所有的 armature 名称 
-		*/
-		getArmatureNames(): any[];		
-		/**
-		!#en
-		Get the all animation names of specified armature.
-		!#zh
-		获取指定的 armature 的所有动画名称。
-		@param armatureName armatureName 
-		*/
-		getAnimationNames(armatureName: string): any[];		
-		/**
-		!#en
-		Add event listener for the DragonBones Event, the same to addEventListener.
-		!#zh
-		添加 DragonBones 事件监听器，与 addEventListener 作用相同。
-		@param type A string representing the event type to listen for.
-		@param listener The callback that will be invoked when the event is dispatched.
-		@param target The target (this object) to invoke the callback, can be null 
-		*/
-		on(type: string, listener: (event: cc.Event) => void, target?: any): void;		
-		/**
-		!#en
-		Remove the event listener for the DragonBones Event, the same to removeEventListener.
-		!#zh
-		移除 DragonBones 事件监听器，与 removeEventListener 作用相同。
-		@param type A string representing the event type to listen for.
-		@param listener listener
-		@param target target 
-		*/
-		off(type: string, listener?: Function, target?: any): void;		
-		/**
-		!#en
-		Add DragonBones one-time event listener, the callback will remove itself after the first time it is triggered.
-		!#zh
-		添加 DragonBones 一次性事件监听器，回调会在第一时间被触发后删除自身。
-		@param type A string representing the event type to listen for.
-		@param listener The callback that will be invoked when the event is dispatched.
-		@param target The target (this object) to invoke the callback, can be null 
-		*/
-		once(type: string, listener: (event: cc.Event) => void, target?: any): void;		
-		/**
-		!#en
-		Add event listener for the DragonBones Event.
-		!#zh
-		添加 DragonBones 事件监听器。
-		@param type A string representing the event type to listen for.
-		@param listener The callback that will be invoked when the event is dispatched.
-		@param target The target (this object) to invoke the callback, can be null 
-		*/
-		addEventListener(type: string, listener: (event: cc.Event) => void, target?: any): void;		
-		/**
-		!#en
-		Remove the event listener for the DragonBones Event.
-		!#zh
-		移除 DragonBones 事件监听器。
-		@param type A string representing the event type to listen for.
-		@param listener listener
-		@param target target 
-		*/
-		removeEventListener(type: string, listener?: Function, target?: any): void;		
-		/**
-		!#en
-		Build the armature for specified name.
-		!#zh
-		构建指定名称的 armature 对象
-		@param armatureName armatureName
-		@param node node 
-		*/
-		buildArmature(armatureName: string, node: cc.Node): dragonBones.ArmatureDisplay;		
-		/**
-		!#en
-		Get the current armature object of the ArmatureDisplay.
-		!#zh
-		获取 ArmatureDisplay 当前使用的 Armature 对象 
-		*/
-		armature(): any;	
+		clear(): void;	
 	}	
-	/** undefined */
-	export class CCFactory extends BaseFactory {		
-		/**
-		
-		
-		@example 
-		```js
-		let factory = dragonBones.CCFactory.getInstance();
-		``` 
-		*/
-		static getInstance(): CCFactory;	
-	}	
-	/** !#en The skeleton data of dragonBones.
-	!#zh dragonBones 的 骨骼数据。 */
-	export class DragonBonesAsset extends cc.Asset {		
-		/** !#en See http://developer.egret.com/cn/github/egret-docs/DB/dbLibs/dataFormat/index.html
-		!#zh 可查看 DragonBones 官方文档 http://developer.egret.com/cn/github/egret-docs/DB/dbLibs/dataFormat/index.html */
-		dragonBonesJson: string;	
-	}	
-	/** !#en The skeleton atlas data of dragonBones.
-	!#zh dragonBones 的骨骼纹理数据。 */
-	export class DragonBonesAtlasAsset extends cc.Asset {		
-		atlasJson: string;		
-		texture: cc.Texture2D;	
-	}	
-	/****************************************************
-	* ArmatureDisplay
-	*****************************************************/
+	/** !#en
+	A bundle contains an amount of assets(includes scene), you can load, preload, release asset which is in this bundle
 	
-	export namespace ArmatureDisplay {		
-		/** !#en Enum for cache mode type.
-		!#zh Dragonbones渲染类型 */
-		export enum AnimationCacheMode {			
-			REALTIME = 0,
-			SHARED_CACHE = 0,
-			PRIVATE_CACHE = 0,		
-		}	
+	!#zh
+	一个包含一定数量资源（包括场景）的包，你可以加载，预加载，释放此包内的资源 */
+	export class Bundle {		
+		/**
+		!#en
+		Create a bundle
+		
+		!#zh
+		创建一个 bundle 
+		*/
+		constructor();		
+		/** !#en
+		The name of this bundle
+		
+		!#zh
+		此 bundle 的名称 */
+		name: string;		
+		/** !#en
+		The dependency of this bundle
+		
+		!#zh
+		此 bundle 的依赖 */
+		deps: string[];		
+		/** !#en
+		The root path of this bundle, such like 'http://example.com/bundle1'
+		
+		!#zh
+		此 bundle 的根路径, 例如 'http://example.com/bundle1' */
+		base: string;		
+		/**
+		!#en
+		Get asset's info using path, only valid when asset is in bundle folder.
+		
+		!#zh
+		使用 path 获取资源的配置信息
+		@param path The relative path of asset, such as 'images/a'
+		@param type The constructor of asset, such as  `cc.Texture2D`
+		
+		@example 
+		```js
+		var info = bundle.getInfoWithPath('image/a', cc.Texture2D);
+		``` 
+		*/
+		getInfoWithPath (path: string, type?: typeof cc.Asset): Record<string, any>;		
+		/**
+		!#en
+		Get all asset's info within specific folder
+		
+		!#zh
+		获取在某个指定文件夹下的所有资源信息
+		@param path The relative path of folder, such as 'images'
+		@param type The constructor should be used to filter paths
+		@param out The output array
+		
+		@example 
+		```js
+		var infos = [];
+		bundle.getDirWithPath('images', cc.Texture2D, infos);
+		``` 
+		*/
+		getDirWithPath (path: string, type: typeof cc.Asset, out: Array<Record<string, any>>): Array<Record<string, any>>;
+		getDirWithPath (path: string, type: typeof cc.Asset): Array<Record<string, any>>;
+		getDirWithPath (path: string): Array<Record<string, any>>;		
+		/**
+		!#en
+		Get asset's info with uuid
+		
+		!#zh
+		通过 uuid 获取资源信息
+		@param uuid The asset's uuid
+		
+		@example 
+		```js
+		var info = bundle.getAssetInfo('fcmR3XADNLgJ1ByKhqcC5Z');
+		``` 
+		*/
+		getAssetInfo (uuid: string): Record<string, any>;		
+		/**
+		!#en
+		Get scene'info with name
+		
+		!#zh
+		通过场景名获取场景信息
+		@param name The name of scene
+		
+		@example 
+		```js
+		var info = bundle.getSceneInfo('first.fire');
+		``` 
+		*/
+		getSceneInfo(name: string): Record<string, any>;		
+		/**
+		!#en
+		Initialize this bundle with options
+		
+		!#zh
+		初始化此 bundle
+		@param options options 
+		*/
+		init(options: Record<string, any>): void;		
+		/**
+		!#en
+		Load the asset within this bundle by the path which is relative to bundle's path
+		
+		!#zh
+		通过相对路径加载分包中的资源。路径是相对分包文件夹路径的相对路径
+		@param paths Paths of the target assets.The path is relative to the bundle's folder, extensions must be omitted.
+		@param type Only asset of type will be loaded if this argument is supplied.
+		@param onProgress Callback invoked when progression change.
+		@param onComplete Callback invoked when all assets loaded.
+		
+		@example 
+		```js
+		// load the texture (${project}/assets/resources/textures/background.jpg) from resources
+		cc.resources.load('textures/background', cc.Texture2D, (err, texture) => console.log(err));
+		
+		// load the audio (${project}/assets/resources/music/hit.mp3) from resources
+		cc.resources.load('music/hit', cc.AudioClip, (err, audio) => console.log(err));
+		
+		// load the prefab (${project}/assets/bundle1/misc/character/cocos) from bundle1 folder
+		bundle1.load('misc/character/cocos', cc.Prefab, (err, prefab) => console.log(err));
+		
+		// load the sprite frame (${project}/assets/some/xxx/bundle2/imgs/cocos.png) from bundle2 folder
+		bundle2.load('imgs/cocos', cc.SpriteFrame, null, (err, spriteFrame) => console.log(err));
+		``` 
+		*/
+		load<T extends cc.Asset>(paths: string|string[], type: typeof cc.Asset, onProgress: (finish: number, total: number, item: RequestItem) => void, onComplete: (error: Error, assets: T|Array<T>) => void): void;
+		load<T extends cc.Asset>(paths: string|string[], onProgress: (finish: number, total: number, item: RequestItem) => void, onComplete: (error: Error, assets: T|Array<T>) => void): void;
+		load<T extends cc.Asset>(paths: string|string[], type: typeof cc.Asset, onComplete: (error: Error, assets: T|Array<T>) => void): void;
+		load<T extends cc.Asset>(paths: string|string[], onComplete: (error: Error, assets: T|Array<T>) => void): void;
+		load<T extends cc.Asset>(paths: string|string[], type: typeof cc.Asset): void;
+		load<T extends cc.Asset>(paths: string|string[]): void;		
+		/**
+		!#en
+		Preload the asset within this bundle by the path which is relative to bundle's path.
+		After calling this method, you still need to finish loading by calling `Bundle.load`.
+		It will be totally fine to call `Bundle.load` at any time even if the preloading is not
+		yet finished
+		
+		!#zh
+		通过相对路径预加载分包中的资源。路径是相对分包文件夹路径的相对路径。调用完后，你仍然需要通过 `Bundle.load` 来完成加载。
+		就算预加载还没完成，你也可以直接调用 `Bundle.load`。
+		@param paths Paths of the target asset.The path is relative to bundle folder, extensions must be omitted.
+		@param type Only asset of type will be loaded if this argument is supplied.
+		@param onProgress Callback invoked when progression change.
+		@param onComplete Callback invoked when the resource loaded.
+		
+		@example 
+		```js
+		// preload the texture (${project}/assets/resources/textures/background.jpg) from resources
+		cc.resources.preload('textures/background', cc.Texture2D);
+		
+		// preload the audio (${project}/assets/resources/music/hit.mp3) from resources
+		cc.resources.preload('music/hit', cc.AudioClip);
+		// wait for while
+		cc.resources.load('music/hit', cc.AudioClip, (err, audioClip) => {});
+		
+		* // preload the prefab (${project}/assets/bundle1/misc/character/cocos) from bundle1 folder
+		bundle1.preload('misc/character/cocos', cc.Prefab);
+		
+		// load the sprite frame of (${project}/assets/bundle2/imgs/cocos.png) from bundle2 folder
+		bundle2.preload('imgs/cocos', cc.SpriteFrame);
+		// wait for while
+		bundle2.load('imgs/cocos', cc.SpriteFrame, (err, spriteFrame) => {});
+		``` 
+		*/
+		preload(paths: string|string[], type: typeof cc.Asset, onProgress: (finish: number, total: number, item: RequestItem) => void, onComplete: (error: Error, items: RequestItem[]) => void): void;
+		preload(paths: string|string[], onProgress: (finish: number, total: number, item: RequestItem) => void, onComplete: (error: Error, items: RequestItem[]) => void): void;
+		preload(paths: string|string[], type: typeof cc.Asset, onComplete: (error: Error, items: RequestItem[]) => void): void;
+		preload(paths: string|string[], type: typeof cc.Asset): void;
+		preload(paths: string|string[], onComplete: (error: Error, items: RequestItem[]) => void): void;
+		preload(paths: string|string[]): void;		
+		/**
+		!#en
+		Load all assets under a folder inside the bundle folder.<br>
+		<br>
+		Note: All asset paths in Creator use forward slashes, paths using backslashes will not work.
+		
+		!#zh
+		加载目标文件夹中的所有资源, 注意：路径中只能使用斜杠，反斜杠将停止工作
+		@param dir path of the target folder.The path is relative to the bundle folder, extensions must be omitted.
+		@param type Only asset of type will be loaded if this argument is supplied.
+		@param onProgress Callback invoked when progression change.
+		@param onComplete A callback which is called when all assets have been loaded, or an error occurs.
+		
+		@example 
+		```js
+		// load all audios (resources/audios/)
+		cc.resources.loadDir('audios', cc.AudioClip, (err, audios) => {});
+		
+		// load all textures in "resources/imgs/"
+		cc.resources.loadDir('imgs', cc.Texture2D, null, function (err, textures) {
+		    var texture1 = textures[0];
+		    var texture2 = textures[1];
+		});
+		
+		// load all prefabs (${project}/assets/bundle1/misc/characters/) from bundle1 folder
+		bundle1.loadDir('misc/characters', cc.Prefab, (err, prefabs) => console.log(err));
+		
+		// load all sprite frame (${project}/assets/some/xxx/bundle2/skills/) from bundle2 folder
+		bundle2.loadDir('skills', cc.SpriteFrame, null, (err, spriteFrames) => console.log(err));
+		``` 
+		*/
+		loadDir<T extends cc.Asset>(dir: string, type: typeof cc.Asset, onProgress: (finish: number, total: number, item: RequestItem) => void, onComplete: (error: Error, assets: Array<T>) => void): void;
+		loadDir<T extends cc.Asset>(dir: string, onProgress: (finish: number, total: number, item: RequestItem) => void, onComplete: (error: Error, assets: Array<T>) => void): void;
+		loadDir<T extends cc.Asset>(dir: string, type: typeof cc.Asset, onComplete: (error: Error, assets: Array<T>) => void): void;
+		loadDir<T extends cc.Asset>(dir: string, type: typeof cc.Asset): void;
+		loadDir<T extends cc.Asset>(dir: string, onComplete: (error: Error, assets: Array<T>) => void): void;
+		loadDir<T extends cc.Asset>(dir: string): void;		
+		/**
+		!#en
+		Preload all assets under a folder inside the bundle folder.<br> After calling this method, you still need to finish loading by calling `Bundle.loadDir`.
+		It will be totally fine to call `Bundle.loadDir` at any time even if the preloading is not yet finished
+		
+		!#zh
+		预加载目标文件夹中的所有资源。调用完后，你仍然需要通过 `Bundle.loadDir` 来完成加载。
+		就算预加载还没完成，你也可以直接调用 `Bundle.loadDir`。
+		@param dir path of the target folder.The path is relative to the bundle folder, extensions must be omitted.
+		@param type Only asset of type will be preloaded if this argument is supplied.
+		@param onProgress Callback invoked when progression change.
+		@param onComplete A callback which is called when all assets have been loaded, or an error occurs.
+		
+		@example 
+		```js
+		// preload all audios (resources/audios/)
+		cc.resources.preloadDir('audios', cc.AudioClip);
+		
+		// preload all textures in "resources/imgs/"
+		cc.resources.preloadDir('imgs', cc.Texture2D);
+		// wait for while
+		cc.resources.loadDir('imgs', cc.Texture2D, (err, textures) => {});
+		
+		// preload all prefabs (${project}/assets/bundle1/misc/characters/) from bundle1 folder
+		bundle1.preloadDir('misc/characters', cc.Prefab);
+		
+		// preload all sprite frame (${project}/assets/some/xxx/bundle2/skills/) from bundle2 folder
+		bundle2.preloadDir('skills', cc.SpriteFrame);
+		// wait for while
+		bundle2.loadDir('skills', cc.SpriteFrame, (err, spriteFrames) => {});
+		``` 
+		*/
+		preloadDir(dir: string, type: typeof cc.Asset, onProgress: (finish: number, total: number, item: RequestItem) => void, onComplete: (error: Error, items: RequestItem[]) => void): void;
+		preloadDir(dir: string, onProgress: (finish: number, total: number, item: RequestItem) => void, onComplete: (error: Error, items: RequestItem[]) => void): void;
+		preloadDir(dir: string, type: typeof cc.Asset, onComplete: (error: Error, items: RequestItem[]) => void): void;
+		preloadDir(dir: string, type: typeof cc.Asset): void;
+		preloadDir(dir: string, onComplete: (error: Error, items: RequestItem[]) => void): void;
+		preloadDir(dir: string): void;		
+		/**
+		!#en
+		Loads the scene within this bundle by its name.
+		
+		!#zh
+		通过场景名称加载分包中的场景。
+		@param sceneName The name of the scene to load.
+		@param options Some optional parameters
+		@param onProgress Callback invoked when progression change.
+		@param onComplete callback, will be called after scene launched.
+		
+		@example 
+		```js
+		bundle1.loadScene('first', (err, sceneAsset) => cc.director.runScene(sceneAsset));
+		``` 
+		*/
+		loadScene(sceneName: string, options: Record<string, any>, onProgress: (finish: number, total: number, item: RequestItem) => void, onComplete: (error: Error, sceneAsset: cc.SceneAsset) => void): void;
+		loadScene(sceneName: string, onProgress: (finish: number, total: number, item: RequestItem) => void, onComplete: (error: Error, sceneAsset: cc.SceneAsset) => void): void;
+		loadScene(sceneName: string, options: Record<string, any>, onComplete: (error: Error, sceneAsset: cc.SceneAsset) => void): void;
+		loadScene(sceneName: string, options: Record<string, any>): void;
+		loadScene(sceneName: string, onComplete: (error: Error, sceneAsset: cc.SceneAsset) => void): void;
+		loadScene(sceneName: string): void;		
+		/**
+		!#en
+		Preloads the scene within this bundle by its name. After calling this method, you still need to finish loading by calling `Bundle.loadScene` or `cc.director.loadScene`.
+		It will be totally fine to call `Bundle.loadDir` at any time even if the preloading is not yet finished
+		
+		!#zh
+		通过场景名称预加载分包中的场景.调用完后，你仍然需要通过 `Bundle.loadScene` 或 `cc.director.loadScene` 来完成加载。
+		就算预加载还没完成，你也可以直接调用 `Bundle.loadScene` 或 `cc.director.loadScene`。
+		@param sceneName The name of the scene to preload.
+		@param options Some optional parameters
+		@param onProgress callback, will be called when the load progression change.
+		@param onComplete callback, will be called after scene loaded.
+		
+		@example 
+		```js
+		bundle1.preloadScene('first');
+		// wait for a while
+		bundle1.loadScene('first', (err, scene) => cc.director.runScene(scene));
+		``` 
+		*/
+		preloadScene(sceneName: string, options: Record<string, any>, onProgress: (finish: number, total: number, item: RequestItem) => void, onComplete: (error: Error) => void): void;
+		preloadScene(sceneName: string, onProgress: (finish: number, total: number, item: RequestItem) => void, onComplete: (error: Error) => void): void;
+		preloadScene(sceneName: string, options: Record<string, any>, onComplete: (error: Error) => void): void;
+		preloadScene(sceneName: string, options: Record<string, any>): void;
+		preloadScene(sceneName: string, onComplete: (error: Error) => void): void;
+		preloadScene(sceneName: string): void;		
+		/**
+		!#en
+		Get asset within this bundle by path and type. <br>
+		After you load asset with {{#crossLink "Bundle/load:method"}}{{/crossLink}} or {{#crossLink "Bundle/loadDir:method"}}{{/crossLink}},
+		you can acquire them by passing the path to this API.
+		
+		!#zh
+		通过路径与类型获取资源。在你使用 {{#crossLink "Bundle/load:method"}}{{/crossLink}} 或者 {{#crossLink "Bundle/loadDir:method"}}{{/crossLink}} 之后，
+		你能通过传路径通过这个 API 获取到这些资源。
+		@param path The path of asset
+		@param type Only asset of type will be returned if this argument is supplied.
+		
+		@example 
+		```js
+		bundle1.get('music/hit', cc.AudioClip);
+		``` 
+		*/
+		get (path: string, type?: typeof cc.Asset): cc.Asset;		
+		/**
+		!#en
+		Release the asset loaded by {{#crossLink "Bundle/load:method"}}{{/crossLink}} or {{#crossLink "Bundle/loadDir:method"}}{{/crossLink}} and it's dependencies.
+		Refer to {{#crossLink "AssetManager/releaseAsset:method"}}{{/crossLink}} for detailed informations.
+		
+		!#zh
+		释放通过 {{#crossLink "Bundle/load:method"}}{{/crossLink}} 或者 {{#crossLink "Bundle/loadDir:method"}}{{/crossLink}} 加载的资源。详细信息请参考 {{#crossLink "AssetManager/releaseAsset:method"}}{{/crossLink}}
+		@param path The path of asset
+		@param type Only asset of type will be released if this argument is supplied.
+		
+		@example 
+		```js
+		// release a texture which is no longer need
+		bundle1.release('misc/character/cocos');
+		``` 
+		*/
+		release(path: string, type: typeof cc.Asset): void;
+		release(path: string): void;		
+		/**
+		!#en
+		Release all assets within this bundle. Refer to {{#crossLink "AssetManager/releaseAll:method"}}{{/crossLink}} for detailed informations.
+		
+		!#zh
+		释放此包中的所有资源。详细信息请参考 {{#crossLink "AssetManager/releaseAll:method"}}{{/crossLink}}
+		
+		@example 
+		```js
+		// release all asset within bundle1
+		bundle1.releaseAll();
+		``` 
+		*/
+		releaseAll(): void;	
+	}	
+	/** !#en
+	Cache manager is a module which controls all caches downloaded from server in non-web platform, it is a singleton
+	All member can be accessed with `cc.assetManager.cacheManager`.
+	
+	!#zh
+	缓存管理器是一个模块，在非 WEB 平台上，用于管理所有从服务器上下载下来的缓存，这是一个单例，所有成员能通过 `cc.assetManager.cacheManager` 访问。 */
+	export class CacheManager {		
+		/** !#en
+		The name of cacheDir
+		
+		!#zh
+		缓存目录的名称 */
+		cacheDir: string;		
+		/** !#en
+		Whether or not cache asset into user's storage space, this property only works on mini-game platforms
+		
+		!#zh
+		是否缓存资源到用户存储空间，此属性只在小游戏平台有效 */
+		cacheEnabled: boolean;		
+		/** !#en
+		Whether or not auto clear cache when storage ran out, this property only works on mini-game platforms
+		
+		!#zh
+		是否在存储空间满了后自动清理缓存，此属性只在小游戏平台有效 */
+		autoClear: boolean;		
+		/** !#en
+		The interval between caching resources, this property only works on mini-game platforms
+		
+		!#zh
+		缓存资源的间隔时间，此属性只在小游戏平台有效 */
+		cacheInterval: number;		
+		/** !#en
+		The interval between deleting resources, when you use `cleanLRU`, the resources will be deleted as this interval
+		
+		!#zh
+		清理资源的间隔时间，当你使用 `cleanLRU` 时，资源将以此间隔被删除 */
+		deleteInterval: number;		
+		/**
+		!#en
+		Get cached path with origin url
+		
+		!#zh
+		通过原始 url 获取缓存后的路径
+		@param originUrl originUrl 
+		*/
+		getCache(originUrl: string): string;		
+		/**
+		!#en
+		Get temporary path with origin url, this method only works on mini-game platforms
+		
+		!#zh
+		通过原始 url 获取临时文件的路径，此方法只在小游戏平台有效
+		@param originUrl originUrl 
+		*/
+		getTemp(originUrl: string): string;		
+		/**
+		!#en
+		Clear all caches, please use with caution, If necessary, we recommend using it before the game is launched
+		
+		!#zh
+		清空所有缓存，请谨慎使用，如果必要的话，我们建议在游戏启动之前使用 
+		*/
+		clearCache(): void;		
+		/**
+		!#en
+		Clear part of caches with LRU strategy
+		
+		!#zh
+		使用 LRU 策略清空部分缓存 
+		*/
+		clearLRU(): void;		
+		/**
+		!#en
+		Remove cache with origin url
+		
+		!#zh
+		通过原始 url 移除缓存 
+		*/
+		removeCache(): void;	
+	}	
+	/** !#en
+	use to cache something
+	
+	!#zh
+	用于缓存某些内容 */
+	export class Cache<T = any> {		
+		/**
+		!#en
+		Create a cache
+		
+		!#zh
+		创建一个 cache
+		@param map An object used to initialize 
+		*/
+		constructor(map?: Record<string, T>);		
+		/**
+		!#en
+		Add Key-Value to cache
+		
+		!#zh
+		增加键值对到缓存中
+		@param key The key
+		@param val The value
+		
+		@example 
+		```js
+		var cache = new Cache();
+		cache.add('test', null);
+		``` 
+		*/
+		add(key: string, val: T): T;		
+		/**
+		!#en
+		Get the cached content by key
+		
+		!#zh
+		通过 key 获取对应的 value
+		@param key The key
+		
+		@example 
+		```js
+		var cache = new Cache();
+		var test = cache.get('test');
+		``` 
+		*/
+		get(key: string): T;		
+		/**
+		!#en
+		Check whether or not content exists by key
+		
+		!#zh
+		通过 Key 判断是否存在对应的内容
+		@param key The key
+		
+		@example 
+		```js
+		var cache = new Cache();
+		var exist = cache.has('test');
+		``` 
+		*/
+		has(key: string): boolean;		
+		/**
+		!#en
+		Remove the cached content by key
+		
+		!#zh
+		通过 Key 移除对应的内容
+		@param key The key
+		
+		@example 
+		```js
+		var cache = new Cache();
+		var content = cache.remove('test');
+		``` 
+		*/
+		remove(key: string): T;		
+		/**
+		!#en
+		Clear all content
+		
+		!#zh
+		清除所有内容
+		
+		@example 
+		```js
+		var cache = new Cache();
+		cache.clear();
+		``` 
+		*/
+		clear():void;		
+		/**
+		!#en
+		Enumerate all content and invoke function
+		
+		!#zh
+		枚举所有内容并执行方法
+		@param func Function to be invoked
+		
+		@example 
+		```js
+		var cache = new Cache();
+		cache.forEach((val, key) => console.log(key));
+		``` 
+		*/
+		forEach(func: (val: T, key: string) => void): void;		
+		/**
+		!#en
+		Enumerate all content to find one element which can fulfill condition
+		
+		!#zh
+		枚举所有内容，找到一个可以满足条件的元素
+		@param predicate The condition
+		
+		@example 
+		```js
+		var cache = new Cache();
+		var val = cache.find((val, key) => key === 'test');
+		``` 
+		*/
+		find(predicate: (val: T, key: string) => boolean): T;		
+		/** !#en
+		The count of cached content
+		
+		!#zh
+		缓存数量 */
+		count: number;		
+		/**
+		!#en
+		Destroy this cache
+		
+		!#zh
+		销毁这个 cache 
+		*/
+		destroy(): void;	
+	}	
+	/** !#en
+	Control asset's dependency list, it is a singleton. All member can be accessed with `cc.assetManager.dependUtil`
+	
+	!#zh
+	控制资源的依赖列表，这是一个单例, 所有成员能通过 `cc.assetManager.dependUtil` 访问 */
+	export class DependUtil {		
+		/**
+		!#en
+		Get asset's native dependency. For example, Texture's native dependency is image.
+		
+		!#zh
+		获取资源的原生依赖，例如 Texture 的原生依赖是图片
+		@param uuid asset's uuid
+		
+		@example 
+		```js
+		var dep = dependUtil.getNativeDep('fcmR3XADNLgJ1ByKhqcC5Z');
+		``` 
+		*/
+		getNativeDep(uuid: string): Record<string, any>;		
+		/**
+		!#en
+		Get asset's direct referencing non-native dependency list. For example, Material's non-native dependencies are Texture.
+		
+		!#zh
+		获取资源直接引用的非原生依赖列表，例如，材质的非原生依赖是 Texture
+		@param uuid asset's uuid
+		
+		@example 
+		```js
+		var deps = dependUtil.getDeps('fcmR3XADNLgJ1ByKhqcC5Z');
+		``` 
+		*/
+		getDeps(uuid: string): string[];		
+		/**
+		!#en
+		Get non-native dependency list of the loaded asset, include indirect reference.
+		The returned array stores the dependencies with their uuid, after retrieve dependencies,
+		
+		!#zh
+		获取某个已经加载好的资源的所有非原生依赖资源列表，包括间接引用的资源，并保存在数组中返回。
+		返回的数组将仅保存依赖资源的 uuid。
+		@param uuid The asset's uuid
+		
+		@example 
+		```js
+		var deps = dependUtil.getDepsRecursively('fcmR3XADNLgJ1ByKhqcC5Z');
+		``` 
+		*/
+		getDepsRecursively(uuid: string): string[];	
+	}	
+	/** !#en
+	Control all download process, it is a singleton. All member can be accessed with `cc.assetManager.downloader` , it can download several types of files:
+	1. Text
+	2. Image
+	3. Audio
+	4. Assets
+	5. Scripts
+	
+	!#zh
+	管理所有下载过程，downloader 是个单例，所有成员能通过 `cc.assetManager.downloader` 访问，它能下载以下几种类型的文件：
+	1. 文本
+	2. 图片
+	3. 音频
+	4. 资源
+	5. 脚本 */
+	export class Downloader {		
+		/** !#en
+		The maximum number of concurrent when downloading
+		
+		!#zh
+		下载时的最大并发数 */
+		maxConcurrency: number;		
+		/** !#en
+		The maximum number of request can be launched per frame when downloading
+		
+		!#zh
+		下载时每帧可以启动的最大请求数 */
+		maxRequestsPerFrame: number;		
+		/** !#en
+		The max number of retries when fail
+		
+		!#zh
+		失败重试次数 */
+		maxRetryCount: number;		
+		/** !#en
+		Wait for while before another retry, unit: ms
+		
+		!#zh
+		重试的间隔时间 */
+		retryInterval: number;		
+		/**
+		!#en
+		Use Image element to download image
+		
+		!#zh
+		使用 Image 元素来下载图片
+		@param url Url of the image
+		@param options Some optional paramters
+		@param onComplete Callback when image loaded or failed
+		
+		@example 
+		```js
+		downloadDomImage('http://example.com/test.jpg', null, (err, img) => console.log(err));
+		``` 
+		*/
+		downloadDomImage(url: string, options?: Record<string, any> , onComplete?: (err: Error, img: HTMLImageElement) => void): HTMLImageElement;
+		downloadDomImage(url: string, onComplete?: (err: Error, img: HTMLImageElement) => void): HTMLImageElement;		
+		/**
+		!#en
+		Use audio element to download audio
+		
+		!#zh
+		使用 Audio 元素来下载音频
+		@param url Url of the audio
+		@param options Some optional paramters
+		@param onComplete Callback invoked when audio loaded or failed
+		
+		@example 
+		```js
+		downloadDomAudio('http://example.com/test.mp3', null, (err, audio) => console.log(err));
+		``` 
+		*/
+		downloadDomAudio(url: string, options?: Record<string, any>, onComplete?: (err: Error, audio: HTMLAudioElement) => void): HTMLAudioElement;
+		downloadDomAudio(url: string, onComplete?: (err: Error, audio: HTMLAudioElement) => void): HTMLAudioElement;		
+		/**
+		!#en
+		Use XMLHttpRequest to download file
+		
+		!#zh
+		使用 XMLHttpRequest 来下载文件
+		@param url Url of the file
+		@param options Some optional paramters
+		@param onFileProgress Callback continuously during download is processing
+		@param onComplete Callback when file loaded or failed
+		
+		@example 
+		```js
+		downloadFile('http://example.com/test.bin', {responseType: 'arraybuffer'}, null, (err, arrayBuffer) => console.log(err));
+		``` 
+		*/
+		downloadFile(url: string, options?: Record<string, any>, onFileProgress?: (loaded: Number, total: Number) => void, onComplete?: (err: Error, response: any) => void): XMLHttpRequest;
+		downloadFile(url: string, onFileProgress?: (loaded: Number, total: Number) => void, onComplete?: (err: Error, response: any) => void): XMLHttpRequest;
+		downloadFile(url: string, options?: Record<string, any>, onComplete?: (err: Error, response: any) => void): XMLHttpRequest;
+		downloadFile(url: string, onComplete?: (err: Error, response: any) => void): XMLHttpRequest;		
+		/**
+		!#en
+		Load script
+		
+		!#zh
+		加载脚本
+		@param url Url of the script
+		@param options Some optional paramters
+		@param onComplete Callback when script loaded or failed
+		
+		@example 
+		```js
+		downloadScript('http://localhost:8080/index.js', null, (err) => console.log(err));
+		``` 
+		*/
+		downloadScript(url: string, options?: Record<string, any>, onComplete?: (err: Error) => void): void;;
+		downloadScript(url: string, onComplete?: (err: Error) => void): void;;		
+		/**
+		!#en
+		Register custom handler if you want to change default behavior or extend downloader to download other format file
+		
+		!#zh
+		当你想修改默认行为或者拓展 downloader 来下载其他格式文件时可以注册自定义的 handler
+		@param type Extension likes '.jpg' or map likes {'.jpg': jpgHandler, '.png': pngHandler}
+		@param handler handler
+		
+		@example 
+		```js
+		downloader.register('.tga', (url, options, onComplete) => onComplete(null, null));
+		downloader.register({'.tga': (url, options, onComplete) => onComplete(null, null), '.ext': (url, options, onComplete) => onComplete(null, null)});
+		``` 
+		*/
+		register(type: string, handler: (url: string, options: Record<string, any>, onComplete: (err: Error, content: any) => void) => void): void;
+		register(map: Record<string, (url: string, options: Record<string, any>, onComplete: (err: Error, content: any) => void) => void>): void;		
+		/**
+		!#en
+		Use corresponding handler to download file under limitation
+		
+		!#zh
+		在限制下使用对应的 handler 来下载文件
+		@param url The url should be downloaded
+		@param type The type indicates that which handler should be used to download, such as '.jpg'
+		@param options some optional paramters will be transferred to the corresponding handler.
+		@param onComplete callback when finishing downloading
+		
+		@example 
+		```js
+		download('http://example.com/test.tga', '.tga', {onFileProgress: (loaded, total) => console.lgo(loaded/total)}, onComplete: (err) => console.log(err));
+		``` 
+		*/
+		download(id: string, url: string, type: string, options: Record<string, any>, onComplete: (err: Error, content: any) => void): void;	
+	}	
+	/** !#en
+	Provide some helpful function, it is a singleton. All member can be accessed with `cc.assetManager.utils`
+	
+	!#zh
+	提供一些辅助方法，helper 是一个单例, 所有成员能通过 `cc.assetManager.utils` 访问 */
+	export class Helper {		
+		/**
+		!#en
+		Decode uuid, returns the original uuid
+		
+		!#zh
+		解码 uuid，返回原始 uuid
+		@param base64 the encoded uuid
+		
+		@example 
+		```js
+		var uuid = 'fcmR3XADNLgJ1ByKhqcC5Z';
+		var originalUuid = decodeUuid(uuid); // fc991dd7-0033-4b80-9d41-c8a86a702e59
+		``` 
+		*/
+		decodeUuid(base64: string): string;		
+		/**
+		!#en
+		Extract uuid from url
+		
+		!#zh
+		从 url 中提取 uuid
+		@param url url
+		
+		@example 
+		```js
+		var url = 'res/import/fc/fc991dd7-0033-4b80-9d41-c8a86a702e59.json';
+		var uuid = getUuidFromURL(url); // fc991dd7-0033-4b80-9d41-c8a86a702e59
+		``` 
+		*/
+		getUuidFromURL(url: string): string;		
+		/**
+		!#en
+		Transform uuid to url
+		
+		!#zh
+		转换 uuid 为 url
+		@param uuid The uuid of asset
+		@param options Some optional parameters
+		
+		@example 
+		```js
+		var url = getUrlWithUuid('fcmR3XADNLgJ1ByKhqcC5Z', {isNative: false});
+		``` 
+		*/
+		getUrlWithUuid(uuid: string, options?: Record<string, any>): string;		
+		/**
+		!#en
+		Check if the type of data is cc.Scene or cc.Prefab
+		
+		!#zh
+		检测数据的类型是否是 Scene 或者 Prefab
+		@param json serialized data 
+		*/
+		isSceneObj(json: any): boolean;		
+		/**
+		!#en
+		Check if the type of asset is scene
+		
+		!#zh
+		检查资源类型是否是场景
+		@param asset asset 
+		*/
+		isScene(asset: any): boolean;		
+		/**
+		!#en
+		Normalize url, strip './' and '/'
+		
+		!#zh
+		标准化 url ，去除 './' 和 '/'
+		@param url url 
+		*/
+		normalize(url: string): string;	
+	}	
+	/** !#en
+	Handle the packed asset, include unpacking, loading, cache and so on. It is a singleton. All member can be accessed with `cc.assetManager.packManager`
+	
+	!#zh
+	处理打包资源，包括拆包，加载，缓存等等，这是一个单例, 所有成员能通过 `cc.assetManager.packManager` 访问 */
+	export class PackManager {		
+		/**
+		!#en
+		Unpack the json, revert to what it was before packing
+		
+		!#zh
+		拆解 json 包，恢复为打包之前的内容
+		@param pack The pack
+		@param json The content of pack
+		@param options Some optional parameters
+		@param onComplete Callback when finish unpacking
+		
+		@example 
+		```js
+		downloader.downloadFile('pack.json', {responseType: 'json'}, null, (err, file) => {
+		     packManager.unpackJson(['a', 'b'], file, null, (err, data) => console.log(err));
+		});
+		``` 
+		*/
+		unpackJson(pack: string[], json: any, options: Record<string, any>, onComplete?: (err: Error, content: any) => void): void;		
+		/**
+		!#en
+		Register custom handler if you want to change default behavior or extend packManager to unpack other format pack
+		
+		!#zh
+		当你想修改默认行为或者拓展 packManager 来拆分其他格式的包时可以注册自定义的 handler
+		@param type Extension likes '.bin' or map likes {'.bin': binHandler, '.ab': abHandler}
+		@param handler handler
+		
+		@example 
+		```js
+		packManager.register('.bin', (packUuid, file, options, onComplete) => onComplete(null, null));
+		packManager.register({'.bin': (packUuid, file, options, onComplete) => onComplete(null, null), '.ab': (packUuid, file, options, onComplete) => onComplete(null, null)});
+		``` 
+		*/
+		register(type: string, handler: (packUuid: string, data: any, options: Record<string, any>, onComplete: (err: Error, content: any) => void) => void): void;
+		register(map: Record<string, (packUuid: string, data: any, options: Record<string, any>, onComplete: (err: Error, content: any) => void) => void>): void;		
+		/**
+		!#en
+		Use corresponding handler to unpack package
+		
+		!#zh
+		用对应的 handler 来进行解包
+		@param pack The uuid of packed assets
+		@param data The packed data
+		@param type The type indicates that which handler should be used to download, such as '.jpg'
+		@param options Some optional parameter
+		@param onComplete callback when finishing unpacking
+		
+		@example 
+		```js
+		downloader.downloadFile('pack.json', {responseType: 'json'}, null, (err, file) => {
+		     packManager.unpack(['2fawq123d', '1zsweq23f'], file, '.json', null, (err, data) => console.log(err));
+		});
+		``` 
+		*/
+		unpack(pack: string[], data: any, type: string, options: Record<string, any>, onComplete?: (err: Error, data: any) => void): void;		
+		/**
+		!#en
+		Download request item, If item is not in any package, download as usual. Otherwise, download the corresponding package and unpack it.
+		And then retrieve the corresponding content form it.
+		
+		!#zh
+		下载请求对象，如果请求对象不在任何包内，则正常下载，否则下载对应的 package 并进行拆解，并取回包内对应的内容
+		@param item Some item you want to download
+		@param options Some optional parameters
+		@param onComplete Callback when finished
+		
+		@example 
+		```js
+		var requestItem = cc.AssetManager.RequestItem.create();
+		requestItem.uuid = 'fcmR3XADNLgJ1ByKhqcC5Z';
+		requestItem.info = config.getAssetInfo('fcmR3XADNLgJ1ByKhqcC5Z');
+		packManager.load(requestItem, null, (err, data) => console.log(err));
+		``` 
+		*/
+		load(item: RequestItem, options: Record<string, any>, onComplete: (err: Error, data: any) => void): void;	
+	}	
+	/** !#en
+	Parse the downloaded file, it's a singleton, all member can be accessed with `cc.assetManager.parser`
+	
+	!#zh
+	解析已下载的文件，parser 是一个单例, 所有成员能通过 `cc.assetManaager.parser` 访问 */
+	export class Parser {		
+		/**
+		!#en
+		Parse image file
+		
+		!#zh
+		解析图片文件
+		@param file The downloaded file
+		@param options Some optional paramters
+		@param onComplete callback when finish parsing.
+		
+		@example 
+		```js
+		downloader.downloadFile('test.jpg', {responseType: 'blob'}, null, (err, file) => {
+		     parser.parseImage(file, null, (err, img) => console.log(err));
+		});
+		``` 
+		*/
+		parseImage(file: Blob, options: Record<string, any>, onComplete?: (err: Error, img: ImageBitmap|HTMLImageElement) => void): void;		
+		/**
+		!#en
+		Parse audio file
+		
+		!#zh
+		解析音频文件
+		@param file The downloaded file
+		@param options Some optional paramters
+		@param onComplete Callback when finish parsing.
+		
+		@example 
+		```js
+		downloader.downloadFile('test.mp3', {responseType: 'arraybuffer'}, null, (err, file) => {
+		     parser.parseAudio(file, null, (err, audio) => console.log(err));
+		});
+		``` 
+		*/
+		parseAudio(file: ArrayBuffer|HTMLAudioElement, options: Record<string, any>, onComplete?: (err: Error, audio: AudioBuffer|HTMLAudioElement) => void): void;		
+		/**
+		!#en
+		Parse pvr file
+		
+		!#zh
+		解析压缩纹理格式 pvr 文件
+		@param file The downloaded file
+		@param options Some optional paramters
+		@param onComplete Callback when finish parsing.
+		
+		@example 
+		```js
+		downloader.downloadFile('test.pvr', {responseType: 'arraybuffer'}, null, (err, file) => {
+		     parser.parsePVRTex(file, null, (err, pvrAsset) => console.log(err));
+		});
+		``` 
+		*/
+		parsePVRTex(file: ArrayBuffer|ArrayBufferView, options: Record<string, any>, onComplete: (err: Error, pvrAsset: {_data: Uint8Array, _compressed: boolean, width: number, height: number}) => void): void;		
+		/**
+		!#en
+		Parse pkm file
+		
+		!#zh
+		解析压缩纹理格式 pkm 文件
+		@param file The downloaded file
+		@param options Some optional paramters
+		@param onComplete Callback when finish parsing.
+		
+		@example 
+		```js
+		downloader.downloadFile('test.pkm', {responseType: 'arraybuffer'}, null, (err, file) => {
+		     parser.parsePKMTex(file, null, (err, etcAsset) => console.log(err));
+		});
+		``` 
+		*/
+		parsePKMTex(file: ArrayBuffer|ArrayBufferView, options: Record<string, any>, onComplete: (err: Error, etcAsset: {_data: Uint8Array, _compressed: boolean, width: number, height: number}) => void): void;		
+		/**
+		!#en
+		Parse plist file
+		
+		!#zh
+		解析 plist 文件
+		@param file The downloaded file
+		@param options Some optional paramters
+		@param onComplete Callback when finish parsing
+		
+		@example 
+		```js
+		downloader.downloadFile('test.plist', {responseType: 'text'}, null, (err, file) => {
+		     parser.parsePlist(file, null, (err, data) => console.log(err));
+		});
+		``` 
+		*/
+		parsePlist(file: string, options: Record<string, any>, onComplete?: (err: Error, data: any) => void): void;		
+		/**
+		!#en
+		Deserialize asset file
+		
+		!#zh
+		反序列化资源文件
+		@param file The serialized json
+		@param options Some optional paramters
+		@param onComplete Callback when finish parsing
+		
+		@example 
+		```js
+		downloader.downloadFile('test.json', {responseType: 'json'}, null, (err, file) => {
+		     parser.parseImport(file, null, (err, data) => console.log(err));
+		});
+		``` 
+		*/
+		parseImport (file: any, options: Record<string, any>, onComplete?: (err: Error, asset: cc.Asset) => void): void;		
+		/**
+		!#en
+		Register custom handler if you want to change default behavior or extend parser to parse other format file
+		
+		!#zh
+		当你想修改默认行为或者拓展 parser 来解析其他格式文件时可以注册自定义的handler
+		@param type Extension likes '.jpg' or map likes {'.jpg': jpgHandler, '.png': pngHandler}
+		@param handler The corresponding handler
+		
+		@example 
+		```js
+		parser.register('.tga', (file, options, onComplete) => onComplete(null, null));
+		parser.register({'.tga': (file, options, onComplete) => onComplete(null, null), '.ext': (file, options, onComplete) => onComplete(null, null)});
+		``` 
+		*/
+		register(type: string, handler: (file: any, options: Record<string, any>, onComplete: (err: Error, data: any) => void) => void): void;
+		register(map: Record<string, (file: any, options: Record<string, any>, onComplete: (err: Error, data: any) => void) => void>): void;		
+		/**
+		!#en
+		Use corresponding handler to parse file
+		
+		!#zh
+		使用对应的handler来解析文件
+		@param id The id of file
+		@param file File
+		@param type The corresponding type of file, likes '.jpg'.
+		@param options Some optional paramters will be transferred to the corresponding handler.
+		@param onComplete callback when finishing downloading
+		
+		@example 
+		```js
+		downloader.downloadFile('test.jpg', {responseType: 'blob'}, null, (err, file) => {
+		     parser.parse('test.jpg', file, '.jpg', null, (err, img) => console.log(err));
+		});
+		``` 
+		*/
+		parse(id: string, file: any, type: string, options: Record<string, any>, onComplete: (err: Error, content: any) => void): void;	
+	}	
+	/** !#en
+	Pipeline can execute the task for some effect.
+	
+	!#zh
+	管线能执行任务达到某个效果 */
+	export class Pipeline {		
+		/** !#en
+		The id of pipeline
+		
+		!#zh
+		管线的 id */
+		id: number;		
+		/** !#en
+		The name of pipeline
+		
+		!#zh
+		管线的名字 */
+		name: string;		
+		/** !#en
+		All pipes of pipeline
+		
+		!#zh
+		所有的管道 */
+		pipes: Function[];		
+		/**
+		!#en
+		Create a new pipeline
+		
+		!#zh
+		创建一个管线
+		@param name The name of pipeline
+		@param funcs The array of pipe, every pipe must be function which take two parameters, the first is a `Task` flowed in pipeline, the second is complete callback
+		
+		@example 
+		```js
+		var pipeline = new Pipeline('download', [
+		(task, done) => {
+		     var url = task.input;
+		     cc.assetManager.downloader.downloadFile(url, null, null, (err, result) => {
+		         task.output = result;
+		         done(err);
+		     });
+		},
+		(task, done) => {
+		     var text = task.input;
+		     var json = JSON.stringify(text);
+		     task.output = json;
+		     done();
+		}
+		]);
+		``` 
+		*/
+		constructor(name: string, funcs: Array<(task: Task, done?: (err: Error) => void) => void>);		
+		/**
+		!#en
+		At specific point insert a new pipe to pipeline
+		
+		!#zh
+		在某个特定的点为管线插入一个新的 pipe
+		@param func The new pipe
+		@param index The specific point you want to insert at.
+		
+		@example 
+		```js
+		var pipeline = new Pipeline('test', []);
+		pipeline.insert((task, done) => {
+		     // do something
+		     done();
+		}, 0);
+		``` 
+		*/
+		insert(func: (task: Task, callback?: (err: Error) => void) => void, index: number): Pipeline;		
+		/**
+		!#en
+		Append a new pipe to the pipeline
+		
+		!#zh
+		添加一个管道到管线中
+		@param func The new pipe
+		
+		@example 
+		```js
+		var pipeline = new Pipeline('test', []);
+		pipeline.append((task, done) => {
+		     // do something
+		     done();
+		});
+		``` 
+		*/
+		append(func: (task: Task, callback?: (err: Error) => void) => void): Pipeline;		
+		/**
+		!#en
+		Remove pipe which at specific point
+		
+		!#zh
+		移除特定位置的管道
+		@param index The specific point
+		
+		@example 
+		```js
+		var pipeline = new Pipeline('test', (task, done) => {
+		     // do something
+		     done();
+		});
+		pipeline.remove(0);
+		``` 
+		*/
+		remove(index: number): Pipeline;		
+		/**
+		!#en
+		Execute task synchronously
+		
+		!#zh
+		同步执行任务
+		@param task The task will be executed
+		
+		@example 
+		```js
+		var pipeline = new Pipeline('sync', [(task) => {
+		     let input = task.input;
+		     task.output = doSomething(task.input);
+		}]);
+		
+		var task = new Task({input: 'test'});
+		console.log(pipeline.sync(task));
+		``` 
+		*/
+		sync(task: Task): any;		
+		/**
+		!#en
+		Execute task asynchronously
+		
+		!#zh
+		异步执行任务
+		@param task The task will be executed
+		
+		@example 
+		```js
+		var pipeline = new Pipeline('sync', [(task, done) => {
+		     let input = task.input;
+		     task.output = doSomething(task.input);
+		     done();
+		}]);
+		var task = new Task({input: 'test', onComplete: (err, result) => console.log(result)});
+		pipeline.async(task);
+		``` 
+		*/
+		async(task: Task): void;	
+	}	
+	/** !#en
+	A collection of information about a request
+	
+	!#zh
+	请求的相关信息集合 */
+	export class RequestItem {		
+		/** !#en
+		The uuid of request
+		
+		!#zh
+		请求资源的uuid */
+		uuid: string;		
+		/** !#en
+		The final url of request
+		
+		!#zh
+		请求的最终url */
+		url: string;		
+		/** !#en
+		The extension name of asset
+		
+		!#zh
+		资源的扩展名 */
+		ext: string;		
+		/** !#en
+		The content of asset
+		
+		!#zh
+		资源的内容 */
+		content: any;		
+		/** !#en
+		The file of asset
+		
+		!#zh
+		资源的文件 */
+		file: any;		
+		/** !#en
+		The information of asset
+		
+		!#zh
+		资源的相关信息 */
+		info: any;		
+		/** !#en
+		Whether or not it is native asset
+		
+		!#zh
+		资源是否是原生资源 */
+		isNative: boolean;		
+		/** !#en
+		Custom options
+		
+		!#zh
+		自定义参数 */
+		options: any;		
+		/**
+		!#en
+		Create a request item
+		
+		!#zh
+		创建一个 request item 
+		*/
+		constructor();		
+		/** !#en
+		The id of request, combined from uuid and isNative
+		
+		!#zh
+		请求的 id, 由 uuid 和 isNative 组合而成 */
+		id: string;		
+		/**
+		!#en
+		Recycle this for reuse
+		
+		!#zh
+		回收 requestItem 用于复用 
+		*/
+		recycle(): void;		
+		/**
+		!#en
+		Create a new request item from pool
+		
+		!#zh
+		从对象池中创建 requestItem 
+		*/
+		static create(): RequestItem;	
+	}	
+	/** !#en
+	The builtin bundles
+	
+	!#zh
+	内置 bundle */
+	export enum BuiltinBundleName {		
+		RESOURCES = 0,
+		INTERNAL = 0,
+		MAIN = 0,
+		START_SCENE = 0,	
+	}	
+	/** !#en
+	Task is used to run in the pipeline for some effect
+	
+	!#zh
+	任务用于在管线中运行以达成某种效果 */
+	export class Task {		
+		/** !#en
+		The id of task
+		
+		!#zh
+		任务id */
+		id: number;		
+		/** !#en
+		The callback when task is completed
+		
+		!#zh
+		完成回调 */
+		onComplete: Function;		
+		/** !#en
+		The callback of progression
+		
+		!#zh
+		进度回调 */
+		onProgress: Function;		
+		/** !#en
+		The callback when something goes wrong
+		
+		!#zh
+		错误回调 */
+		onError: Function;		
+		/** !#en
+		The source of task
+		
+		!#zh
+		任务的源 */
+		source: any;		
+		/** !#en
+		The output of task
+		
+		!#zh
+		任务的输出 */
+		output: any;		
+		/** !#en
+		The input of task
+		
+		!#zh
+		任务的输入 */
+		input: any;		
+		/** !#en
+		The progression of task
+		
+		!#zh
+		任务的进度 */
+		progress: any;		
+		/** !#en
+		Custom options
+		
+		!#zh
+		自定义参数 */
+		options: any;		
+		/**
+		!#en
+		Create a new Task
+		
+		!#zh
+		创建一个任务
+		@param options Some optional paramters 
+		*/
+		constructor(options?: {onComplete?: (err: Error, result: any) => void, onError?: () => void, onProgress?: Function, input: any, progress?: any, options?: Record<string, any>});		
+		/**
+		!#en
+		Set paramters of this task
+		
+		!#zh
+		设置任务的参数
+		@param options Some optional paramters
+		
+		@example 
+		```js
+		var task = new Task();
+		task.set({input: ['test'], onComplete: (err, result) => console.log(err), onProgress: (finish, total) => console.log(finish / total)});
+		``` 
+		*/
+		set(options?: {onComplete?: (err: Error, result: any) => void, onError?: () => void, onProgress?: Function, input: any, progress?: any, options?: Record<string, any>}): void;		
+		/**
+		!#en
+		Dispatch event
+		
+		!#zh
+		发布事件
+		@param event The event name
+		@param param1 Parameter 1
+		@param param2 Parameter 2
+		@param param3 Parameter 3
+		@param param4 Parameter 4
+		
+		@example 
+		```js
+		var task = Task.create();
+		Task.onComplete = (msg) => console.log(msg);
+		Task.dispatch('complete', 'hello world');
+		``` 
+		*/
+		dispatch(event: string, param1?: any, param2?: any, param3?: any, param4?: any): void;		
+		/**
+		!#en
+		Recycle this for reuse
+		
+		!#zh
+		回收 task 用于复用 
+		*/
+		recycle(): void;		
+		/** !#en
+		Whether or not this task is completed
+		
+		!#zh
+		此任务是否已经完成 */
+		isFinish: boolean;		
+		/**
+		!#en
+		Create a new task from pool
+		
+		!#zh
+		从对象池中创建 task
+		@param options Some optional paramters 
+		*/
+		static create(options?: {onComplete?: (err: Error, result: any) => void, onError?: () => void, onProgress?: Function, input: any, progress?: any, options?: Record<string, any>}): Task;	
 	}
-	
+}
+
+/** Some helpful utilities */
+declare namespace cc.geomUtils {	
+	/**
+	!#en
+	the distance between a point and a plane
+	!#zh
+	计算点和平面之间的距离。
+	@param point point
+	@param plane plane 
+	*/
+	export function point_plane(point: cc.Vec3, plane: cc.Plane): number;	
+	/**
+	!#en
+	the closest point on plane to a given point
+	!#zh
+	计算平面上最接近给定点的点。
+	@param out Closest point
+	@param point Given point
+	@param plane plane 
+	*/
+	export function pt_point_plane(out: cc.Vec3, point: cc.Vec3, plane: cc.Plane): cc.Vec3;	
+	/**
+	!#en
+	the closest point on aabb to a given point
+	!#zh
+	计算 aabb 上最接近给定点的点。
+	@param out Closest point.
+	@param point Given point.
+	@param aabb Align the axis around the box. 
+	*/
+	export function pt_point_aabb(out: cc.Vec3, point: cc.Vec3, aabb: cc.Aabb): cc.Vec3;	
+	/**
+	!#en
+	the closest point on obb to a given point
+	!#zh
+	计算 obb 上最接近给定点的点。
+	@param out Closest point
+	@param point Given point
+	@param obb Direction box 
+	*/
+	export function pt_point_obb(out: cc.Vec3, point: cc.Vec3, obb: cc.Obb): cc.Vec3;
 }
 
 /** !#en Some JavaScript decorators which can be accessed with "cc._decorator".
@@ -17914,8 +22291,8 @@ declare namespace cc._decorator {
 	export function mixins(ctor: Function, ...rest: Function[]): Function;
 }
 
-/** This module provides some JavaScript utilities.
-All members can be accessed with "cc.js". */
+/** !#en This module provides some JavaScript utilities. All members can be accessed with `cc.js`.
+!#zh 这个模块封装了 JavaScript 相关的一些实用函数，你可以通过 `cc.js` 来访问这个模块。 */
 declare namespace cc.js {	
 	/**
 	Check the obj whether is number or not
@@ -17971,7 +22348,7 @@ declare namespace cc.js {
 	Checks whether obj is an empty object
 	@param obj obj 
 	*/
-	export function isEmptyObject(obj: any): void;	
+	export function isEmptyObject(obj: any): boolean;	
 	/**
 	Get property descriptor in object and all its ancestors
 	@param obj obj
@@ -18024,10 +22401,10 @@ declare namespace cc.js {
 	export function getClassName(objOrCtor: any|Function): string;	
 	/** !#en All classes registered in the engine, indexed by ID.
 	!#zh 引擎中已注册的所有类型，通过 ID 进行索引。 */
-	export var _registeredClassIds: void;	
+	export var _registeredClassIds: any;	
 	/** !#en All classes registered in the engine, indexed by name.
 	!#zh 引擎中已注册的所有类型，通过名称进行索引。 */
-	export var _registeredClassNames: void;	
+	export var _registeredClassNames: any;	
 	/**
 	Register the class by specified name manually
 	@param className className
@@ -18048,7 +22425,7 @@ declare namespace cc.js {
 	*/
 	export function getClassByName(classname: string): Function;	
 	/**
-	Defines a polyfill field for obsoleted codes.
+	Defines a polyfill field for deprecated codes.
 	@param obj YourObject or YourClass.prototype
 	@param obsoleted "OldParam" or "YourClass.OldParam"
 	@param newExpr "NewParam" or "YourClass.NewParam"
@@ -18131,14 +22508,6 @@ declare namespace cc.js {
 		*/
 		static appendObjectsAt(array: any[], addObjs: any[], index: number): any[];		
 		/**
-		Exact same function as Array.prototype.indexOf.<br>
-		HACK: ugliy hack for Baidu mobile browser compatibility, stupid Baidu guys modify Array.prototype.indexOf for all pages loaded, their version changes strict comparison to non-strict comparison, it also ignores the second parameter of the original API, and this will cause event handler enter infinite loop.<br>
-		Baidu developers, if you ever see this documentation, here is the standard: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf, Seriously!
-		@param searchElement Element to locate in the array.
-		@param fromIndex The index to start the search at 
-		*/
-		static indexOf(searchElement: any, fromIndex?: number): number;		
-		/**
 		Determines whether the array contains a specific value.
 		@param array array
 		@param value value 
@@ -18203,8 +22572,9 @@ declare namespace cc.js {
 	}
 }
 
-/** 一个创建 3D 物体顶点数据的基础模块，你可以通过 "cc.primitive" 来访问这个模块。 */
-declare namespace primitive {	
+/** !#en A basic module for creating vertex data for 3D objects. You can access this module by `cc.primitive`.
+!#zh 一个创建 3D 物体顶点数据的基础模块，你可以通过 `cc.primitive` 来访问这个模块。 */
+declare namespace cc.primitive {	
 	/**
 	!#en Create box vertex data
 	!#zh 创建长方体顶点数据
@@ -18213,7 +22583,7 @@ declare namespace primitive {
 	@param length length
 	@param opts opts 
 	*/
-	export function box(width: number, height: number, length: number, opts: {widthSegments: number; heightSegments: number; lengthSegments: number; }): primitive.VertextData;	
+	export function box(width: number, height: number, length: number, opts: {widthSegments: number; heightSegments: number; lengthSegments: number; }): cc.VertexData;	
 	/**
 	!#en Create cone vertex data
 	!#zh 创建圆锥体顶点数据
@@ -18221,7 +22591,7 @@ declare namespace primitive {
 	@param height height
 	@param opts opts 
 	*/
-	export function cone(radius: number, height: number, opts: {radialSegments: number; heightSegments: number; capped: boolean; arc: number; }): primitive.VertextData;	
+	export function cone(radius: number, height: number, opts: {radialSegments: number; heightSegments: number; capped: boolean; arc: number; }): cc.VertexData;	
 	/**
 	!#en Create cylinder vertex data
 	!#zh 创建圆柱体顶点数据
@@ -18230,7 +22600,7 @@ declare namespace primitive {
 	@param height height
 	@param opts opts 
 	*/
-	export function cylinder(radiusTop: number, radiusBottom: number, height: number, opts: {radialSegments: number; heightSegments: number; capped: boolean; arc: number; }): primitive.VertextData;	
+	export function cylinder(radiusTop: number, radiusBottom: number, height: number, opts: {radialSegments: number; heightSegments: number; capped: boolean; arc: number; }): cc.VertexData;	
 	/**
 	!#en Create plane vertex data
 	!#zh 创建平台顶点数据
@@ -18238,19 +22608,19 @@ declare namespace primitive {
 	@param length length
 	@param opts opts 
 	*/
-	export function plane(width: number, length: number, opts: {widthSegments: number; lengthSegments: number; }): primitive.VertextData;	
+	export function plane(width: number, length: number, opts: {widthSegments: number; lengthSegments: number; }): cc.VertexData;	
 	/**
 	!#en Create quad vertex data
 	!#zh 创建面片顶点数据 
 	*/
-	export function quad(): primitive.VertextData;	
+	export function quad(): cc.VertexData;	
 	/**
 	!#en Create sphere vertex data
 	!#zh 创建球体顶点数据
 	@param radius radius
 	@param opts opts 
 	*/
-	export function sphere(radius: number, opts: {segments: number; }): primitive.VertextData;	
+	export function sphere(radius: number, opts: {segments: number; }): cc.VertexData;	
 	/**
 	!#en Create torus vertex data
 	!#zh 创建圆环顶点数据
@@ -18258,7 +22628,7 @@ declare namespace primitive {
 	@param tube tube
 	@param opts opts 
 	*/
-	export function torus(radius: number, tube: number, opts: {radialSegments: number; tubularSegments: number; arc: number; }): primitive.VertextData;	
+	export function torus(radius: number, tube: number, opts: {radialSegments: number; tubularSegments: number; arc: number; }): cc.VertexData;	
 	/**
 	!#en Create capsule vertex data
 	!#zh 创建胶囊体顶点数据
@@ -18267,7 +22637,7 @@ declare namespace primitive {
 	@param height height
 	@param opts opts 
 	*/
-	export function capsule(radiusTop: number, radiusBottom: number, height: number, opts: {sides: number; heightSegments: number; capped: boolean; arc: number; }): primitive.VertextData;	
+	export function capsule(radiusTop: number, radiusBottom: number, height: number, opts: {sides: number; heightSegments: number; capped: boolean; arc: number; }): cc.VertexData;	
 	/**
 	!#en Create polyhedron vertex data
 	!#zh 创建多面体顶点数据
@@ -18275,7 +22645,241 @@ declare namespace primitive {
 	@param Size Size
 	@param opts opts 
 	*/
-	export function polyhedron(type: cc.primitive.PolyhedronType, Size: number, opts: {sizeX: number; sizeY: number; sizeZ: number; }): primitive.VertextData;
+	export function polyhedron(type: cc.primitive.PolyhedronType, Size: number, opts: {sizeX: number; sizeY: number; sizeZ: number; }): cc.VertexData;
+}
+
+declare let CC_JSB: boolean
+declare let CC_NATIVERENDERER: boolean
+declare let CC_EDITOR: boolean
+
+declare let cc: {
+    // polyfills: {
+    //     destroyObject? (object: any): void;
+    // };
+    [x: string]: any;
+}
+
+// https://medium.com/dailyjs/typescript-create-a-condition-based-subset-types-9d902cea5b8c
+type FlagExcludedType<Base, Type> = { [Key in keyof Base]: Base[Key] extends Type ? never : Key };
+type AllowedNames<Base, Type> = FlagExcludedType<Base, Type>[keyof Base];
+type KeyPartial<T, K extends keyof T> = { [P in K]?: T[P] };
+type OmitType<Base, Type> = KeyPartial<Base, AllowedNames<Base, Type>>;
+type ConstructorType<T> = OmitType<T, Function>;
+
+declare interface IWritableArrayLike<T> {
+    readonly length: number;
+    [index: number]: T;
+}
+
+declare let module: {
+    exports: object
+}
+
+
+declare interface Math { 
+    sign(v: number); 
+}
+
+declare interface Object {
+    assign(target: {}, source: {});
+}
+
+/**
+ * @module cc.AssetManager
+ */
+
+declare namespace cc.AssetManager {
+    /**
+     * !#en
+     * Cache manager is a module which controls all caches downloaded from server in non-web platform, it is a singleton
+     * All member can be accessed with `cc.assetManager.cacheManager`.
+     * 
+     * !#zh
+     * 缓存管理器是一个模块，在非 WEB 平台上，用于管理所有从服务器上下载下来的缓存，这是一个单例，所有成员能通过 `cc.assetManager.cacheManager` 访问。
+     * 
+     * @class CacheManager
+     */
+    class CacheManager {
+        /**
+         * !#en 
+         * The name of cacheDir
+         * 
+         * !#zh
+         * 缓存目录的名称
+         * 
+         * @property cacheDir
+         * @type {String}
+         * @default 'gamecaches'
+         */
+        public cacheDir: String;
+
+        /**
+         * !#en 
+         * Whether or not cache asset into user's storage space, this property only works on mini-game platforms
+         * 
+         * !#zh
+         * 是否缓存资源到用户存储空间，此属性只在小游戏平台有效
+         * 
+         * @property cacheEnabled
+         * @type {Boolean}
+         * @default true
+         */
+        public cacheEnabled: Boolean;
+
+        /**
+         * !#en 
+         * Whether or not auto clear cache when storage ran out, this property only works on mini-game platforms
+         * 
+         * !#zh
+         * 是否在存储空间满了后自动清理缓存，此属性只在小游戏平台有效
+         * 
+         * @property autoClear
+         * @type {Boolean}
+         * @default true
+         */
+        public autoClear: Boolean;
+
+        /**
+         * !#en 
+         * The interval between caching resources, this property only works on mini-game platforms
+         * 
+         * !#zh
+         * 缓存资源的间隔时间，此属性只在小游戏平台有效
+         * 
+         * @property cacheInterval
+         * @type {Number}
+         * @default 500
+         */
+        public cacheInterval: Number;
+
+        /**
+         * !#en 
+         * The interval between deleting resources, when you use `cleanLRU`, the resources will be deleted as this interval
+         * 
+         * !#zh
+         * 清理资源的间隔时间，当你使用 `cleanLRU` 时，资源将以此间隔被删除
+         * 
+         * @property deleteInterval
+         * @type {Number}
+         * @default 500
+         */
+        public deleteInterval: Number;
+
+        /**
+         * !#en
+         * Get cached path with origin url
+         * 
+         * !#zh
+         * 通过原始 url 获取缓存后的路径
+         * 
+         * @method getCache
+         * @param {string} originUrl 
+         * @returns {String} The cached path
+         */
+        public getCache (originUrl: string): string;
+
+        /**
+         * !#en
+         * Get temporary path with origin url, this method only works on mini-game platforms
+         * 
+         * !#zh
+         * 通过原始 url 获取临时文件的路径，此方法只在小游戏平台有效
+         * 
+         * @method getTemp
+         * @param {string} originUrl 
+         * @returns {String} The temp path
+         */
+        public getTemp (originUrl: string): string;
+
+        /**
+         * !#en
+         * Clear all caches, please use with caution, If necessary, we recommend using it before the game is launched
+         * 
+         * !#zh
+         * 清空所有缓存，请谨慎使用，如果必要的话，我们建议在游戏启动之前使用
+         * 
+         * @method clearCache
+         */
+        public clearCache (): void;
+
+        /**
+         * !#en
+         * Clear part of caches with LRU strategy
+         * 
+         * !#zh
+         * 使用 LRU 策略清空部分缓存
+         * 
+         * @method clearLRU
+         */
+        public clearLRU (): void;
+
+        /**
+         * !#en
+         * Remove cache with origin url
+         * 
+         * !#zh
+         * 通过原始 url 移除缓存
+         * 
+         * @method removeCache
+         */
+        public removeCache (originUrl: string): void;
+    }
+}
+
+type FloatArray = Float64Array | Float32Array;
+
+interface IColorLike {
+    r: number;
+    g: number;
+    b: number;
+    a: number;
+    _val: number;
+
+}
+
+interface IMat3Like {
+    m: FloatArray
+}
+
+interface IMat4Like {
+    m: FloatArray
+}
+
+interface IQuatLike {
+    x: number;
+    y: number;
+    z: number;
+    w: number;
+}
+
+interface IRectLike {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+}
+
+interface ISizeLike {
+    width: number;
+    height: number;
+}
+
+interface IVec2Like {
+    x: number;
+    y: number;
+}
+
+interface IVec3Like {
+    x: number;
+    y: number;
+    z: number;
+}
+
+interface IVec4Like {
+    x: number;
+    y: number;
+    z: number;
+    w: number;
 }
 declare namespace dragonBones {
     /**
@@ -25755,22 +30359,1854 @@ declare namespace dragonBones {
     }
 }
 
-declare let jsb: any;
+declare namespace sp.spine {
+	class Animation {
+		name: string;
+		timelines: Array<Timeline>;
+		timelineIds: Array<boolean>;
+		duration: number;
+		constructor(name: string, timelines: Array<Timeline>, duration: number);
+		hasTimeline(id: number): boolean;
+		apply(skeleton: Skeleton, lastTime: number, time: number, loop: boolean, events: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+		static binarySearch(values: ArrayLike<number>, target: number, step?: number): number;
+		static linearSearch(values: ArrayLike<number>, target: number, step: number): number;
+	}
+	interface Timeline {
+		apply(skeleton: Skeleton, lastTime: number, time: number, events: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+		getPropertyId(): number;
+	}
+	enum MixBlend {
+		setup = 0,
+		first = 1,
+		replace = 2,
+		add = 3
+	}
+	enum MixDirection {
+		mixIn = 0,
+		mixOut = 1
+	}
+	enum TimelineType {
+		rotate = 0,
+		translate = 1,
+		scale = 2,
+		shear = 3,
+		attachment = 4,
+		color = 5,
+		deform = 6,
+		event = 7,
+		drawOrder = 8,
+		ikConstraint = 9,
+		transformConstraint = 10,
+		pathConstraintPosition = 11,
+		pathConstraintSpacing = 12,
+		pathConstraintMix = 13,
+		twoColor = 14
+	}
+	abstract class CurveTimeline implements Timeline {
+		static LINEAR: number;
+		static STEPPED: number;
+		static BEZIER: number;
+		static BEZIER_SIZE: number;
+		private curves;
+		abstract getPropertyId(): number;
+		constructor(frameCount: number);
+		getFrameCount(): number;
+		setLinear(frameIndex: number): void;
+		setStepped(frameIndex: number): void;
+		getCurveType(frameIndex: number): number;
+		setCurve(frameIndex: number, cx1: number, cy1: number, cx2: number, cy2: number): void;
+		getCurvePercent(frameIndex: number, percent: number): number;
+		abstract apply(skeleton: Skeleton, lastTime: number, time: number, events: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class RotateTimeline extends CurveTimeline {
+		static ENTRIES: number;
+		static PREV_TIME: number;
+		static PREV_ROTATION: number;
+		static ROTATION: number;
+		boneIndex: number;
+		frames: ArrayLike<number>;
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		setFrame(frameIndex: number, time: number, degrees: number): void;
+		apply(skeleton: Skeleton, lastTime: number, time: number, events: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class TranslateTimeline extends CurveTimeline {
+		static ENTRIES: number;
+		static PREV_TIME: number;
+		static PREV_X: number;
+		static PREV_Y: number;
+		static X: number;
+		static Y: number;
+		boneIndex: number;
+		frames: ArrayLike<number>;
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		setFrame(frameIndex: number, time: number, x: number, y: number): void;
+		apply(skeleton: Skeleton, lastTime: number, time: number, events: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class ScaleTimeline extends TranslateTimeline {
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		apply(skeleton: Skeleton, lastTime: number, time: number, events: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class ShearTimeline extends TranslateTimeline {
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		apply(skeleton: Skeleton, lastTime: number, time: number, events: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class ColorTimeline extends CurveTimeline {
+		static ENTRIES: number;
+		static PREV_TIME: number;
+		static PREV_R: number;
+		static PREV_G: number;
+		static PREV_B: number;
+		static PREV_A: number;
+		static R: number;
+		static G: number;
+		static B: number;
+		static A: number;
+		slotIndex: number;
+		frames: ArrayLike<number>;
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		setFrame(frameIndex: number, time: number, r: number, g: number, b: number, a: number): void;
+		apply(skeleton: Skeleton, lastTime: number, time: number, events: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class TwoColorTimeline extends CurveTimeline {
+		static ENTRIES: number;
+		static PREV_TIME: number;
+		static PREV_R: number;
+		static PREV_G: number;
+		static PREV_B: number;
+		static PREV_A: number;
+		static PREV_R2: number;
+		static PREV_G2: number;
+		static PREV_B2: number;
+		static R: number;
+		static G: number;
+		static B: number;
+		static A: number;
+		static R2: number;
+		static G2: number;
+		static B2: number;
+		slotIndex: number;
+		frames: ArrayLike<number>;
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		setFrame(frameIndex: number, time: number, r: number, g: number, b: number, a: number, r2: number, g2: number, b2: number): void;
+		apply(skeleton: Skeleton, lastTime: number, time: number, events: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class AttachmentTimeline implements Timeline {
+		slotIndex: number;
+		frames: ArrayLike<number>;
+		attachmentNames: Array<string>;
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		getFrameCount(): number;
+		setFrame(frameIndex: number, time: number, attachmentName: string): void;
+		apply(skeleton: Skeleton, lastTime: number, time: number, events: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class DeformTimeline extends CurveTimeline {
+		slotIndex: number;
+		attachment: VertexAttachment;
+		frames: ArrayLike<number>;
+		frameVertices: Array<ArrayLike<number>>;
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		setFrame(frameIndex: number, time: number, vertices: ArrayLike<number>): void;
+		apply(skeleton: Skeleton, lastTime: number, time: number, firedEvents: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class EventTimeline implements Timeline {
+		frames: ArrayLike<number>;
+		events: Array<Event>;
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		getFrameCount(): number;
+		setFrame(frameIndex: number, event: Event): void;
+		apply(skeleton: Skeleton, lastTime: number, time: number, firedEvents: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class DrawOrderTimeline implements Timeline {
+		frames: ArrayLike<number>;
+		drawOrders: Array<Array<number>>;
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		getFrameCount(): number;
+		setFrame(frameIndex: number, time: number, drawOrder: Array<number>): void;
+		apply(skeleton: Skeleton, lastTime: number, time: number, firedEvents: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class IkConstraintTimeline extends CurveTimeline {
+		static ENTRIES: number;
+		static PREV_TIME: number;
+		static PREV_MIX: number;
+		static PREV_SOFTNESS: number;
+		static PREV_BEND_DIRECTION: number;
+		static PREV_COMPRESS: number;
+		static PREV_STRETCH: number;
+		static MIX: number;
+		static SOFTNESS: number;
+		static BEND_DIRECTION: number;
+		static COMPRESS: number;
+		static STRETCH: number;
+		ikConstraintIndex: number;
+		frames: ArrayLike<number>;
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		setFrame(frameIndex: number, time: number, mix: number, softness: number, bendDirection: number, compress: boolean, stretch: boolean): void;
+		apply(skeleton: Skeleton, lastTime: number, time: number, firedEvents: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class TransformConstraintTimeline extends CurveTimeline {
+		static ENTRIES: number;
+		static PREV_TIME: number;
+		static PREV_ROTATE: number;
+		static PREV_TRANSLATE: number;
+		static PREV_SCALE: number;
+		static PREV_SHEAR: number;
+		static ROTATE: number;
+		static TRANSLATE: number;
+		static SCALE: number;
+		static SHEAR: number;
+		transformConstraintIndex: number;
+		frames: ArrayLike<number>;
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		setFrame(frameIndex: number, time: number, rotateMix: number, translateMix: number, scaleMix: number, shearMix: number): void;
+		apply(skeleton: Skeleton, lastTime: number, time: number, firedEvents: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class PathConstraintPositionTimeline extends CurveTimeline {
+		static ENTRIES: number;
+		static PREV_TIME: number;
+		static PREV_VALUE: number;
+		static VALUE: number;
+		pathConstraintIndex: number;
+		frames: ArrayLike<number>;
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		setFrame(frameIndex: number, time: number, value: number): void;
+		apply(skeleton: Skeleton, lastTime: number, time: number, firedEvents: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class PathConstraintSpacingTimeline extends PathConstraintPositionTimeline {
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		apply(skeleton: Skeleton, lastTime: number, time: number, firedEvents: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+	class PathConstraintMixTimeline extends CurveTimeline {
+		static ENTRIES: number;
+		static PREV_TIME: number;
+		static PREV_ROTATE: number;
+		static PREV_TRANSLATE: number;
+		static ROTATE: number;
+		static TRANSLATE: number;
+		pathConstraintIndex: number;
+		frames: ArrayLike<number>;
+		constructor(frameCount: number);
+		getPropertyId(): number;
+		setFrame(frameIndex: number, time: number, rotateMix: number, translateMix: number): void;
+		apply(skeleton: Skeleton, lastTime: number, time: number, firedEvents: Array<Event>, alpha: number, blend: MixBlend, direction: MixDirection): void;
+	}
+}
+declare namespace sp.spine {
+	class AnimationState {
+		static emptyAnimation: Animation;
+		static SUBSEQUENT: number;
+		static FIRST: number;
+		static HOLD: number;
+		static HOLD_MIX: number;
+		static NOT_LAST: number;
+		data: AnimationStateData;
+		tracks: TrackEntry[];
+		timeScale: number;
+		events: Event[];
+		listeners: AnimationStateListener[];
+		queue: EventQueue;
+		propertyIDs: IntSet;
+		animationsChanged: boolean;
+		trackEntryPool: Pool<TrackEntry>;
+		constructor(data: AnimationStateData);
+		update(delta: number): void;
+		updateMixingFrom(to: TrackEntry, delta: number): boolean;
+		apply(skeleton: Skeleton): boolean;
+		applyMixingFrom(to: TrackEntry, skeleton: Skeleton, blend: MixBlend): number;
+		applyRotateTimeline(timeline: Timeline, skeleton: Skeleton, time: number, alpha: number, blend: MixBlend, timelinesRotation: Array<number>, i: number, firstFrame: boolean): void;
+		queueEvents(entry: TrackEntry, animationTime: number): void;
+		clearTracks(): void;
+		clearTrack(trackIndex: number): void;
+		setCurrent(index: number, current: TrackEntry, interrupt: boolean): void;
+		setAnimation(trackIndex: number, animationName: string, loop: boolean): TrackEntry;
+		setAnimationWith(trackIndex: number, animation: Animation, loop: boolean): TrackEntry;
+		addAnimation(trackIndex: number, animationName: string, loop: boolean, delay: number): TrackEntry;
+		addAnimationWith(trackIndex: number, animation: Animation, loop: boolean, delay: number): TrackEntry;
+		setEmptyAnimation(trackIndex: number, mixDuration: number): TrackEntry;
+		addEmptyAnimation(trackIndex: number, mixDuration: number, delay: number): TrackEntry;
+		setEmptyAnimations(mixDuration: number): void;
+		expandToIndex(index: number): TrackEntry;
+		trackEntry(trackIndex: number, animation: Animation, loop: boolean, last: TrackEntry): TrackEntry;
+		disposeNext(entry: TrackEntry): void;
+		_animationsChanged(): void;
+		computeHold(entry: TrackEntry): void;
+		computeNotLast(entry: TrackEntry): void;
+		getCurrent(trackIndex: number): TrackEntry;
+		addListener(listener: AnimationStateListener): void;
+		removeListener(listener: AnimationStateListener): void;
+		clearListeners(): void;
+		clearListenerNotifications(): void;
+	}
+	class TrackEntry {
+		animation: Animation;
+		next: TrackEntry;
+		mixingFrom: TrackEntry;
+		mixingTo: TrackEntry;
+		listener: AnimationStateListener;
+		trackIndex: number;
+		loop: boolean;
+		holdPrevious: boolean;
+		eventThreshold: number;
+		attachmentThreshold: number;
+		drawOrderThreshold: number;
+		animationStart: number;
+		animationEnd: number;
+		animationLast: number;
+		nextAnimationLast: number;
+		delay: number;
+		trackTime: number;
+		trackLast: number;
+		nextTrackLast: number;
+		trackEnd: number;
+		timeScale: number;
+		alpha: number;
+		mixTime: number;
+		mixDuration: number;
+		interruptAlpha: number;
+		totalAlpha: number;
+		mixBlend: MixBlend;
+		timelineMode: number[];
+		timelineHoldMix: TrackEntry[];
+		timelinesRotation: number[];
+		reset(): void;
+		getAnimationTime(): number;
+		setAnimationLast(animationLast: number): void;
+		isComplete(): boolean;
+		resetRotationDirections(): void;
+	}
+	class EventQueue {
+		objects: Array<any>;
+		drainDisabled: boolean;
+		animState: AnimationState;
+		constructor(animState: AnimationState);
+		start(entry: TrackEntry): void;
+		interrupt(entry: TrackEntry): void;
+		end(entry: TrackEntry): void;
+		dispose(entry: TrackEntry): void;
+		complete(entry: TrackEntry): void;
+		event(entry: TrackEntry, event: Event): void;
+		drain(): void;
+		clear(): void;
+	}
+	enum EventType {
+		start = 0,
+		interrupt = 1,
+		end = 2,
+		dispose = 3,
+		complete = 4,
+		event = 5
+	}
+	interface AnimationStateListener {
+		start(entry: TrackEntry): void;
+		interrupt(entry: TrackEntry): void;
+		end(entry: TrackEntry): void;
+		dispose(entry: TrackEntry): void;
+		complete(entry: TrackEntry): void;
+		event(entry: TrackEntry, event: Event): void;
+	}
+	abstract class AnimationStateAdapter implements AnimationStateListener {
+		start(entry: TrackEntry): void;
+		interrupt(entry: TrackEntry): void;
+		end(entry: TrackEntry): void;
+		dispose(entry: TrackEntry): void;
+		complete(entry: TrackEntry): void;
+		event(entry: TrackEntry, event: Event): void;
+	}
+}
+declare namespace sp.spine {
+	class AnimationStateData {
+		skeletonData: SkeletonData;
+		animationToMixTime: Map<number>;
+		defaultMix: number;
+		constructor(skeletonData: SkeletonData);
+		setMix(fromName: string, toName: string, duration: number): void;
+		setMixWith(from: Animation, to: Animation, duration: number): void;
+		getMix(from: Animation, to: Animation): number;
+	}
+}
+declare namespace sp.spine {
+	class AssetManager implements Disposable {
+		private pathPrefix;
+		private textureLoader;
+		private assets;
+		private errors;
+		private toLoad;
+		private loaded;
+		constructor(textureLoader: (image: HTMLImageElement) => any, pathPrefix?: string);
+		private static downloadText;
+		private static downloadBinary;
+		loadBinary(path: string, success?: (path: string, binary: Uint8Array) => void, error?: (path: string, error: string) => void): void;
+		loadText(path: string, success?: (path: string, text: string) => void, error?: (path: string, error: string) => void): void;
+		loadTexture(path: string, success?: (path: string, image: HTMLImageElement) => void, error?: (path: string, error: string) => void): void;
+		loadTextureData(path: string, data: string, success?: (path: string, image: HTMLImageElement) => void, error?: (path: string, error: string) => void): void;
+		loadTextureAtlas(path: string, success?: (path: string, atlas: TextureAtlas) => void, error?: (path: string, error: string) => void): void;
+		get(path: string): any;
+		remove(path: string): void;
+		removeAll(): void;
+		isLoadingComplete(): boolean;
+		getToLoad(): number;
+		getLoaded(): number;
+		dispose(): void;
+		hasErrors(): boolean;
+		getErrors(): Map<string>;
+	}
+}
+declare namespace sp.spine {
+	class AtlasAttachmentLoader implements AttachmentLoader {
+		atlas: TextureAtlas;
+		constructor(atlas: TextureAtlas);
+		newRegionAttachment(skin: Skin, name: string, path: string): RegionAttachment;
+		newMeshAttachment(skin: Skin, name: string, path: string): MeshAttachment;
+		newBoundingBoxAttachment(skin: Skin, name: string): BoundingBoxAttachment;
+		newPathAttachment(skin: Skin, name: string): PathAttachment;
+		newPointAttachment(skin: Skin, name: string): PointAttachment;
+		newClippingAttachment(skin: Skin, name: string): ClippingAttachment;
+	}
+}
+declare namespace sp.spine {
+	enum BlendMode {
+		Normal = 0,
+		Additive = 1,
+		Multiply = 2,
+		Screen = 3
+	}
+}
+declare namespace sp.spine {
+	class Bone implements Updatable {
+		data: BoneData;
+		skeleton: Skeleton;
+		parent: Bone;
+		children: Bone[];
+		x: number;
+		y: number;
+		rotation: number;
+		scaleX: number;
+		scaleY: number;
+		shearX: number;
+		shearY: number;
+		ax: number;
+		ay: number;
+		arotation: number;
+		ascaleX: number;
+		ascaleY: number;
+		ashearX: number;
+		ashearY: number;
+		appliedValid: boolean;
+		a: number;
+		b: number;
+		c: number;
+		d: number;
+		worldY: number;
+		worldX: number;
+		sorted: boolean;
+		active: boolean;
+		constructor(data: BoneData, skeleton: Skeleton, parent: Bone);
+		isActive(): boolean;
+		update(): void;
+		updateWorldTransform(): void;
+		updateWorldTransformWith(x: number, y: number, rotation: number, scaleX: number, scaleY: number, shearX: number, shearY: number): void;
+		setToSetupPose(): void;
+		getWorldRotationX(): number;
+		getWorldRotationY(): number;
+		getWorldScaleX(): number;
+		getWorldScaleY(): number;
+		updateAppliedTransform(): void;
+		worldToLocal(world: Vector2): Vector2;
+		localToWorld(local: Vector2): Vector2;
+		worldToLocalRotation(worldRotation: number): number;
+		localToWorldRotation(localRotation: number): number;
+		rotateWorld(degrees: number): void;
+	}
+}
+declare namespace sp.spine {
+	class BoneData {
+		index: number;
+		name: string;
+		parent: BoneData;
+		length: number;
+		x: number;
+		y: number;
+		rotation: number;
+		scaleX: number;
+		scaleY: number;
+		shearX: number;
+		shearY: number;
+		transformMode: TransformMode;
+		skinRequired: boolean;
+		color: Color;
+		constructor(index: number, name: string, parent: BoneData);
+	}
+	enum TransformMode {
+		Normal = 0,
+		OnlyTranslation = 1,
+		NoRotationOrReflection = 2,
+		NoScale = 3,
+		NoScaleOrReflection = 4
+	}
+}
+declare namespace sp.spine {
+	abstract class ConstraintData {
+		name: string;
+		order: number;
+		skinRequired: boolean;
+		constructor(name: string, order: number, skinRequired: boolean);
+	}
+}
+declare namespace sp.spine {
+	class Event {
+		data: EventData;
+		intValue: number;
+		floatValue: number;
+		stringValue: string;
+		time: number;
+		volume: number;
+		balance: number;
+		constructor(time: number, data: EventData);
+	}
+}
+declare namespace sp.spine {
+	class EventData {
+		name: string;
+		intValue: number;
+		floatValue: number;
+		stringValue: string;
+		audioPath: string;
+		volume: number;
+		balance: number;
+		constructor(name: string);
+	}
+}
+declare namespace sp.spine {
+	class IkConstraint implements Updatable {
+		data: IkConstraintData;
+		bones: Array<Bone>;
+		target: Bone;
+		bendDirection: number;
+		compress: boolean;
+		stretch: boolean;
+		mix: number;
+		softness: number;
+		active: boolean;
+		constructor(data: IkConstraintData, skeleton: Skeleton);
+		isActive(): boolean;
+		apply(): void;
+		update(): void;
+		apply1(bone: Bone, targetX: number, targetY: number, compress: boolean, stretch: boolean, uniform: boolean, alpha: number): void;
+		apply2(parent: Bone, child: Bone, targetX: number, targetY: number, bendDir: number, stretch: boolean, softness: number, alpha: number): void;
+	}
+}
+declare namespace sp.spine {
+	class IkConstraintData extends ConstraintData {
+		bones: BoneData[];
+		target: BoneData;
+		bendDirection: number;
+		compress: boolean;
+		stretch: boolean;
+		uniform: boolean;
+		mix: number;
+		softness: number;
+		constructor(name: string);
+	}
+}
+declare namespace sp.spine {
+	class PathConstraint implements Updatable {
+		static NONE: number;
+		static BEFORE: number;
+		static AFTER: number;
+		static epsilon: number;
+		data: PathConstraintData;
+		bones: Array<Bone>;
+		target: Slot;
+		position: number;
+		spacing: number;
+		rotateMix: number;
+		translateMix: number;
+		spaces: number[];
+		positions: number[];
+		world: number[];
+		curves: number[];
+		lengths: number[];
+		segments: number[];
+		active: boolean;
+		constructor(data: PathConstraintData, skeleton: Skeleton);
+		isActive(): boolean;
+		apply(): void;
+		update(): void;
+		computeWorldPositions(path: PathAttachment, spacesCount: number, tangents: boolean, percentPosition: boolean, percentSpacing: boolean): number[];
+		addBeforePosition(p: number, temp: Array<number>, i: number, out: Array<number>, o: number): void;
+		addAfterPosition(p: number, temp: Array<number>, i: number, out: Array<number>, o: number): void;
+		addCurvePosition(p: number, x1: number, y1: number, cx1: number, cy1: number, cx2: number, cy2: number, x2: number, y2: number, out: Array<number>, o: number, tangents: boolean): void;
+	}
+}
+declare namespace sp.spine {
+	class PathConstraintData extends ConstraintData {
+		bones: BoneData[];
+		target: SlotData;
+		positionMode: PositionMode;
+		spacingMode: SpacingMode;
+		rotateMode: RotateMode;
+		offsetRotation: number;
+		position: number;
+		spacing: number;
+		rotateMix: number;
+		translateMix: number;
+		constructor(name: string);
+	}
+	enum PositionMode {
+		Fixed = 0,
+		Percent = 1
+	}
+	enum SpacingMode {
+		Length = 0,
+		Fixed = 1,
+		Percent = 2
+	}
+	enum RotateMode {
+		Tangent = 0,
+		Chain = 1,
+		ChainScale = 2
+	}
+}
+declare namespace sp.spine {
+	class SharedAssetManager implements Disposable {
+		private pathPrefix;
+		private clientAssets;
+		private queuedAssets;
+		private rawAssets;
+		private errors;
+		constructor(pathPrefix?: string);
+		private queueAsset;
+		loadText(clientId: string, path: string): void;
+		loadJson(clientId: string, path: string): void;
+		loadTexture(clientId: string, textureLoader: (image: HTMLImageElement) => any, path: string): void;
+		get(clientId: string, path: string): any;
+		private updateClientAssets;
+		isLoadingComplete(clientId: string): boolean;
+		dispose(): void;
+		hasErrors(): boolean;
+		getErrors(): Map<string>;
+	}
+}
+declare namespace sp.spine {
+	class Skeleton {
+		data: SkeletonData;
+		bones: Array<Bone>;
+		slots: Array<Slot>;
+		drawOrder: Array<Slot>;
+		ikConstraints: Array<IkConstraint>;
+		transformConstraints: Array<TransformConstraint>;
+		pathConstraints: Array<PathConstraint>;
+		_updateCache: Updatable[];
+		updateCacheReset: Updatable[];
+		skin: Skin;
+		color: Color;
+		time: number;
+		scaleX: number;
+		scaleY: number;
+		x: number;
+		y: number;
+		constructor(data: SkeletonData);
+		updateCache(): void;
+		sortIkConstraint(constraint: IkConstraint): void;
+		sortPathConstraint(constraint: PathConstraint): void;
+		sortTransformConstraint(constraint: TransformConstraint): void;
+		sortPathConstraintAttachment(skin: Skin, slotIndex: number, slotBone: Bone): void;
+		sortPathConstraintAttachmentWith(attachment: Attachment, slotBone: Bone): void;
+		sortBone(bone: Bone): void;
+		sortReset(bones: Array<Bone>): void;
+		updateWorldTransform(): void;
+		setToSetupPose(): void;
+		setBonesToSetupPose(): void;
+		setSlotsToSetupPose(): void;
+		getRootBone(): Bone;
+		findBone(boneName: string): Bone;
+		findBoneIndex(boneName: string): number;
+		findSlot(slotName: string): Slot;
+		findSlotIndex(slotName: string): number;
+		setSkinByName(skinName: string): void;
+		setSkin(newSkin: Skin): void;
+		getAttachmentByName(slotName: string, attachmentName: string): Attachment;
+		getAttachment(slotIndex: number, attachmentName: string): Attachment;
+		setAttachment(slotName: string, attachmentName: string): void;
+		findIkConstraint(constraintName: string): IkConstraint;
+		findTransformConstraint(constraintName: string): TransformConstraint;
+		findPathConstraint(constraintName: string): PathConstraint;
+		getBounds(offset: Vector2, size: Vector2, temp?: Array<number>): void;
+		update(delta: number): void;
+	}
+}
+declare namespace sp.spine {
+	class SkeletonBinary {
+		static AttachmentTypeValues: number[];
+		static TransformModeValues: TransformMode[];
+		static PositionModeValues: PositionMode[];
+		static SpacingModeValues: SpacingMode[];
+		static RotateModeValues: RotateMode[];
+		static BlendModeValues: BlendMode[];
+		static BONE_ROTATE: number;
+		static BONE_TRANSLATE: number;
+		static BONE_SCALE: number;
+		static BONE_SHEAR: number;
+		static SLOT_ATTACHMENT: number;
+		static SLOT_COLOR: number;
+		static SLOT_TWO_COLOR: number;
+		static PATH_POSITION: number;
+		static PATH_SPACING: number;
+		static PATH_MIX: number;
+		static CURVE_LINEAR: number;
+		static CURVE_STEPPED: number;
+		static CURVE_BEZIER: number;
+		scale: number;
+		attachmentLoader: AttachmentLoader;
+		private linkedMeshes;
+		constructor(attachmentLoader: AttachmentLoader);
+		readSkeletonData(binary: Uint8Array): SkeletonData;
+		private readSkin;
+		private readAttachment;
+		private readVertices;
+		private readFloatArray;
+		private readShortArray;
+		private readAnimation;
+		private readCurve;
+		setCurve(timeline: CurveTimeline, frameIndex: number, cx1: number, cy1: number, cx2: number, cy2: number): void;
+	}
+}
+declare namespace sp.spine {
+	class SkeletonBounds {
+		minX: number;
+		minY: number;
+		maxX: number;
+		maxY: number;
+		boundingBoxes: BoundingBoxAttachment[];
+		polygons: ArrayLike<number>[];
+		private polygonPool;
+		update(skeleton: Skeleton, updateAabb: boolean): void;
+		aabbCompute(): void;
+		aabbContainsPoint(x: number, y: number): boolean;
+		aabbIntersectsSegment(x1: number, y1: number, x2: number, y2: number): boolean;
+		aabbIntersectsSkeleton(bounds: SkeletonBounds): boolean;
+		containsPoint(x: number, y: number): BoundingBoxAttachment;
+		containsPointPolygon(polygon: ArrayLike<number>, x: number, y: number): boolean;
+		intersectsSegment(x1: number, y1: number, x2: number, y2: number): BoundingBoxAttachment;
+		intersectsSegmentPolygon(polygon: ArrayLike<number>, x1: number, y1: number, x2: number, y2: number): boolean;
+		getPolygon(boundingBox: BoundingBoxAttachment): ArrayLike<number>;
+		getWidth(): number;
+		getHeight(): number;
+	}
+}
+declare namespace sp.spine {
+	class SkeletonClipping {
+		private triangulator;
+		private clippingPolygon;
+		private clipOutput;
+		clippedVertices: number[];
+		clippedTriangles: number[];
+		private scratch;
+		private clipAttachment;
+		private clippingPolygons;
+		clipStart(slot: Slot, clip: ClippingAttachment): number;
+		clipEndWithSlot(slot: Slot): void;
+		clipEnd(): void;
+		isClipping(): boolean;
+		clipTriangles(vertices: ArrayLike<number>, verticesLength: number, triangles: ArrayLike<number>, trianglesLength: number, uvs: ArrayLike<number>, light: Color, dark: Color, twoColor: boolean): void;
+		clip(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, clippingArea: Array<number>, output: Array<number>): boolean;
+		static makeClockwise(polygon: ArrayLike<number>): void;
+	}
+}
+declare namespace sp.spine {
+	class SkeletonData {
+		name: string;
+		bones: BoneData[];
+		slots: SlotData[];
+		skins: Skin[];
+		defaultSkin: Skin;
+		events: EventData[];
+		animations: Animation[];
+		ikConstraints: IkConstraintData[];
+		transformConstraints: TransformConstraintData[];
+		pathConstraints: PathConstraintData[];
+		x: number;
+		y: number;
+		width: number;
+		height: number;
+		version: string;
+		hash: string;
+		fps: number;
+		imagesPath: string;
+		audioPath: string;
+		findBone(boneName: string): BoneData;
+		findBoneIndex(boneName: string): number;
+		findSlot(slotName: string): SlotData;
+		findSlotIndex(slotName: string): number;
+		findSkin(skinName: string): Skin;
+		findEvent(eventDataName: string): EventData;
+		findAnimation(animationName: string): Animation;
+		findIkConstraint(constraintName: string): IkConstraintData;
+		findTransformConstraint(constraintName: string): TransformConstraintData;
+		findPathConstraint(constraintName: string): PathConstraintData;
+		findPathConstraintIndex(pathConstraintName: string): number;
+	}
+}
+declare namespace sp.spine {
+	class SkeletonJson {
+		attachmentLoader: AttachmentLoader;
+		scale: number;
+		private linkedMeshes;
+		constructor(attachmentLoader: AttachmentLoader);
+		readSkeletonData(json: string | any): SkeletonData;
+		readAttachment(map: any, skin: Skin, slotIndex: number, name: string, skeletonData: SkeletonData): Attachment;
+		readVertices(map: any, attachment: VertexAttachment, verticesLength: number): void;
+		readAnimation(map: any, name: string, skeletonData: SkeletonData): void;
+		readCurve(map: any, timeline: CurveTimeline, frameIndex: number): void;
+		getValue(map: any, prop: string, defaultValue: any): any;
+		static blendModeFromString(str: string): BlendMode;
+		static positionModeFromString(str: string): PositionMode;
+		static spacingModeFromString(str: string): SpacingMode;
+		static rotateModeFromString(str: string): RotateMode;
+		static transformModeFromString(str: string): TransformMode;
+	}
+}
+declare namespace sp.spine {
+	class SkinEntry {
+		slotIndex: number;
+		name: string;
+		attachment: Attachment;
+		constructor(slotIndex: number, name: string, attachment: Attachment);
+	}
+	class Skin {
+		name: string;
+		attachments: Map<Attachment>[];
+		bones: BoneData[];
+		constraints: ConstraintData[];
+		constructor(name: string);
+		setAttachment(slotIndex: number, name: string, attachment: Attachment): void;
+		addSkin(skin: Skin): void;
+		copySkin(skin: Skin): void;
+		getAttachment(slotIndex: number, name: string): Attachment;
+		removeAttachment(slotIndex: number, name: string): void;
+		getAttachments(): Array<SkinEntry>;
+		getAttachmentsForSlot(slotIndex: number, attachments: Array<SkinEntry>): void;
+		clear(): void;
+		attachAll(skeleton: Skeleton, oldSkin: Skin): void;
+	}
+}
+declare namespace sp.spine {
+	class Slot {
+		data: SlotData;
+		bone: Bone;
+		color: Color;
+		darkColor: Color;
+		private attachment;
+		private attachmentTime;
+		deform: number[];
+		constructor(data: SlotData, bone: Bone);
+		getSkeleton(): Skeleton;
+		getAttachment(): Attachment;
+		setAttachment(attachment: Attachment): void;
+		setAttachmentTime(time: number): void;
+		getAttachmentTime(): number;
+		setToSetupPose(): void;
+	}
+}
+declare namespace sp.spine {
+	class SlotData {
+		index: number;
+		name: string;
+		boneData: BoneData;
+		color: Color;
+		darkColor: Color;
+		attachmentName: string;
+		blendMode: BlendMode;
+		constructor(index: number, name: string, boneData: BoneData);
+	}
+}
+declare namespace sp.spine {
+	abstract class Texture {
+		protected _image: HTMLImageElement;
+		constructor(image: HTMLImageElement);
+		getImage(): HTMLImageElement;
+		abstract setFilters(minFilter: TextureFilter, magFilter: TextureFilter): void;
+		abstract setWraps(uWrap: TextureWrap, vWrap: TextureWrap): void;
+		abstract dispose(): void;
+		static filterFromString(text: string): TextureFilter;
+		static wrapFromString(text: string): TextureWrap;
+	}
+	enum TextureFilter {
+		Nearest = 9728,
+		Linear = 9729,
+		MipMap = 9987,
+		MipMapNearestNearest = 9984,
+		MipMapLinearNearest = 9985,
+		MipMapNearestLinear = 9986,
+		MipMapLinearLinear = 9987
+	}
+	enum TextureWrap {
+		MirroredRepeat = 33648,
+		ClampToEdge = 33071,
+		Repeat = 10497
+	}
+	class TextureRegion {
+		renderObject: any;
+		u: number;
+		v: number;
+		u2: number;
+		v2: number;
+		width: number;
+		height: number;
+		rotate: boolean;
+		offsetX: number;
+		offsetY: number;
+		originalWidth: number;
+		originalHeight: number;
+	}
+	class FakeTexture extends Texture {
+		setFilters(minFilter: TextureFilter, magFilter: TextureFilter): void;
+		setWraps(uWrap: TextureWrap, vWrap: TextureWrap): void;
+		dispose(): void;
+	}
+}
+declare namespace sp.spine {
+	class TextureAtlas implements Disposable {
+		pages: TextureAtlasPage[];
+		regions: TextureAtlasRegion[];
+		constructor(atlasText: string, textureLoader: (path: string) => any);
+		private load;
+		findRegion(name: string): TextureAtlasRegion;
+		dispose(): void;
+	}
+	class TextureAtlasPage {
+		name: string;
+		minFilter: TextureFilter;
+		magFilter: TextureFilter;
+		uWrap: TextureWrap;
+		vWrap: TextureWrap;
+		texture: Texture;
+		width: number;
+		height: number;
+	}
+	class TextureAtlasRegion extends TextureRegion {
+		page: TextureAtlasPage;
+		name: string;
+		x: number;
+		y: number;
+		index: number;
+		rotate: boolean;
+		degrees: number;
+		texture: Texture;
+	}
+}
+declare namespace sp.spine {
+	class TransformConstraint implements Updatable {
+		data: TransformConstraintData;
+		bones: Array<Bone>;
+		target: Bone;
+		rotateMix: number;
+		translateMix: number;
+		scaleMix: number;
+		shearMix: number;
+		temp: Vector2;
+		active: boolean;
+		constructor(data: TransformConstraintData, skeleton: Skeleton);
+		isActive(): boolean;
+		apply(): void;
+		update(): void;
+		applyAbsoluteWorld(): void;
+		applyRelativeWorld(): void;
+		applyAbsoluteLocal(): void;
+		applyRelativeLocal(): void;
+	}
+}
+declare namespace sp.spine {
+	class TransformConstraintData extends ConstraintData {
+		bones: BoneData[];
+		target: BoneData;
+		rotateMix: number;
+		translateMix: number;
+		scaleMix: number;
+		shearMix: number;
+		offsetRotation: number;
+		offsetX: number;
+		offsetY: number;
+		offsetScaleX: number;
+		offsetScaleY: number;
+		offsetShearY: number;
+		relative: boolean;
+		local: boolean;
+		constructor(name: string);
+	}
+}
+declare namespace sp.spine {
+	class Triangulator {
+		private convexPolygons;
+		private convexPolygonsIndices;
+		private indicesArray;
+		private isConcaveArray;
+		private triangles;
+		private polygonPool;
+		private polygonIndicesPool;
+		triangulate(verticesArray: ArrayLike<number>): Array<number>;
+		decompose(verticesArray: Array<number>, triangles: Array<number>): Array<Array<number>>;
+		private static isConcave;
+		private static positiveArea;
+		private static winding;
+	}
+}
+declare namespace sp.spine {
+	interface Updatable {
+		update(): void;
+		isActive(): boolean;
+	}
+}
+declare namespace sp.spine {
+	interface Map<T> {
+		[key: string]: T;
+	}
+	class IntSet {
+		array: number[];
+		add(value: number): boolean;
+		contains(value: number): boolean;
+		remove(value: number): void;
+		clear(): void;
+	}
+	interface Disposable {
+		dispose(): void;
+	}
+	interface Restorable {
+		restore(): void;
+	}
+	class Color {
+		r: number;
+		g: number;
+		b: number;
+		a: number;
+		static WHITE: Color;
+		static RED: Color;
+		static GREEN: Color;
+		static BLUE: Color;
+		static MAGENTA: Color;
+		constructor(r?: number, g?: number, b?: number, a?: number);
+		set(r: number, g: number, b: number, a: number): this;
+		setFromColor(c: Color): this;
+		setFromString(hex: string): this;
+		add(r: number, g: number, b: number, a: number): this;
+		clamp(): this;
+		static rgba8888ToColor(color: Color, value: number): void;
+		static rgb888ToColor(color: Color, value: number): void;
+	}
+	class MathUtils {
+		static PI: number;
+		static PI2: number;
+		static radiansToDegrees: number;
+		static radDeg: number;
+		static degreesToRadians: number;
+		static degRad: number;
+		static clamp(value: number, min: number, max: number): number;
+		static cosDeg(degrees: number): number;
+		static sinDeg(degrees: number): number;
+		static signum(value: number): number;
+		static toInt(x: number): number;
+		static cbrt(x: number): number;
+		static randomTriangular(min: number, max: number): number;
+		static randomTriangularWith(min: number, max: number, mode: number): number;
+	}
+	abstract class Interpolation {
+		protected abstract applyInternal(a: number): number;
+		apply(start: number, end: number, a: number): number;
+	}
+	class Pow extends Interpolation {
+		protected power: number;
+		constructor(power: number);
+		applyInternal(a: number): number;
+	}
+	class PowOut extends Pow {
+		constructor(power: number);
+		applyInternal(a: number): number;
+	}
+	class Utils {
+		static SUPPORTS_TYPED_ARRAYS: boolean;
+		static arrayCopy<T>(source: ArrayLike<T>, sourceStart: number, dest: ArrayLike<T>, destStart: number, numElements: number): void;
+		static setArraySize<T>(array: Array<T>, size: number, value?: any): Array<T>;
+		static ensureArrayCapacity<T>(array: Array<T>, size: number, value?: any): Array<T>;
+		static newArray<T>(size: number, defaultValue: T): Array<T>;
+		static newFloatArray(size: number): ArrayLike<number>;
+		static newShortArray(size: number): ArrayLike<number>;
+		static toFloatArray(array: Array<number>): number[] | Float32Array;
+		static toSinglePrecision(value: number): number;
+		static webkit602BugfixHelper(alpha: number, blend: MixBlend): void;
+		static contains<T>(array: Array<T>, element: T, identity?: boolean): boolean;
+	}
+	class DebugUtils {
+		static logBones(skeleton: Skeleton): void;
+	}
+	class Pool<T> {
+		private items;
+		private instantiator;
+		constructor(instantiator: () => T);
+		obtain(): T;
+		free(item: T): void;
+		freeAll(items: ArrayLike<T>): void;
+		clear(): void;
+	}
+	class Vector2 {
+		x: number;
+		y: number;
+		constructor(x?: number, y?: number);
+		set(x: number, y: number): Vector2;
+		length(): number;
+		normalize(): this;
+	}
+	class TimeKeeper {
+		maxDelta: number;
+		framesPerSecond: number;
+		delta: number;
+		totalTime: number;
+		private lastTime;
+		private frameCount;
+		private frameTime;
+		update(): void;
+	}
+	interface ArrayLike<T> {
+		length: number;
+		[n: number]: T;
+	}
+	class WindowedMean {
+		values: Array<number>;
+		addedValues: number;
+		lastValue: number;
+		mean: number;
+		dirty: boolean;
+		constructor(windowSize?: number);
+		hasEnoughData(): boolean;
+		addValue(value: number): void;
+		getMean(): number;
+	}
+}
+declare namespace sp.spine {
+	interface VertexEffect {
+		begin(skeleton: Skeleton): void;
+		transform(position: Vector2, uv: Vector2, light: Color, dark: Color): void;
+		end(): void;
+	}
+}
+interface Math {
+	fround(n: number): number;
+}
+declare namespace sp.spine {
+	abstract class Attachment {
+		name: string;
+		constructor(name: string);
+		abstract copy(): Attachment;
+	}
+	abstract class VertexAttachment extends Attachment {
+		private static nextID;
+		id: number;
+		bones: Array<number>;
+		vertices: ArrayLike<number>;
+		worldVerticesLength: number;
+		deformAttachment: VertexAttachment;
+		constructor(name: string);
+		computeWorldVertices(slot: Slot, start: number, count: number, worldVertices: ArrayLike<number>, offset: number, stride: number): void;
+		copyTo(attachment: VertexAttachment): void;
+	}
+}
+declare namespace sp.spine {
+	interface AttachmentLoader {
+		newRegionAttachment(skin: Skin, name: string, path: string): RegionAttachment;
+		newMeshAttachment(skin: Skin, name: string, path: string): MeshAttachment;
+		newBoundingBoxAttachment(skin: Skin, name: string): BoundingBoxAttachment;
+		newPathAttachment(skin: Skin, name: string): PathAttachment;
+		newPointAttachment(skin: Skin, name: string): PointAttachment;
+		newClippingAttachment(skin: Skin, name: string): ClippingAttachment;
+	}
+}
+declare namespace sp.spine {
+	enum AttachmentType {
+		Region = 0,
+		BoundingBox = 1,
+		Mesh = 2,
+		LinkedMesh = 3,
+		Path = 4,
+		Point = 5,
+		Clipping = 6
+	}
+}
+declare namespace sp.spine {
+	class BoundingBoxAttachment extends VertexAttachment {
+		color: Color;
+		constructor(name: string);
+		copy(): Attachment;
+	}
+}
+declare namespace sp.spine {
+	class ClippingAttachment extends VertexAttachment {
+		endSlot: SlotData;
+		color: Color;
+		constructor(name: string);
+		copy(): Attachment;
+	}
+}
+declare namespace sp.spine {
+	class MeshAttachment extends VertexAttachment {
+		region: TextureRegion;
+		path: string;
+		regionUVs: ArrayLike<number>;
+		uvs: ArrayLike<number>;
+		triangles: Array<number>;
+		color: Color;
+		width: number;
+		height: number;
+		hullLength: number;
+		edges: Array<number>;
+		private parentMesh;
+		tempColor: Color;
+		constructor(name: string);
+		updateUVs(): void;
+		getParentMesh(): MeshAttachment;
+		setParentMesh(parentMesh: MeshAttachment): void;
+		copy(): Attachment;
+		newLinkedMesh(): MeshAttachment;
+	}
+}
+declare namespace sp.spine {
+	class PathAttachment extends VertexAttachment {
+		lengths: Array<number>;
+		closed: boolean;
+		constantSpeed: boolean;
+		color: Color;
+		constructor(name: string);
+		copy(): Attachment;
+	}
+}
+declare namespace sp.spine {
+	class PointAttachment extends VertexAttachment {
+		x: number;
+		y: number;
+		rotation: number;
+		color: Color;
+		constructor(name: string);
+		computeWorldPosition(bone: Bone, point: Vector2): Vector2;
+		computeWorldRotation(bone: Bone): number;
+		copy(): Attachment;
+	}
+}
+declare namespace sp.spine {
+	class RegionAttachment extends Attachment {
+		static OX1: number;
+		static OY1: number;
+		static OX2: number;
+		static OY2: number;
+		static OX3: number;
+		static OY3: number;
+		static OX4: number;
+		static OY4: number;
+		static X1: number;
+		static Y1: number;
+		static C1R: number;
+		static C1G: number;
+		static C1B: number;
+		static C1A: number;
+		static U1: number;
+		static V1: number;
+		static X2: number;
+		static Y2: number;
+		static C2R: number;
+		static C2G: number;
+		static C2B: number;
+		static C2A: number;
+		static U2: number;
+		static V2: number;
+		static X3: number;
+		static Y3: number;
+		static C3R: number;
+		static C3G: number;
+		static C3B: number;
+		static C3A: number;
+		static U3: number;
+		static V3: number;
+		static X4: number;
+		static Y4: number;
+		static C4R: number;
+		static C4G: number;
+		static C4B: number;
+		static C4A: number;
+		static U4: number;
+		static V4: number;
+		x: number;
+		y: number;
+		scaleX: number;
+		scaleY: number;
+		rotation: number;
+		width: number;
+		height: number;
+		color: Color;
+		path: string;
+		rendererObject: any;
+		region: TextureRegion;
+		offset: ArrayLike<number>;
+		uvs: ArrayLike<number>;
+		tempColor: Color;
+		constructor(name: string);
+		updateOffset(): void;
+		setRegion(region: TextureRegion): void;
+		computeWorldVertices(bone: Bone, worldVertices: ArrayLike<number>, offset: number, stride: number): void;
+		copy(): Attachment;
+	}
+}
+declare namespace sp.spine {
+	class JitterEffect implements VertexEffect {
+		jitterX: number;
+		jitterY: number;
+		constructor(jitterX: number, jitterY: number);
+		begin(skeleton: Skeleton): void;
+		transform(position: Vector2, uv: Vector2, light: Color, dark: Color): void;
+		end(): void;
+	}
+}
+declare namespace sp.spine {
+	class SwirlEffect implements VertexEffect {
+		static interpolation: PowOut;
+		centerX: number;
+		centerY: number;
+		radius: number;
+		angle: number;
+		private worldX;
+		private worldY;
+		constructor(radius: number);
+		begin(skeleton: Skeleton): void;
+		transform(position: Vector2, uv: Vector2, light: Color, dark: Color): void;
+		end(): void;
+	}
+}
+
+/**
+ * API for jsb module
+ * Author: haroel
+ * Homepage: https://github.com/haroel/creatorexDTS
+ */
+declare namespace jsb{
+    export module reflection{
+        /**
+         * https://docs.cocos.com/creator/manual/zh/advanced-topics/java-reflection.html
+         * call OBJC/Java static methods
+         * 
+         * @param className 
+         * @param methodName 
+         * @param methodSignature 
+         * @param parameters 
+         */
+        export function callStaticMethod (className: string, methodName: string, methodSignature: string, ...parameters:any): any;
+    }
+    /**
+     * 下载任务对象
+     */
+    export type DownloaderTask = { requestURL: string, storagePath: string, identifier: string };
+
+    /**
+     * Http file downloader for jsb！
+     */
+    export class Downloader{
+        /**
+         * create a download task
+         * @param requestURL 
+         * @param storagePath 
+         * @param identifier 
+         */
+        createDownloadFileTask (requestURL:string, storagePath:string, identifier?:string): DownloaderTask;
+
+        setOnFileTaskSuccess (onSucceed: (task: DownloaderTask) => void): void;
+
+        setOnTaskProgress (onProgress: (task: DownloaderTask, bytesReceived: number, totalBytesReceived: number, totalBytesExpected: number) => void): void;
+
+        setOnTaskError (onError: (task: DownloaderTask, errorCode: number, errorCodeInternal: number, errorStr: string) => void): void;
+
+    }
+
+    export interface ManifestAsset {
+        md5: string;
+        path: string;
+        compressed: boolean;
+        size: number;
+        downloadState: number;
+    }
+
+    export class Manifest {
+        constructor (manifestUrl: string);
+        constructor (content: string, manifestRoot: string);
+        parseFile (manifestUrl: string): void;
+        parseJSONString (content: string, manifestRoot: string): void;
+
+        getManifestRoot (): string;
+        getManifestFileUrl (): string;
+        getVersionFileUrl (): string;
+        getSearchPaths (): [string];
+        getVersion (): string;
+        getPackageUrl (): boolean;
+
+        setUpdating (isUpdating: boolean): void;
+        isUpdating (): boolean;
+        isVersionLoaded (): boolean;
+        isLoaded (): boolean;
+    }
+
+    export class EventAssetsManager {
+        // EventCode
+        static ERROR_NO_LOCAL_MANIFEST: number;
+        static ERROR_DOWNLOAD_MANIFEST: number;
+        static ERROR_PARSE_MANIFEST: number;
+        static NEW_VERSION_FOUND: number;
+        static ALREADY_UP_TO_DATE: number;
+        static UPDATE_PROGRESSION: number;
+        static ASSET_UPDATED: number;
+        static ERROR_UPDATING: number;
+        static UPDATE_FINISHED: number;
+        static UPDATE_FAILED: number;
+        static ERROR_DECOMPRESS: number;
+
+        constructor (eventName: string, manager: AssetsManager, eventCode: number, 
+                    assetId?: string, message?: string, curleCode?: number, curlmCode?: number);
+        getAssetsManagerEx (): AssetsManager;
+        isResuming (): boolean;
+
+        getDownloadedFiles (): number;
+        getDownloadedBytes (): number;
+        getTotalFiles (): number;
+        getTotalBytes (): number;
+        getPercent (): number;
+        getPercentByFile (): number;
+
+        getEventCode (): number;
+        getMessage (): string;
+        getAssetId (): string;
+        getCURLECode (): number;
+        getCURLMCode (): number;
+    }
+
+    export module AssetsManager {
+        export enum State {
+            UNINITED,
+            UNCHECKED,
+            PREDOWNLOAD_VERSION,
+            DOWNLOADING_VERSION,
+            VERSION_LOADED,
+            PREDOWNLOAD_MANIFEST,
+            DOWNLOADING_MANIFEST,
+            MANIFEST_LOADED,
+            NEED_UPDATE,
+            READY_TO_UPDATE,
+            UPDATING,
+            UNZIPPING,
+            UP_TO_DATE,
+            FAIL_TO_UPDATE,
+        }
+    }
+
+    export class AssetsManager {
+        constructor (manifestUrl: string, storagePath: string, versionCompareHandle?: (versionA: string, versionB: string) => number);
+        static create (manifestUrl: string, storagePath: string): AssetsManager;
+
+        getState (): AssetsManager.State;
+        getStoragePath (): string
+        getMaxConcurrentTask (): number;
+        // setMaxConcurrentTask (max: number): void;  // actually not supported
+
+        checkUpdate (): void;
+        prepareUpdate (): void;
+        update (): void;
+        isResuming (): boolean;
+
+        getDownloadedFiles (): number;
+        getDownloadedBytes (): number;
+        getTotalFiles (): number;
+        getTotalBytes (): number;
+        downloadFailedAssets (): void;
+
+        getLocalManifest (): Manifest;
+        loadLocalManifest (manifestUrl: string): boolean;
+        loadLocalManifest (localManifest: Manifest, storagePath: string): boolean;
+        getRemoteManifest (): Manifest;
+        loadRemoteManifest (remoteManifest: Manifest): boolean;
+
+        /**
+         * Setup your own version compare handler, versionA and B is versions in string.  
+         * if the return value greater than 0, versionA is greater than B,  
+         * if the return value equals 0, versionA equals to B,  
+         * if the return value smaller than 0, versionA is smaller than B.  
+         */
+        setVersionCompareHandle (versionCompareHandle?: (versionA: string, versionB: string) => number): void;
+        /**
+         * Setup the verification callback, Return true if the verification passed, otherwise return false
+         */
+        setVerifyCallback (verifyCallback: (path: string, asset: ManifestAsset) => boolean): void;
+        setEventCallback (eventCallback: (event: EventAssetsManager) => void): void;
+    }
+
+    /**
+     * FileUtils  Helper class to handle file operations.
+     */
+    export module fileUtils{
+        /**
+         *  Checks whether the path is an absolute path.
+         *
+         *  @note On Android, if the parameter passed in is relative to "@assets/", this method will treat it as an absolute path.
+         *        Also on Blackberry, path starts with "app/native/Resources/" is treated as an absolute path.
+         *
+         *  @param path The path that needs to be checked.
+         *  @return True if it's an absolute path, false if not.
+         */
+        export function isAbsolutePath (path:string):boolean;
+        /** Returns the fullpath for a given filename.
+
+        First it will try to get a new filename from the "filenameLookup" dictionary.
+        If a new filename can't be found on the dictionary, it will use the original filename.
+        Then it will try to obtain the full path of the filename using the FileUtils search rules: resolutions, and search paths.
+        The file search is based on the array element order of search paths and resolution directories.
+
+        For instance:
+
+            We set two elements("/mnt/sdcard/", "internal_dir/") to search paths vector by setSearchPaths,
+            and set three elements("resources-ipadhd/", "resources-ipad/", "resources-iphonehd")
+            to resolutions vector by setSearchResolutionsOrder. The "internal_dir" is relative to "Resources/".
+
+            If we have a file named 'sprite.png', the mapping in fileLookup dictionary contains `key: sprite.png -> value: sprite.pvr.gz`.
+            Firstly, it will replace 'sprite.png' with 'sprite.pvr.gz', then searching the file sprite.pvr.gz as follows:
+
+                /mnt/sdcard/resources-ipadhd/sprite.pvr.gz      (if not found, search next)
+                /mnt/sdcard/resources-ipad/sprite.pvr.gz        (if not found, search next)
+                /mnt/sdcard/resources-iphonehd/sprite.pvr.gz    (if not found, search next)
+                /mnt/sdcard/sprite.pvr.gz                       (if not found, search next)
+                internal_dir/resources-ipadhd/sprite.pvr.gz     (if not found, search next)
+                internal_dir/resources-ipad/sprite.pvr.gz       (if not found, search next)
+                internal_dir/resources-iphonehd/sprite.pvr.gz   (if not found, search next)
+                internal_dir/sprite.pvr.gz                      (if not found, return "sprite.png")
+
+            If the filename contains relative path like "gamescene/uilayer/sprite.png",
+            and the mapping in fileLookup dictionary contains `key: gamescene/uilayer/sprite.png -> value: gamescene/uilayer/sprite.pvr.gz`.
+            The file search order will be:
+
+                /mnt/sdcard/gamescene/uilayer/resources-ipadhd/sprite.pvr.gz      (if not found, search next)
+                /mnt/sdcard/gamescene/uilayer/resources-ipad/sprite.pvr.gz        (if not found, search next)
+                /mnt/sdcard/gamescene/uilayer/resources-iphonehd/sprite.pvr.gz    (if not found, search next)
+                /mnt/sdcard/gamescene/uilayer/sprite.pvr.gz                       (if not found, search next)
+                internal_dir/gamescene/uilayer/resources-ipadhd/sprite.pvr.gz     (if not found, search next)
+                internal_dir/gamescene/uilayer/resources-ipad/sprite.pvr.gz       (if not found, search next)
+                internal_dir/gamescene/uilayer/resources-iphonehd/sprite.pvr.gz   (if not found, search next)
+                internal_dir/gamescene/uilayer/sprite.pvr.gz                      (if not found, return "gamescene/uilayer/sprite.png")
+
+        If the new file can't be found on the file system, it will return the parameter filename directly.
+
+        This method was added to simplify multiplatform support. Whether you are using cocos2d-js or any cross-compilation toolchain like StellaSDK or Apportable,
+        you might need to load different resources for a given file in the different platforms.
+
+        @since v2.1
+        */
+        export function fullPathForFilename (filename:string):string;
+        /**
+         *  Gets string from a file.
+        */
+        export function getStringFromFile (filename:string):string;
+        /**
+         *  Removes a file.
+         *
+         *  @param filepath The full path of the file, it must be an absolute path.
+         *  @return True if the file have been removed successfully, false if not.
+         */
+        export function removeFile (filepath:string):boolean;
+        /**
+         *  Checks whether the path is a directory.
+         *
+         *  @param dirPath The path of the directory, it could be a relative or an absolute path.
+         *  @return True if the directory exists, false if not.
+         */
+        export function isDirectoryExist (dirPath:string):boolean;
+        /**
+         * Normalize: remove . and ..
+         * @param filepath 
+         */
+        export function normalizePath (filepath:string):string;
+        /**
+         * Get default resource root path.
+         */
+        export function getDefaultResourceRootPath ():string;
+        /**
+         * Loads the filenameLookup dictionary from the contents of a filename.
+         *
+         * @note The plist file name should follow the format below:
+         *
+         * @code
+         * <?xml version="1.0" encoding="UTF-8"?>
+         * <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+         * <plist version="1.0">
+         * <dict>
+         *     <key>filenames</key>
+         *     <dict>
+         *         <key>sounds/click.wav</key>
+         *         <string>sounds/click.caf</string>
+         *         <key>sounds/endgame.wav</key>
+         *         <string>sounds/endgame.caf</string>
+         *         <key>sounds/gem-0.wav</key>
+         *         <string>sounds/gem-0.caf</string>
+         *     </dict>
+         *     <key>metadata</key>
+         *     <dict>
+         *         <key>version</key>
+         *         <integer>1</integer>
+         *     </dict>
+         * </dict>
+         * </plist>
+         * @endcode
+         * @param filename The plist file name.
+         *
+         @since v2.1
+        * @js loadFilenameLookup
+        * @lua loadFilenameLookup
+        */
+        export function loadFilenameLookup (filepath:string):void;
+        /** Checks whether to pop up a message box when failed to load an image.
+         *  @return True if pop up a message box when failed to load an image, false if not.
+         */
+        export function isPopupNotify ():boolean;
+        /**
+         *  Sets whether to pop-up a message box when failed to load an image.
+         */
+        export function setPopupNotify (notify:boolean):void;
+
+        // Converts the contents of a file to a ValueVector.
+        // This method is used internally.
+        export function getValueVectorFromFile (filepath:string):Array<any>;
+        /**
+         *  Gets the array of search paths.
+         *
+         *  @return The array of search paths which may contain the prefix of default resource root path. 
+         *  @note In best practise, getter function should return the value of setter function passes in.
+         *        But since we should not break the compatibility, we keep using the old logic. 
+         *        Therefore, If you want to get the original search paths, please call 'getOriginalSearchPaths()' instead.
+         *  @see fullPathForFilename(const char*).
+         *  @lua NA
+         */
+        export function getSearchPaths ():Array<string>;
+        /**
+         * 
+         * @param filepath 
+         */
+        export function getFileDir (filepath:string):string;
+        /**
+        * write a ValueMap into a plist file
+        *
+        *@param dict the ValueMap want to save (key,value)
+        *@param fullPath The full path to the file you want to save a string
+        *@return bool
+        */
+        export function writeToFile ( valueMap:any ):boolean;
+        /**
+         *  Gets the original search path array set by 'setSearchPaths' or 'addSearchPath'.
+         *  @return The array of the original search paths
+         */
+        export function getOriginalSearchPaths ():Array<string>;
+        /**
+         *  List all files in a directory.
+         *
+         *  @param dirPath The path of the directory, it could be a relative or an absolute path.
+         *  @return File paths in a string vector
+         */
+        export function listFiles (filepath:string):Array<string>;
+        /**
+         *  Converts the contents of a file to a ValueMap.
+         *  @param filename The filename of the file to gets content.
+         *  @return ValueMap of the file contents.
+         *  @note This method is used internally.
+         */
+        export function getValueMapFromFile (filepath:string):any;
+        /**
+         *  Retrieve the file size.
+         *
+         *  @note If a relative path was passed in, it will be inserted a default root path at the beginning.
+         *  @param filepath The path of the file, it could be a relative or absolute path.
+         *  @return The file size.
+         */
+        export function getFileSize (filepath:string):number;
+
+        /** Converts the contents of a file to a ValueMap.
+         *  This method is used internally.
+         */
+        export function getValueMapFromData (filedata:string,filesize:number):any;
+        /**
+         *  Removes a directory.
+         *
+         *  @param dirPath  The full path of the directory, it must be an absolute path.
+         *  @return True if the directory have been removed successfully, false if not.
+         */
+        export function removeDirectory (dirPath:string):boolean;
+        /**
+         *  Sets the array of search paths.
+         *
+         *  You can use this array to modify the search path of the resources.
+         *  If you want to use "themes" or search resources in the "cache", you can do it easily by adding new entries in this array.
+         *
+         *  @note This method could access relative path and absolute path.
+         *        If the relative path was passed to the vector, FileUtils will add the default resource directory before the relative path.
+         *        For instance:
+         *            On Android, the default resource root path is "@assets/".
+         *            If "/mnt/sdcard/" and "resources-large" were set to the search paths vector,
+         *            "resources-large" will be converted to "@assets/resources-large" since it was a relative path.
+         *
+         *  @param searchPaths The array contains search paths.
+         *  @see fullPathForFilename(const char*)
+         *  @since v2.1
+         *  In js:var setSearchPaths(var jsval);
+         *  @lua NA
+         */
+        export function setSearchPaths ( searchPath:Array<string>):void;
+        /**
+         *  write a string into a file
+         *
+         * @param dataStr the string want to save
+         * @param fullPath The full path to the file you want to save a string
+         * @return bool True if write success
+         */
+        export function writeStringToFile (dataStr:string,fullPath:string):boolean;
+        /**
+         *  Sets the array that contains the search order of the resources.
+         *
+         *  @param searchResolutionsOrder The source array that contains the search order of the resources.
+         *  @see getSearchResolutionsOrder(), fullPathForFilename(const char*).
+         *  @since v2.1
+         *  In js:var setSearchResolutionsOrder(var jsval)
+         *  @lua NA
+         */
+        export function setSearchResolutionsOrder (searchResolutionsOrder:Array<string>):void;
+        /**
+         * Append search order of the resources.
+         *
+         * @see setSearchResolutionsOrder(), fullPathForFilename().
+         * @since v2.1
+         */
+        export function addSearchResolutionsOrder (order:string,front:boolean):void;
+        /**
+         * Add search path.
+         *
+         * @since v2.1
+         */
+        export function addSearchPath (path:string,front:boolean):void;
+        /**
+        * write ValueVector into a plist file
+        *
+        *@param vecData the ValueVector want to save
+        *@param fullPath The full path to the file you want to save a string
+        *@return bool
+        */
+        export function writeValueVectorToFile (vecData:Array<any>,fullPath:string):boolean;
+        /**
+         *  Checks whether a file exists.
+         *
+         *  @note If a relative path was passed in, it will be inserted a default root path at the beginning.
+         *  @param filename The path of the file, it could be a relative or absolute path.
+         *  @return True if the file exists, false if not.
+         */
+        export function isFileExist (filename:string):boolean;
+        /**©∫
+         *  Purges full path caches.
+         */
+        export function purgeCachedEntries ():void;
+            /**
+         *  Gets full path from a file name and the path of the relative file.
+         *  @param filename The file name.
+         *  @param relativeFile The path of the relative file.
+         *  @return The full path.
+         *          e.g. filename: hello.png, pszRelativeFile: /User/path1/path2/hello.plist
+         *               Return: /User/path1/path2/hello.pvr (If there a a key(hello.png)-value(hello.pvr) in FilenameLookup dictionary. )
+         *
+         */
+        export function fullPathFromRelativeFile (filename:string,relativeFile:string):string;
+        /**
+        * Windows fopen can't support UTF-8 filename
+        * Need convert all parameters fopen and other 3rd-party libs
+        *
+        * @param filenameUtf8 std::string name file for conversion from utf-8
+        * @return std::string ansi filename in current locale
+        */
+        export function getSuitableFOpen (filenameUtf8:string):string;
+        /**
+        * write ValueMap into a plist file
+        *
+        *@param dict the ValueMap want to save
+        *@param fullPath The full path to the file you want to save a string
+        *@return bool
+        */
+        export function writeValueMapToFile (dict:any,fullPath:string):string;
+        /**
+        *  Gets filename extension is a suffix (separated from the base filename by a dot) in lower case.
+        *  Examples of filename extensions are .png, .jpeg, .exe, .dmg and .txt.
+        *  @param filePath The path of the file, it could be a relative or absolute path.
+        *  @return suffix for filename in lower case or empty if a dot not found.
+        */
+        export function getFileExtension (filePath:string):string;
+        /**
+         *  Sets writable path.
+         */
+        export function setWritablePath (writablePath:string):void;
+        /**
+         * Set default resource root path.
+         */
+        export function setDefaultResourceRootPath (filepath:string):void;
+
+        /**
+         *  Gets the array that contains the search order of the resources.
+         *
+         *  @see setSearchResolutionsOrder(const std::vector<std::string>&), fullPathForFilename(const char*).
+         *  @since v2.1
+         *  @lua NA
+         */
+        export function getSearchResolutionsOrder ():Array<string>;
+        /**
+         *  Creates a directory.
+         *
+         *  @param dirPath The path of the directory, it must be an absolute path.
+         *  @return True if the directory have been created successfully, false if not.
+         */
+        export function createDirectory (dirPath:string):string;
+        /**
+         *  List all files recursively in a directory.
+         *
+         *  @param dirPath The path of the directory, it could be a relative or an absolute path.
+         *  @return File paths in a string vector
+         */
+        export function listFilesRecursively (dirPath:string, files:Array<string>):void;
+        /**
+         *  Gets the writable path.
+         *  @return  The path that can be write/read a file in
+         */
+        export function getWritablePath ():string;
+    }
+}
+
 /** Running in the editor. */
-declare let CC_EDITOR: boolean;
+declare const CC_EDITOR: boolean;
 /** Preview in browser or simulator. */
-declare let CC_PREVIEW: boolean;
+declare const CC_PREVIEW: boolean;
 /** Running in the editor or preview. */
-declare let CC_DEV: boolean;
+declare const CC_DEV: boolean;
 /** Running in the editor or preview, or build in debug mode. */
-declare let CC_DEBUG: boolean;
+declare const CC_DEBUG: boolean;
 /** Running in published project. */
-declare let CC_BUILD: boolean;
-/** Running in native platform (mobile app, desktop app, or simulator). */
-declare let CC_JSB: boolean;
+declare const CC_BUILD: boolean;
+/** Running in native platforms (mobile app, desktop app, or simulator). */
+declare const CC_JSB: boolean;
+/** Running in runtime environments. */
+declare const CC_RUNTIME: boolean;
 /** Running in the engine's unit test. */
-declare let CC_TEST: boolean;
-/** Running in the Wechat's mini game. */
-declare let CC_WECHATGAME: boolean;
-/** Running in the bricks. */
-declare let CC_QQPLAY: boolean;
+declare const CC_TEST: boolean;
+/** Running in the WeChat Mini Game. */
+declare const CC_WECHATGAME: boolean;

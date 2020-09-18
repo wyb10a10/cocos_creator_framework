@@ -53,11 +53,7 @@ export class UIView extends ResKeeper {
 
     /** 界面id */
     public UIid: number = 0;
-    /** 该界面资源占用key */
-    private useKey: string = null;
-    /**  静态变量，用于区分相同界面的不同实例 */
-    private static uiIndex: number = 0;
-
+    
     /********************** UI的回调 ***********************/
     /**
      * 当界面被创建时回调，生命周期内只调用

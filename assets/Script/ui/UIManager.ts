@@ -27,13 +27,12 @@ export interface UIInfo {
 
 /** UI配置结构体 */
 export interface UIConf {
+    bundle?: string;
     prefab: string;
     preventTouch?: boolean;
 }
 
 export class UIManager {
-    /** 资源加载计数器，用于生成唯一的资源占用key */
-    private useCount = 0;
     /** 背景UI（有若干层UI是作为背景UI，而不受切换等影响）*/
     private BackGroundUI = 0;
     /** 是否正在关闭UI */
@@ -127,11 +126,6 @@ export class UIManager {
         completeCallback();
     }
 
-    /** 生成唯一的资源占用key */
-    private makeUseKey(): string {
-        return `UIMgr_${++this.useCount}`;
-    }
-
     /** 根据界面显示类型刷新显示 */
     private updateUI() {
         let hideIndex: number = 0;
@@ -181,7 +175,6 @@ export class UIManager {
             return;
         }
 
-        let useKey = this.makeUseKey();
         resLoader.loadRes(uiPath, processCallback, (err: Error, prefab: cc.Prefab) => {
             // 检查加载资源错误
             if (err) {

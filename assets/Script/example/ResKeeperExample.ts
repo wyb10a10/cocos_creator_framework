@@ -35,7 +35,6 @@ export default class NetExample extends cc.Component {
                 let targetNode = this.attachNode.children[this.attachNode.childrenCount - 1];
                 targetNode.getComponent(cc.Sprite).spriteFrame = ResUtil.assignWith(sp, targetNode);
             }
-            //resLoader.releaseRes("images/test", cc.SpriteFrame);
             resLoader.releaseAsset(sp);
         });
     }

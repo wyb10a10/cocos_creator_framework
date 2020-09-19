@@ -69,7 +69,7 @@ export default class ResLoader {
      * @param asset 要释放的asset
      */
     public releaseAsset(asset: cc.Asset) {
-        cc.assetManager.releaseAsset(asset);
+        asset.decRef();
     }
 }
 

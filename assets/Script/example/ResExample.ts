@@ -34,6 +34,7 @@ export default class NetExample extends cc.Component {
     onMyLoadRes() {
         resLoader.loadResDir("prefabDir", cc.Prefab, (error: Error, prefabs: cc.Prefab[]) => {
             if (!error) {
+                this._dirPrefabs = prefabs;
                 for (let i = 0; i < prefabs.length; ++i) {
                     cc.instantiate(prefabs[i]).parent = this.attachNode;
                 }
@@ -47,7 +48,7 @@ export default class NetExample extends cc.Component {
     }
 
     onLoadRemote() {
-        resLoader.loadRes("http://tools.itharbors.com/christmas/res/tree.png", (err, res) => {
+        resLoader.loadRemoteRes("http://tools.itharbors.com/christmas/res/tree.png", (err, res) => {
             if (err || !res) return;
             this._remoteRes = res;
             let spriteFrame = new cc.SpriteFrame(res);

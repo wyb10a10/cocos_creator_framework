@@ -28,13 +28,6 @@ export enum UIShowTypes {
     UISingle,           // 单界面显示，只显示当前界面和背景界面，性能较好
 };
 
-/** 自动释放配置 */
-interface autoResInfo {
-    url: string;
-    use?: string;
-    type: typeof cc.Asset;
-};
-
 @ccclass
 export class UIView extends ResKeeper {
 
@@ -53,7 +46,7 @@ export class UIView extends ResKeeper {
 
     /** 界面id */
     public UIid: number = 0;
-    
+
     /********************** UI的回调 ***********************/
     /**
      * 当界面被创建时回调，生命周期内只调用

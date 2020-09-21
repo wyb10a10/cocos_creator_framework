@@ -28,6 +28,7 @@ export default class NetExample extends cc.Component {
 
     onUnloadRes() {
         this.attachNode.removeAllChildren(true);
+        this.attachNode.destroyAllChildren();
         cc.loader.releaseRes("prefabDir/HelloWorld");
     }
 
@@ -44,6 +45,7 @@ export default class NetExample extends cc.Component {
 
     onMyUnloadRes() {
         this.attachNode.removeAllChildren(true);
+        this.attachNode.destroyAllChildren();
         resLoader.releaseArray(this._dirPrefabs);
     }
 
@@ -61,6 +63,7 @@ export default class NetExample extends cc.Component {
 
     onUnloadRemote() {
         this.attachNode.removeAllChildren(true);
+        this.attachNode.destroyAllChildren();
         resLoader.releaseAsset(this._remoteRes);
     }
 

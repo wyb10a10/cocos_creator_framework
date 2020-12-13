@@ -182,6 +182,37 @@ export class ResUtil {
         return node;
     }
 
+    static findCharPos(str: string, cha: string, num: number): number {
+        let x = str.indexOf(cha);
+        let ret = x;
+        for (var i = 0; i < num; i++) {
+            x = str.indexOf(cha, x + 1);
+            if (x != -1) {
+                ret = x;
+            } else {
+                return ret;
+            }
+        }
+        return ret;
+    }
+
+    static getCallStack(popCount: number): string {
+        /*let caller = arguments.callee.caller;
+        let count = Math.min(arguments.callee.caller.length - popCount, 10);
+        let ret = "";
+        do {
+            ret = `${ret}${caller.toString()}`;
+            caller = caller && caller.caller;
+            --count;
+        } while (caller && count > 0)*/
+        let ret = (new Error()).stack;
+        let pos = ResUtil.findCharPos(ret, '\n', popCount);
+        if (pos > 0) {
+            ret = ret.slice(pos);
+        }
+        return ret;
+    }
+
     // /**
     //  * 获取一系列节点依赖的资源
     //  */

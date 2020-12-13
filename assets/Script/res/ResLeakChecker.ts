@@ -12,43 +12,14 @@
  * 2020-1-20 by 宝爷
  */
 
+import { ResUtil } from "./ResUtil";
+
 export type FilterCallback = (url: string) => boolean;
 
 export class ResLeakChecker {
     public resFilter: FilterCallback = null;
     private _checking: boolean = false;
     private _log: Map<string, Map<string, string>> = new Map<string, Map<string, string>>();
-
-    static findCharPos(str: string, cha: string, num: number): number {
-        let x = str.indexOf(cha);
-        let ret = x;
-        for (var i = 0; i < num; i++) {
-            x = str.indexOf(cha, x + 1);
-            if (x != -1) {
-                ret = x;
-            } else {
-                return ret;
-            }
-        }
-        return ret;
-    }
-
-    static getCallStack(popCount: number): string {
-        /*let caller = arguments.callee.caller;
-        let count = Math.min(arguments.callee.caller.length - popCount, 10);
-        let ret = "";
-        do {
-            ret = `${ret}${caller.toString()}`;
-            caller = caller && caller.caller;
-            --count;
-        } while (caller && count > 0)*/
-        let ret = (new Error()).stack;
-        let pos = ResLeakChecker.findCharPos(ret, '\n', popCount);
-        if (pos > 0) {
-            ret = ret.slice(pos);
-        }
-        return ret;
-    }
 
     public checkFilter(url: string): boolean {
         if (!this._checking) {
@@ -71,7 +42,7 @@ export class ResLeakChecker {
         if (urlInfos.has(use)) {
             console.warn(`ResLeakChecker doubel same use ${url} : ${use}, stack ${urlInfos[use]}`);
         }
-        urlInfos.set(use, stack ? stack : ResLeakChecker.getCallStack(2));
+        urlInfos.set(use, stack ? stack : ResUtil.getCallStack(2));
     }
 
     public logRelease(url: string, use: string) {

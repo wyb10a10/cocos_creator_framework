@@ -1,5 +1,5 @@
 import { resLoader } from "../res/ResLoader";
-import { ResLeakChecker } from "../res/ResLeakChecker";
+import { ResUtil } from "../res/ResUtil";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,9 +13,6 @@ export default class NetExample extends cc.Component {
     _remoteRes: any = null;
 
     start() {
-        let checker = new ResLeakChecker();
-        checker.startCheck();
-        resLoader.resLeakChecker = checker;
     }
 
     onLoadRes() {
@@ -36,6 +33,10 @@ export default class NetExample extends cc.Component {
         resLoader.loadResDir("prefabDir", cc.Prefab, (error: Error, prefabs: cc.Prefab[]) => {
             if (!error) {
                 this._dirPrefabs = prefabs;
+                ResUtil.traceObject(prefabs[0]);
+                prefabs[0].addRef();
+                prefabs[0].addRef();
+                prefabs[0].decRef();
                 for (let i = 0; i < prefabs.length; ++i) {
                     cc.instantiate(prefabs[i]).parent = this.attachNode;
                 }
@@ -70,6 +71,8 @@ export default class NetExample extends cc.Component {
     onDump() {
         let Loader:any = cc.loader;
         this.dumpLabel.string = `当前资源总数:${Object.keys(Loader._cache).length}`;
-        resLoader.resLeakChecker.dump();
+        if(this._dirPrefabs) {
+            this._dirPrefabs[0]['dump']();
+        }
     }
 }

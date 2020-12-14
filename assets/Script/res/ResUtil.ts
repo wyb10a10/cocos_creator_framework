@@ -213,6 +213,25 @@ export class ResUtil {
         return ret;
     }
 
+    public static traceObject(obj : cc.Asset) {
+        let addRefFunc = obj.addRef;
+        let decRefFunc = obj.decRef;
+        let traceArray = new Array();
+
+        obj.addRef = function() : cc.Asset {
+            traceArray.push(ResUtil.getCallStack(1));
+            return addRefFunc.apply(obj, arguments);
+        }
+
+        obj.decRef = function() : cc.Asset {
+            traceArray.push(ResUtil.getCallStack(1));
+            return decRefFunc.apply(obj, arguments);
+        }
+
+        obj['dump'] = function() {
+            console.log(traceArray);
+        }
+    }
     // /**
     //  * 获取一系列节点依赖的资源
     //  */

@@ -81,7 +81,7 @@ export class NetNode {
             }
 
             if (this._connectOptions == null) {
-                options.autoReconnect = options.autoReconnect;
+                this._autoReconnect = options.autoReconnect;
             }
             this._connectOptions = options;
             this.updateNetTips(NetTipsType.Connecting, true);

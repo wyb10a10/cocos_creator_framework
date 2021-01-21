@@ -7,7 +7,11 @@
   ],
   "design-resolution-height": 640,
   "design-resolution-width": 960,
-  "excluded-modules": [],
+  "excluded-modules": [
+    "3D Physics/cannon.js",
+    "3D Physics/Builtin",
+    "3D Particle"
+  ],
   "facebook": {
     "appID": "",
     "audience": {
@@ -31,5 +35,8 @@
   },
   "start-scene": "current",
   "use-customize-simulator": false,
-  "use-project-simulator-setting": false
+  "use-project-simulator-setting": false,
+  "migrate-history": [
+    "cloud-function"
+  ]
 }

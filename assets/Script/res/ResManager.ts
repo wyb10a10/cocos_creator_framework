@@ -2,11 +2,41 @@
  * cc.Asset的管理器
  * 1. 对cc.Asset进行注入，扩展其addRef和decRef方法，使其支持引用计数
  * 2. 对cc.Asset进行资源依赖管理
+ * 3. 接管场景切换时，资源的引用管理，避免无引用计数的场景依赖被意外释放
  * 
  * 2021-1-21 by 宝爷
  */
 
 let loader: any = cc.loader;
+
+// 处理场景切换，分两种情况，一种为根据scene的uuid找到场景的资源，另外一种为根据scene.dependAssets进行缓存
+let lastScene = null;
+function onSceneChange(scene: cc.Scene) {
+    console.log('On Scene Change');
+    if (CC_EDITOR || lastScene == scene) {
+        return;
+    }
+
+    if (scene['dependAssets']) {
+        let depends = scene['dependAssets'];
+        for(let i = 0; i < depends.length; ++i) {
+            ABCAssetManager.Instance.cacheAsset(depends[i]);
+        }
+        if (lastScene) {
+            let depends = lastScene['dependAssets'];
+            for(let i = 0; i < depends.length; ++i) {
+                ABCAssetManager.Instance.releaseAsset(depends[i]);
+            }
+        }
+    } else {
+        ABCAssetManager.Instance.cacheAsset(scene.uuid);
+        if (lastScene) {
+            ABCAssetManager.Instance.releaseAsset(lastScene.uuid);
+        }    
+    }
+    lastScene = scene;
+}
+// cc.director.on(cc.Director.EVENT_BEFORE_SCENE_LAUNCH, onSceneChange);
 
 function assetInit() {
     console.log('asset init');

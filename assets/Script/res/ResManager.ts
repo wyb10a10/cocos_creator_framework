@@ -8,6 +8,36 @@
 
 let loader: any = cc.loader;
 
+function assetInit() {
+    console.log('asset init');
+    if (!Object.getOwnPropertyDescriptor(cc.Asset.prototype, 'addRef')) {
+        Object.defineProperties(cc.Asset.prototype, {
+            refCount : {
+                configurable: true,
+                writable: true,
+                enumerable: false,
+                value : 1,
+            },
+            addRef : {
+                value : function () : cc.Asset {
+                    ++this.refCount;
+                    return this;
+                }
+            },
+            decRef : {
+                value : function () : cc.Asset {
+                    --this.refCount;
+                    if (this.refCount <= 0) {
+                        ABCAssetManager.Instance.releaseAsset(this);
+                    }
+                    return this;
+                }
+            }
+        });
+    }
+}
+// cc.game.once(cc.game.EVENT_ENGINE_INITED, assetInit);
+
 export default class ResManager {
     private static instance: ResManager;
 
@@ -18,31 +48,31 @@ export default class ResManager {
         return this.instance;
     }
 
-    /**
+   /**
      * 缓存一个资源
      * @param item 资源的item对象
      */
     private cacheItem(item: any) {
         if (item) {
-            let asset: any = item.content;
-            if (asset) {
+            let asset: cc.Asset = item.content;
+            if (asset instanceof cc.Asset) {
                 asset.addRef();
                 let depends = item.dependKeys;
                 if (depends) {
                     for (var i = 0; i < depends.length; i++) {
-                        this.cacheItem(depends[i]);
+                        this.cacheItem(loader.getItem(depends[i]));
                     }
                 }    
             } else {
-                console.warn(`cacheItem error, ${item} has not content`);
+                // console.warn(`cacheItem error, ${item} has not asset content`);
             }
         } else {
             console.warn(`cacheItem error, item is ${item}`);
         }
     }
 
-    public cacheAsset(asset: cc.Asset) {
-        let key = loader._getReferenceKey(asset);
+    public cacheAsset(assetOrUrlOrUuid: cc.Asset | string) {
+        let key = loader._getReferenceKey(assetOrUrlOrUuid);
         if (key) {
             let item = loader.getItem(key);
             if (item) {
@@ -51,7 +81,7 @@ export default class ResManager {
                 console.warn(`cacheAsset error, loader.getItem ${key} is ${item}`);
             }
         } else {
-            console.warn(`cacheAsset error, loader._getReferenceKey ${asset} return ${key}`);
+            console.warn(`cacheAsset error, loader._getReferenceKey ${assetOrUrlOrUuid} return ${key}`);
         }
     }
 
@@ -62,7 +92,7 @@ export default class ResManager {
     private releaseItem(item: any) {
         if (item) {
             let asset: any = item.content;
-            if (asset) {
+            if (asset instanceof cc.Asset) {
                 asset.decRef();
                 if (asset.refCount == 0) {
                     let depends = item.dependKeys;
@@ -73,23 +103,23 @@ export default class ResManager {
                     }
     
                     if (item.uuid) {
-                        cc.loader.release(item.uuid);
+                        loader.release(item.uuid);
                         cc.log("releaseItem by uuid :" + item.id);
                     } else {
-                        cc.loader.release(item.id);
+                        loader.release(item.id);
                         cc.log("releaseItem item by url:" + item.id);
-                    }    
+                    }
                 }
             } else {
-                console.warn(`releaseItem error, ${item} has not content`);
+                // console.warn(`releaseItem error, ${item} has not asset content`);
             }
         } else {
             console.warn(`releaseItem error, item is ${item}`);
         }
     }
 
-    public releaseAsset(asset: cc.Asset) {
-        let key = loader._getReferenceKey(asset);
+    public releaseAsset(assetOrUrlOrUuid: cc.Asset | string) {
+        let key = loader._getReferenceKey(assetOrUrlOrUuid);
         if (key) {
             let item = loader.getItem(key);
             if (item) {
@@ -98,7 +128,7 @@ export default class ResManager {
                 console.warn(`releaseAsset error, loader.getItem ${key} is ${item}`);
             }
         } else {
-            console.warn(`releaseAsset error, loader._getReferenceKey ${asset} return ${key}`);
+            console.warn(`releaseAsset error, loader._getReferenceKey ${assetOrUrlOrUuid} return ${key}`);
         }
     }
 }

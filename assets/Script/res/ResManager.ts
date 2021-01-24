@@ -19,12 +19,12 @@ function onSceneChange(scene: cc.Scene) {
 
     if (scene['dependAssets']) {
         let depends = scene['dependAssets'];
-        for(let i = 0; i < depends.length; ++i) {
+        for (let i = 0; i < depends.length; ++i) {
             ABCAssetManager.Instance.cacheAsset(depends[i]);
         }
-        if (lastScene) {
+        if (lastScene && lastScene['dependAssets']) {
             let depends = lastScene['dependAssets'];
-            for(let i = 0; i < depends.length; ++i) {
+            for (let i = 0; i < depends.length; ++i) {
                 ABCAssetManager.Instance.releaseAsset(depends[i]);
             }
         }
@@ -32,30 +32,31 @@ function onSceneChange(scene: cc.Scene) {
         ABCAssetManager.Instance.cacheAsset(scene.uuid);
         if (lastScene) {
             ABCAssetManager.Instance.releaseAsset(lastScene.uuid);
-        }    
+        }
     }
     lastScene = scene;
 }
 // cc.director.on(cc.Director.EVENT_BEFORE_SCENE_LAUNCH, onSceneChange);
 
+// 为cc.Asset注入引用计数的功能
 function assetInit() {
     console.log('asset init');
     if (!Object.getOwnPropertyDescriptor(cc.Asset.prototype, 'addRef')) {
         Object.defineProperties(cc.Asset.prototype, {
-            refCount : {
+            refCount: {
                 configurable: true,
                 writable: true,
                 enumerable: false,
-                value : 1,
+                value: 1,
             },
-            addRef : {
-                value : function () : cc.Asset {
+            addRef: {
+                value: function (): cc.Asset {
                     ++this.refCount;
                     return this;
                 }
             },
-            decRef : {
-                value : function () : cc.Asset {
+            decRef: {
+                value: function (): cc.Asset {
                     --this.refCount;
                     if (this.refCount <= 0) {
                         ABCAssetManager.Instance.releaseAsset(this);
@@ -78,7 +79,7 @@ export default class ResManager {
         return this.instance;
     }
 
-   /**
+    /**
      * 缓存一个资源
      * @param item 资源的item对象
      */
@@ -92,8 +93,9 @@ export default class ResManager {
                     for (var i = 0; i < depends.length; i++) {
                         this.cacheItem(loader.getItem(depends[i]));
                     }
-                }    
+                }
             } else {
+                // 原生资源、html元素有可能走到这里
                 // console.warn(`cacheItem error, ${item} has not asset content`);
             }
         } else {
@@ -120,8 +122,9 @@ export default class ResManager {
      * @param item 资源的item对象
      */
     private releaseItem(item: any) {
-        if (item) {
+        if (item && item.content) {
             let asset: any = item.content;
+            let res = item.uuid || item.id;
             if (asset instanceof cc.Asset) {
                 asset.decRef();
                 if (asset.refCount == 0) {
@@ -131,17 +134,13 @@ export default class ResManager {
                             this.releaseItem(depends[i]);
                         }
                     }
-    
-                    if (item.uuid) {
-                        loader.release(item.uuid);
-                        cc.log("releaseItem by uuid :" + item.id);
-                    } else {
-                        loader.release(item.id);
-                        cc.log("releaseItem item by url:" + item.id);
-                    }
+
+                    loader.release(res);
+                    cc.log(`loader.release cc.Asset ${res}`);
                 }
             } else {
-                // console.warn(`releaseItem error, ${item} has not asset content`);
+                loader.release(res);
+                cc.log(`loader.release ${res} rawAsset ${asset}`);
             }
         } else {
             console.warn(`releaseItem error, item is ${item}`);

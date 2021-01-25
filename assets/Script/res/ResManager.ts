@@ -20,18 +20,18 @@ function onSceneChange(scene: cc.Scene) {
     if (scene['dependAssets']) {
         let depends = scene['dependAssets'];
         for (let i = 0; i < depends.length; ++i) {
-            ABCAssetManager.Instance.cacheAsset(depends[i]);
+            ResManager.Instance.cacheAsset(depends[i]);
         }
         if (lastScene && lastScene['dependAssets']) {
             let depends = lastScene['dependAssets'];
             for (let i = 0; i < depends.length; ++i) {
-                ABCAssetManager.Instance.releaseAsset(depends[i]);
+                ResManager.Instance.releaseAsset(depends[i]);
             }
         }
     } else {
-        ABCAssetManager.Instance.cacheAsset(scene.uuid);
+        ResManager.Instance.cacheAsset(scene.uuid);
         if (lastScene) {
-            ABCAssetManager.Instance.releaseAsset(lastScene.uuid);
+            ResManager.Instance.releaseAsset(lastScene.uuid);
         }
     }
     lastScene = scene;
@@ -59,7 +59,7 @@ function assetInit() {
                 value: function (): cc.Asset {
                     --this.refCount;
                     if (this.refCount <= 0) {
-                        ABCAssetManager.Instance.releaseAsset(this);
+                        ResManager.Instance.releaseAsset(this);
                     }
                     return this;
                 }

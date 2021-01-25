@@ -9,68 +9,71 @@
 
 let loader: any = cc.loader;
 
-// 处理场景切换，分两种情况，一种为根据scene的uuid找到场景的资源，另外一种为根据scene.dependAssets进行缓存
-let lastScene = null;
-function onSceneChange(scene: cc.Scene) {
-    console.log('On Scene Change');
-    if (CC_EDITOR || lastScene == scene) {
-        return;
-    }
-
-    if (scene['dependAssets']) {
-        let depends = scene['dependAssets'];
-        for (let i = 0; i < depends.length; ++i) {
-            ResManager.Instance.cacheAsset(depends[i]);
-        }
-        if (lastScene && lastScene['dependAssets']) {
-            let depends = lastScene['dependAssets'];
-            for (let i = 0; i < depends.length; ++i) {
-                ResManager.Instance.releaseAsset(depends[i]);
-            }
-        }
-    } else {
-        ResManager.Instance.cacheAsset(scene.uuid);
-        if (lastScene) {
-            ResManager.Instance.releaseAsset(lastScene.uuid);
-        }
-    }
-    lastScene = scene;
-}
-// cc.director.on(cc.Director.EVENT_BEFORE_SCENE_LAUNCH, onSceneChange);
-
-// 为cc.Asset注入引用计数的功能
-function assetInit() {
-    console.log('asset init');
-    if (!Object.getOwnPropertyDescriptor(cc.Asset.prototype, 'addRef')) {
-        Object.defineProperties(cc.Asset.prototype, {
-            refCount: {
-                configurable: true,
-                writable: true,
-                enumerable: false,
-                value: 1,
-            },
-            addRef: {
-                value: function (): cc.Asset {
-                    ++this.refCount;
-                    return this;
-                }
-            },
-            decRef: {
-                value: function (): cc.Asset {
-                    --this.refCount;
-                    if (this.refCount <= 0) {
-                        ResManager.Instance.releaseAsset(this);
-                    }
-                    return this;
-                }
-            }
-        });
-    }
-}
-// cc.game.once(cc.game.EVENT_ENGINE_INITED, assetInit);
-
 export default class ResManager {
     private static instance: ResManager;
+    private static lastScene: cc.Scene = null;
+
+    // 处理场景切换，分两种情况，一种为根据scene的uuid找到场景的资源，另外一种为根据scene.dependAssets进行缓存
+    private static onSceneChange(scene: cc.Scene) {
+        console.log('On Scene Change');
+        if (CC_EDITOR || this.lastScene == scene) {
+            return;
+        }
+
+        if (scene['dependAssets']) {
+            let depends = scene['dependAssets'];
+            for (let i = 0; i < depends.length; ++i) {
+                ResManager.Instance.cacheAsset(depends[i]);
+            }
+            if (this.lastScene && this.lastScene['dependAssets']) {
+                let depends = this.lastScene['dependAssets'];
+                for (let i = 0; i < depends.length; ++i) {
+                    ResManager.Instance.releaseAsset(depends[i]);
+                }
+            }
+        } else {
+            ResManager.Instance.cacheAsset(scene.uuid);
+            if (this.lastScene) {
+                ResManager.Instance.releaseAsset(this.lastScene.uuid);
+            }
+        }
+        this.lastScene = scene;
+    }
+
+    // 为cc.Asset注入引用计数的功能
+    private static assetInit() {
+        console.log('asset init');
+        if (!Object.getOwnPropertyDescriptor(cc.Asset.prototype, 'addRef')) {
+            Object.defineProperties(cc.Asset.prototype, {
+                refCount: {
+                    configurable: true,
+                    writable: true,
+                    enumerable: false,
+                    value: 1,
+                },
+                addRef: {
+                    value: function (): cc.Asset {
+                        ++this.refCount;
+                        return this;
+                    }
+                },
+                decRef: {
+                    value: function (): cc.Asset {
+                        --this.refCount;
+                        if (this.refCount <= 0) {
+                            ResManager.Instance.releaseAsset(this);
+                        }
+                        return this;
+                    }
+                }
+            });
+        }
+    }
+
+    private constructor() {
+        cc.director.on(cc.Director.EVENT_BEFORE_SCENE_LAUNCH, ResManager.onSceneChange);
+        cc.game.once(cc.game.EVENT_ENGINE_INITED, ResManager.assetInit);
+    }
 
     public static get Instance() {
         if (!this.instance) {

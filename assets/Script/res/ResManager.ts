@@ -45,7 +45,13 @@ export default class ResManager {
         console.log('asset init');
         if (!Object.getOwnPropertyDescriptor(cc.Asset.prototype, 'addRef')) {
             Object.defineProperties(cc.Asset.prototype, {
-                refCount: {
+				refDepends: {
+					configurable: true,
+					writable: true,
+					enumerable: false,
+					value: false,
+				},
+				refCount: {
                     configurable: true,
                     writable: true,
                     enumerable: false,
@@ -91,15 +97,16 @@ export default class ResManager {
             let asset: cc.Asset = item.content;
             if (asset instanceof cc.Asset) {
                 asset.addRef();
-                let depends = item.dependKeys;
-                if (depends) {
+                if (!asset.refDepends && item.dependKeys) {
+                    let depends = item.dependKeys;
                     for (var i = 0; i < depends.length; i++) {
                         this.cacheItem(loader.getItem(depends[i]));
                     }
+                    asset.refDepends = true;
                 }
             } else {
                 // 原生资源、html元素有可能走到这里
-                // console.warn(`cacheItem error, ${item} has not asset content`);
+                console.log(`cacheItem ${item} is not cc.Asset ${asset}`);
             }
         } else {
             console.warn(`cacheItem error, item is ${item}`);

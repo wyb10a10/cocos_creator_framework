@@ -105,16 +105,16 @@ export default class ResLoader2 {
         return null;
     }
 
-    private makeFinishCallback(resArgs: LoadArgs): CompletedCallback {
+    private static makeFinishCallback(resArgs: LoadArgs): CompletedCallback {
         console.time("load|" + resArgs.url);
         let finishCallback = (error: Error, resource: any) => {
             if (!error) {
                 if (resource instanceof Array) {
                     resource.forEach(element => {
-                        AssetManager.Instance.cacheAsset(element);
+                        ResManager.Instance.cacheAsset(element);
                     });
                 } else {
-                    AssetManager.Instance.cacheAsset(resource);
+                    ResManager.Instance.cacheAsset(resource);
                 }
             }
             if (resArgs.onCompleted) {
@@ -125,7 +125,7 @@ export default class ResLoader2 {
         return finishCallback;
     }
 
-    private getUuid(url: string, type: typeof cc.Asset) {
+    private static getUuid(url: string, type: typeof cc.Asset) {
         let ccloader = ResLoader2.getLoader();
         let uuid = ccloader._getResUuid(url, type, false);
         return uuid;
@@ -139,25 +139,25 @@ export default class ResLoader2 {
      * @param onProgess     加载进度回调
      * @param onCompleted   加载完成回调
      */
-    public load(url: string, onCompleted: CompletedCallback);
-    public load(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public load(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(url: string[], onCompleted: CompletedCallback);
-    public load(url: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(url: string[], type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public load(url: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string[], onCompleted: CompletedCallback);
-    public load(bundle: string, url: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string[], type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load() {
-        let resArgs: LoadArgs = ResLoader2.makeLoadArgs.apply(this, arguments);
-        let finishCallback = this.makeFinishCallback(resArgs);
+    public static load(url: string, onCompleted: CompletedCallback);
+    public static load(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
+    public static load(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(url: string[], onCompleted: CompletedCallback);
+    public static load(url: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(url: string[], type: typeof cc.Asset, onCompleted: CompletedCallback);
+    public static load(url: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(bundle: string, url: string, onCompleted: CompletedCallback);
+    public static load(bundle: string, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(bundle: string, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
+    public static load(bundle: string, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(bundle: string, url: string[], onCompleted: CompletedCallback);
+    public static load(bundle: string, url: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(bundle: string, url: string[], type: typeof cc.Asset, onCompleted: CompletedCallback);
+    public static load(bundle: string, url: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load() {
+        let resArgs: LoadArgs = ResLoader2.makeLoadArgs.apply(ResLoader2, arguments);
+        let finishCallback = ResLoader2.makeFinishCallback(resArgs);
         let ccloader = ResLoader2.getLoader();
         if (typeof resArgs.url == "string") {
             if (typeof (ccloader['_getResUuid']) == "function") {
@@ -173,46 +173,46 @@ export default class ResLoader2 {
         }
     }
 
-    public loadDir(url: string, onCompleted: CompletedCallback);
-    public loadDir(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public loadDir(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public loadDir(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public loadDir(bundle: string, url: string, onCompleted: CompletedCallback);
-    public loadDir(bundle: string, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public loadDir(bundle: string, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public loadDir(bundle: string, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public loadDir() {
-        let resArgs: LoadArgs = ResLoader2.makeLoadArgs.apply(this, arguments);
-        let finishCallback = this.makeFinishCallback(resArgs);
+    public static loadDir(url: string, onCompleted: CompletedCallback);
+    public static loadDir(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static loadDir(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
+    public static loadDir(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static loadDir(bundle: string, url: string, onCompleted: CompletedCallback);
+    public static loadDir(bundle: string, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static loadDir(bundle: string, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
+    public static loadDir(bundle: string, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static loadDir() {
+        let resArgs: LoadArgs = ResLoader2.makeLoadArgs.apply(ResLoader2, arguments);
+        let finishCallback = ResLoader2.makeFinishCallback(resArgs);
         let ccloader = ResLoader2.getLoader();
         ccloader.loadResDir(resArgs.url, resArgs.type, resArgs.onProgess, finishCallback);
     }
 
-    public release(url: string)
-    public release(url: string, type: typeof cc.Asset)
-    public release(url: string[])
-    public release(url: string[], type: typeof cc.Asset)
-    public release(bundle: string, url: string)
-    public release(bundle: string, url: string, type: typeof cc.Asset)
-    public release(bundle: string, url: string[])
-    public release(bundle: string, url: string[], type: typeof cc.Asset)
-    public release(asset: cc.Asset)
-    public release(asset: cc.Asset[])
-    public release() {
-        let resArgs: ReleaseArgs = ResLoader2.makeReleaseArgs.apply(this, arguments);
+    public static release(url: string)
+    public static release(url: string, type: typeof cc.Asset)
+    public static release(url: string[])
+    public static release(url: string[], type: typeof cc.Asset)
+    public static release(bundle: string, url: string)
+    public static release(bundle: string, url: string, type: typeof cc.Asset)
+    public static release(bundle: string, url: string[])
+    public static release(bundle: string, url: string[], type: typeof cc.Asset)
+    public static release(asset: cc.Asset)
+    public static release(asset: cc.Asset[])
+    public static release() {
+        let resArgs: ReleaseArgs = ResLoader2.makeReleaseArgs.apply(ResLoader2, arguments);
         if (resArgs.url instanceof Array) {
             resArgs.url.forEach(element => {
                 if (resArgs.type) {
-                    AssetManager.Instance.releaseAsset(this.getUuid(element, resArgs.type));
+                    ResManager.Instance.releaseAsset(ResLoader2.getUuid(element, resArgs.type));
                 } else {
-                    AssetManager.Instance.releaseAsset(element);
+                    ResManager.Instance.releaseAsset(element);
                 }
             });
         } else {
             if (resArgs.type && typeof resArgs.url == "string") {
-                AssetManager.Instance.releaseAsset(this.getUuid(resArgs.url, resArgs.type));
+                ResManager.Instance.releaseAsset(ResLoader2.getUuid(resArgs.url, resArgs.type));
             } else {
-                AssetManager.Instance.releaseAsset(resArgs.url);
+                ResManager.Instance.releaseAsset(resArgs.url);
             }
         }
     }

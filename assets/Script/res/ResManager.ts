@@ -7,36 +7,85 @@
  * 2021-1-21 by 宝爷
  */
 
+import { ResUtil } from "./ResUtil";
+
 let loader: any = cc.loader;
 
 export default class ResManager {
     private static instance: ResManager;
-    private static lastScene: cc.Scene = null;
+    private persistDepends: Set<string> = new Set<string>();
+    private sceneDepends: string[] = null;
+    private lastScene = null;
 
-    // 处理场景切换，分两种情况，一种为根据scene的uuid找到场景的资源，另外一种为根据scene.dependAssets进行缓存
-    private static onSceneChange(scene: cc.Scene) {
+    /**
+     * 获取当前场景的持久节点应用的资源
+     */
+    private getPersistDepends() : Set<string> {
+        let game:any = cc.game;
+        var persistNodeList = Object.keys(game._persistRootNodes).map(function (x) {
+            return game._persistRootNodes[x];
+        });
+        return ResUtil.getNodesDepends(persistNodeList);
+    }
+	
+    /**
+     * 处理场景切换，分两种情况，一种为根据scene的uuid找到场景的资源，另外一种为根据scene.dependAssets进行缓存
+     * @param scene 
+     */
+    private onSceneChange(scene: cc.Scene) {
         console.log('On Scene Change');
         if (CC_EDITOR || this.lastScene == scene) {
             return;
         }
 
-        if (scene['dependAssets']) {
-            let depends = scene['dependAssets'];
-            for (let i = 0; i < depends.length; ++i) {
-                ResManager.Instance.cacheAsset(depends[i]);
-            }
-            if (this.lastScene && this.lastScene['dependAssets']) {
-                let depends = this.lastScene['dependAssets'];
-                for (let i = 0; i < depends.length; ++i) {
-                    ResManager.Instance.releaseAsset(depends[i]);
-                }
-            }
+        // 获取新场景的依赖
+        let depends: string[] = null;
+        if (scene['dependAssets'] instanceof Array) {
+            depends = scene['dependAssets'];
         } else {
-            ResManager.Instance.cacheAsset(scene.uuid);
-            if (this.lastScene) {
-                ResManager.Instance.releaseAsset(this.lastScene.uuid);
+            let item = loader.getItem(scene.uuid);
+            if(item) {
+                depends = item.dependKeys;
+            } else {
+                console.error(`cache scene faile ${scene}`);
+                return;
             }
         }
+
+        // 缓存新场景的依赖
+        for (let i = 0; i < depends.length; ++i) {
+            // 下一个场景的资源可能是之前的常驻资源，这里
+            if (!this.persistDepends.has(depends[i])) {
+                this.cacheAsset(depends[i]);
+            }
+        }
+
+        // 获取持久节点依赖
+        let persistRes : Set<string> = this.getPersistDepends();
+
+        // 释放旧场景依赖
+        if (this.sceneDepends) {
+            for (let i = 0; i < this.sceneDepends.length; ++i) {
+                if (persistRes.has(this.sceneDepends[i])) {
+                    // 如果是常驻节点的资源，就先不释放，放到persistDepends，等待合适的时机释放
+                    this.persistDepends.add(this.sceneDepends[i]);
+                } else if (!this.persistDepends.has(this.sceneDepends[i])) {
+                    // 当资源是上个场景的依赖，又是上上个场景的依赖和常驻资源时，释放的话会导致重复释放
+                    this.releaseAsset(this.sceneDepends[i]);
+                }
+            }
+        }
+
+        // 释放不再是常驻节点依赖的资源，防止泄露，遍历中删除是安全的
+        this.persistDepends.forEach((item) => {
+            if (!persistRes.has(item)) {
+                this.releaseAsset(item);
+                this.persistDepends.delete(item);
+            }
+        });
+
+        // 切场景时，自动释放默认资源
+        // this.getKeeper().releaseAssets();
         this.lastScene = scene;
     }
 
@@ -77,8 +126,10 @@ export default class ResManager {
     }
 
     private constructor() {
-        cc.director.on(cc.Director.EVENT_BEFORE_SCENE_LAUNCH, ResManager.onSceneChange);
         cc.game.once(cc.game.EVENT_ENGINE_INITED, ResManager.assetInit);
+        cc.director.on(cc.Director.EVENT_BEFORE_SCENE_LAUNCH, (scene) => {
+            this.onSceneChange(scene);
+        });
     }
 
     public static get Instance() {

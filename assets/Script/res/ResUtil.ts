@@ -71,6 +71,7 @@ function visitNode(node, excludeMap) {
         visitNode(node._children[i], excludeMap);
     }
 }
+
 export class ResUtil {
         /**
      * 加载资源，通过此接口加载的资源会在界面被销毁时自动释放

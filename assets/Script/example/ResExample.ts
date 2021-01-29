@@ -8,6 +8,8 @@ export default class NetExample extends cc.Component {
     attachNode: cc.Node = null;
     @property(cc.Label)
     dumpLabel: cc.Label = null;
+    ress: cc.Asset[] = null;
+    remoteRes: cc.Asset = null;
 
     start() {
     }
@@ -26,8 +28,9 @@ export default class NetExample extends cc.Component {
     }
 
     onMyLoadRes() {
-        ResLoader.load("prefabDir", cc.Prefab, (error: Error, prefabs: cc.Prefab[]) => {
+        ResLoader.loadDir("prefabDir", cc.Prefab, (error: Error, prefabs: cc.Prefab[]) => {
             if (!error) {
+                this.ress = prefabs;
                 for (let i = 0; i < prefabs.length; ++i) {
                     cc.instantiate(prefabs[i]).parent = this.attachNode;
                 }
@@ -37,12 +40,18 @@ export default class NetExample extends cc.Component {
 
     onMyUnloadRes() {
         this.attachNode.removeAllChildren(true);
-        ResLoader.release("prefabDir", cc.Prefab);
+        if (this.ress) {
+            for(let item of this.ress) {
+                ResLoader.release(item);
+            }
+            this.ress = null;
+        }
     }
 
     onLoadRemote() {
         ResLoader.load("http://tools.itharbors.com/christmas/res/tree.png", (err, res) => {
             if (err || !res) return;
+            this.remoteRes = res;
             let spriteFrame = new cc.SpriteFrame(res);
             let node = new cc.Node("tmp");
             let sprite = node.addComponent(cc.Sprite);

@@ -12,7 +12,7 @@ const { ccclass } = cc._decorator;
 @ccclass
 export class ResKeeper extends cc.Component {
 
-    private cache = new Set<cc.Asset>();
+    private resCache = new Set<cc.Asset>();
 
     /**
      * 开始加载资源
@@ -67,9 +67,9 @@ export class ResKeeper extends cc.Component {
      * @param asset 
      */
     public cacheAsset(asset: cc.Asset) {
-        if (!this.cache.has(asset)) {
+        if (!this.resCache.has(asset)) {
             asset.addRef();
-            this.cache.add(asset);
+            this.resCache.add(asset);
         }
     }
 
@@ -84,9 +84,9 @@ export class ResKeeper extends cc.Component {
      * 释放资源，组件销毁时自动调用
      */
     public releaseAssets() {
-        this.cache.forEach(element => {
+        this.resCache.forEach(element => {
             element.decRef();
         });
-        this.cache.clear();
+        this.resCache.clear();
     }
 }

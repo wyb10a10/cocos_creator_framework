@@ -14,7 +14,7 @@ export type ProcessCallback = (completedCount: number, totalCount: number, item:
 export type CompletedCallback = (error: Error, resource: any | any[], urls?: string[]) => void;
 
 // load方法的参数结构
-export class LoadArgs {
+export interface LoadArgs {
     bundle?: string;
     url?: string | string[];
     type?: typeof cc.Asset;
@@ -217,3 +217,5 @@ export default class ResLoader {
         }
     }
 }
+
+export let resLoader = ResLoader;

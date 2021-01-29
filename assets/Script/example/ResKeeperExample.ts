@@ -1,4 +1,4 @@
-import { resLoader } from "../res/ResLoader";
+import ResLoader, { resLoader } from "../res/ResLoader";
 import { ResUtil } from "../res/ResUtil";
 
 const { ccclass, property } = cc._decorator;
@@ -13,7 +13,7 @@ export default class NetExample extends cc.Component {
     dumpLabel: cc.Label = null;
 
     onAdd() {
-        resLoader.loadRes("prefabDir/HelloWorld", cc.Prefab, (error: Error, prefab: cc.Prefab) => {
+        ResLoader.load("prefabDir/HelloWorld", cc.Prefab, (error: Error, prefab: cc.Prefab) => {
             if (!error) {
                 let myNode = ResUtil.instantiate(prefab);
                 myNode.parent = this.attachNode;
@@ -30,13 +30,13 @@ export default class NetExample extends cc.Component {
     }
 
     onAssign() {
-        resLoader.loadRes("images/test", cc.SpriteFrame, (error: Error, sp: cc.SpriteFrame) => {
+        ResLoader.load("images/test", cc.SpriteFrame, (error: Error, sp: cc.SpriteFrame) => {
             if (this.attachNode.childrenCount > 0) {
                 let targetNode = this.attachNode.children[this.attachNode.childrenCount - 1];
                 targetNode.getComponent(cc.Sprite).spriteFrame = ResUtil.assignWith(sp, targetNode);
             }
             //resLoader.releaseRes("images/test", cc.SpriteFrame);
-            resLoader.releaseAsset(sp);
+            ResLoader.release(sp);
         });
     }
 

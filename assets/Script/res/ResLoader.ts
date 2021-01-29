@@ -68,7 +68,8 @@ export default class ResLoader {
 
             if (typeof arguments[arguments.length - 1] == "function") {
                 ret.onCompleted = arguments[arguments.length - 1];
-                if (typeof arguments[arguments.length - 2] == "function") {
+                if (typeof arguments[arguments.length - 2] == "function" 
+                    && !isChildClassOf(arguments[arguments.length - 2], cc.RawAsset)) {
                     ret.onProgess = arguments[arguments.length - 2];
                 }
             }

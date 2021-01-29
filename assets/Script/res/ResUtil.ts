@@ -1,5 +1,5 @@
 import { ResKeeper } from "./ResKeeper";
-import { CompletedCallback, ProcessCallback } from "./ResLoader2";
+import { CompletedCallback, ProcessCallback } from "./ResLoader";
 import ResManager from "./ResManager";
 /**
  * 资源使用相关工具类

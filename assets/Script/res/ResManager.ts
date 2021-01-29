@@ -106,7 +106,7 @@ export default class ResManager {
                     configurable: true,
                     writable: true,
                     enumerable: false,
-                    value: 1,
+                    value: 0,
                 },
                 addRef: {
                     value: function (): cc.Asset {
@@ -115,9 +115,9 @@ export default class ResManager {
                     }
                 },
                 decRef: {
-                    value: function (): cc.Asset {
+                    value: function (autoRelease = true): cc.Asset {
                         --this.refCount;
-                        if (this.refCount <= 0) {
+                        if (this.refCount <= 0 && autoRelease) {
                             ResManager.Instance.releaseAsset(this);
                         }
                         return this;
@@ -193,12 +193,12 @@ export default class ResManager {
             let asset: any = item.content;
             let res = item.uuid || item.id;
             if (asset instanceof cc.Asset) {
-                asset.decRef();
+                asset.decRef(false);
                 if (asset.refCount == 0) {
                     let depends = item.dependKeys;
                     if (depends) {
                         for (var i = 0; i < depends.length; i++) {
-                            this.releaseItem(depends[i]);
+                            this.releaseItem(loader.getItem(depends[i]));
                         }
                     }
 

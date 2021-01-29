@@ -3,6 +3,6 @@ declare namespace cc {
         refDepends : boolean;
         refCount : number;
         addRef();
-        decRef();
+        decRef(autoRelease: boolean = false);
     }
 }

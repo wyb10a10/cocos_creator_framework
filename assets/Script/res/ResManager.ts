@@ -7,12 +7,14 @@
  * 2021-1-21 by 宝爷
  */
 
+import { ResKeeper } from "./ResKeeper";
 import { ResUtil } from "./ResUtil";
 
 let loader: any = cc.loader;
 
 export default class ResManager {
     private static instance: ResManager;
+    private defaultKeeper: ResKeeper = new ResKeeper();
     private persistDepends: Set<string> = new Set<string>();
     private sceneDepends: string[] = null;
     private lastScene = null;
@@ -85,7 +87,7 @@ export default class ResManager {
         });
 
         // 切场景时，自动释放默认资源
-        // this.getKeeper().releaseAssets();
+        this.getKeeper().releaseAssets();
         this.lastScene = scene;
     }
 
@@ -137,6 +139,10 @@ export default class ResManager {
             this.instance = new ResManager();
         }
         return this.instance;
+    }
+
+    public getKeeper() : ResKeeper {
+        return this.defaultKeeper;
     }
 
     /**

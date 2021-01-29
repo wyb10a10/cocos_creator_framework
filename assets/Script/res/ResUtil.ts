@@ -1,5 +1,6 @@
-import ResKeeper from "./ResKeeper";
-import { resLoader, CompletedCallback, ProcessCallback } from "./ResLoader";
+import { ResKeeper } from "./ResKeeper";
+import { CompletedCallback, ProcessCallback } from "./ResLoader2";
+import ResManager from "./ResManager";
 /**
  * 资源使用相关工具类
  * 2020-1-18 by 宝爷
@@ -73,28 +74,38 @@ function visitNode(node, excludeMap) {
 }
 
 export class ResUtil {
-        /**
-     * 加载资源，通过此接口加载的资源会在界面被销毁时自动释放
-     * 如果同时有其他地方引用的资源，会解除当前界面对该资源的占用
-     * @param url           资源url
+    /**
+     * 开始加载资源
+     * @param bundle        assetbundle的路径
+     * @param url           资源url或url数组
      * @param type          资源类型，默认为null
      * @param onProgess     加载进度回调
      * @param onCompleted   加载完成回调
      */
-    public static loadRes(attachNode: cc.Node, url: string);
-    public static loadRes(attachNode: cc.Node, url: string, onCompleted: CompletedCallback);
-    public static loadRes(attachNode: cc.Node, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static loadRes(attachNode: cc.Node, url: string, type: typeof cc.Asset);
-    public static loadRes(attachNode: cc.Node, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public static loadRes(attachNode: cc.Node, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static loadRes() {
+    public static load(attachNode: cc.Node, url: string, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, url: string[], onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, url: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, url: string[], type: typeof cc.Asset, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, url: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, bundle: string, url: string, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, bundle: string, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, bundle: string, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, bundle: string, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, bundle: string, url: string[], onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, bundle: string, url: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, bundle: string, url: string[], type: typeof cc.Asset, onCompleted: CompletedCallback);
+    public static load(attachNode: cc.Node, bundle: string, url: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
+    public static load() {
         let attachNode = arguments[0];
         let keeper = ResUtil.getResKeeper(attachNode);
         let newArgs = new Array();
-        for(let i = 1; i < arguments.length; ++i) {
+        for (let i = 1; i < arguments.length; ++i) {
             newArgs[i - 1] = arguments[i];
         }
-        keeper.loadRes.apply(keeper, newArgs);
+        keeper.load.apply(keeper, newArgs);
     }
 
     /**
@@ -114,10 +125,10 @@ export class ResUtil {
             }
             return ret;
         }
-        return resLoader.getResKeeper();
+        return ResManager.Instance.getKeeper();
     }
 
-    /**
+     /**
      * 赋值srcAsset，并使其跟随targetNode自动释放，用法如下
      * mySprite.spriteFrame = AssignWith(otherSpriteFrame, mySpriteNode);
      * @param srcAsset 用于赋值的资源，如cc.SpriteFrame、cc.Texture等等
@@ -126,15 +137,13 @@ export class ResUtil {
      */
     public static assignWith(srcAsset: cc.Asset, targetNode: cc.Node, autoCreate?: boolean): any {
         let keeper = ResUtil.getResKeeper(targetNode, autoCreate);
-        if (keeper && srcAsset) {
-            let url = resLoader.getResKeyByAsset(srcAsset);
-            if (url) {
-                keeper.autoReleaseRes({ url, use: resLoader.nextUseKey() });
-                return srcAsset;
-            }
+        if (keeper && srcAsset instanceof cc.Asset) {
+            keeper.cacheAsset(srcAsset);
+            return srcAsset;
+        } else {
+            console.error(`assignWith ${srcAsset} to ${targetNode} faile`);
+            return null;
         }
-        console.error(`AssignWith ${srcAsset} to ${targetNode} faile`);
-        return null;
     }
 
     /**
@@ -145,13 +154,8 @@ export class ResUtil {
         let node = cc.instantiate(prefab);
         let keeper = ResUtil.getResKeeper(node, true);
         if (keeper) {
-            let url = resLoader.getResKeyByAsset(prefab);
-            if (url) {
-                keeper.autoReleaseRes({ url, type: cc.Prefab, use: resLoader.nextUseKey() });
-                return node;
-            }
+            keeper.cacheAsset(prefab);
         }
-        console.warn(`instantiate ${prefab}, autoRelease faile`);
         return node;
     }
 

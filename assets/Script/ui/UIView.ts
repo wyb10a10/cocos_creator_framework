@@ -1,5 +1,4 @@
-import { resLoader, CompletedCallback } from "../res/ResLoader"
-import ResKeeper from "../res/ResKeeper";
+import { ResKeeper } from "../res/ResKeeper";
 
 /**
  * UIView界面基础类
@@ -29,13 +28,6 @@ export enum UIShowTypes {
     UISingle,           // 单界面显示，只显示当前界面和背景界面，性能较好
 };
 
-/** 自动释放配置 */
-interface autoResInfo {
-    url: string;
-    use?: string;
-    type: typeof cc.Asset;
-};
-
 @ccclass
 export class UIView extends ResKeeper {
 
@@ -54,8 +46,6 @@ export class UIView extends ResKeeper {
 
     /** 界面id */
     public UIid: number = 0;
-    /** 该界面资源占用key */
-    private useKey: string = null;
     /**  静态变量，用于区分相同界面的不同实例 */
     private static uiIndex: number = 0;
 

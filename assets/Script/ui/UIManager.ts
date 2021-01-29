@@ -182,7 +182,7 @@ export class UIManager {
         }
 
         let useKey = this.makeUseKey();
-        resLoader.loadRes(uiPath, processCallback, (err: Error, prefab: cc.Prefab) => {
+        resLoader.load(uiPath, processCallback, (err: Error, prefab: cc.Prefab) => {
             // 检查加载资源错误
             if (err) {
                 cc.log(`getOrCreateUI loadRes ${uiId} faile, path: ${uiPath} error: ${err}`);
@@ -194,7 +194,7 @@ export class UIManager {
             if (null == uiNode) {
                 cc.log(`getOrCreateUI instantiate ${uiId} faile, path: ${uiPath}`);
                 completeCallback(null);
-                resLoader.releaseRes(uiPath, cc.Prefab);
+                resLoader.release(prefab);
                 return;
             }
             // 检查组件获取错误
@@ -203,16 +203,16 @@ export class UIManager {
                 cc.log(`getOrCreateUI getComponent ${uiId} faile, path: ${uiPath}`);
                 uiNode.destroy();
                 completeCallback(null);
-                resLoader.releaseRes(uiPath, cc.Prefab);
+                resLoader.release(prefab);
                 return;
             }
             // 异步加载UI预加载的资源
             this.autoLoadRes(uiView, () => {
                 uiView.init(uiArgs);
                 completeCallback(uiView);
-                uiView.autoReleaseRes({ url: resLoader.getResKeyByUrl(uiPath, cc.Prefab), type: cc.Prefab, use: useKey }, false);
+                uiView.cacheAsset(prefab);
             })
-        }, useKey);
+        });
     }
 
     /**
@@ -403,7 +403,7 @@ export class UIManager {
                 uiView.node.removeFromParent(false);
                 cc.log(`uiView removeFromParent ${uiInfo.uiId}`);
             } else {
-                uiView.releaseAutoRes();
+                uiView.releaseAssets();
                 uiView.node.destroy();
                 cc.log(`uiView destroy ${uiInfo.uiId}`);
             }
@@ -424,7 +424,7 @@ export class UIManager {
             }
             if (uiInfo.uiView) {
                 uiInfo.uiView.onClose();
-                uiInfo.uiView.releaseAutoRes();
+                uiInfo.uiView.releaseAssets();
                 uiInfo.uiView.node.destroy();
             }
         }
@@ -470,7 +470,7 @@ export class UIManager {
                     this.UICache[uiId] = uiView;
                     uiView.node.removeFromParent(false);
                 } else {
-                    uiView.releaseAutoRes();
+                    uiView.releaseAssets();
                     uiView.node.destroy();
                 }
             }
@@ -488,7 +488,7 @@ export class UIManager {
             let ui = this.UICache[key];
             if (cc.isValid(ui.node)) {
                 if (cc.isValid(ui)) {
-                    ui.releaseAutoRes();
+                    ui.releaseAssets();
                 }
                 ui.node.destroy();
             }

@@ -29,7 +29,7 @@ export default class ResManager {
         });
         return ResUtil.getNodesDepends(persistNodeList);
     }
-	
+
     /**
      * 处理场景切换，分两种情况，一种为根据scene的uuid找到场景的资源，另外一种为根据scene.dependAssets进行缓存
      * @param scene 
@@ -91,18 +91,19 @@ export default class ResManager {
         this.lastScene = scene;
     }
 
+
     // 为cc.Asset注入引用计数的功能
     private static assetInit() {
         console.log('asset init');
         if (!Object.getOwnPropertyDescriptor(cc.Asset.prototype, 'addRef')) {
             Object.defineProperties(cc.Asset.prototype, {
-				refDepends: {
-					configurable: true,
-					writable: true,
-					enumerable: false,
-					value: false,
-				},
-				refCount: {
+                refDepends: {
+                    configurable: true,
+                    writable: true,
+                    enumerable: false,
+                    value: false,
+                },
+                refCount: {
                     configurable: true,
                     writable: true,
                     enumerable: false,

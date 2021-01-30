@@ -162,7 +162,7 @@ export default class ResManager {
                     asset.refDepends = true;
                 }
             } else {
-                // 原生资源、html元素有可能走到这里
+                // 原生资源、html元素有可能走到这里，原生资源都是有对应的cc.Asset对应引用的，所以这里可以不处理
                 console.log(`cacheItem ${item} is not cc.Asset ${asset}`);
             }
         } else {
@@ -216,6 +216,10 @@ export default class ResManager {
         }
     }
 
+    /**
+     * 释放一个资源（会减少其引用计数）
+     * @param assetOrUrlOrUuid 
+     */
     public releaseAsset(assetOrUrlOrUuid: cc.Asset | string) {
         let key = loader._getReferenceKey(assetOrUrlOrUuid);
         if (key) {

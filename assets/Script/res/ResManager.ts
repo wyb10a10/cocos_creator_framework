@@ -188,17 +188,19 @@ export default class ResManager {
      * 释放一个资源
      * @param item 资源的item对象
      */
-    private releaseItem(item: any) {
+    private releaseItem(item: any, dec: boolean = false) {
         if (item && item.content) {
             let asset: any = item.content;
             let res = item.uuid || item.id;
             if (asset instanceof cc.Asset) {
-                asset.decRef(false);
-                if (asset.refCount == 0) {
+                if (dec) {
+                    asset.decRef(false);
+                }
+                if (asset.refCount <= 0) {
                     let depends = item.dependKeys;
                     if (depends) {
                         for (var i = 0; i < depends.length; i++) {
-                            this.releaseItem(loader.getItem(depends[i]));
+                            this.releaseItem(loader.getItem(depends[i]), true);
                         }
                     }
 

@@ -19,6 +19,7 @@ export default class NetExample extends cc.Component {
                 myNode.parent = this.attachNode;
                 myNode.setPosition((Math.random() * 500) - 250, myNode.position.y);
                 console.log(myNode.position);
+                prefab.decRef();
             }
         });
     }
@@ -33,10 +34,9 @@ export default class NetExample extends cc.Component {
         ResLoader.load("images/test", cc.SpriteFrame, (error: Error, sp: cc.SpriteFrame) => {
             if (this.attachNode.childrenCount > 0) {
                 let targetNode = this.attachNode.children[this.attachNode.childrenCount - 1];
-                targetNode.getComponent(cc.Sprite).spriteFrame = ResUtil.assignWith(sp, targetNode);
+                targetNode.getComponent(cc.Sprite).spriteFrame = ResUtil.assignWith(sp, targetNode, true);
             }
-            //resLoader.releaseRes("images/test", cc.SpriteFrame);
-            ResLoader.release(sp);
+            sp.decRef();
         });
     }
 

@@ -169,4 +169,38 @@ export class ResUtil {
         }
         return ret;
     }
+	
+    /**
+     * 从字符串中查找第N个字符
+     * @param str 目标字符串
+     * @param cha 要查找的字符
+     * @param num 第N个
+     */
+    static findCharPos(str: string, cha: string, num: number): number {
+        let x = str.indexOf(cha);
+        let ret = x;
+        for (var i = 0; i < num; i++) {
+            x = str.indexOf(cha, x + 1);
+            if (x != -1) {
+                ret = x;
+            } else {
+                return ret;
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * 获取当前调用堆栈
+     * @param popCount 要弹出的堆栈数量
+     */
+    static getCallStack(popCount: number): string {
+        // 严格模式无法访问 arguments.callee.caller 获取堆栈，只能先用Error的stack
+        let ret = (new Error()).stack;
+        let pos = ResUtil.findCharPos(ret, '\n', popCount);
+        if (pos > 0) {
+            ret = ret.slice(pos);
+        }
+        return ret;
+    }
 }

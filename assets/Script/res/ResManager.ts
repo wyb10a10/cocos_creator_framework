@@ -146,6 +146,16 @@ export default class ResManager {
         return this.defaultKeeper;
     }
 
+    private getReferenceKey(assetOrUrlOrUuid: cc.Asset | string) {
+        if (assetOrUrlOrUuid instanceof cc.Asset && !assetOrUrlOrUuid['_uuid']) {
+            // 远程资源没有_uuid
+            if (assetOrUrlOrUuid.url) {
+                return assetOrUrlOrUuid.url;
+            }
+        }
+        return loader._getReferenceKey(assetOrUrlOrUuid);
+    }
+
     /**
      * 缓存一个资源
      * @param item 资源的item对象
@@ -172,7 +182,7 @@ export default class ResManager {
     }
 
     public cacheAsset(assetOrUrlOrUuid: cc.Asset | string) {
-        let key = loader._getReferenceKey(assetOrUrlOrUuid);
+        let key = this.getReferenceKey(assetOrUrlOrUuid);
         if (key) {
             let item = loader.getItem(key);
             if (item) {
@@ -181,7 +191,7 @@ export default class ResManager {
                 console.warn(`cacheAsset error, loader.getItem ${key} is ${item}`);
             }
         } else {
-            console.warn(`cacheAsset error, loader._getReferenceKey ${assetOrUrlOrUuid} return ${key}`);
+            console.warn(`cacheAsset error, this.getReferenceKey ${assetOrUrlOrUuid} return ${key}`);
         }
     }
 
@@ -222,7 +232,7 @@ export default class ResManager {
      * @param assetOrUrlOrUuid 
      */
     public releaseAsset(assetOrUrlOrUuid: cc.Asset | string) {
-        let key = loader._getReferenceKey(assetOrUrlOrUuid);
+        let key = this.getReferenceKey(assetOrUrlOrUuid);
         if (key) {
             let item = loader.getItem(key);
             if (item) {
@@ -231,7 +241,7 @@ export default class ResManager {
                 console.warn(`releaseAsset error, loader.getItem ${key} is ${item}`);
             }
         } else {
-            console.warn(`releaseAsset error, loader._getReferenceKey ${assetOrUrlOrUuid} return ${key}`);
+            console.warn(`releaseAsset error, this.getReferenceKey ${assetOrUrlOrUuid} return ${key}`);
         }
     }
 }

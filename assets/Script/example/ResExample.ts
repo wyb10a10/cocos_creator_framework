@@ -62,7 +62,7 @@ export default class NetExample extends cc.Component {
 
     onUnloadRemote() {
         this.attachNode.removeAllChildren(true);
-        ResLoader.release("http://tools.itharbors.com/christmas/res/tree.png");
+        this.remoteRes.decRef();
     }
 
     onDump() {

@@ -110,12 +110,16 @@ export default class ResManager {
                     value: 0,
                 },
                 addRef: {
+                    configurable: true,
+                    writable: true,
                     value: function (): cc.Asset {
                         ++this.refCount;
                         return this;
                     }
                 },
                 decRef: {
+                    configurable: true,
+                    writable: true,
                     value: function (autoRelease = true): cc.Asset {
                         --this.refCount;
                         if (this.refCount <= 0 && autoRelease) {

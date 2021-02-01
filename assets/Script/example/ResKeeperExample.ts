@@ -1,3 +1,4 @@
+import { ResLeakChecker } from "../res/ResLeakChecker";
 import ResLoader, { resLoader } from "../res/ResLoader";
 import { ResUtil } from "../res/ResUtil";
 
@@ -11,6 +12,11 @@ export default class NetExample extends cc.Component {
     attachNode: cc.Node = null;
     @property(cc.Label)
     dumpLabel: cc.Label = null;
+    checker = new ResLeakChecker();
+
+    start() {
+        this.checker.startCheck();
+    }
 
     onAdd() {
         ResLoader.load("prefabDir/HelloWorld", cc.Prefab, (error: Error, prefab: cc.Prefab) => {
@@ -32,6 +38,7 @@ export default class NetExample extends cc.Component {
 
     onAssign() {
         ResLoader.load("images/test", cc.SpriteFrame, (error: Error, sp: cc.SpriteFrame) => {
+            this.checker.traceAsset(sp);
             if (this.attachNode.childrenCount > 0) {
                 let targetNode = this.attachNode.children[this.attachNode.childrenCount - 1];
                 targetNode.getComponent(cc.Sprite).spriteFrame = ResUtil.assignWith(sp, targetNode, true);
@@ -45,6 +52,7 @@ export default class NetExample extends cc.Component {
     }
 
     onDump() {
+        this.checker.dump();
         let Loader: any = cc.loader;
         this.dumpLabel.string = `当前资源总数:${Object.keys(Loader._cache).length}`;
     }

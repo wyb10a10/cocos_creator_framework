@@ -8,11 +8,11 @@ import { NetData, CallbackObject } from "./NetInterface";
 */
 
 export class NetManager {
-    private static _instance: NetManager = null;
+    private static _instance: NetManager;
     protected _channels: { [key: number]: NetNode } = {};
 
     public static getInstance(): NetManager {
-        if (this._instance == null) {
+        if (!this._instance) {
             this._instance = new NetManager();
         }
         return this._instance;
@@ -37,12 +37,12 @@ export class NetManager {
     }
 
     // 调用Node发送
-    public send(buf: NetData, force: boolean = false, channelId: number = 0): boolean {
+    public send(buf: NetData, force: boolean = false, channelId: number = 0): number {
         let node = this._channels[channelId];
         if(node) {
-            return node.send(buf, force);
+            return node!.send(buf, force);
         }
-        return false;
+        return -1;
     }
 
     // 发起请求，并在在结果返回时调用指定好的回调函数

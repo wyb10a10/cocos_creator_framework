@@ -6,217 +6,139 @@
  * 2021-1-24 by 宝爷
  */
 
-import ResManager from "./ResManager";
+import { Asset, js, error, Constructor, resources, __private, assetManager, AssetManager } from "cc";
+export type ProgressCallback = __private.cocos_core_asset_manager_shared_ProgressCallback;
+export type CompleteCallback<T = any> = __private.cocos_core_asset_manager_shared_CompleteCallbackWithData;
+export type IRemoteOptions = __private.cocos_core_asset_manager_shared_IRemoteOptions;
+export type AssetType<T = Asset> = Constructor<T>;
 
-// 资源加载的处理回调
-export type ProcessCallback = (completedCount: number, totalCount: number, item: any) => void;
-// 资源加载的完成回调
-export type CompletedCallback = (error: Error, resource: any | any[], urls?: string[]) => void;
-
-// load方法的参数结构
-export interface LoadArgs {
+interface ILoadResArgs<T extends Asset> {
     bundle?: string;
-    url?: string | string[];
-    type?: typeof cc.Asset;
-    onCompleted?: CompletedCallback;
-    onProgess?: ProcessCallback;
-}
-
-// release方法的参数结构
-export interface ReleaseArgs {
-    bundle?: string;
-    url?: string | string[] | cc.Asset | cc.Asset[],
-    type?: typeof cc.Asset,
-}
-
-// 兼容性处理
-let isChildClassOf = cc.js["isChildClassOf"]
-if (!isChildClassOf) {
-    isChildClassOf = cc["isChildClassOf"];
+    dir?: string;
+    paths: string | string[];
+    type: AssetType<T> | null;
+    onProgress: ProgressCallback | null;
+    onComplete: CompleteCallback<T> | null;
 }
 
 export default class ResLoader {
 
-    public static getLoader(): any {
-        return cc.loader;
+    public parseLoadResArgs<T extends Asset>(
+        paths: string | string[],
+        type?: AssetType<T> | ProgressCallback | CompleteCallback | null,
+        onProgress?: AssetType<T> | ProgressCallback | CompleteCallback | null,
+        onComplete?: ProgressCallback | CompleteCallback | null
+    ) {
+        let pathsOut: any = paths;
+        let typeOut: any = type;
+        let onProgressOut: any = onProgress;
+        let onCompleteOut: any = onComplete;
+        if (onComplete === undefined) {
+            const isValidType = js.isChildClassOf(type as AssetType, Asset);
+            if (onProgress) {
+                onCompleteOut = onProgress as CompleteCallback;
+                if (isValidType) {
+                    onProgressOut = null;
+                }
+            } else if (onProgress === undefined && !isValidType) {
+                onCompleteOut = type as CompleteCallback;
+                onProgressOut = null;
+                typeOut = null;
+            }
+            if (onProgress !== undefined && !isValidType) {
+                onProgressOut = type as ProgressCallback;
+                typeOut = null;
+            }
+        }
+        return { paths: pathsOut, type: typeOut, onProgress: onProgressOut, onComplete: onCompleteOut };
     }
 
-    public static makeLoadArgs(): LoadArgs {
-        do {
-            if (arguments.length < 2) {
-                break;
-            }
-            let ret: LoadArgs = {};
-            if (typeof arguments[1] == "string" || arguments[1] instanceof Array) {
-                if (typeof arguments[0] == "string") {
-                    ret.bundle = arguments[0];
-                    ret.url = arguments[1];
-                    if (arguments.length > 2 && isChildClassOf(arguments[2], cc.RawAsset)) {
-                        ret.type = arguments[2];
+    private loadByBundleAndArgs<T extends Asset>(bundle: AssetManager.Bundle, args: ILoadResArgs<T>): void {
+        if (args.dir) {
+            bundle.loadDir(args.paths as string, args.type, args.onProgress, args.onComplete);
+        } else {
+            if (typeof args.paths == 'string') {
+                bundle.load(args.paths, args.type, args.onProgress, args.onComplete);
+            } else {
+                bundle.load(args.paths, args.type, args.onProgress, args.onComplete);
+            }    
+        }
+    }
+
+    private loadByArgs<T extends Asset>(args: ILoadResArgs<T>) {
+        if (args.bundle) {
+            if (assetManager.bundles.has(args.bundle)) {
+                let bundle = assetManager.bundles.get(args.bundle);
+                this.loadByBundleAndArgs(bundle!, args);
+            } else {
+                // 自动加载bundle
+                assetManager.loadBundle(args.bundle, (err, bundle) => {
+                    if (!err) {
+                        this.loadByBundleAndArgs(bundle, args);
                     }
-                } else {
-                    break;
-                }
-            } else if (typeof arguments[0] == "string" || arguments[0] instanceof Array) {
-                ret.url = arguments[0];
-                if (isChildClassOf(arguments[1], cc.RawAsset)) {
-                    ret.type = arguments[1];
-                }
-            } else {
-                break;
-            }
-
-            if (typeof arguments[arguments.length - 1] == "function") {
-                ret.onCompleted = arguments[arguments.length - 1];
-                if (typeof arguments[arguments.length - 2] == "function" 
-                    && !isChildClassOf(arguments[arguments.length - 2], cc.RawAsset)) {
-                    ret.onProgess = arguments[arguments.length - 2];
-                }
-            }
-
-            return ret;
-        } while (false);
-
-        console.error(`makeLoadArgs error ${arguments}`);
-        return null;
-    }
-
-    public static makeReleaseArgs(): ReleaseArgs {
-        do {
-            if (arguments.length < 1) {
-                break;
-            }
-
-            let ret: ReleaseArgs = {};
-            if (isChildClassOf(arguments[arguments.length - 1], cc.RawAsset)) {
-                ret.type = arguments[arguments.length - 1];
-            }
-
-            if (arguments.length > 1 && typeof arguments[0] == "string" &&
-                (typeof arguments[1] == "string" || arguments[1] instanceof Array)) {
-                ret.bundle = arguments[0];
-                ret.url = arguments[1];
-            } else {
-                ret.url = arguments[0];
-            }
-            return ret;
-        } while (false);
-
-        console.error(`makeLoadArgs error ${arguments}`);
-        return null;
-    }
-
-    private static makeFinishCallback(resArgs: LoadArgs): CompletedCallback {
-        console.time("load|" + resArgs.url);
-        let finishCallback = (error: Error, resource: any) => {
-            if (!error) {
-                if (resource instanceof Array) {
-                    resource.forEach(element => {
-                        ResManager.Instance.cacheAsset(element);
-                    });
-                } else {
-                    ResManager.Instance.cacheAsset(resource);
-                }
-            }
-            if (resArgs.onCompleted) {
-                resArgs.onCompleted(error, resource);
-            }
-            console.timeEnd("load|" + resArgs.url);
-        };
-        return finishCallback;
-    }
-
-    private static getUuid(url: string, type: typeof cc.Asset) {
-        let ccloader = ResLoader.getLoader();
-        let uuid = ccloader._getResUuid(url, type, false);
-        return uuid;
-    }
-
-    /**
-     * 开始加载资源
-     * @param bundle        assetbundle的路径
-     * @param url           资源url或url数组
-     * @param type          资源类型，默认为null
-     * @param onProgess     加载进度回调
-     * @param onCompleted   加载完成回调
-     */
-    public static load(url: string, onCompleted: CompletedCallback);
-    public static load(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public static load(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(url: string[], onCompleted: CompletedCallback);
-    public static load(url: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(url: string[], type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public static load(url: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(bundle: string, url: string, onCompleted: CompletedCallback);
-    public static load(bundle: string, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(bundle: string, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public static load(bundle: string, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(bundle: string, url: string[], onCompleted: CompletedCallback);
-    public static load(bundle: string, url: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(bundle: string, url: string[], type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public static load(bundle: string, url: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load() {
-        let resArgs: LoadArgs = ResLoader.makeLoadArgs.apply(ResLoader, arguments);
-        let finishCallback = ResLoader.makeFinishCallback(resArgs);
-        let ccloader = ResLoader.getLoader();
-        if (typeof resArgs.url == "string") {
-            if (typeof (ccloader['_getResUuid']) == "function") {
-                let uuid = ccloader._getResUuid(resArgs.url, resArgs.type, false);
-                if (uuid) {
-                    ccloader.loadRes(resArgs.url, resArgs.type, resArgs.onProgess, finishCallback);
-                } else {
-                    ccloader.load(resArgs.url, resArgs.onProgess, finishCallback);
-                }
+                })
             }
         } else {
-            ccloader.loadResArray(resArgs.url, resArgs.type, resArgs.onProgess, finishCallback);
+            this.loadByBundleAndArgs(resources, args);
         }
     }
 
-    public static loadDir(url: string, onCompleted: CompletedCallback);
-    public static loadDir(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static loadDir(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public static loadDir(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static loadDir(bundle: string, url: string, onCompleted: CompletedCallback);
-    public static loadDir(bundle: string, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static loadDir(bundle: string, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public static loadDir(bundle: string, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static loadDir() {
-        let resArgs: LoadArgs = ResLoader.makeLoadArgs.apply(ResLoader, arguments);
-        let finishCallback = ResLoader.makeFinishCallback(resArgs);
-        let ccloader = ResLoader.getLoader();
-        ccloader.loadResDir(resArgs.url, resArgs.type, resArgs.onProgess, finishCallback);
+    public load<T extends Asset>(bundleName: string, paths: string | string[], type: AssetType<T> | null, onProgress: ProgressCallback | null, onComplete: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(bundleName: string, paths: string | string[], onProgress: ProgressCallback | null, onComplete: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(bundleName: string, paths: string | string[], onComplete?: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(bundleName: string, paths: string | string[], type: AssetType<T> | null, onComplete?: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(paths: string | string[], type: AssetType<T> | null, onProgress: ProgressCallback | null, onComplete: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(paths: string | string[], onProgress: ProgressCallback | null, onComplete: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(paths: string | string[], onComplete?: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(paths: string | string[], type: AssetType<T> | null, onComplete?: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(
+        bundleName: string,
+        paths?: string | string[] | AssetType<T> | ProgressCallback | CompleteCallback | null,
+        type?: AssetType<T> | ProgressCallback | CompleteCallback | null,
+        onProgress?: ProgressCallback | CompleteCallback | null,
+        onComplete?: CompleteCallback | null,
+    ) {
+        let args: ILoadResArgs<T> | null = null;
+        if (typeof paths === "string" || paths instanceof Array) {
+            args = this.parseLoadResArgs(paths, type, onProgress, onComplete);
+            args.bundle = bundleName;
+        } else {
+            args = this.parseLoadResArgs(bundleName, paths, type, onProgress);
+        }
+        this.loadByArgs(args);
     }
 
-    public static release(url: string)
-    public static release(url: string, type: typeof cc.Asset)
-    public static release(url: string[])
-    public static release(url: string[], type: typeof cc.Asset)
-    public static release(bundle: string, url: string)
-    public static release(bundle: string, url: string, type: typeof cc.Asset)
-    public static release(bundle: string, url: string[])
-    public static release(bundle: string, url: string[], type: typeof cc.Asset)
-    public static release(asset: cc.Asset)
-    public static release(asset: cc.Asset[])
-    public static release() {
-        let resArgs: ReleaseArgs = ResLoader.makeReleaseArgs.apply(ResLoader, arguments);
-        if (resArgs.url instanceof Array) {
-            resArgs.url.forEach(element => {
-                if (resArgs.type) {
-                    ResManager.Instance.releaseAsset(ResLoader.getUuid(element, resArgs.type));
-                } else {
-                    ResManager.Instance.releaseAsset(element);
-                }
-            });
+    public loadDir<T extends Asset>(bundleName: string, dir: string, type: AssetType<T> | null, onProgress: ProgressCallback | null, onComplete: CompleteCallback<T[]> | null): void;
+    public loadDir<T extends Asset>(bundleName: string, dir: string, onProgress: ProgressCallback | null, onComplete: CompleteCallback<T[]> | null): void;
+    public loadDir<T extends Asset>(bundleName: string, dir: string, onComplete?: CompleteCallback<T[]> | null): void;
+    public loadDir<T extends Asset>(bundleName: string, dir: string, type: AssetType<T> | null, onComplete?: CompleteCallback<T[]> | null): void;
+    public loadDir<T extends Asset>(dir: string, type: AssetType<T> | null, onProgress: ProgressCallback | null, onComplete: CompleteCallback<T[]> | null): void;
+    public loadDir<T extends Asset>(dir: string, onProgress: ProgressCallback | null, onComplete: CompleteCallback<T[]> | null): void;
+    public loadDir<T extends Asset>(dir: string, onComplete?: CompleteCallback<T[]> | null): void;
+    public loadDir<T extends Asset>(dir: string, type: AssetType<T> | null, onComplete?: CompleteCallback<T[]> | null): void;
+    public loadDir<T extends Asset>(
+        bundleName: string,
+        dir?: string | AssetType<T> | ProgressCallback | CompleteCallback | null,
+        type?: AssetType<T> | ProgressCallback | CompleteCallback | null,
+        onProgress?: ProgressCallback | CompleteCallback | null,
+        onComplete?: CompleteCallback | null,
+    ) {
+        let args: ILoadResArgs<T> | null = null;
+        if (typeof dir === "string") {
+            args = this.parseLoadResArgs(dir, type, onProgress, onComplete);
+            args.bundle = bundleName;
         } else {
-            if (resArgs.type && typeof resArgs.url == "string") {
-                ResManager.Instance.releaseAsset(ResLoader.getUuid(resArgs.url, resArgs.type));
-            } else {
-                ResManager.Instance.releaseAsset(resArgs.url);
-            }
+            args = this.parseLoadResArgs(bundleName, dir, type, onProgress);
         }
+        args.dir = args.paths as string;
+        this.loadByArgs(args);
+    }
+
+    public loadRemote<T extends Asset>(url: string, options: IRemoteOptions | null, onComplete?: CompleteCallback<T> | null): void;
+    public loadRemote<T extends Asset>(url: string, onComplete?: CompleteCallback<T> | null): void;
+    public loadRemote(url: string, ...args: any): void {
+        assetManager.loadRemote(url, args);
     }
 }
 
-export let resLoader = ResLoader;
+export let resLoader = new ResLoader();

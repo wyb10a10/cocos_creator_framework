@@ -1,17 +1,21 @@
+import { assetManager } from "cc";
+import { SpriteFrame } from "cc";
+import { Sprite } from "cc";
+import { director, _decorator, Component, Label, Node, Prefab } from "cc";
 import { ResLeakChecker } from "../res/ResLeakChecker";
-import ResLoader, { resLoader } from "../res/ResLoader";
+import { resLoader } from "../res/ResLoader";
 import { ResUtil } from "../res/ResUtil";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass, property } = _decorator;
 
 @ccclass
-export default class NetExample extends cc.Component {
-    @property(cc.Boolean)
+export default class NetExample extends Component {
+    @property(Boolean)
     resUtilMode = true;
-    @property(cc.Node)
-    attachNode: cc.Node = null;
-    @property(cc.Label)
-    dumpLabel: cc.Label = null;
+    @property(Node)
+    attachNode: Node | null = null;
+    @property(Label)
+    dumpLabel: Label | null = null;
     checker = new ResLeakChecker();
 
     start() {
@@ -19,49 +23,46 @@ export default class NetExample extends cc.Component {
     }
 
     onAdd() {
-        ResLoader.load("prefabDir/HelloWorld", cc.Prefab, (error: Error, prefab: cc.Prefab) => {
+        resLoader.load("prefabDir/HelloWorld", Prefab, (error, prefab) => {
             if (!error) {
                 let myNode = ResUtil.instantiate(prefab);
                 myNode.parent = this.attachNode;
                 myNode.setPosition((Math.random() * 500) - 250, myNode.position.y);
                 console.log(myNode.position);
-                prefab.decRef();
             }
         });
     }
 
     onSub() {
-        if (this.attachNode.childrenCount > 0) {
-            this.attachNode.children[this.attachNode.childrenCount - 1].destroy();
+        if (this.attachNode!.children.length > 0) {
+            this.attachNode!.children[this.attachNode!.children.length - 1].destroy();
         }
     }
 
     onAssign() {
-        ResLoader.load("images/test", cc.SpriteFrame, (error: Error, sp: cc.SpriteFrame) => {
+        resLoader.load("images/test/spriteFrame", SpriteFrame, (error, sp) => {
             this.checker.traceAsset(sp);
-            if (this.attachNode.childrenCount > 0) {
-                let targetNode = this.attachNode.children[this.attachNode.childrenCount - 1];
-                targetNode.getComponent(cc.Sprite).spriteFrame = ResUtil.assignWith(sp, targetNode, true);
+            if (this.attachNode!.children.length > 0) {
+                let targetNode = this.attachNode!.children[this.attachNode!.children.length - 1];
+                targetNode.getComponent(Sprite)!.spriteFrame = ResUtil.assignWith(sp, targetNode, true);
             }
-            sp.decRef();
         });
     }
 
     onClean() {
-        this.attachNode.destroyAllChildren();
+        this.attachNode!.destroyAllChildren();
     }
 
     onDump() {
         this.checker.dump();
-        let Loader: any = cc.loader;
-        this.dumpLabel.string = `当前资源总数:${Object.keys(Loader._cache).length}`;
+        this.dumpLabel!.string = `当前资源总数:${assetManager.assets.count}`;
     }
 
     onLoadClick() {
-        cc.director.loadScene("example_empty");
+        this.checker.reset();
+        director.loadScene("example_empty");
     }
 
     onPreloadClick() {
-        cc.director.preloadScene("example_empty");
-    }
+        director.preloadScene("example_empty");    }
 }

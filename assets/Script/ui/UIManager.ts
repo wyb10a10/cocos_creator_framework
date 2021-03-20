@@ -100,14 +100,14 @@ export class UIManager {
 
         let uiCom = node.addComponent(UITransform);
         uiCom.setContentSize(view.getCanvasSize());
-        uiCom.priority = zOrder;
 
         node.on(Node.EventType.TOUCH_START, function (event: any) {
-            event.stopPropagation();
+            event.propagationStopped = true;
         }, node);
 
         let child = director.getScene()!.getChildByName('Canvas');
         child!.addChild(node);
+        uiCom.priority = zOrder - 0.01;
        return node;
     }
 
@@ -244,7 +244,6 @@ export class UIManager {
         if(!uiCom) {
             uiCom = uiView.addComponent(UITransform);
         }
-        uiCom!.priority = uiInfo.zOrder || this.UIStack.length;
 
         // 快速关闭界面的设置，绑定界面中的background，实现快速关闭
         if (uiView.quickClose) {
@@ -254,12 +253,12 @@ export class UIManager {
                 backGround.name = 'background';
                 let uiCom = backGround.addComponent(UITransform);
                 uiCom.setContentSize(view.getCanvasSize());
-                uiCom.priority = -1;
                 uiView.node.addChild(backGround);
+                uiCom.priority = -1;
             }
             backGround.targetOff(Node.EventType.TOUCH_START);
             backGround.on(Node.EventType.TOUCH_START, (event: any) => {
-                event.stopPropagation();
+                event.propagationStopped = true;
                 this.close(uiView);
             }, backGround);
         }
@@ -267,6 +266,7 @@ export class UIManager {
         // 添加到场景中
         let child = director.getScene()!.getChildByName('Canvas');
         child!.addChild(uiView.node);
+        uiCom!.priority = uiInfo.zOrder || this.UIStack.length;
 
         // 刷新其他UI
         this.updateUI();

@@ -1,8 +1,13 @@
 {
-  "ver": "1.2.7",
+  "ver": "1.1.27",
+  "importer": "prefab",
+  "imported": true,
   "uuid": "d872ec51-e1d9-41dc-a947-fd96862a683a",
-  "optimizationPolicy": "AUTO",
-  "asyncLoadAssets": false,
-  "readonly": false,
-  "subMetas": {}
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "syncNodeName": "Bag"
+  }
 }

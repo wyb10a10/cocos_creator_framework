@@ -1,36 +1,40 @@
 {
-  "ver": "2.3.4",
+  "ver": "1.0.21",
+  "importer": "image",
+  "imported": true,
   "uuid": "0d0cb526-6f63-4aad-b565-e3ca6a7f1132",
-  "type": "sprite",
-  "wrapMode": "clamp",
-  "filterMode": "bilinear",
-  "premultiplyAlpha": false,
-  "genMipmaps": false,
-  "packable": true,
-  "width": 1024,
-  "height": 2048,
-  "platformSettings": {},
+  "files": [
+    ".png",
+    ".json"
+  ],
   "subMetas": {
-    "icon": {
-      "ver": "1.0.4",
-      "uuid": "ca822a1b-49d9-464f-b65c-d8a9be23b7ee",
-      "rawTextureUuid": "0d0cb526-6f63-4aad-b565-e3ca6a7f1132",
-      "trimType": "auto",
-      "trimThreshold": 1,
-      "rotated": false,
-      "offsetX": 0,
-      "offsetY": 44,
-      "trimX": 2,
-      "trimY": 2,
-      "width": 1020,
-      "height": 1956,
-      "rawWidth": 1024,
-      "rawHeight": 2048,
-      "borderTop": 0,
-      "borderBottom": 0,
-      "borderLeft": 0,
-      "borderRight": 0,
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "0d0cb526-6f63-4aad-b565-e3ca6a7f1132@6c48a",
+      "displayName": "icon",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "wrapModeT": "clamp-to-edge",
+        "wrapModeS": "clamp-to-edge",
+        "mipfilter": "none",
+        "imageUuidOrDatabaseUri": "0d0cb526-6f63-4aad-b565-e3ca6a7f1132",
+        "anisotropy": 1,
+        "isUuid": true
+      },
+      "ver": "1.0.20",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
       "subMetas": {}
     }
+  },
+  "userData": {
+    "type": "texture",
+    "hasAlpha": true,
+    "redirect": "0d0cb526-6f63-4aad-b565-e3ca6a7f1132@6c48a"
   }
 }

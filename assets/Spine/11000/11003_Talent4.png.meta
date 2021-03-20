@@ -1,36 +1,40 @@
 {
-  "ver": "2.3.4",
+  "ver": "1.0.21",
+  "importer": "image",
+  "imported": true,
   "uuid": "f6a10d9d-9854-4616-83bf-2ce3733be591",
-  "type": "sprite",
-  "wrapMode": "clamp",
-  "filterMode": "bilinear",
-  "premultiplyAlpha": false,
-  "genMipmaps": false,
-  "packable": true,
-  "width": 512,
-  "height": 512,
-  "platformSettings": {},
+  "files": [
+    ".png",
+    ".json"
+  ],
   "subMetas": {
-    "11003_Talent4": {
-      "ver": "1.0.4",
-      "uuid": "0d8f522e-010e-497d-abdc-e4920468725a",
-      "rawTextureUuid": "f6a10d9d-9854-4616-83bf-2ce3733be591",
-      "trimType": "auto",
-      "trimThreshold": 1,
-      "rotated": false,
-      "offsetX": -0.5,
-      "offsetY": 100.5,
-      "trimX": 2,
-      "trimY": 2,
-      "width": 507,
-      "height": 307,
-      "rawWidth": 512,
-      "rawHeight": 512,
-      "borderTop": 0,
-      "borderBottom": 0,
-      "borderLeft": 0,
-      "borderRight": 0,
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "f6a10d9d-9854-4616-83bf-2ce3733be591@6c48a",
+      "displayName": "11003_Talent4",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "wrapModeT": "clamp-to-edge",
+        "wrapModeS": "clamp-to-edge",
+        "mipfilter": "none",
+        "imageUuidOrDatabaseUri": "f6a10d9d-9854-4616-83bf-2ce3733be591",
+        "anisotropy": 1,
+        "isUuid": true
+      },
+      "ver": "1.0.20",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
       "subMetas": {}
     }
+  },
+  "userData": {
+    "type": "texture",
+    "hasAlpha": true,
+    "redirect": "f6a10d9d-9854-4616-83bf-2ce3733be591@6c48a"
   }
 }

@@ -1,8 +1,13 @@
 {
-  "ver": "1.2.7",
+  "ver": "1.1.27",
+  "importer": "prefab",
+  "imported": true,
   "uuid": "b1ee8f9d-deb2-4e0a-9389-b3800d785879",
-  "optimizationPolicy": "AUTO",
-  "asyncLoadAssets": false,
-  "readonly": false,
-  "subMetas": {}
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "syncNodeName": "HelloWorld"
+  }
 }

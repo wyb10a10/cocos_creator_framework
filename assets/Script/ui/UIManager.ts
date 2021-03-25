@@ -99,7 +99,7 @@ export class UIManager {
         node.name = 'preventTouch';
 
         let uiCom = node.addComponent(UITransform);
-        uiCom.setContentSize(view.getCanvasSize());
+        uiCom.setContentSize(view.getVisibleSize());
 
         node.on(Node.EventType.TOUCH_START, function (event: any) {
             event.propagationStopped = true;
@@ -252,7 +252,7 @@ export class UIManager {
                 backGround = new Node()
                 backGround.name = 'background';
                 let uiCom = backGround.addComponent(UITransform);
-                uiCom.setContentSize(view.getCanvasSize());
+                uiCom.setContentSize(view.getVisibleSize());
                 uiView.node.addChild(backGround);
                 uiCom.priority = -1;
             }

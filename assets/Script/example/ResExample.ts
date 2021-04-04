@@ -1,5 +1,6 @@
 import { assetManager } from "cc";
 import { Sprite } from "cc";
+import { sp } from "cc";
 import { SpriteFrame } from "cc";
 import { Component, Node, Label, Asset, Prefab, _decorator, instantiate, resources } from "cc";
 import ResLoader, { resLoader } from "../res/ResLoader";
@@ -12,7 +13,7 @@ export default class NetExample extends Component {
     attachNode: Node | null = null;
     @property(Label)
     dumpLabel: Label | null = null;
-    ress: Asset[] | null = null;
+    ress: Asset[] = [];
     remoteRes: Asset | null = null;
 
     start() {
@@ -35,23 +36,38 @@ export default class NetExample extends Component {
     }
 
     onMyLoadRes() {
+        if (this.ress.length > 0) {
+            console.log(`this.ress.length is ${this.ress.length}`);
+            return;
+        }
+
         resLoader.loadDir("prefabDir", Prefab, (error, prefabs) => {
             if (!error) {
-                this.ress = prefabs;
+                this.ress.push(...prefabs);
                 for (let i = 0; i < prefabs.length; ++i) {
                     instantiate(prefabs[i]).parent = this.attachNode;
                 }
+            }
+        });
+        resLoader.load("alien/alien-pro", sp.SkeletonData, (err, spineAsset)=> {
+            if (!err) {
+                let node = new Node();
+                node.parent = this.attachNode;
+                let skCom = node.addComponent(sp.Skeleton);
+                skCom.skeletonData = spineAsset;
+                skCom.setAnimation(0, 'run', true);
+                this.ress?.push(spineAsset);
             }
         });
     }
 
     onMyUnloadRes() {
         this.attachNode!.removeAllChildren();
-        if (this.ress) {
+        if (this.ress.length > 0) {
             for (let item of this.ress) {
                 item.decRef(true);
             }
-            this.ress = null;
+            this.ress = [];
         }
     }
 

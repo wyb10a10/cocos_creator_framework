@@ -1,9 +1,10 @@
 import { assetManager } from "cc";
 import { Sprite } from "cc";
+import { VideoPlayer } from "cc";
 import { sp } from "cc";
 import { SpriteFrame } from "cc";
 import { Component, Node, Label, Asset, Prefab, _decorator, instantiate, resources } from "cc";
-import ResLoader, { resLoader } from "../res/ResLoader";
+import { resLoader } from "../res/ResLoader";
 
 const { ccclass, property } = _decorator;
 
@@ -31,7 +32,7 @@ export default class NetExample extends Component {
 
     onUnloadRes() {
         // 释放动态加载的资源
-        this.attachNode!.removeAllChildren();
+        this.attachNode!.destroyAllChildren();
         resources.release("prefabDir/HelloWorld");
     }
 
@@ -40,7 +41,6 @@ export default class NetExample extends Component {
             console.log(`this.ress.length is ${this.ress.length}`);
             return;
         }
-
         resLoader.loadDir("prefabDir", Prefab, (error, prefabs) => {
             if (!error) {
                 this.ress.push(...prefabs);
@@ -62,7 +62,7 @@ export default class NetExample extends Component {
     }
 
     onMyUnloadRes() {
-        this.attachNode!.removeAllChildren();
+        this.attachNode?.destroyAllChildren();
         if (this.ress.length > 0) {
             for (let item of this.ress) {
                 item.decRef(true);
@@ -85,7 +85,7 @@ export default class NetExample extends Component {
     }
 
     onUnloadRemote() {
-        this.attachNode!.removeAllChildren();
+        this.attachNode!.destroyAllChildren();
         this.remoteRes!.decRef();
     }
 

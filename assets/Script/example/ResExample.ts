@@ -23,7 +23,7 @@ export default class NetExample extends cc.Component {
     }
 
     onUnloadRes() {
-        this.attachNode.removeAllChildren(true);
+        this.attachNode.destroyAllChildren();
         cc.loader.releaseRes("prefabDir/HelloWorld");
     }
 
@@ -39,7 +39,7 @@ export default class NetExample extends cc.Component {
     }
 
     onMyUnloadRes() {
-        this.attachNode.removeAllChildren(true);
+        this.attachNode.destroyAllChildren();
         if (this.ress) {
             for(let item of this.ress) {
                 ResLoader.release(item);
@@ -61,7 +61,7 @@ export default class NetExample extends cc.Component {
     }
 
     onUnloadRemote() {
-        this.attachNode.removeAllChildren(true);
+        this.attachNode.destroyAllChildren();
         this.remoteRes.decRef();
     }
 

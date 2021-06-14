@@ -21,10 +21,10 @@
         "wrapModeS": "clamp-to-edge",
         "mipfilter": "none",
         "imageUuidOrDatabaseUri": "afdd70a8-a4ef-4e4f-ad17-85bc6c89a570",
-        "anisotropy": 1,
+        "anisotropy": 0,
         "isUuid": true
       },
-      "ver": "1.0.20",
+      "ver": "1.0.21",
       "imported": true,
       "files": [
         ".json"

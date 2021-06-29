@@ -35,6 +35,11 @@ class ReplicateObject {
     /** 上次同步到现在的所有变化 */
     private changeMap: Map<string, any> = new Map<string, any>();
 
+    public genProperty(outObject: Object, key: string, data: any) {
+        if (data instanceof ReplicateObject) {
+        }
+    }
+
     /**
      * 生成从fromVersion到toVersion的增量差异包，如果新的变化产生，则最新的变化会标记为toVersion
      * @param fromVersion 
@@ -44,24 +49,32 @@ class ReplicateObject {
         if (toVersion <= fromVersion) {
             return false;
         }
-        if (fromVersion > this.lastVersion) {
-            if (this.changeMap.size == 0) {
-                return false;
-            } else {
-                let ret: Map<string, any> = this.changeMap;
-                this.lastVersion = toVersion;
-                // 生成新版本
-                for (let [key, changeData] of this.changeMap) {
-                    this.historyMap.set(key, { version: toVersion, data: changeData });
-                }
-                // 清空changeMap（因为ret外面要用到，所以这里直接清理）
-                // 实际上不正确，因为没有处理数组和结构体等情况
-                this.changeMap = new Map<string, any>();
-                // 严格来说，应该走一个通用的，变化合并，刷新出包的流程
-                return ret;
+
+        // 没有差异
+        if (fromVersion > this.lastVersion && this.changeMap.size == 0) {
+            return false;
+        }
+
+        let outObject = {};
+        if (this.changeMap.size > 0) {
+            this.lastVersion = toVersion;
+            // 生成新版本
+            for (let [key, changeData] of this.changeMap) {
+                this.historyMap.set(key, { version: toVersion, data: changeData });
+                this.genProperty(outObject, key, changeData);
+            }
+            // 清空changeMap（因为ret外面要用到，所以这里直接清理）
+            // 实际上不正确，因为没有处理数组和结构体等情况
+            this.changeMap.clear();
+        }
+
+        for (let [key, property] of this.historyMap) {
+            if (property.version > fromVersion) {
+                this.genProperty(outObject, key, property.data);
             }
         }
 
+        return outObject;
     }
 
     /**

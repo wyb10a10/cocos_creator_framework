@@ -45,6 +45,13 @@ export function replicated(option?: RplicatedOption) {
                 oldSet(v);
             }
         }
+        let oldGet = descriptor.get;
+        if (!oldGet) {
+            descriptor.get = () => {
+                let repObj = getReplicateObject(target, true);
+                repObj.getProperty(propertyKey);
+            }
+        }
     };
 }
 
@@ -68,7 +75,7 @@ interface ReplicateProperty {
 }
 
 /**
- * 负责一个组件中所有被标记为replicate的属性的复制和赋值
+ * 负责一个类中所有被标记为replicate的属性的复制和赋值
  * 收集所有增量的变化，并标记版本号
  */
 class ReplicateObject {
@@ -177,7 +184,9 @@ class ReplicateObject {
      * 应用差异数据，更新到最新状态
      * @param diff 
      */
-    public applyDiff(diff: any) {
-
+    public applyDiff(target: any, diff: any) {
+        for (let propertyName in diff) {
+            target[propertyName] = diff[propertyName];
+        }
     }
 }

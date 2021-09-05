@@ -12,7 +12,7 @@ export type ReplicateNotify = (target: any, key: string, value: any) => boolean;
 /**
  * 属性同步选项
  */
-export interface RplicatedOption {
+export interface ReplicatedOption {
     /** 属性同步条件 */
     Condiction: number;
     /** 同步回调 */
@@ -21,6 +21,12 @@ export interface RplicatedOption {
 
 export const REPLICATE_OBJECT_INDEX = "__repObj__";
 
+/**
+ * 查询对象的ReplicateObject，检查对象的target.__repObj__字段
+ * @param target 要查询的对象
+ * @param autoCreator 找不到是否自动创建一个？
+ * @returns 返回找到的ReplicateOBject
+ */
 function getReplicateObject(target: any, autoCreator: boolean = false): ReplicateObject {
     let ret: ReplicateObject = target[REPLICATE_OBJECT_INDEX];
     if (!ret && autoCreator) {
@@ -30,12 +36,18 @@ function getReplicateObject(target: any, autoCreator: boolean = false): Replicat
 }
 
 /**
- * 属性同步装饰器
- * @param option 同步选项
+ * 将一个对象的指定属性设置为可复制，为对象自动添加__repObj__属性，同时跟踪该属性的变化
+ * @param target 要指定的对象
+ * @param propertyKey 对象的属性名
+ * @param descriptor 属性的描述符
+ * @param option 自定义同步选项
  */
-export function replicated(option?: RplicatedOption) {
-    // 真正的装饰器
-    return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+export function makePropertyReplicated(target: any, propertyKey: string, descriptor?: PropertyDescriptor, option?:ReplicatedOption) {
+    if (!descriptor) {
+        descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
+    }
+    if (descriptor) {
+        // 在不影响原来set方法的基础上自动跟踪属性变化
         let oldSet = descriptor.set;
         descriptor.set = (v: any) => {
             let repObj = getReplicateObject(target, true);
@@ -45,14 +57,42 @@ export function replicated(option?: RplicatedOption) {
                 oldSet(v);
             }
         }
+        // 在不影响原来get方法的基础上，实现set方法的对应操作
         let oldGet = descriptor.get;
         if (!oldGet) {
             descriptor.get = () => {
                 let repObj = getReplicateObject(target, true);
                 repObj.getProperty(propertyKey);
             }
-        }
+        }    
+    }
+}
+
+/**
+ * 将一个对象的所有成员设置为可复制，为对象自动添加__repObj__属性，同时跟踪该属性的变化
+ * @param target 
+ * @param option 
+ */
+export function makeObjectReplicated(target: any, option?:ReplicatedOption) {
+    let keys = Object.keys(target);
+    for(let key in keys) {
+        makePropertyReplicated(target, key, Object.getOwnPropertyDescriptor(target, key), option);
+    }
+}
+
+/**
+ * 属性同步装饰器，只能用于修饰属性，不能用于修饰方法
+ * @param option 同步选项
+ */
+export function replicated(option?: ReplicatedOption) {
+    // 真正的装饰器
+    return (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => {
+        makePropertyReplicated(target, propertyKey, descriptor, option);
     };
+}
+
+export function replicatedClass(option?: ReplicatedOption) {
+
 }
 
 /**
@@ -186,7 +226,15 @@ class ReplicateObject {
      */
     public applyDiff(target: any, diff: any) {
         for (let propertyName in diff) {
-            target[propertyName] = diff[propertyName];
+            if(diff[propertyName] instanceof Object) {
+                if (target[propertyName] instanceof Object) {
+                    this.applyDiff(target[propertyName], diff[propertyName]);
+                } else {
+                    console.warn(`apply diff error: ${propertyName}, target.propertyName is ${target[propertyName]} diff ${diff[propertyName]}`);
+                }
+            } else {
+                target[propertyName] = diff[propertyName];
+            }
         }
     }
 }

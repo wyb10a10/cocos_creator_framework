@@ -2692,8 +2692,12 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "leftNode": null,
-    "rightNode": null,
+    "leftNode": {
+      "__id__": 8
+    },
+    "rightNode": {
+      "__id__": 13
+    },
     "_id": "3eUR5PcmBINZrHFBQB+E2A"
   },
   {

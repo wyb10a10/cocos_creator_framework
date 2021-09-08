@@ -13,10 +13,14 @@ export type ReplicateNotify = (target: any, key: string, value: any) => boolean;
  * 属性同步选项
  */
 export interface ReplicatedOption {
+    /** 指定同步哪些属性 */
+    SyncProperty?: string[];
+    /** 指定跳过哪些属性的同步 */
+    SkipProperty?: string[];
     /** 属性同步条件 */
-    Condiction: number;
+    Condiction?: number;
     /** 同步回调 */
-    Notify: ReplicateNotify;
+    Notify?: ReplicateNotify;
 }
 
 export const REPLICATE_OBJECT_INDEX = "__repObj__";
@@ -84,10 +88,21 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
  * @param option 
  */
 export function makeObjectReplicated(target: any, option?:ReplicatedOption) {
-    let keys = Object.keys(target);
-    keys.forEach((key) => {
-        makePropertyReplicated(target, key, Object.getOwnPropertyDescriptor(target, key), option);
-    })
+    if (option && option.SyncProperty) {
+        option.SyncProperty.forEach((key) => {
+            let descriptor = Object.getOwnPropertyDescriptor(target, key);
+            if (descriptor) {
+                makePropertyReplicated(target, key, descriptor, option);
+            }
+        });
+    } else {
+        let keys = Object.keys(target);
+        keys.forEach((key) => {
+            if (!(option?.SkipProperty && option.SkipProperty.indexOf(key) >= 0)) {
+                makePropertyReplicated(target, key, Object.getOwnPropertyDescriptor(target, key), option);
+            }
+        })    
+    }
 }
 
 /**

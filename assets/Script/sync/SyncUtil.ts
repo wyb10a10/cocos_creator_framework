@@ -99,9 +99,9 @@ class ReplicateObject {
      * 当一个属性被重新赋值时回调，即 target.key = v时
      * 1. 对比数值是否有发生变化，有则更新dataMap
      * 2. 如果要赋值的是一个可复制对象 v intanceof Rep，设置当前target为v的outter
-     * 3. 当属性变化时存在outter
+     * 3. 当属性变化时存在outer
      * 
-     * PS: 初始化赋值是否可以跳过？
+     * PS: 初始化赋值是否可以跳过？是否可以存着多个outer？
      * @param key 
      * @param v 
      */
@@ -186,7 +186,11 @@ class ReplicateObject {
      */
     public applyDiff(target: any, diff: any) {
         for (let propertyName in diff) {
-            target[propertyName] = diff[propertyName];
+            if (diff[propertyName] instanceof Object) {
+                this.applyDiff(target[propertyName], diff[propertyName]);
+            } else {
+                target[propertyName] = diff[propertyName];
+            }
         }
     }
 }

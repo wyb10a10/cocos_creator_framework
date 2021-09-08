@@ -27,10 +27,11 @@ export const REPLICATE_OBJECT_INDEX = "__repObj__";
  * @param autoCreator 找不到是否自动创建一个？
  * @returns 返回找到的ReplicateOBject
  */
-function getReplicateObject(target: any, autoCreator: boolean = false): ReplicateObject {
+export function getReplicateObject(target: any, autoCreator: boolean = false): ReplicateObject {
     let ret: ReplicateObject = target[REPLICATE_OBJECT_INDEX];
     if (!ret && autoCreator) {
-        target[REPLICATE_OBJECT_INDEX] = new ReplicateObject();
+        ret =  new ReplicateObject();
+        target[REPLICATE_OBJECT_INDEX] = ret;
     }
     return ret;
 }
@@ -48,6 +49,8 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
     }
     if (descriptor) {
         // 在不影响原来set方法的基础上自动跟踪属性变化
+        delete descriptor.value;
+        delete descriptor.writable;
         let oldSet = descriptor.set;
         descriptor.set = (v: any) => {
             let repObj = getReplicateObject(target, true);
@@ -64,7 +67,9 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
                 let repObj = getReplicateObject(target, true);
                 repObj.getProperty(propertyKey);
             }
-        }    
+        }
+        console.warn(`${descriptor}`);
+        Object.defineProperty(target, propertyKey, descriptor);
     }
 }
 
@@ -75,9 +80,9 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
  */
 export function makeObjectReplicated(target: any, option?:ReplicatedOption) {
     let keys = Object.keys(target);
-    for(let key in keys) {
+    keys.forEach((key) => {
         makePropertyReplicated(target, key, Object.getOwnPropertyDescriptor(target, key), option);
-    }
+    })
 }
 
 /**
@@ -131,8 +136,8 @@ class ReplicateObject {
     /** 在outter中的属性名 */
     private outterKey: string = "";
 
-    public genProperty(outObject: Object, key: string, data: any) {
-        Object.defineProperty(outObject, key, data);
+    public genProperty(outObject: any, key: string, data: any) {
+        outObject[key] = data;
     }
 
     /**
@@ -158,7 +163,7 @@ class ReplicateObject {
             }
         } else {
             repPro = { version: 0, data: v, changed: true };
-            this.dataMap.set(key, v);
+            this.dataMap.set(key, repPro);
         }
 
         // 如果设置了新的对象成员

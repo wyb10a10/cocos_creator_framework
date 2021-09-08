@@ -1,5 +1,5 @@
 import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3 } from "cc";
-import { getReplicateObject, makeObjectReplicated } from "../sync/SyncUtil";
+import { applyDiff, getReplicateObject, makeObjectReplicated } from "../sync/SyncUtil";
 
 const { ccclass, property } = _decorator;
 
@@ -12,20 +12,20 @@ export default class SyncExample extends Component {
     lastVersion = 0;
 
     onLoad() {
-        let vec = new Vec3(Vec3.ZERO);
+        /*let vec = new Vec3(Vec3.ZERO);
         makeObjectReplicated(vec);
         vec.x = 123;
         let diff =  getReplicateObject(vec).genDiff(this.lastVersion, this.lastVersion + 1);
-        console.log(`vec diff ${diff}`);
-        //makeObjectReplicated(this.leftNode.scale);
-        //makeObjectReplicated(this.leftNode.position);
+        console.log(`vec diff ${diff}`);*/
+        makeObjectReplicated(this.leftNode.scale);
+        makeObjectReplicated(this.leftNode.position);
     }
 
     onSyncClick() {
-        let diff =  getReplicateObject(this.leftNode.scale).genDiff(this.lastVersion, this.lastVersion + 1);
-        console.log(`scale diff ${diff}`);
-        diff =  getReplicateObject(this.leftNode.scale).genDiff(this.lastVersion, this.lastVersion + 1);
-        console.log(`pos diff ${diff}`);
+        let diffScale =  getReplicateObject(this.leftNode.scale).genDiff(this.lastVersion, this.lastVersion + 1);
+        let diffPos =  getReplicateObject(this.leftNode.position).genDiff(this.lastVersion, this.lastVersion + 1);
+        let diff = {scale : diffScale, position: diffPos};
+        applyDiff(diff, this.rightNode);
     }
 
     onRotateClick() {

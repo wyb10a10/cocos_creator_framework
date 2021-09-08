@@ -49,6 +49,7 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
     }
     if (descriptor) {
         // 在不影响原来set方法的基础上自动跟踪属性变化
+        let oldValue = descriptor.value;
         delete descriptor.value;
         delete descriptor.writable;
         let oldSet = descriptor.set;
@@ -65,11 +66,15 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
         if (!oldGet) {
             descriptor.get = () => {
                 let repObj = getReplicateObject(target, true);
-                repObj.getProperty(propertyKey);
+                return repObj.getProperty(propertyKey);
             }
         }
         console.warn(`${descriptor}`);
         Object.defineProperty(target, propertyKey, descriptor);
+        // 设置默认值
+        if (oldValue !== undefined) {
+            target[propertyKey] = oldValue;
+        }
     }
 }
 
@@ -83,6 +88,28 @@ export function makeObjectReplicated(target: any, option?:ReplicatedOption) {
     keys.forEach((key) => {
         makePropertyReplicated(target, key, Object.getOwnPropertyDescriptor(target, key), option);
     })
+}
+
+/**
+ * 应用变化
+ * @param diff 
+ * @param target 
+ */
+export function applyDiff(diff : any, target : any) {
+    for (let propertyName in diff) {
+        if(diff[propertyName] instanceof Object) {
+            if (target[propertyName] instanceof Object) {
+                let prop = target[propertyName];
+                applyDiff(diff[propertyName], prop);
+                target[propertyName] = prop;
+            } else {
+                console.warn(`apply diff error: ${propertyName}, 
+                target.propertyName is ${target[propertyName]} diff ${diff[propertyName]}`);
+            }
+        } else {
+            target[propertyName] = diff[propertyName];
+        }
+    }
 }
 
 /**
@@ -229,17 +256,7 @@ class ReplicateObject {
      * 应用差异数据，更新到最新状态
      * @param diff 
      */
-    public applyDiff(target: any, diff: any) {
-        for (let propertyName in diff) {
-            if(diff[propertyName] instanceof Object) {
-                if (target[propertyName] instanceof Object) {
-                    this.applyDiff(target[propertyName], diff[propertyName]);
-                } else {
-                    console.warn(`apply diff error: ${propertyName}, target.propertyName is ${target[propertyName]} diff ${diff[propertyName]}`);
-                }
-            } else {
-                target[propertyName] = diff[propertyName];
-            }
-        }
+    public applyDiff(diff: any) {
+        applyDiff(diff, this.outter);
     }
 }

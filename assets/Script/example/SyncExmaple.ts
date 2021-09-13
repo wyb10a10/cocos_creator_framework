@@ -1,4 +1,4 @@
-import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3 } from "cc";
+import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat } from "cc";
 import { applyDiff, getReplicateObject, makeObjectReplicated } from "../sync/SyncUtil";
 
 const { ccclass, property } = _decorator;
@@ -19,18 +19,30 @@ export default class SyncExample extends Component {
         console.log(`vec diff ${diff}`);*/
         makeObjectReplicated(this.leftNode.scale);
         makeObjectReplicated(this.leftNode.position);
+        makeObjectReplicated(this.leftNode.eulerAngles);
     }
 
     onSyncClick() {
         let diffScale =  getReplicateObject(this.leftNode.scale).genDiff(this.lastVersion, this.lastVersion + 1);
         let diffPos =  getReplicateObject(this.leftNode.position).genDiff(this.lastVersion, this.lastVersion + 1);
-        let diff = {scale : diffScale, position: diffPos};
+        let diffRot =  getReplicateObject(this.leftNode.eulerAngles).genDiff(this.lastVersion, this.lastVersion + 1);
+
+        let diff = {scale : diffScale, position: diffPos, eulerAngles: diffRot};
         applyDiff(diff, this.rightNode);
     }
 
     onRotateClick() {
+        tween(this.leftNode)
+        .by(3.0, {eulerAngles : new Vec3(0, randomRange(0, 180), 0)})
+        .start();
+        /*
+        // 使用tween旋转四元数会导致拉伸，应该使用欧拉角进行线性旋转
         let rot = this.leftNode.getRotation();
-        this.leftNode.rotate(rot);
+        let out : Quat = new Quat();
+        Quat.rotateAroundLocal(out, rot, Vec3.UP, Math.PI * 0.05);
+        tween(this.leftNode)
+        .to(3.0, {rotation : out })
+        .start();*/
     }
 
     onPosClick() {

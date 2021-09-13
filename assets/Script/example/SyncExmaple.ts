@@ -17,17 +17,17 @@ export default class SyncExample extends Component {
         vec.x = 123;
         let diff =  getReplicateObject(vec).genDiff(this.lastVersion, this.lastVersion + 1);
         console.log(`vec diff ${diff}`);*/
-        makeObjectReplicated(this.leftNode.scale);
-        makeObjectReplicated(this.leftNode.position);
-        makeObjectReplicated(this.leftNode.eulerAngles);
+        let syncProperty = ['_scale', '_position', '_eulerAngles'];
+        makeObjectReplicated(this.leftNode, { SyncProperty : syncProperty});
     }
 
     onSyncClick() {
-        let diffScale =  getReplicateObject(this.leftNode.scale).genDiff(this.lastVersion, this.lastVersion + 1);
+        /*let diffScale =  getReplicateObject(this.leftNode.scale).genDiff(this.lastVersion, this.lastVersion + 1);
         let diffPos =  getReplicateObject(this.leftNode.position).genDiff(this.lastVersion, this.lastVersion + 1);
         let diffRot =  getReplicateObject(this.leftNode.eulerAngles).genDiff(this.lastVersion, this.lastVersion + 1);
 
-        let diff = {scale : diffScale, position: diffPos, eulerAngles: diffRot};
+        let diff = {scale : diffScale, position: diffPos, eulerAngles: diffRot};*/
+        let diff = getReplicateObject(this.leftNode).genDiff(this.lastVersion, this.lastVersion + 1);
         applyDiff(diff, this.rightNode);
     }
 

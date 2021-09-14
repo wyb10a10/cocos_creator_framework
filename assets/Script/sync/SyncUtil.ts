@@ -13,10 +13,14 @@ export type ReplicateNotify = (target: any, key: string, value: any) => boolean;
  * 属性同步选项
  */
 export interface ReplicatedOption {
+    /** 指定同步哪些属性 */
+    SyncProperty?: string[];
+    /** 指定跳过哪些属性的同步 */
+    SkipProperty?: string[];
     /** 属性同步条件 */
-    Condiction: number;
+    Condiction?: number;
     /** 同步回调 */
-    Notify: ReplicateNotify;
+    Notify?: ReplicateNotify;
 }
 
 export const REPLICATE_OBJECT_INDEX = "__repObj__";
@@ -27,10 +31,11 @@ export const REPLICATE_OBJECT_INDEX = "__repObj__";
  * @param autoCreator 找不到是否自动创建一个？
  * @returns 返回找到的ReplicateOBject
  */
-function getReplicateObject(target: any, autoCreator: boolean = false): ReplicateObject {
+export function getReplicateObject(target: any, autoCreator: boolean = false): ReplicateObject {
     let ret: ReplicateObject = target[REPLICATE_OBJECT_INDEX];
     if (!ret && autoCreator) {
-        target[REPLICATE_OBJECT_INDEX] = new ReplicateObject();
+        ret =  new ReplicateObject();
+        target[REPLICATE_OBJECT_INDEX] = ret;
     }
     return ret;
 }
@@ -48,6 +53,9 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
     }
     if (descriptor) {
         // 在不影响原来set方法的基础上自动跟踪属性变化
+        let oldValue = descriptor.value;
+        delete descriptor.value;
+        delete descriptor.writable;
         let oldSet = descriptor.set;
         descriptor.set = (v: any) => {
             let repObj = getReplicateObject(target, true);
@@ -62,9 +70,15 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
         if (!oldGet) {
             descriptor.get = () => {
                 let repObj = getReplicateObject(target, true);
-                repObj.getProperty(propertyKey);
+                return repObj.getProperty(propertyKey);
             }
-        }    
+        }
+        console.warn(`${descriptor}`);
+        Object.defineProperty(target, propertyKey, descriptor);
+        // 设置默认值
+        if (oldValue !== undefined) {
+            target[propertyKey] = oldValue;
+        }
     }
 }
 
@@ -74,9 +88,42 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
  * @param option 
  */
 export function makeObjectReplicated(target: any, option?:ReplicatedOption) {
-    let keys = Object.keys(target);
-    for(let key in keys) {
-        makePropertyReplicated(target, key, Object.getOwnPropertyDescriptor(target, key), option);
+    if (option && option.SyncProperty) {
+        option.SyncProperty.forEach((key) => {
+            let descriptor = Object.getOwnPropertyDescriptor(target, key);
+            if (descriptor) {
+                makePropertyReplicated(target, key, descriptor, option);
+            }
+        });
+    } else {
+        let keys = Object.keys(target);
+        keys.forEach((key) => {
+            if (!(option?.SkipProperty && option.SkipProperty.indexOf(key) >= 0)) {
+                makePropertyReplicated(target, key, Object.getOwnPropertyDescriptor(target, key), option);
+            }
+        })    
+    }
+}
+
+/**
+ * 应用变化
+ * @param diff 
+ * @param target 
+ */
+export function applyDiff(diff : any, target : any) {
+    for (let propertyName in diff) {
+        if(diff[propertyName] instanceof Object) {
+            if (target[propertyName] instanceof Object) {
+                let prop = target[propertyName];
+                applyDiff(diff[propertyName], prop);
+                target[propertyName] = prop;
+            } else {
+                console.warn(`apply diff error: ${propertyName}, 
+                target.propertyName is ${target[propertyName]} diff ${diff[propertyName]}`);
+            }
+        } else {
+            target[propertyName] = diff[propertyName];
+        }
     }
 }
 
@@ -131,8 +178,8 @@ class ReplicateObject {
     /** 在outter中的属性名 */
     private outterKey: string = "";
 
-    public genProperty(outObject: Object, key: string, data: any) {
-        Object.defineProperty(outObject, key, data);
+    public genProperty(outObject: any, key: string, data: any) {
+        outObject[key] = data;
     }
 
     /**
@@ -158,7 +205,7 @@ class ReplicateObject {
             }
         } else {
             repPro = { version: 0, data: v, changed: true };
-            this.dataMap.set(key, v);
+            this.dataMap.set(key, repPro);
         }
 
         // 如果设置了新的对象成员
@@ -224,17 +271,7 @@ class ReplicateObject {
      * 应用差异数据，更新到最新状态
      * @param diff 
      */
-    public applyDiff(target: any, diff: any) {
-        for (let propertyName in diff) {
-            if(diff[propertyName] instanceof Object) {
-                if (target[propertyName] instanceof Object) {
-                    this.applyDiff(target[propertyName], diff[propertyName]);
-                } else {
-                    console.warn(`apply diff error: ${propertyName}, target.propertyName is ${target[propertyName]} diff ${diff[propertyName]}`);
-                }
-            } else {
-                target[propertyName] = diff[propertyName];
-            }
-        }
+    public applyDiff(diff: any) {
+        applyDiff(diff, this.outter);
     }
 }

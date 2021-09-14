@@ -73,7 +73,6 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
                 return repObj.getProperty(propertyKey);
             }
         }
-        console.warn(`${descriptor}`);
         Object.defineProperty(target, propertyKey, descriptor);
         // 设置默认值
         if (oldValue !== undefined) {
@@ -111,7 +110,8 @@ export function makeObjectReplicated(target: any, option?:ReplicatedOption) {
  * @param target 
  */
 export function applyDiff(diff : any, target : any) {
-    for (let propertyName in diff) {
+    let keys = Object.keys(diff);
+    keys.forEach((propertyName) => {
         if(diff[propertyName] instanceof Object) {
             if (target[propertyName] instanceof Object) {
                 let prop = target[propertyName];
@@ -124,7 +124,7 @@ export function applyDiff(diff : any, target : any) {
         } else {
             target[propertyName] = diff[propertyName];
         }
-    }
+    });
 }
 
 /**

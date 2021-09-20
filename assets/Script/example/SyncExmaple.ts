@@ -1,5 +1,5 @@
 import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat } from "cc";
-import { applyDiff, getReplicateObject, makeObjectReplicated } from "../sync/SyncUtil";
+import { applyDiff, getReplicateObject, makeObjectReplicated, ReplicatedOption } from "../sync/SyncUtil";
 
 const { ccclass, property } = _decorator;
 
@@ -20,7 +20,10 @@ export default class SyncExample extends Component {
         // 跟踪的属性并不能直接apply，而是需要调用接收者的如setPosition等方法使其生效
         // 这里可以考虑将Node的同步作为一个组件进行挂载，专门负责与Cocos节点相关的同步工作
         // 也可以考虑通过装饰器参数的描述来处理这种情况，比如 { name : _lpos, setter : setPosition, }
-        let syncProperty = ['_lscale', '_lpos', '_euler'];
+        let syncProperty : ReplicatedOption[] = [
+            {Name : '_lscale', Setter: 'setScale'}, 
+            {Name : '_lpos', Setter: 'setPosition'}, 
+            {Name : '_euler', Setter: 'eulerAngles'}];
         makeObjectReplicated(this.leftNode, { SyncProperty : syncProperty});
     }
 

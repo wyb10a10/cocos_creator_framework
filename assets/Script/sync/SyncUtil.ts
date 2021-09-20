@@ -13,14 +13,24 @@ export type ReplicateNotify = (target: any, key: string, value: any) => boolean;
  * 属性同步选项
  */
 export interface ReplicatedOption {
-    /** 指定同步哪些属性 */
-    SyncProperty?: string[];
-    /** 指定跳过哪些属性的同步 */
-    SkipProperty?: string[];
+    /** 要同步的属性名 */
+    Name: string;
+    /** 应用同步的方法，默认为Name */
+    Setter?: string;
     /** 属性同步条件 */
     Condiction?: number;
     /** 同步回调 */
     Notify?: ReplicateNotify;
+}
+
+/**
+ * 对象属性同步配置
+ */
+export interface ObjectReplicatedOption {
+    /** 指定同步哪些属性 */
+    SyncProperty?: ReplicatedOption[];
+    /** 指定跳过哪些属性的同步 */
+    SkipProperty?: string[];
 }
 
 export const REPLICATE_OBJECT_INDEX = "__repObj__";
@@ -34,7 +44,7 @@ export const REPLICATE_OBJECT_INDEX = "__repObj__";
 export function getReplicateObject(target: any, autoCreator: boolean = false): ReplicateObject {
     let ret: ReplicateObject = target[REPLICATE_OBJECT_INDEX];
     if (!ret && autoCreator) {
-        ret =  new ReplicateObject();
+        ret = new ReplicateObject();
         target[REPLICATE_OBJECT_INDEX] = ret;
     }
     return ret;
@@ -47,20 +57,26 @@ export function getReplicateObject(target: any, autoCreator: boolean = false): R
  * @param descriptor 属性的描述符
  * @param option 自定义同步选项
  */
-export function makePropertyReplicated(target: any, propertyKey: string, descriptor?: PropertyDescriptor, option?:ReplicatedOption) {
+export function makePropertyReplicated(target: any, propertyKey: string, descriptor?: PropertyDescriptor, option?: ReplicatedOption) {
     if (!descriptor) {
         descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
     }
     if (descriptor) {
         // 在不影响原来set方法的基础上自动跟踪属性变化
         let oldValue = descriptor.value;
+        let realProperty: string;
+        if (option && option.Setter) {
+            realProperty = option.Setter;
+        } else {
+            realProperty = propertyKey;
+        }
         delete descriptor.value;
         delete descriptor.writable;
         let oldSet = descriptor.set;
         descriptor.set = (v: any) => {
             let repObj = getReplicateObject(target, true);
             // 标记属性发生变化
-            repObj.propertyChanged(propertyKey, v);
+            repObj.propertyChanged(realProperty, v);
             if (oldSet) {
                 oldSet(v);
             }
@@ -70,7 +86,7 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
         if (!oldGet) {
             descriptor.get = () => {
                 let repObj = getReplicateObject(target, true);
-                return repObj.getProperty(propertyKey);
+                return repObj.getProperty(realProperty);
             }
         }
         Object.defineProperty(target, propertyKey, descriptor);
@@ -86,21 +102,21 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
  * @param target 
  * @param option 
  */
-export function makeObjectReplicated(target: any, option?:ReplicatedOption) {
+export function makeObjectReplicated(target: any, option?: ObjectReplicatedOption) {
     if (option && option.SyncProperty) {
-        option.SyncProperty.forEach((key) => {
-            let descriptor = Object.getOwnPropertyDescriptor(target, key);
+        option.SyncProperty.forEach((pOpt) => {
+            let descriptor = Object.getOwnPropertyDescriptor(target, pOpt.Name);
             if (descriptor) {
-                makePropertyReplicated(target, key, descriptor, option);
+                makePropertyReplicated(target, pOpt.Name, descriptor, pOpt);
             }
         });
     } else {
         let keys = Object.keys(target);
         keys.forEach((key) => {
             if (!(option?.SkipProperty && option.SkipProperty.indexOf(key) >= 0)) {
-                makePropertyReplicated(target, key, Object.getOwnPropertyDescriptor(target, key), option);
+                makePropertyReplicated(target, key, Object.getOwnPropertyDescriptor(target, key));
             }
-        })    
+        })
     }
 }
 
@@ -109,10 +125,12 @@ export function makeObjectReplicated(target: any, option?:ReplicatedOption) {
  * @param diff 
  * @param target 
  */
-export function applyDiff(diff : any, target : any) {
+export function applyDiff(diff: any, target: any) {
     let keys = Object.keys(diff);
     keys.forEach((propertyName) => {
-        if(diff[propertyName] instanceof Object) {
+        if (typeof target[propertyName] == "function") {
+            target[propertyName](diff[propertyName]);
+        } else if (diff[propertyName] instanceof Object) {
             if (target[propertyName] instanceof Object) {
                 let prop = target[propertyName];
                 applyDiff(diff[propertyName], prop);

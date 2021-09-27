@@ -156,8 +156,10 @@ export function replicated(option?: ReplicatedOption) {
     };
 }
 
-export function replicatedClass(option?: ReplicatedOption) {
-
+export function replicatedClass(option?: ObjectReplicatedOption) {
+    return (target: any) => {
+        makeObjectReplicated(target, option);
+    }
 }
 
 /**

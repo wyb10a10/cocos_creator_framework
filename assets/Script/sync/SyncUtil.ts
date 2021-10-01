@@ -91,9 +91,7 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
         }
         Object.defineProperty(target, propertyKey, descriptor);
         // 设置默认值
-        if (oldValue !== undefined) {
-            target[propertyKey] = oldValue;
-        }
+        target[propertyKey] = oldValue;
     }
 }
 
@@ -156,8 +154,13 @@ export function replicated(option?: ReplicatedOption) {
     };
 }
 
-export function replicatedClass(option?: ObjectReplicatedOption) {
-    return (target: any) => {
+type ClassDecorator = <TFunction extends Function>
+  (target: TFunction) => TFunction | void;
+  
+type Consturctor = { new (...args: any[]): any };
+
+export function replicatedClass<T extends Consturctor>(option?: ObjectReplicatedOption) {
+    return (target: T) => {
         makeObjectReplicated(target, option);
     }
 }
@@ -224,7 +227,7 @@ class ReplicateObject {
                 repPro.data = v;
             }
         } else {
-            repPro = { version: 0, data: v, changed: true };
+            repPro = { version: 0, data: v, changed: false };
             this.dataMap.set(key, repPro);
         }
 
@@ -234,11 +237,11 @@ class ReplicateObject {
         }
 
         // 如果有outter，需要通知，但只通知一次就够了
-        if (!this.hasNewChange && this.outter) {
+        // 首次赋值时（初始值，无需通知outter）
+        if (!this.hasNewChange && repPro.changed && this.outter) {
             this.outter.propertyChanged(this.outterKey);
+            this.hasNewChange = true;
         }
-
-        this.hasNewChange = true;
     }
 
     public getProperty(key: string): any {
@@ -283,6 +286,8 @@ class ReplicateObject {
                 this.genProperty(outObject, key, property.data);
             }
         }
+
+        this.lastVersion = toVersion;
 
         return outObject;
     }

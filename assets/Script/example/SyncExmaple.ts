@@ -1,4 +1,4 @@
-import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat } from "cc";
+import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat, ModelComponent, Color } from "cc";
 import { applyDiff, getReplicateObject, makeObjectReplicated, ReplicatedOption } from "../sync/SyncUtil";
 
 const { ccclass, property } = _decorator;
@@ -31,10 +31,12 @@ export default class SyncExample extends Component {
         /*let diffScale =  getReplicateObject(this.leftNode.scale).genDiff(this.lastVersion, this.lastVersion + 1);
         let diffPos =  getReplicateObject(this.leftNode.position).genDiff(this.lastVersion, this.lastVersion + 1);
         let diffRot =  getReplicateObject(this.leftNode.eulerAngles).genDiff(this.lastVersion, this.lastVersion + 1);
-
         let diff = {scale : diffScale, position: diffPos, eulerAngles: diffRot};*/
-        let diff = getReplicateObject(this.leftNode).genDiff(this.lastVersion, this.lastVersion + 1);
-        applyDiff(diff, this.rightNode);
+        let diff = getReplicateObject(this.leftNode).genDiff(this.lastVersion + 1, this.lastVersion + 1);
+        if (diff) {
+            applyDiff(diff, this.rightNode);
+            this.lastVersion += 1;
+        }
     }
 
     onRotateClick() {
@@ -65,6 +67,10 @@ export default class SyncExample extends Component {
         tween(this.leftNode)
         .to(3.0, {scale : new Vec3(scale, scale, scale)})
         .start();
+    }
+
+    onColorClick() {
+        this.leftNode.getComponent(ModelComponent)?.material?.setProperty("mainColor", Color.BLUE);
     }
 
     // update (dt) {}

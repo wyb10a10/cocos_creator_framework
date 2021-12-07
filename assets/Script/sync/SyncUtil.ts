@@ -91,7 +91,9 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
         }
         Object.defineProperty(target, propertyKey, descriptor);
         // 设置默认值
-        target[propertyKey] = oldValue;
+        if (oldValue !== undefined) {
+            target[propertyKey] = oldValue;
+        }
     }
 }
 
@@ -238,8 +240,10 @@ class ReplicateObject {
 
         // 如果有outter，需要通知，但只通知一次就够了
         // 首次赋值时（初始值，无需通知outter）
-        if (!this.hasNewChange && repPro.changed && this.outter) {
-            this.outter.propertyChanged(this.outterKey);
+        if (!this.hasNewChange && repPro.changed) {
+            if (this.outter) {
+                this.outter.propertyChanged(this.outterKey);
+            }
             this.hasNewChange = true;
         }
     }

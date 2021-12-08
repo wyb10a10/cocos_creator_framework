@@ -32,7 +32,7 @@ export default class SyncExample extends Component {
         let diffPos =  getReplicateObject(this.leftNode.position).genDiff(this.lastVersion, this.lastVersion + 1);
         let diffRot =  getReplicateObject(this.leftNode.eulerAngles).genDiff(this.lastVersion, this.lastVersion + 1);
         let diff = {scale : diffScale, position: diffPos, eulerAngles: diffRot};*/
-        let diff = getReplicateObject(this.leftNode).genDiff(this.lastVersion + 1, this.lastVersion + 1);
+        let diff = getReplicateObject(this.leftNode).genDiff(this.lastVersion, this.lastVersion + 1);
         if (diff) {
             applyDiff(diff, this.rightNode);
             this.lastVersion += 1;

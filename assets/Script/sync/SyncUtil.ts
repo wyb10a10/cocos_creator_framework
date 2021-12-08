@@ -264,7 +264,7 @@ class ReplicateObject {
      * @param toVersion 必须是最新的版本号
      */
     public genDiff(fromVersion: number, toVersion: number): any {
-        if (toVersion <= fromVersion) {
+        if (toVersion < fromVersion) {
             return false;
         }
 

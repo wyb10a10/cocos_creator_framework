@@ -52,7 +52,7 @@ export function getReplicateObject(target: any, autoCreator: boolean = false): R
     return ret;
 }
 
-export function getReplicateMark(target: any) : ReplicateMark {
+export function getReplicateMark(target: any): ReplicateMark {
     let ret: ReplicateMark = target[REPLICATE_MARK_INDEX];
     if (!ret) {
         ret = new ReplicateMark();
@@ -105,13 +105,13 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
     if (descriptor) {
         // 在不影响原来set方法的基础上自动跟踪属性变化
         let oldValue = descriptor.value;
-        if(IsSupportGetSet) {
+        if (IsSupportGetSet) {
             descriptor = makePropertyDescriptor(target, propertyKey, descriptor, option);
             Object.defineProperty(target, propertyKey, descriptor);
             // 设置默认值
             if (oldValue !== undefined) {
                 target[propertyKey] = oldValue;
-            }    
+            }
         } else {
             getReplicateMark(target).addMark(propertyKey, oldValue, option);
         }
@@ -166,6 +166,28 @@ export function applyDiff(diff: any, target: any) {
     });
 }
 
+export function genDiff(target: any, from: number, to: number): any {
+    let repObj = getReplicateObject(target);
+    if (!IsSupportGetSet && repObj.getLastVersion() == 0) {
+        let markObj = getReplicateMark(target);
+        let objOption = markObj.getObjMark();
+        if (objOption) {
+            makeObjectReplicated(target, objOption);
+        }
+        let keys = Object.keys(target);
+        keys.forEach((propertyName) => {
+            let option = markObj.getMark(propertyName);
+            if (option) {
+                makePropertyReplicated(target, propertyName,
+                    Object.getOwnPropertyDescriptor(target, propertyName), option.option);
+                // TODO: 比对初值
+            }
+        });
+    }
+
+    return repObj.genDiff(from, to);
+}
+
 /**
  * 属性同步装饰器，只能用于修饰属性，不能用于修饰方法
  * @param option 同步选项
@@ -198,10 +220,10 @@ class ReplicateMark {
     private objMark?: ObjectReplicatedOption;
 
     public addMark(key: string, def?: any, option?: ReplicatedOption) {
-        this.markMap.set(key, {def, option});
+        this.markMap.set(key, { def, option });
     }
 
-    public getMark(key: string) : ReplicateMarkInfo | undefined {
+    public getMark(key: string): ReplicateMarkInfo | undefined {
         return this.markMap.get(key);
     }
 
@@ -209,7 +231,7 @@ class ReplicateMark {
         this.objMark = objMark;
     }
 
-    public getObjMark() : ObjectReplicatedOption | undefined {
+    public getObjMark(): ObjectReplicatedOption | undefined {
         return this.objMark;
     }
 }
@@ -252,6 +274,10 @@ class ReplicateObject {
 
     public genProperty(outObject: any, key: string, data: any) {
         outObject[key] = data;
+    }
+
+    public getLastVersion(): number {
+        return this.lastVersion;
     }
 
     /**

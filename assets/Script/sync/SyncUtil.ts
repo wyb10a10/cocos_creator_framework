@@ -8,6 +8,7 @@
 
 /** 属性变化回调 */
 export type ReplicateNotify = (target: any, key: string, value: any) => boolean;
+const IsSupportGetSet = false;
 
 /**
  * 属性同步选项
@@ -34,6 +35,7 @@ export interface ObjectReplicatedOption {
 }
 
 export const REPLICATE_OBJECT_INDEX = "__repObj__";
+export const REPLICATE_MARK_INDEX = "__repMrk__";
 
 /**
  * 查询对象的ReplicateObject，检查对象的target.__repObj__字段
@@ -50,6 +52,45 @@ export function getReplicateObject(target: any, autoCreator: boolean = false): R
     return ret;
 }
 
+export function getReplicateMark(target: any) : ReplicateMark {
+    let ret: ReplicateMark = target[REPLICATE_MARK_INDEX];
+    if (!ret) {
+        ret = new ReplicateMark();
+        target[REPLICATE_MARK_INDEX] = ret;
+    }
+    return ret;
+}
+
+export function makePropertyDescriptor(target: any, propertyKey: string, descriptor: PropertyDescriptor, option?: ReplicatedOption): PropertyDescriptor {
+    // 在不影响原来set方法的基础上自动跟踪属性变化
+    let realProperty: string;
+    if (option && option.Setter) {
+        realProperty = option.Setter;
+    } else {
+        realProperty = propertyKey;
+    }
+    delete descriptor.value;
+    delete descriptor.writable;
+    let oldSet = descriptor.set;
+    descriptor.set = (v: any) => {
+        let repObj = getReplicateObject(target, true);
+        // 标记属性发生变化
+        repObj.propertyChanged(realProperty, v);
+        if (oldSet) {
+            oldSet(v);
+        }
+    }
+    // 在不影响原来get方法的基础上，实现set方法的对应操作
+    let oldGet = descriptor.get;
+    if (!oldGet) {
+        descriptor.get = () => {
+            let repObj = getReplicateObject(target, true);
+            return repObj.getProperty(realProperty);
+        }
+    }
+    return descriptor;
+}
+
 /**
  * 将一个对象的指定属性设置为可复制，为对象自动添加__repObj__属性，同时跟踪该属性的变化
  * @param target 要指定的对象
@@ -64,35 +105,15 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
     if (descriptor) {
         // 在不影响原来set方法的基础上自动跟踪属性变化
         let oldValue = descriptor.value;
-        let realProperty: string;
-        if (option && option.Setter) {
-            realProperty = option.Setter;
+        if(IsSupportGetSet) {
+            descriptor = makePropertyDescriptor(target, propertyKey, descriptor, option);
+            Object.defineProperty(target, propertyKey, descriptor);
+            // 设置默认值
+            if (oldValue !== undefined) {
+                target[propertyKey] = oldValue;
+            }    
         } else {
-            realProperty = propertyKey;
-        }
-        delete descriptor.value;
-        delete descriptor.writable;
-        let oldSet = descriptor.set;
-        descriptor.set = (v: any) => {
-            let repObj = getReplicateObject(target, true);
-            // 标记属性发生变化
-            repObj.propertyChanged(realProperty, v);
-            if (oldSet) {
-                oldSet(v);
-            }
-        }
-        // 在不影响原来get方法的基础上，实现set方法的对应操作
-        let oldGet = descriptor.get;
-        if (!oldGet) {
-            descriptor.get = () => {
-                let repObj = getReplicateObject(target, true);
-                return repObj.getProperty(realProperty);
-            }
-        }
-        Object.defineProperty(target, propertyKey, descriptor);
-        // 设置默认值
-        if (oldValue !== undefined) {
-            target[propertyKey] = oldValue;
+            getReplicateMark(target).addMark(propertyKey, oldValue, option);
         }
     }
 }
@@ -157,13 +178,39 @@ export function replicated(option?: ReplicatedOption) {
 }
 
 type ClassDecorator = <TFunction extends Function>
-  (target: TFunction) => TFunction | void;
-  
-type Consturctor = { new (...args: any[]): any };
+    (target: TFunction) => TFunction | void;
+
+type Consturctor = { new(...args: any[]): any };
 
 export function replicatedClass<T extends Consturctor>(option?: ObjectReplicatedOption) {
     return (target: T) => {
         makeObjectReplicated(target, option);
+    }
+}
+
+interface ReplicateMarkInfo {
+    def?: any,
+    option?: ReplicatedOption,
+}
+
+class ReplicateMark {
+    private markMap: Map<string, ReplicateMarkInfo> = new Map<string, ReplicateMarkInfo>();
+    private objMark?: ObjectReplicatedOption;
+
+    public addMark(key: string, def?: any, option?: ReplicatedOption) {
+        this.markMap.set(key, {def, option});
+    }
+
+    public getMark(key: string) : ReplicateMarkInfo | undefined {
+        return this.markMap.get(key);
+    }
+
+    public setObjMark(objMark: ObjectReplicatedOption) {
+        this.objMark = objMark;
+    }
+
+    public getObjMark() : ObjectReplicatedOption | undefined {
+        return this.objMark;
     }
 }
 

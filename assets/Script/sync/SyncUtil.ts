@@ -8,22 +8,34 @@
 
 /** 属性变化回调 */
 export type ReplicateNotify = (target: any, key: string, value: any) => boolean;
+const IsSupportGetSet = false;
 
 /**
  * 属性同步选项
  */
 export interface ReplicatedOption {
-    /** 指定同步哪些属性 */
-    SyncProperty?: string[];
-    /** 指定跳过哪些属性的同步 */
-    SkipProperty?: string[];
+    /** 要同步的属性名 */
+    Name: string;
+    /** 应用同步的方法，默认为Name */
+    Setter?: string;
     /** 属性同步条件 */
     Condiction?: number;
     /** 同步回调 */
     Notify?: ReplicateNotify;
 }
 
+/**
+ * 对象属性同步配置
+ */
+export interface ObjectReplicatedOption {
+    /** 指定同步哪些属性 */
+    SyncProperty?: ReplicatedOption[];
+    /** 指定跳过哪些属性的同步 */
+    SkipProperty?: string[];
+}
+
 export const REPLICATE_OBJECT_INDEX = "__repObj__";
+export const REPLICATE_MARK_INDEX = "__repMrk__";
 
 /**
  * 查询对象的ReplicateObject，检查对象的target.__repObj__字段
@@ -34,10 +46,49 @@ export const REPLICATE_OBJECT_INDEX = "__repObj__";
 export function getReplicateObject(target: any, autoCreator: boolean = false): ReplicateObject {
     let ret: ReplicateObject = target[REPLICATE_OBJECT_INDEX];
     if (!ret && autoCreator) {
-        ret =  new ReplicateObject();
+        ret = new ReplicateObject();
         target[REPLICATE_OBJECT_INDEX] = ret;
     }
     return ret;
+}
+
+export function getReplicateMark(target: any): ReplicateMark {
+    let ret: ReplicateMark = target[REPLICATE_MARK_INDEX];
+    if (!ret) {
+        ret = new ReplicateMark();
+        target[REPLICATE_MARK_INDEX] = ret;
+    }
+    return ret;
+}
+
+export function makePropertyDescriptor(target: any, propertyKey: string, descriptor: PropertyDescriptor, option?: ReplicatedOption): PropertyDescriptor {
+    // 在不影响原来set方法的基础上自动跟踪属性变化
+    let realProperty: string;
+    if (option && option.Setter) {
+        realProperty = option.Setter;
+    } else {
+        realProperty = propertyKey;
+    }
+    delete descriptor.value;
+    delete descriptor.writable;
+    let oldSet = descriptor.set;
+    descriptor.set = (v: any) => {
+        let repObj = getReplicateObject(target, true);
+        // 标记属性发生变化
+        repObj.propertyChanged(realProperty, v);
+        if (oldSet) {
+            oldSet(v);
+        }
+    }
+    // 在不影响原来get方法的基础上，实现set方法的对应操作
+    let oldGet = descriptor.get;
+    if (!oldGet) {
+        descriptor.get = () => {
+            let repObj = getReplicateObject(target, true);
+            return repObj.getProperty(realProperty);
+        }
+    }
+    return descriptor;
 }
 
 /**
@@ -47,37 +98,22 @@ export function getReplicateObject(target: any, autoCreator: boolean = false): R
  * @param descriptor 属性的描述符
  * @param option 自定义同步选项
  */
-export function makePropertyReplicated(target: any, propertyKey: string, descriptor?: PropertyDescriptor, option?:ReplicatedOption) {
+export function makePropertyReplicated(target: any, propertyKey: string, descriptor?: PropertyDescriptor, option?: ReplicatedOption) {
     if (!descriptor) {
         descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
     }
     if (descriptor) {
         // 在不影响原来set方法的基础上自动跟踪属性变化
         let oldValue = descriptor.value;
-        delete descriptor.value;
-        delete descriptor.writable;
-        let oldSet = descriptor.set;
-        descriptor.set = (v: any) => {
-            let repObj = getReplicateObject(target, true);
-            // 标记属性发生变化
-            repObj.propertyChanged(propertyKey, v);
-            if (oldSet) {
-                oldSet(v);
+        if (IsSupportGetSet) {
+            descriptor = makePropertyDescriptor(target, propertyKey, descriptor, option);
+            Object.defineProperty(target, propertyKey, descriptor);
+            // 设置默认值
+            if (oldValue !== undefined) {
+                target[propertyKey] = oldValue;
             }
-        }
-        // 在不影响原来get方法的基础上，实现set方法的对应操作
-        let oldGet = descriptor.get;
-        if (!oldGet) {
-            descriptor.get = () => {
-                let repObj = getReplicateObject(target, true);
-                return repObj.getProperty(propertyKey);
-            }
-        }
-        console.warn(`${descriptor}`);
-        Object.defineProperty(target, propertyKey, descriptor);
-        // 设置默认值
-        if (oldValue !== undefined) {
-            target[propertyKey] = oldValue;
+        } else {
+            getReplicateMark(target).addMark(propertyKey, oldValue, option);
         }
     }
 }
@@ -87,21 +123,21 @@ export function makePropertyReplicated(target: any, propertyKey: string, descrip
  * @param target 
  * @param option 
  */
-export function makeObjectReplicated(target: any, option?:ReplicatedOption) {
+export function makeObjectReplicated(target: any, option?: ObjectReplicatedOption) {
     if (option && option.SyncProperty) {
-        option.SyncProperty.forEach((key) => {
-            let descriptor = Object.getOwnPropertyDescriptor(target, key);
+        option.SyncProperty.forEach((pOpt) => {
+            let descriptor = Object.getOwnPropertyDescriptor(target, pOpt.Name);
             if (descriptor) {
-                makePropertyReplicated(target, key, descriptor, option);
+                makePropertyReplicated(target, pOpt.Name, descriptor, pOpt);
             }
         });
     } else {
         let keys = Object.keys(target);
         keys.forEach((key) => {
             if (!(option?.SkipProperty && option.SkipProperty.indexOf(key) >= 0)) {
-                makePropertyReplicated(target, key, Object.getOwnPropertyDescriptor(target, key), option);
+                makePropertyReplicated(target, key, Object.getOwnPropertyDescriptor(target, key));
             }
-        })    
+        })
     }
 }
 
@@ -110,9 +146,12 @@ export function makeObjectReplicated(target: any, option?:ReplicatedOption) {
  * @param diff 
  * @param target 
  */
-export function applyDiff(diff : any, target : any) {
-    for (let propertyName in diff) {
-        if(diff[propertyName] instanceof Object) {
+export function applyDiff(diff: any, target: any) {
+    let keys = Object.keys(diff);
+    keys.forEach((propertyName) => {
+        if (typeof target[propertyName] == "function") {
+            target[propertyName](diff[propertyName]);
+        } else if (diff[propertyName] instanceof Object) {
             if (target[propertyName] instanceof Object) {
                 let prop = target[propertyName];
                 applyDiff(diff[propertyName], prop);
@@ -124,7 +163,29 @@ export function applyDiff(diff : any, target : any) {
         } else {
             target[propertyName] = diff[propertyName];
         }
+    });
+}
+
+export function genDiff(target: any, from: number, to: number): any {
+    let repObj = getReplicateObject(target);
+    if (!IsSupportGetSet && repObj.getLastVersion() == 0) {
+        let markObj = getReplicateMark(target);
+        let objOption = markObj.getObjMark();
+        if (objOption) {
+            makeObjectReplicated(target, objOption);
+        }
+        let keys = Object.keys(target);
+        keys.forEach((propertyName) => {
+            let option = markObj.getMark(propertyName);
+            if (option) {
+                makePropertyReplicated(target, propertyName,
+                    Object.getOwnPropertyDescriptor(target, propertyName), option.option);
+                // TODO: 比对初值
+            }
+        });
     }
+
+    return repObj.genDiff(from, to);
 }
 
 /**
@@ -138,8 +199,41 @@ export function replicated(option?: ReplicatedOption) {
     };
 }
 
-export function replicatedClass(option?: ReplicatedOption) {
+type ClassDecorator = <TFunction extends Function>
+    (target: TFunction) => TFunction | void;
 
+type Consturctor = { new(...args: any[]): any };
+
+export function replicatedClass<T extends Consturctor>(option?: ObjectReplicatedOption) {
+    return (target: T) => {
+        makeObjectReplicated(target, option);
+    }
+}
+
+interface ReplicateMarkInfo {
+    def?: any,
+    option?: ReplicatedOption,
+}
+
+class ReplicateMark {
+    private markMap: Map<string, ReplicateMarkInfo> = new Map<string, ReplicateMarkInfo>();
+    private objMark?: ObjectReplicatedOption;
+
+    public addMark(key: string, def?: any, option?: ReplicatedOption) {
+        this.markMap.set(key, { def, option });
+    }
+
+    public getMark(key: string): ReplicateMarkInfo | undefined {
+        return this.markMap.get(key);
+    }
+
+    public setObjMark(objMark: ObjectReplicatedOption) {
+        this.objMark = objMark;
+    }
+
+    public getObjMark(): ObjectReplicatedOption | undefined {
+        return this.objMark;
+    }
 }
 
 /**
@@ -182,6 +276,10 @@ class ReplicateObject {
         outObject[key] = data;
     }
 
+    public getLastVersion(): number {
+        return this.lastVersion;
+    }
+
     /**
      * 当一个属性被重新赋值时回调，即 target.key = v时
      * 1. 对比数值是否有发生变化，有则更新dataMap
@@ -204,7 +302,7 @@ class ReplicateObject {
                 repPro.data = v;
             }
         } else {
-            repPro = { version: 0, data: v, changed: true };
+            repPro = { version: 0, data: v, changed: false };
             this.dataMap.set(key, repPro);
         }
 
@@ -214,11 +312,13 @@ class ReplicateObject {
         }
 
         // 如果有outter，需要通知，但只通知一次就够了
-        if (!this.hasNewChange && this.outter) {
-            this.outter.propertyChanged(this.outterKey);
+        // 首次赋值时（初始值，无需通知outter）
+        if (!this.hasNewChange && repPro.changed) {
+            if (this.outter) {
+                this.outter.propertyChanged(this.outterKey);
+            }
+            this.hasNewChange = true;
         }
-
-        this.hasNewChange = true;
     }
 
     public getProperty(key: string): any {
@@ -237,7 +337,7 @@ class ReplicateObject {
      * @param toVersion 必须是最新的版本号
      */
     public genDiff(fromVersion: number, toVersion: number): any {
-        if (toVersion <= fromVersion) {
+        if (toVersion < fromVersion) {
             return false;
         }
 
@@ -263,6 +363,8 @@ class ReplicateObject {
                 this.genProperty(outObject, key, property.data);
             }
         }
+
+        this.lastVersion = toVersion;
 
         return outObject;
     }

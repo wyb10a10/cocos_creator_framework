@@ -1,5 +1,5 @@
-import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat } from "cc";
-import { applyDiff, getReplicateObject, makeObjectReplicated } from "../sync/SyncUtil";
+import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat, ModelComponent, Color } from "cc";
+import { applyDiff, getReplicateObject, makeObjectReplicated, ReplicatedOption } from "../sync/SyncUtil";
 
 const { ccclass, property } = _decorator;
 
@@ -17,7 +17,13 @@ export default class SyncExample extends Component {
         vec.x = 123;
         let diff =  getReplicateObject(vec).genDiff(this.lastVersion, this.lastVersion + 1);
         console.log(`vec diff ${diff}`);*/
-        let syncProperty = ['_scale', '_position', '_eulerAngles'];
+        // 跟踪的属性并不能直接apply，而是需要调用接收者的如setPosition等方法使其生效
+        // 这里可以考虑将Node的同步作为一个组件进行挂载，专门负责与Cocos节点相关的同步工作
+        // 也可以考虑通过装饰器参数的描述来处理这种情况，比如 { name : _lpos, setter : setPosition, }
+        let syncProperty : ReplicatedOption[] = [
+            {Name : '_lscale', Setter: 'setScale'}, 
+            {Name : '_lpos', Setter: 'setPosition'}, 
+            {Name : '_euler', Setter: 'eulerAngles'}];
         makeObjectReplicated(this.leftNode, { SyncProperty : syncProperty});
     }
 
@@ -25,10 +31,12 @@ export default class SyncExample extends Component {
         /*let diffScale =  getReplicateObject(this.leftNode.scale).genDiff(this.lastVersion, this.lastVersion + 1);
         let diffPos =  getReplicateObject(this.leftNode.position).genDiff(this.lastVersion, this.lastVersion + 1);
         let diffRot =  getReplicateObject(this.leftNode.eulerAngles).genDiff(this.lastVersion, this.lastVersion + 1);
-
         let diff = {scale : diffScale, position: diffPos, eulerAngles: diffRot};*/
         let diff = getReplicateObject(this.leftNode).genDiff(this.lastVersion, this.lastVersion + 1);
-        applyDiff(diff, this.rightNode);
+        if (diff) {
+            applyDiff(diff, this.rightNode);
+            this.lastVersion += 1;
+        }
     }
 
     onRotateClick() {
@@ -59,6 +67,10 @@ export default class SyncExample extends Component {
         tween(this.leftNode)
         .to(3.0, {scale : new Vec3(scale, scale, scale)})
         .start();
+    }
+
+    onColorClick() {
+        this.leftNode.getComponent(ModelComponent)?.material?.setProperty("mainColor", Color.BLUE);
     }
 
     // update (dt) {}

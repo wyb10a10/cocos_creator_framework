@@ -183,13 +183,31 @@ export function replicated(option?: ReplicatedOption) {
 
 export function replicatedClass<T extends Consturctor>(option?: ObjectReplicatedOption) {
     return (target: T) => {
-        makeObjectReplicated(target, option);
+        if (IsSupportGetSet) {
+            makeObjectReplicated(target, option);
+        } else {
+            // 这里无法获取成员属性的descriptor，对属性的定义也会被后续的实例化覆盖
+            if (option) {
+                getReplicateMark(target).setObjMark(option);
+            } else {
+                getReplicateMark(target).setDefaultMark(true);
+            }
+        }
     }
 }
 
 class ReplicateMark {
     private markMap: Map<string, ReplicateMarkInfo> = new Map<string, ReplicateMarkInfo>();
     private objMark?: ObjectReplicatedOption;
+    private defaultMark = false;
+
+    public setDefaultMark(def: boolean) {
+        this.defaultMark = def;
+    }
+
+    public getDefaultMark() {
+        return this.defaultMark;
+    }
 
     public addMark(key: string, def?: any, option?: ReplicatedOption) {
         this.markMap.set(key, { def, option });
@@ -389,12 +407,14 @@ export function applyDiff(diff: any, target: any) {
  * @returns DIFF对象
  */
 export function genDiff(target: any, from: number, to: number): any {
-    let repObj = getReplicateObject(target);
+    let repObj = getReplicateObject(target, true);
     if (!IsSupportGetSet && repObj.getLastVersion() == 0) {
         let markObj = getReplicateMark(target);
-        let objOption = markObj.getObjMark();
-        if (objOption) {
-            makeObjectReplicated(target, objOption);
+
+        let objMark = markObj.getObjMark();
+        let isDef = markObj.getDefaultMark();
+        if (isDef || objMark) {
+            makeObjectReplicated(target, objMark);
         }
 
         let marks = markObj.getMarks();

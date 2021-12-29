@@ -62,7 +62,12 @@ export function getReplicateObject(target: any, autoCreator: boolean = false): R
     let ret: ReplicateObject = target[REPLICATE_OBJECT_INDEX];
     if (!ret && autoCreator) {
         ret = new ReplicateObject();
-        target[REPLICATE_OBJECT_INDEX] = ret;
+        Object.defineProperty(target, REPLICATE_OBJECT_INDEX, {
+            configurable: true,
+            writable: false,
+            value: ret,
+            enumerable: false
+        })
     }
     return ret;
 }
@@ -76,8 +81,12 @@ export function getReplicateMark(target: any): ReplicateMark {
     let ret: ReplicateMark = target[REPLICATE_MARK_INDEX];
     if (!ret) {
         ret = new ReplicateMark(target);
-        target[REPLICATE_MARK_INDEX] = ret;
-    }
+        Object.defineProperty(target, REPLICATE_MARK_INDEX, {
+            configurable: true,
+            writable: false,
+            value: ret,
+            enumerable: false
+        })    }
     return ret;
 }
 

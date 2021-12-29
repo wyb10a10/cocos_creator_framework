@@ -75,7 +75,7 @@ export function getReplicateObject(target: any, autoCreator: boolean = false): R
 export function getReplicateMark(target: any): ReplicateMark {
     let ret: ReplicateMark = target[REPLICATE_MARK_INDEX];
     if (!ret) {
-        ret = new ReplicateMark();
+        ret = new ReplicateMark(target);
         target[REPLICATE_MARK_INDEX] = ret;
     }
     return ret;
@@ -90,7 +90,7 @@ export function getReplicateMark(target: any): ReplicateMark {
  * @param option 
  * @returns 返回修改好的ReplicatedOption
  */
-function makePropertyDescriptor(target: any, propertyKey: string, descriptor: PropertyDescriptor, option?: ReplicatedOption): PropertyDescriptor {
+function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescriptor, option?: ReplicatedOption): PropertyDescriptor {
     // 在不影响原来set方法的基础上自动跟踪属性变化
     let realProperty: string;
     if (option && option.Setter) {
@@ -101,8 +101,8 @@ function makePropertyDescriptor(target: any, propertyKey: string, descriptor: Pr
     delete descriptor.value;
     delete descriptor.writable;
     let oldSet = descriptor.set;
-    descriptor.set = (v: any) => {
-        let repObj = getReplicateObject(target, true);
+    descriptor.set = function (v: any) {
+        let repObj = getReplicateObject(this, true);
         // 标记属性发生变化
         repObj.propertyChanged(realProperty, v);
         if (oldSet) {
@@ -112,8 +112,8 @@ function makePropertyDescriptor(target: any, propertyKey: string, descriptor: Pr
     // 在不影响原来get方法的基础上，实现set方法的对应操作
     let oldGet = descriptor.get;
     if (!oldGet) {
-        descriptor.get = () => {
-            let repObj = getReplicateObject(target, true);
+        descriptor.get = function() {
+            let repObj = getReplicateObject(this, true);
             return repObj.getProperty(realProperty);
         }
     }
@@ -135,7 +135,7 @@ function makePropertyReplicated(target: any, propertyKey: string, descriptor?: P
         // 在不影响原来set方法的基础上自动跟踪属性变化
         let oldValue = descriptor.value;
         if (IsSupportGetSet) {
-            descriptor = makePropertyDescriptor(target, propertyKey, descriptor, option);
+            descriptor = makePropertyDescriptor(propertyKey, descriptor, option);
             Object.defineProperty(target, propertyKey, descriptor);
             // 设置默认值
             if (oldValue !== undefined) {
@@ -197,9 +197,17 @@ export function replicatedClass<T extends Consturctor>(option?: ObjectReplicated
 }
 
 class ReplicateMark {
+    public init = false;
     private markMap: Map<string, ReplicateMarkInfo> = new Map<string, ReplicateMarkInfo>();
     private objMark?: ObjectReplicatedOption;
     private defaultMark = false;
+    private cls: any;
+
+    public constructor(cls: any) {
+        this.cls = cls;
+    }
+
+    public getCls(): any { return this.cls; }
 
     public setDefaultMark(def: boolean) {
         this.defaultMark = def;
@@ -411,22 +419,32 @@ export function genDiff(target: any, from: number, to: number): any {
     if (!IsSupportGetSet && repObj.getLastVersion() == 0) {
         let markObj = getReplicateMark(target);
 
+        // 延迟执行类的装饰
+        let cls = markObj.getCls();
         let objMark = markObj.getObjMark();
         let isDef = markObj.getDefaultMark();
-        if (isDef || objMark) {
-            makeObjectReplicated(target, objMark);
+        if (!markObj.init && (isDef || objMark)) {
+            makeObjectReplicated(cls, objMark);
         }
 
         let marks = markObj.getMarks();
         marks.forEach((info, propertyName) => {
-            let descriptor = Object.getOwnPropertyDescriptor(target, propertyName);
+            let descriptor = Object.getOwnPropertyDescriptor(cls, propertyName);
             if (descriptor) {
                 let oldValue = descriptor.value;
                 let oldSet = descriptor.set;
-                descriptor = makePropertyDescriptor(target, propertyName, descriptor, info.option);
-                Object.defineProperty(target, propertyName, descriptor);
+
+                // 延迟执行属性的装饰，只初始化一次
+                if(!markObj.init) {
+                    descriptor = makePropertyDescriptor(propertyName, descriptor, info.option);
+                    Object.defineProperty(cls, propertyName, descriptor);    
+                }
+                
+                // 每个实例都需要对所有同步属性进行一次遍历
                 if (oldValue != info.def) {
                     // 如果值发生了变化，触发一次赋值，以便于生成DIFF
+                    // delete是因为实例身上可能已经覆盖了这个属性，而我们重新定义了类的原型，如果不删除，后续无法捕获属性的变化
+                    delete target[propertyName];
                     target[propertyName] = oldValue;
                 } else if (oldValue) {
                     // 值没有发生变化，将值设置回去，但不计作DIFF
@@ -439,6 +457,9 @@ export function genDiff(target: any, from: number, to: number): any {
                 }
             }
         });
+
+        // 初始化一次就够了
+        markObj.init = true;
     }
 
     return repObj.genDiff(from, to);

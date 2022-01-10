@@ -6,6 +6,8 @@ const { ccclass, property } = _decorator;
 class A {
     @replicated()
     a: number = 0;
+    @replicated()
+    b: number = 1;
 }
 
 @replicatedClass()

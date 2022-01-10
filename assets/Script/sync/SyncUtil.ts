@@ -144,6 +144,12 @@ function makePropertyReplicated(target: any, propertyKey: string, descriptor?: P
     if (descriptor) {
         // 在不影响原来set方法的基础上自动跟踪属性变化
         let oldValue = descriptor.value;
+        // 使用initializer跟踪原始值
+        if (oldValue === undefined 
+            && Object.getOwnPropertyDescriptor(descriptor, "initializer")) {
+            let desc: any = descriptor;
+            oldValue = desc.initializer();
+        }
         if (IsSupportGetSet) {
             descriptor = makePropertyDescriptor(propertyKey, descriptor, option);
             Object.defineProperty(target, propertyKey, descriptor);

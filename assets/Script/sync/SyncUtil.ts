@@ -80,7 +80,7 @@ export function getReplicateObject(target: any, autoCreator: boolean = false): R
 export function getReplicateMark(target: any): ReplicateMark {
     let ret: ReplicateMark = target[REPLICATE_MARK_INDEX];
     if (!ret) {
-        ret = new ReplicateMark();
+        ret = new ReplicateMark(target);
         Object.defineProperty(target, REPLICATE_MARK_INDEX, {
             value: ret,
             enumerable: false,

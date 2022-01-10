@@ -62,7 +62,12 @@ export function getReplicateObject(target: any, autoCreator: boolean = false): R
     let ret: ReplicateObject = target[REPLICATE_OBJECT_INDEX];
     if (!ret && autoCreator) {
         ret = new ReplicateObject();
-        target[REPLICATE_OBJECT_INDEX] = ret;
+        Object.defineProperty(target, REPLICATE_OBJECT_INDEX, {
+            value: ret,
+            enumerable: false,
+            writable: false,
+            configurable: true,
+        });
     }
     return ret;
 }
@@ -76,7 +81,12 @@ export function getReplicateMark(target: any): ReplicateMark {
     let ret: ReplicateMark = target[REPLICATE_MARK_INDEX];
     if (!ret) {
         ret = new ReplicateMark();
-        target[REPLICATE_MARK_INDEX] = ret;
+        Object.defineProperty(target, REPLICATE_MARK_INDEX, {
+            value: ret,
+            enumerable: false,
+            writable: false,
+            configurable: true,
+        });
     }
     return ret;
 }
@@ -188,9 +198,9 @@ export function replicatedClass<T extends Consturctor>(option?: ObjectReplicated
         } else {
             // 这里无法获取成员属性的descriptor，对属性的定义也会被后续的实例化覆盖
             if (option) {
-                getReplicateMark(target).setObjMark(option);
+                getReplicateMark(target.prototype).setObjMark(option);
             } else {
-                getReplicateMark(target).setDefaultMark(true);
+                getReplicateMark(target.prototype).setDefaultMark(true);
             }
         }
     }

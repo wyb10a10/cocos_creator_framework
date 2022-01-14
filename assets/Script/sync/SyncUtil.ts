@@ -422,6 +422,53 @@ export function applyDiff(diff: any, target: any) {
     });
 }
 
+function initReplicate(target: any) {
+    let markObj = getReplicateMark(target);
+
+    // 延迟执行类的装饰
+    let cls = markObj.getCls();
+    let objMark = markObj.getObjMark();
+    let isDef = markObj.getDefaultMark();
+    if (!markObj.init && (isDef || objMark)) {
+        makeObjectReplicated(cls, objMark);
+    }
+
+    let marks = markObj.getMarks();
+    marks.forEach((info, propertyName) => {
+        let descriptor = Object.getOwnPropertyDescriptor(target, propertyName);
+        if (descriptor) {
+            let oldValue = descriptor.value;
+            let oldSet = descriptor.set;
+
+            // 延迟执行属性的装饰，只初始化一次
+            if(!markObj.init) {
+                descriptor = makePropertyDescriptor(propertyName, descriptor, info.option);
+                Object.defineProperty(cls, propertyName, descriptor);    
+            }
+            
+            // 每个实例都需要对所有同步属性进行一次遍历
+            if (oldValue != info.def) {
+                // 如果值发生了变化，触发一次赋值，以便于生成DIFF
+                // delete是因为实例身上可能已经覆盖了这个属性，而我们重新定义了类的原型，如果不删除，后续无法捕获属性的变化
+                delete target[propertyName];
+                target[propertyName] = oldValue;
+            } else if (oldValue) {
+                // 值没有发生变化，将值设置回去，但不计作DIFF
+                if (oldSet) {
+                    oldSet(oldValue);
+                } else {
+                    // TODO: 这里只执行一次，但每个对象在genDiff的时候，都有可能存在不同的差异
+                    let repObj = getReplicateObject(target);
+                    repObj.propertyChanged(propertyName, oldValue, true);
+                }
+            }
+        }
+    });
+
+    // 初始化一次就够了
+    markObj.init = true;
+}
+
 /**
  * 提取变化目标对象指定版本范围的的DIFF
  * 如果是首次生成DIFF，自动检测哪些属性需要被追踪
@@ -433,49 +480,7 @@ export function applyDiff(diff: any, target: any) {
 export function genDiff(target: any, from: number, to: number): any {
     let repObj = getReplicateObject(target, true);
     if (!IsSupportGetSet && repObj.getLastVersion() == 0) {
-        let markObj = getReplicateMark(target);
-
-        // 延迟执行类的装饰
-        let cls = markObj.getCls();
-        let objMark = markObj.getObjMark();
-        let isDef = markObj.getDefaultMark();
-        if (!markObj.init && (isDef || objMark)) {
-            makeObjectReplicated(cls, objMark);
-        }
-
-        let marks = markObj.getMarks();
-        marks.forEach((info, propertyName) => {
-            let descriptor = Object.getOwnPropertyDescriptor(cls, propertyName);
-            if (descriptor) {
-                let oldValue = descriptor.value;
-                let oldSet = descriptor.set;
-
-                // 延迟执行属性的装饰，只初始化一次
-                if(!markObj.init) {
-                    descriptor = makePropertyDescriptor(propertyName, descriptor, info.option);
-                    Object.defineProperty(cls, propertyName, descriptor);    
-                }
-                
-                // 每个实例都需要对所有同步属性进行一次遍历
-                if (oldValue != info.def) {
-                    // 如果值发生了变化，触发一次赋值，以便于生成DIFF
-                    // delete是因为实例身上可能已经覆盖了这个属性，而我们重新定义了类的原型，如果不删除，后续无法捕获属性的变化
-                    delete target[propertyName];
-                    target[propertyName] = oldValue;
-                } else if (oldValue) {
-                    // 值没有发生变化，将值设置回去，但不计作DIFF
-                    if (oldSet) {
-                        oldSet(oldValue);
-                    } else {
-                        let repObj = getReplicateObject(target);
-                        repObj.propertyChanged(propertyName, oldValue, true);
-                    }
-                }
-            }
-        });
-
-        // 初始化一次就够了
-        markObj.init = true;
+        initReplicate(target);
     }
 
     return repObj.genDiff(from, to);

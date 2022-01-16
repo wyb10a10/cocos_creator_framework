@@ -1,5 +1,6 @@
 import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat, ModelComponent, Color } from "cc";
-import { applyDiff, genDiff, getReplicateObject, makeObjectReplicated, replicated, replicatedClass, ReplicatedOption } from "../sync/SyncUtil";
+import { ReplicatedOption } from "../sync/ReplicateMark";
+import { applyDiff, genDiff, getReplicateObject, makeObjectReplicated, replicated, replicatedClass } from "../sync/SyncUtil";
 
 const { ccclass, property } = _decorator;
 

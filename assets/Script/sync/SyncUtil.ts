@@ -20,8 +20,7 @@ export type Consturctor = { new(...args: any[]): any };
 export const REPLICATE_OBJECT_INDEX = "__repObj__";
 
 /** 是否支持装饰器的Setter设置 */
-export const IsSupportGetSet = false;
-
+export const IsSupportGetSet = true;
 
 /**
  * 查询对象的ReplicateObject，检查对象的target.__repObj__字段
@@ -62,10 +61,22 @@ function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescrip
     } else {
         realProperty = propertyKey;
     }
-    delete descriptor.value;
-    delete descriptor.writable;
+
+    let oldValue = descriptor.value;
     let oldSet = descriptor.set;
-    descriptor.set = function (v: any) {
+    let oldGet = descriptor.get;
+
+    if (oldValue === undefined 
+        && Object.getOwnPropertyDescriptor(descriptor, "initializer")) {
+        oldValue = (descriptor as any).initializer();
+    }
+
+    let desc : PropertyDescriptor = {
+        enumerable: true,
+        configurable: true,
+    };
+
+    desc.set = function (v: any) {
         let repObj = getReplicateObject(this, true);
         // 标记属性发生变化
         repObj.propertyChanged(realProperty, v);
@@ -73,15 +84,19 @@ function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescrip
             oldSet(v);
         }
     }
+
     // 在不影响原来get方法的基础上，实现set方法的对应操作
-    let oldGet = descriptor.get;
-    if (!oldGet) {
-        descriptor.get = function() {
+    desc.get = function() {
+        let ret = undefined;
+        if (oldGet) {
+            ret = oldGet();
+        } else {
             let repObj = getReplicateObject(this, true);
-            return repObj.getProperty(realProperty);
+            ret = repObj.getProperty(realProperty);
         }
+        return ret;
     }
-    return descriptor;
+    return desc;
 }
 
 /**
@@ -91,30 +106,19 @@ function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescrip
  * @param descriptor 属性的描述符
  * @param option 自定义同步选项
  */
-function makePropertyReplicated(target: any, propertyKey: string, descriptor?: PropertyDescriptor, option?: ReplicatedOption) {
+function makePropertyReplicated(target: any, propertyKey: string, descriptor?: PropertyDescriptor, option?: ReplicatedOption) : PropertyDescriptor | undefined{
     if (!descriptor) {
         descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
     }
     if (descriptor) {
-        // 在不影响原来set方法的基础上自动跟踪属性变化
-        let oldValue = descriptor.value;
-        // 使用initializer跟踪原始值
-        if (oldValue === undefined 
-            && Object.getOwnPropertyDescriptor(descriptor, "initializer")) {
-            let desc: any = descriptor;
-            oldValue = desc.initializer();
-        }
+
         if (IsSupportGetSet) {
             descriptor = makePropertyDescriptor(propertyKey, descriptor, option);
-            Object.defineProperty(target, propertyKey, descriptor);
-            // 设置默认值
-            if (oldValue !== undefined) {
-                target[propertyKey] = oldValue;
-            }
         } else {
-            getReplicateMark(target).addMark(propertyKey, oldValue, option);
+            //getReplicateMark(target).addMark(propertyKey, oldValue, option);
         }
     }
+    return descriptor;
 }
 
 /**
@@ -146,8 +150,8 @@ export function makeObjectReplicated(target: any, option?: ObjectReplicatedOptio
  */
 export function replicated(option?: ReplicatedOption) {
     // 真正的装饰器
-    return (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => {
-        makePropertyReplicated(target, propertyKey, descriptor, option);
+    return (target: any, propertyKey: string, descriptor?: PropertyDescriptor) : PropertyDescriptor | undefined => {
+        return makePropertyReplicated(target, propertyKey, descriptor, option);
     };
 }
 

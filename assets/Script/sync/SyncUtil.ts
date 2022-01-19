@@ -53,7 +53,7 @@ export function getReplicateObject(target: any, autoCreator: boolean = false): R
  * @param option 
  * @returns 返回修改好的ReplicatedOption
  */
-function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescriptor, option?: ReplicatedOption): PropertyDescriptor {
+function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescriptor, option?: ReplicatedOption) {
     // 在不影响原来set方法的基础上自动跟踪属性变化
     let realProperty: string;
     if (option && option.Setter) {
@@ -65,18 +65,17 @@ function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescrip
     let oldValue = descriptor.value;
     let oldSet = descriptor.set;
     let oldGet = descriptor.get;
+    delete descriptor.value;
+    delete descriptor.writable;
 
     if (oldValue === undefined 
         && Object.getOwnPropertyDescriptor(descriptor, "initializer")) {
-        oldValue = (descriptor as any).initializer();
+        let desc = descriptor as any;
+        oldValue = desc.initializer();
+        delete desc.initializer;
     }
 
-    let desc : PropertyDescriptor = {
-        enumerable: true,
-        configurable: true,
-    };
-
-    desc.set = function (v: any) {
+    descriptor.set = function (v: any) {
         let repObj = getReplicateObject(this, true);
         // 标记属性发生变化
         repObj.propertyChanged(realProperty, v);
@@ -86,7 +85,7 @@ function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescrip
     }
 
     // 在不影响原来get方法的基础上，实现set方法的对应操作
-    desc.get = function() {
+    descriptor.get = function() {
         let ret = undefined;
         if (oldGet) {
             ret = oldGet();
@@ -94,9 +93,8 @@ function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescrip
             let repObj = getReplicateObject(this, true);
             ret = repObj.getProperty(realProperty);
         }
-        return ret;
+        return ret === undefined ? oldValue : ret;
     }
-    return desc;
 }
 
 /**
@@ -113,12 +111,11 @@ function makePropertyReplicated(target: any, propertyKey: string, descriptor?: P
     if (descriptor) {
 
         if (IsSupportGetSet) {
-            descriptor = makePropertyDescriptor(propertyKey, descriptor, option);
+            makePropertyDescriptor(propertyKey, descriptor, option);
         } else {
             //getReplicateMark(target).addMark(propertyKey, oldValue, option);
         }
     }
-    return descriptor;
 }
 
 /**
@@ -358,8 +355,7 @@ function initReplicate(target: any) {
 
             // 延迟执行属性的装饰，只初始化一次
             if(!markObj.init) {
-                descriptor = makePropertyDescriptor(propertyName, descriptor, info.option);
-                Object.defineProperty(cls, propertyName, descriptor);    
+                makePropertyDescriptor(propertyName, descriptor, info.option);
             }
             
             // 每个实例都需要对所有同步属性进行一次遍历

@@ -106,7 +106,7 @@ function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescrip
  * @param descriptor 属性的描述符
  * @param option 自定义同步选项
  */
-function makePropertyReplicated(target: any, propertyKey: string, descriptor?: PropertyDescriptor, option?: ReplicatedOption) : PropertyDescriptor | undefined{
+function makePropertyReplicated(target: any, propertyKey: string, descriptor?: PropertyDescriptor, option?: ReplicatedOption) {
     if (!descriptor) {
         descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
     }
@@ -150,7 +150,7 @@ export function makeObjectReplicated(target: any, option?: ObjectReplicatedOptio
  */
 export function replicated(option?: ReplicatedOption) {
     // 真正的装饰器
-    return (target: any, propertyKey: string, descriptor?: PropertyDescriptor) : PropertyDescriptor | undefined => {
+    return (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => {
         return makePropertyReplicated(target, propertyKey, descriptor, option);
     };
 }

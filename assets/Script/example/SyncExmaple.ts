@@ -1,6 +1,6 @@
 import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat, ModelComponent, Color } from "cc";
 import { ReplicatedOption } from "../sync/ReplicateMark";
-import { applyDiff, genDiff, getReplicateObject, makeObjectReplicated, replicated, replicatedClass } from "../sync/SyncUtil";
+import { applyDiff, genDiff, getReplicateObject, makeObjectReplicated, replicated } from "../sync/SyncUtil";
 
 const { ccclass, property } = _decorator;
 
@@ -11,7 +11,6 @@ class A {
     b: number = 1;
 }
 
-@replicatedClass()
 class B {
     a : number = 1;
     b : number = 2;
@@ -29,12 +28,7 @@ export default class SyncExample extends Component {
         let a = new A();
         a.a = 12;
         let diff = genDiff(a, 0, 1);
-        console.log(`${diff}`);
-
-        let b = new B();
-        b.a = 12;
-        diff = genDiff(b, 0, 1);
-        console.log(`${diff}`);
+        console.log(diff);
 
         /*let vec = new Vec3(Vec3.ZERO);
         makeObjectReplicated(vec);
@@ -81,6 +75,8 @@ export default class SyncExample extends Component {
         let x = randomRange(-3, 3);
         let y = randomRange(-3, 3);
         let z = randomRange(-3, 3);
+        this.leftNode.setPosition(x, y, z);
+        return;
         tween(this.leftNode)
         .to(3.0, {position : new Vec3(x, y, z)})
         .start();

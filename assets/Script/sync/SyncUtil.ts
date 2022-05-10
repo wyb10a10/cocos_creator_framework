@@ -11,7 +11,7 @@
  * 3. Diff的生成与Apply
  */
 
-import { getReplicateMark, ObjectReplicatedOption, ReplicatedOption } from "./ReplicateMark";
+import { ObjectReplicatedOption, ReplicatedOption } from "./ReplicateMark";
 
 /** 属性变化回调 */
 export type ReplicateNotify = (target: any, key: string, value: any) => boolean;
@@ -49,9 +49,8 @@ export function getReplicateObject(target: any, autoCreator: boolean = false): R
  * 在不影响原来set方法的基础上自动跟踪属性变化
  * @param target 要跟踪的实例
  * @param propertyKey 要跟踪的Key
- * @param descriptor ReplicatedOption
- * @param option 
- * @returns 返回修改好的ReplicatedOption
+ * @param descriptor 要修改的descriptor
+ * @param option ReplicatedOption
  */
 function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescriptor, option?: ReplicatedOption) {
     // 在不影响原来set方法的基础上自动跟踪属性变化
@@ -68,7 +67,7 @@ function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescrip
     delete descriptor.value;
     delete descriptor.writable;
 
-    if (oldValue === undefined 
+    if (oldValue === undefined
         && Object.getOwnPropertyDescriptor(descriptor, "initializer")) {
         let desc = descriptor as any;
         oldValue = desc.initializer();
@@ -85,7 +84,7 @@ function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescrip
     }
 
     // 在不影响原来get方法的基础上，实现set方法的对应操作
-    descriptor.get = function() {
+    descriptor.get = function () {
         let ret = undefined;
         if (oldGet) {
             ret = oldGet();
@@ -105,40 +104,40 @@ function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescrip
  * @param option 自定义同步选项
  */
 function makePropertyReplicated(target: any, propertyKey: string, descriptor?: PropertyDescriptor, option?: ReplicatedOption) {
-    if (!descriptor) {
-        descriptor = Object.getOwnPropertyDescriptor(target, propertyKey);
-    }
     if (descriptor) {
-
-        if (IsSupportGetSet) {
-            makePropertyDescriptor(propertyKey, descriptor, option);
-        } else {
-            //getReplicateMark(target).addMark(propertyKey, oldValue, option);
-        }
+        makePropertyDescriptor(propertyKey, descriptor, option);
+    } else {
+        console.warn(`makePropertyReplicated error, ${propertyKey} not found in target ${target}`);
     }
 }
 
 /**
  * 将一个对象的所有成员设置为可复制，为对象自动添加__repObj__属性，同时跟踪该属性的变化
+ * 当我们希望只对这个实例进行同步时可以调用这个方法
  * @param target 
  * @param option 
  */
 export function makeObjectReplicated(target: any, option?: ObjectReplicatedOption) {
+    let properties : any = {};
     if (option && option.SyncProperty) {
         option.SyncProperty.forEach((pOpt) => {
             let descriptor = Object.getOwnPropertyDescriptor(target, pOpt.Name);
             if (descriptor) {
                 makePropertyReplicated(target, pOpt.Name, descriptor, pOpt);
+                properties[pOpt.Name] = descriptor;
             }
         });
     } else {
         let keys = Object.keys(target);
         keys.forEach((key) => {
             if (!(option?.SkipProperty && option.SkipProperty.indexOf(key) >= 0)) {
-                makePropertyReplicated(target, key, Object.getOwnPropertyDescriptor(target, key));
+                let descriptor = Object.getOwnPropertyDescriptor(target, key);
+                makePropertyReplicated(target, key, descriptor);
+                properties[key] = descriptor;
             }
         })
     }
+    Object.defineProperties(target, properties);
 }
 
 /**
@@ -152,7 +151,7 @@ export function replicated(option?: ReplicatedOption) {
     };
 }
 
-export function replicatedClass<T extends Consturctor>(option?: ObjectReplicatedOption) {
+/*export function replicatedClass<T extends Consturctor>(option?: ObjectReplicatedOption) {
     return (target: T) => {
         if (IsSupportGetSet) {
             makeObjectReplicated(target, option);
@@ -165,7 +164,7 @@ export function replicatedClass<T extends Consturctor>(option?: ObjectReplicated
             }
         }
     }
-}
+}*/
 
 /**
  * 一个属性的变化信息
@@ -335,52 +334,6 @@ export function applyDiff(diff: any, target: any) {
     });
 }
 
-function initReplicate(target: any) {
-    let markObj = getReplicateMark(target);
-
-    // 延迟执行类的装饰
-    let cls = markObj.getCls();
-    let objMark = markObj.getObjMark();
-    let isDef = markObj.getDefaultMark();
-    if (!markObj.init && (isDef || objMark)) {
-        makeObjectReplicated(cls, objMark);
-    }
-
-    let marks = markObj.getMarks();
-    marks.forEach((info, propertyName) => {
-        let descriptor = Object.getOwnPropertyDescriptor(target, propertyName);
-        if (descriptor) {
-            let oldValue = descriptor.value;
-            let oldSet = descriptor.set;
-
-            // 延迟执行属性的装饰，只初始化一次
-            if(!markObj.init) {
-                makePropertyDescriptor(propertyName, descriptor, info.option);
-            }
-            
-            // 每个实例都需要对所有同步属性进行一次遍历
-            if (oldValue != info.def) {
-                // 如果值发生了变化，触发一次赋值，以便于生成DIFF
-                // delete是因为实例身上可能已经覆盖了这个属性，而我们重新定义了类的原型，如果不删除，后续无法捕获属性的变化
-                delete target[propertyName];
-                target[propertyName] = oldValue;
-            } else if (oldValue) {
-                // 值没有发生变化，将值设置回去，但不计作DIFF
-                if (oldSet) {
-                    oldSet(oldValue);
-                } else {
-                    // TODO: 这里只执行一次，但每个对象在genDiff的时候，都有可能存在不同的差异
-                    let repObj = getReplicateObject(target);
-                    repObj.propertyChanged(propertyName, oldValue, true);
-                }
-            }
-        }
-    });
-
-    // 初始化一次就够了
-    markObj.init = true;
-}
-
 /**
  * 提取变化目标对象指定版本范围的的DIFF
  * 如果是首次生成DIFF，自动检测哪些属性需要被追踪
@@ -391,9 +344,5 @@ function initReplicate(target: any) {
  */
 export function genDiff(target: any, from: number, to: number): any {
     let repObj = getReplicateObject(target, true);
-    if (!IsSupportGetSet && repObj.getLastVersion() == 0) {
-        initReplicate(target);
-    }
-
     return repObj.genDiff(from, to);
 }

@@ -1,0 +1,163 @@
+<mxfile host="65bd71144e">
+    <diagram id="LreHu9sFpLAb-TUeGiHC" name="第 1 页">
+        <mxGraphModel dx="2920" dy="2867" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="&lt;font color=&quot;#007fff&quot;&gt;Basic Layer&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#0000FF;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="650" width="980" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="&lt;font color=&quot;#00994d&quot;&gt;Network Module&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="110" y="680" width="370" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="&lt;font color=&quot;#00994d&quot;&gt;Nodejs Server Framework&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="120" y="770" width="190" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="&lt;font color=&quot;#00994d&quot;&gt;Cocos Network&amp;nbsp;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="300" y="710" width="170" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="&lt;font&gt;Sync Module&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="490" y="680" width="580" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="&lt;font&gt;&amp;nbsp; Simple Property&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="500" y="770" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="&lt;font&gt;&amp;nbsp; Complex Property&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="500" y="710" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="&lt;font&gt;&amp;nbsp; Cocos Buildin Property&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="610" y="770" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="&lt;font&gt;&amp;nbsp; Object Property&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="650" y="710" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="&lt;font&gt;&amp;nbsp; Array Property&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="760" y="710" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="&lt;font&gt;&amp;nbsp; Node Property&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="760" y="770" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="&lt;font&gt;&amp;nbsp; Set Property&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="870" y="710" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="&lt;font&gt;&amp;nbsp; Map Property&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="870" y="770" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="&lt;font color=&quot;#007fff&quot;&gt;GamePlay Layer&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#0000FF;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="200" width="980" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="&lt;font color=&quot;#00994d&quot;&gt;ObjectComponents&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="120" y="230" width="370" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="&lt;font color=&quot;#00994d&quot;&gt;SkillComponents&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="130" y="260" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="&lt;font color=&quot;#00994d&quot;&gt;BuffComponents&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="130" y="310" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="&lt;font color=&quot;#00994d&quot;&gt;RoleComponents&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="250" y="260" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="&lt;font color=&quot;#00994d&quot;&gt;RPC Module&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="120" y="710" width="170" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" value="&lt;font color=&quot;#00994d&quot;&gt;Protocol&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="770" width="150" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="&lt;font&gt;Replicater&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="980" y="710" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" value="&lt;font&gt;Scanner&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="980" y="770" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="&lt;font color=&quot;#007fff&quot;&gt;Framework Layer&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#0000FF;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="440" width="980" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="40" value="&lt;font color=&quot;#00994d&quot;&gt;Plugin&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="110" y="470" width="290" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="41" value="&lt;font color=&quot;#00994d&quot;&gt;Cocos Engine whithout render&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="120" y="500" width="190" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="42" value="&lt;font color=&quot;#00994d&quot;&gt;LAN&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="320" y="500" width="70" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" value="&lt;font&gt;NetDriver&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="470" width="660" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="44" value="&lt;font&gt;Session Manager&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="500" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="46" value="&lt;font&gt;Net Object Manager&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="500" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="52" value="&lt;font color=&quot;#00994d&quot;&gt;Building pipeline generate server code&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="120" y="560" width="270" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="56" value="&lt;font color=&quot;#00994d&quot;&gt;AIComponents&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="380" y="310" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="57" value="&lt;font color=&quot;#00994d&quot;&gt;BulletComponents&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="370" y="260" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="58" value="&lt;font color=&quot;#00994d&quot;&gt;AnimateComponents&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="250" y="310" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="59" value="&lt;font color=&quot;#00994d&quot;&gt;EffectComponents&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="130" y="360" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="60" value="&lt;font color=&quot;#00994d&quot;&gt;MoveComponents&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="250" y="360" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="61" value="&lt;font color=&quot;#00994d&quot;&gt;SkillComponents&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="370" y="360" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="63" value="&lt;font&gt;NetGUID&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="970" y="560" width="80" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="64" value="&lt;font&gt;Static Object&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="720" y="500" width="90" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="65" value="&lt;font&gt;Sync Rules&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="420" y="560" width="110" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="66" value="&lt;font&gt;Net Object Mapping&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="540" y="560" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="67" value="&lt;font&gt;AOI Culling&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="560" width="100" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="68" value="&lt;font&gt;Server Framework&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="820" y="560" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="69" value="&lt;font&gt;Net Gameplay Framework&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="830" y="500" width="210" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="70" value="&lt;font&gt;Level&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="500" y="230" width="350" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="71" value="&lt;font&gt;Other&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#FFCC99;strokeColor=#FF8000;fontColor=#CC6600;fillStyle=auto;" vertex="1" parent="1">
+                    <mxGeometry x="860" y="230" width="210" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="72" value="&lt;font&gt;JoyStick&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#FFCC99;strokeColor=#FF8000;fontColor=#CC6600;fillStyle=auto;" vertex="1" parent="1">
+                    <mxGeometry x="885" y="280" width="160" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="73" value="&lt;font&gt;NetPrefab&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#FFCC99;strokeColor=#FF8000;fontColor=#CC6600;fillStyle=auto;" vertex="1" parent="1">
+                    <mxGeometry x="885" y="340" width="160" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="74" value="&lt;font&gt;Level Dynamic Loading&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="510" y="280" width="160" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="75" value="&lt;font&gt;PGC Level&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="680" y="280" width="160" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="76" value="&lt;font&gt;Grid Manager&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="510" y="345" width="160" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="77" value="&lt;font&gt;UGC Editor&lt;br&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;sketch=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#6600CC;" vertex="1" parent="1">
+                    <mxGeometry x="680" y="345" width="160" height="50" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

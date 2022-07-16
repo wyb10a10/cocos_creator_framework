@@ -127,7 +127,7 @@
     }
   },
   "camera-uuids": [
-    "d8be8bee-362a-494a-9643-8e52af4c0c15"
+    "f46876e4-e81b-4931-b493-6d367be385e7"
   ],
   "float-window": {
     "position": {
@@ -141,5 +141,22 @@
         }
       }
     }
+  },
+  "camera": {
+    "fov": 45,
+    "far": 10000,
+    "near": 0.01,
+    "color": [
+      48,
+      48,
+      48,
+      255
+    ],
+    "wheelSpeed": 0.01,
+    "wanderSpeed": 10,
+    "enableAcceleration": true,
+    "far2D": 10000,
+    "near2D": 1,
+    "wheelSpeed2D": 6
   }
 }

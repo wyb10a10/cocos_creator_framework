@@ -180,9 +180,10 @@ export function replicated(option?: ReplicatedOption) {
  * 组件类型 - data为组件的网络唯一ID
  */
 export interface ReplicateProperty {
-    changed: boolean;
+    changed?: boolean;
     version: number;
     data: any;
+    setter?: string;
 }
 
 /**

@@ -3,6 +3,7 @@
  * 2022-01-16 by 宝爷
  */
 
+import { getReplicateMark } from "./ReplicateMark";
 import { IDiffGenerator, ReplicateProperty } from "./SyncUtil";
 
 export class ObjectDiffScanner implements IDiffGenerator {
@@ -15,6 +16,28 @@ export class ObjectDiffScanner implements IDiffGenerator {
     /** 所有发生过变化的数据，属性名 : 变化参数 */
     private dataMap: Map<string, ReplicateProperty> = new Map<string, ReplicateProperty>();
     
+    /** 构造函数 */
+    constructor(target: any) {
+        this.target = target;
+        // 获取类的同步标记
+        let mark = getReplicateMark(target.prototype);
+        if(mark) {
+            let marks = mark.getMarks();
+            for (let [name, info] of marks) {
+                // todo: 如果def是IDiffGenerator，则需要克隆一个新的对象
+                // todo: 这里应该使用target的还是mark的数据呢？
+                let rp : ReplicateProperty = { data: info.def || this.target[name], version: 0};
+                if(info.option) {
+                    // 这里还可能做点其他事情
+                    if(info.option.Setter) {
+                        rp.setter = info.option.Setter;
+                    }
+                }
+                this.dataMap.set(name, rp);
+            }
+        }
+    }
+
     /**
      * 生成Diff，toVersion必须为对象的最新版本号
      * @param fromVersion 从哪个版本开始扫描
@@ -33,21 +56,22 @@ export class ObjectDiffScanner implements IDiffGenerator {
         }
         // 遍历生成Diff
         for (let [name, property] of this.dataMap) {
+            let setter = property.setter || name;
             // 判断是否实现了genDiff接口
             if ("genDiff" in property.data) {
                 let diff = property.data.genDiff(fromVersion, toVersion);
                 if (diff) {
-                    ret[name] = diff;
+                    ret[setter] = diff;
                 }
             } else {
                 if (needScan) {
                     if(property.data != this.target[name]) {
                         property.data = this.target[name];
-                        ret[name] = property.data;
+                        ret[setter] = property.data;
                         property.version = toVersion;
                     }
                 } else if (property.version > fromVersion) {
-                    ret[name] = property.data;
+                    ret[setter] = property.data;
                 }
             }
         }

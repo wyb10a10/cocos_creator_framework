@@ -118,7 +118,7 @@ function makePropertyReplicated(target: any, propertyKey: string, descriptor?: P
  * @param option 
  */
 export function makeObjectReplicated(target: any, option?: ObjectReplicatedOption) {
-    let properties : any = {};
+    let properties: any = {};
     if (option && option.SyncProperty) {
         option.SyncProperty.forEach((pOpt) => {
             let descriptor = Object.getOwnPropertyDescriptor(target, pOpt.Name);
@@ -179,10 +179,24 @@ export function replicated(option?: ReplicatedOption) {
  * 节点类型 - data为节点的网络唯一ID
  * 组件类型 - data为组件的网络唯一ID
  */
-interface ReplicateProperty {
+export interface ReplicateProperty {
     changed: boolean;
     version: number;
     data: any;
+}
+
+/**
+ * 属性同步器接口，抽象Diff的生成
+ */
+export interface IDiffGenerator {
+    /**
+     * 生成一个Diff对象
+     */
+    genDiff(fromVersion: number, toVersion: number): any
+    /**
+     * 获取当前版本
+     */
+    getVersion(): number
 }
 
 /**

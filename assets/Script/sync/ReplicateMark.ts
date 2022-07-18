@@ -56,6 +56,10 @@ export interface ReplicateMarkInfo {
     return ret;
 }
 
+/**
+ * 属性同步标记，每个类只有一个标记对象
+ * 用于描述一个类的哪些属性需要被同步，如何同步等
+ */
 export default class ReplicateMark {
     public init = false;
     private markMap: Map<string, ReplicateMarkInfo> = new Map<string, ReplicateMarkInfo>();

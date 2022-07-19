@@ -42,9 +42,9 @@ export interface ReplicateMarkInfo {
  * @param target 要修饰的类对象
  * @returns ReplicateMark
  */
-export function getReplicateMark(target: any): ReplicateMark {
+export function getReplicateMark(target: any, autoCreator: boolean = true): ReplicateMark {
     let ret: ReplicateMark = target[REPLICATE_MARK_INDEX];
-    if (!ret) {
+    if (!ret && autoCreator) {
         ret = new ReplicateMark(target);
         Object.defineProperty(target, REPLICATE_MARK_INDEX, {
             value: ret,

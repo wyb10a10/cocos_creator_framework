@@ -19,14 +19,25 @@ export class ObjectDiffScanner implements IDiffGenerator {
     /** 构造函数 */
     constructor(target: any) {
         this.target = target;
+        this.makeUpDataMap(target);
+    }
+
+    /**
+     * 生成dataMap
+     * @param target 要扫描的目标Object
+     */
+    makeUpDataMap(target: any) {
         // 获取类的同步标记
-        let mark = getReplicateMark(target.prototype);
+        let mark = getReplicateMark(target.prototype, false);
         if(mark) {
             let marks = mark.getMarks();
             for (let [name, info] of marks) {
-                // todo: 如果def是IDiffGenerator，则需要克隆一个新的对象
-                // todo: 这里应该使用target的还是mark的数据呢？
-                let rp : ReplicateProperty = { data: info.def || this.target[name], version: 0};
+                let data = info.def || target[name];
+                // 如果def是函数，则执行函数返回一个新的对象(比如嵌套的对象)
+                if(typeof info.def === "function") {
+                    data = info.def.call(target[name], target, info);
+                }
+                let rp : ReplicateProperty = { data, version: 0};
                 if(info.option) {
                     // 这里还可能做点其他事情
                     if(info.option.Setter) {

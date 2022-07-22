@@ -4,9 +4,9 @@
  */
 
 import { getReplicateMark } from "./ReplicateMark";
-import { IDiffGenerator, ReplicateProperty } from "./SyncUtil";
+import { IReplicator, ReplicateProperty } from "./SyncUtil";
 
-export class ObjectDiffScanner implements IDiffGenerator {
+export class ReplicateScanner implements IReplicator {
     /** 最后一个有数据变化的版本号 */
     private lastVersion: number = 0;
     /** 最后一次检测的版本号 */
@@ -90,6 +90,27 @@ export class ObjectDiffScanner implements IDiffGenerator {
         return ret;
     }
 
+    /**
+     * 将Diff应用到目标Object上
+     * @param diff Diff
+     */
+    applyDiff(diff: any) {
+        let keys = Object.keys(diff);
+        for (let key of keys) {
+            // 如果是setter函数，则执行函数
+            if (typeof this.target[key] === "function") {
+                this.target[key](diff[key]);
+            } else {
+                let property = this.dataMap.get(key);
+                // 判断是否实现了applyDiff接口
+                if (property instanceof Object && "applyDiff" in property.data) {
+                    property.data.applyDiff(diff[key]);
+                } else {
+                    this.target[key] = diff[key];
+                }
+            }
+        }
+    }
     /**
      * 获取当前版本号
      * @returns 最后一个有数据变化的版本号

@@ -187,13 +187,18 @@ export interface ReplicateProperty {
 }
 
 /**
- * 属性同步器接口，抽象Diff的生成
+ * 属性同步器接口，抽象Diff的生成和Diff的应用
  */
-export interface IDiffGenerator {
+export interface IReplicator {
     /**
      * 生成一个Diff对象
      */
     genDiff(fromVersion: number, toVersion: number): any
+    /**
+     * 应用一个Diff对象
+     * @param diff Diff对象
+     */
+    applyDiff(diff: any): void
     /**
      * 获取当前版本
      */
@@ -326,7 +331,7 @@ class ReplicateObject {
 
 /**
  * 应用DIFF到target中
- * @param diff 
+ * @param diff
  * @param target 
  */
 export function applyDiff(diff: any, target: any) {

@@ -11,13 +11,15 @@
  * 3. Diff的生成与Apply
  */
 
-import { ObjectReplicatedOption, ReplicatedOption } from "./ReplicateMark";
+import { ReplicateScanner } from "./DiffScaner";
+import { getReplicateMark, ObjectReplicatedOption, ReplicatedOption } from "./ReplicateMark";
 
 /** 属性变化回调 */
 export type ReplicateNotify = (target: any, key: string, value: any) => boolean;
 export type Consturctor = { new(...args: any[]): any };
 
 export const REPLICATE_OBJECT_INDEX = "__repObj__";
+export const REPLICATOR_INDEX = "__RI__";
 
 /** 是否支持装饰器的Setter设置 */
 export const IsSupportGetSet = true;
@@ -34,6 +36,28 @@ export function getReplicateObject(target: any, autoCreator: boolean = false): R
     if (!ret && autoCreator) {
         ret = new ReplicateObject();
         Object.defineProperty(target, REPLICATE_OBJECT_INDEX, {
+            value: ret,
+            enumerable: false,
+            writable: false,
+            configurable: true,
+        });
+    }
+    return ret;
+}
+
+/**
+ * 查询对象的ReplicateObject，检查对象的target.__repObj__字段
+ * 每个实例会有一个自己的ReplicateObject
+ * @param target 要指定的对象
+ * @param autoCreator 找不到是否自动创建一个？
+ * @returns 
+ */
+export function getReplicator(target: any, autoCreator: boolean = false): IReplicator {
+    let ret: IReplicator = target[REPLICATOR_INDEX];
+    if (!ret && autoCreator) {
+        // TODO: 这里应该使用IReplicator的工厂
+        ret = new ReplicateScanner(target);
+        Object.defineProperty(target, REPLICATOR_INDEX, {
             value: ret,
             enumerable: false,
             writable: false,
@@ -105,9 +129,27 @@ function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescrip
  */
 function makePropertyReplicated(target: any, propertyKey: string, descriptor?: PropertyDescriptor, option?: ReplicatedOption) {
     if (descriptor) {
-        makePropertyDescriptor(propertyKey, descriptor, option);
+        //makePropertyDescriptor(propertyKey, descriptor, option);
+        makePropertyReplicatedMark(target, propertyKey, descriptor, option);
     } else {
         console.warn(`makePropertyReplicated error, ${propertyKey} not found in target ${target}`);
+    }
+}
+
+function makePropertyReplicatedMark(cls: any, propertyKey: string, descriptor?: PropertyDescriptor, option?: ReplicatedOption) {
+    if (descriptor) {
+        // 获取这个类的同步标记
+        let markObj = getReplicateMark(cls, true);
+        // 初始化默认值def
+        if ('initializer' in descriptor) {
+            let def = (descriptor as any).initializer();
+            markObj.addMark(propertyKey, def, option);
+        } else {
+            let def = descriptor.value;
+            markObj.addMark(propertyKey, def, option);
+        }
+    } else {
+        console.warn(`makePropertyReplicatedMark error, ${propertyKey} not found in target ${cls}`);
     }
 }
 

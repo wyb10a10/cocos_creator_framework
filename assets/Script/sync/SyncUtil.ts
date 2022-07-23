@@ -154,6 +154,27 @@ function makePropertyReplicatedMark(cls: any, propertyKey: string, descriptor?: 
 }
 
 /**
+ * TODO: Mark可能在Mark一个类，也可能Mark一个实例，这里是否要区分开？
+ * 1. 当Mark一个类时，该类的实例的Replicator获取prototype的Mark对象来初始化
+ * 2. 当Mark一个实例时，实际上可以直接初始化实例的Replicator，不需要再创建一个Mark对象
+ * @param cls 
+ * @param option 
+ */
+function makeObjectReplicatedMark(cls: any, option?: ObjectReplicatedOption) {
+    let markObj = getReplicateMark(cls, true);
+    if(option && option.SyncProperty) {
+        markObj.setObjMark(option);
+    } else {
+        let keys = Object.keys(cls);
+        keys.forEach((key) => {
+            if (!(option?.SkipProperty && option.SkipProperty.indexOf(key) >= 0)) {
+                markObj.addMark(key, cls[key]);
+            }
+        });
+    }
+}
+
+/**
  * 将一个对象的所有成员设置为可复制，为对象自动添加__repObj__属性，同时跟踪该属性的变化
  * 当我们希望只对这个实例进行同步时可以调用这个方法
  * @param target 

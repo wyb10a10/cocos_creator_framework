@@ -59,12 +59,12 @@ export class ReplicateScanner implements IReplicator {
         if (toVersion < fromVersion || this.target === null) {
             return false;
         }
-        let ret: any = {};
         let needScan = this.lastCheckVersion < toVersion;
         // 如果不需要扫描，且最终版本小于fromVersion，则直接返回
         if (!needScan && fromVersion > this.lastVersion) {
             return false;
         }
+        let ret: any = {};
         // 遍历生成Diff
         for (let [name, property] of this.dataMap) {
             let setter = property.setter || name;
@@ -111,6 +111,7 @@ export class ReplicateScanner implements IReplicator {
             }
         }
     }
+    
     /**
      * 获取当前版本号
      * @returns 最后一个有数据变化的版本号

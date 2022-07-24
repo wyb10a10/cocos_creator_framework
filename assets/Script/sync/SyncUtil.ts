@@ -162,17 +162,7 @@ function makePropertyReplicatedMark(cls: any, propertyKey: string, descriptor?: 
  * @param option 
  */
 function makeObjectReplicatedMark(cls: any, option?: ObjectReplicatedOption) {
-    let markObj = getReplicateMark(cls, true);
-    if(option && option.SyncProperty) {
-        markObj.setObjMark(option);
-    } else {
-        let keys = Object.keys(cls);
-        keys.forEach((key) => {
-            if (!(option?.SkipProperty && option.SkipProperty.indexOf(key) >= 0)) {
-                markObj.addMark(key, cls[key]);
-            }
-        });
-    }
+    let markObj = getReplicateMark(cls, true, option);
 }
 
 /**

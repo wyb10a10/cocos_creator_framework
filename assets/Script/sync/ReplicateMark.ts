@@ -59,10 +59,10 @@ export interface ReplicateMarkInfo {
  * @param target 要修饰的类对象
  * @returns ReplicateMark
  */
-export function getReplicateMark(target: any, autoCreator: boolean = true): ReplicateMark {
+export function getReplicateMark(target: any, autoCreator: boolean = true, option ?: ObjectReplicatedOption): ReplicateMark {
     let ret: ReplicateMark = target[REPLICATE_MARK_INDEX];
     if (!ret && autoCreator) {
-        ret = new ReplicateMark(target);
+        ret = new ReplicateMark(target, option);
         Object.defineProperty(target, REPLICATE_MARK_INDEX, {
             value: ret,
             enumerable: false,
@@ -84,8 +84,10 @@ export default class ReplicateMark {
     private defaultMark = false;
     private cls: any;
 
-    public constructor(cls: any) {
+    public constructor(cls: any, objMark?: ObjectReplicatedOption) {
         this.cls = cls;
+        this.objMark = objMark;
+        this.initMark();
     }
 
     public getCls(): any { return this.cls; }
@@ -110,25 +112,40 @@ export default class ReplicateMark {
         return this.markMap;
     }
 
-    public setObjMark(objMark: ObjectReplicatedOption) {
+    public setObjMark(objMark?: ObjectReplicatedOption) {
         this.objMark = objMark;
-        if (objMark) {
-            // 遍历markMap，如果在objMark.SkipProperty中，则删除
-            this.markMap.forEach((value, key) => {
-                if (objMark.SkipProperty && objMark.SkipProperty.indexOf(key) >= 0) {
-                    this.markMap.delete(key);
-                }
-            });
-            // 遍历objMark的SyncProperty，添加到markMap
-            if (objMark.SyncProperty) {
-                objMark.SyncProperty.forEach((item) => {
-                    this.addMark(item.Name, this.cls[item.Name], item);
-                });
-            }
-        }
     }
 
     public getObjMark(): ObjectReplicatedOption | undefined {
         return this.objMark;
+    }
+
+    public initMark() {
+        if (this.init) {
+            return;
+        }
+        this.init = true;
+        let objMark = this.objMark;
+
+        // 如果指定了SyncProperty，则添加SyncProperty中的属性到标记中
+        if (objMark && objMark.SyncProperty) {
+            for (let i = 0; i < objMark.SyncProperty.length; i++) {
+                let option = objMark.SyncProperty[i];
+                this.addMark(option.Name, this.cls[option.Name], option);
+            }
+        } else {
+            // 如果没有指定SyncProperty，则添加所有属性到标记中
+            for (let key in this.cls) {
+                this.addMark(key, this.cls[key]);
+            }
+        }
+
+        // 如果指定了SkipProperty，则跳过SkipProperty中的属性的同步
+        if (objMark && objMark.SkipProperty) {
+            for (let i = 0; i < objMark.SkipProperty.length; i++) {
+                let key = objMark.SkipProperty[i];
+                this.markMap.delete(key);
+            }
+        }
     }
 }

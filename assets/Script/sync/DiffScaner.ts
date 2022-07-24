@@ -3,7 +3,8 @@
  * 2022-01-16 by 宝爷
  */
 
-import { getReplicateMark } from "./ReplicateMark";
+import ReplicateMark, { getReplicateMark } from "./ReplicateMark";
+import { createReplicator } from "./ReplicatorFactory";
 import { IReplicator, ReplicateProperty } from "./SyncUtil";
 
 export class ReplicateScanner implements IReplicator {
@@ -15,32 +16,43 @@ export class ReplicateScanner implements IReplicator {
     private target: any = null;
     /** 所有发生过变化的数据，属性名 : 变化参数 */
     private dataMap: Map<string, ReplicateProperty> = new Map<string, ReplicateProperty>();
-    
+
     /** 构造函数 */
-    constructor(target: any) {
+    constructor(target: any, mark?: ReplicateMark) {
         this.target = target;
-        this.makeUpDataMap(target);
+        this.makeUpDataMap(target, mark);
     }
 
     /**
      * 生成dataMap
      * @param target 要扫描的目标Object
      */
-    makeUpDataMap(target: any) {
-        // 获取类的同步标记
-        let mark = getReplicateMark(target.prototype, false);
-        if(mark) {
+    makeUpDataMap(target: any, mark?: ReplicateMark) {
+        if (mark === undefined) {
+            // 获取类的同步标记
+            // 当我们不希望这个类的所有实例都支持同步，只是希望某些实例支持同步时，mark由外部传入
+            mark = getReplicateMark(target.__proto__, false);
+        }
+        if (mark) {
             let marks = mark.getMarks();
             for (let [name, info] of marks) {
                 let data = info.def || target[name];
                 // 如果def是函数，则执行函数返回一个新的对象(比如嵌套的对象)
-                if(typeof info.def === "function") {
+                if (typeof info.def === "function") {
                     data = info.def.call(target[name], target, info);
+                } else if (data instanceof Object) {
+                    if (info.option?.ObjectOption) {
+                        let subMark = getReplicateMark(data, true);
+                        subMark.setObjMark(info.option.ObjectOption);
+                        data = createReplicator(target[name], subMark);
+                    } else {
+                        data = createReplicator(target[name]);
+                    }
                 }
-                let rp : ReplicateProperty = { data, version: 0};
-                if(info.option) {
+                let rp: ReplicateProperty = { data, version: 0 };
+                if (info.option) {
                     // 这里还可能做点其他事情
-                    if(info.option.Setter) {
+                    if (info.option.Setter) {
                         rp.setter = info.option.Setter;
                     }
                 }
@@ -67,7 +79,8 @@ export class ReplicateScanner implements IReplicator {
         let ret: any = {};
         // 遍历生成Diff
         for (let [name, property] of this.dataMap) {
-            let setter = property.setter || name;
+            // let setter = property.setter || name;
+            let setter = name;
             // 判断是否实现了genDiff接口
             if ("genDiff" in property.data) {
                 let diff = property.data.genDiff(fromVersion, toVersion);
@@ -76,7 +89,7 @@ export class ReplicateScanner implements IReplicator {
                 }
             } else {
                 if (needScan) {
-                    if(property.data != this.target[name]) {
+                    if (property.data != this.target[name]) {
                         property.data = this.target[name];
                         ret[setter] = property.data;
                         property.version = toVersion;
@@ -97,13 +110,15 @@ export class ReplicateScanner implements IReplicator {
     applyDiff(diff: any) {
         let keys = Object.keys(diff);
         for (let key of keys) {
-            // 如果是setter函数，则执行函数
-            if (typeof this.target[key] === "function") {
-                this.target[key](diff[key]);
-            } else {
-                let property = this.dataMap.get(key);
-                // 判断是否实现了applyDiff接口
-                if (property instanceof Object && "applyDiff" in property.data) {
+            let property = this.dataMap.get(key);
+            if (property) {
+                // 如果指定了setter，则优先执行setter方法来应用Diff
+                if (property.setter && typeof this.target[property.setter] === "function") {
+                    // diff[key]可能是数组，当它是数组的时候，可以得到下面这样的效果
+                    // 如setPosition，this.target.setPosition(diff[key][0], diff[key][1], diff[key][2])
+                    this.target[property.setter].call(this.target[key], diff[key]);
+                } else if (property.data instanceof Object && "applyDiff" in property.data) {
+                    // 判断是否实现了applyDiff接口
                     property.data.applyDiff(diff[key]);
                 } else {
                     this.target[key] = diff[key];
@@ -111,7 +126,7 @@ export class ReplicateScanner implements IReplicator {
             }
         }
     }
-    
+
     /**
      * 获取当前版本号
      * @returns 最后一个有数据变化的版本号

@@ -12,7 +12,7 @@
  */
 
 import { ReplicateScanner } from "./DiffScaner";
-import { getReplicateMark, ObjectReplicatedOption, ReplicatedOption } from "./ReplicateMark";
+import ReplicateMark, { getReplicateMark, ObjectReplicatedOption, ReplicatedOption } from "./ReplicateMark";
 
 /** 属性变化回调 */
 export type ReplicateNotify = (target: any, key: string, value: any) => boolean;
@@ -50,13 +50,14 @@ export function getReplicateObject(target: any, autoCreator: boolean = false): R
  * 每个实例会有一个自己的ReplicateObject
  * @param target 要指定的对象
  * @param autoCreator 找不到是否自动创建一个？
+ * @param mark 同步标记
  * @returns 
  */
-export function getReplicator(target: any, autoCreator: boolean = false): IReplicator {
+export function getReplicator(target: any, autoCreator: boolean = false, mark?: ReplicateMark): IReplicator {
     let ret: IReplicator = target[REPLICATOR_INDEX];
     if (!ret && autoCreator) {
         // TODO: 这里应该使用IReplicator的工厂
-        ret = new ReplicateScanner(target);
+        ret = new ReplicateScanner(target, mark);
         Object.defineProperty(target, REPLICATOR_INDEX, {
             value: ret,
             enumerable: false,

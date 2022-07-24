@@ -1,11 +1,20 @@
 /**
  * 属性复制标记，描述一个类的哪些属性需要被同步，如何同步等
+ * 支持多级属性嵌套
  * 2022-01-16 by 宝爷
  */
 
 import { ReplicateNotify } from "./SyncUtil";
 
 export const REPLICATE_MARK_INDEX = "__repMrk__";
+
+/**
+ * 对象的属性同步类型
+ */
+export enum ReplicateType {
+    REPLICATE_SCAN = 0,
+    REPLICATE_TRIGGER = 1,
+}
 
 /**
  * 属性同步选项
@@ -17,8 +26,11 @@ export interface ReplicatedOption {
     Setter?: string;
     /** 属性同步条件 */
     Condiction?: number;
-    /** 同步回调 */
+    /** 同步回调，在属性被Apply的时候调用 */
     Notify?: ReplicateNotify;
+    /** 如果该属性是一个Object类型的，可以指定该Object的ObjectReplicatedOption
+     * 对于未指定的Object，则默认会为其创建不带参数的IReplicator，默认为ScannerReplicator */
+    ObjectOption?: ObjectReplicatedOption;
 }
 
 /**
@@ -29,8 +41,13 @@ export interface ObjectReplicatedOption {
     SyncProperty?: ReplicatedOption[];
     /** 指定跳过哪些属性的同步 */
     SkipProperty?: string[];
+    /** 同步类型 */
+    Type?: ReplicateType;
 }
 
+/**
+ * 属性同步信息
+ */
 export interface ReplicateMarkInfo {
     /** 默认值 */
     def?: any,
@@ -95,6 +112,20 @@ export default class ReplicateMark {
 
     public setObjMark(objMark: ObjectReplicatedOption) {
         this.objMark = objMark;
+        if (objMark) {
+            // 遍历markMap，如果在objMark.SkipProperty中，则删除
+            this.markMap.forEach((value, key) => {
+                if (objMark.SkipProperty && objMark.SkipProperty.indexOf(key) >= 0) {
+                    this.markMap.delete(key);
+                }
+            });
+            // 遍历objMark的SyncProperty，添加到markMap
+            if (objMark.SyncProperty) {
+                objMark.SyncProperty.forEach((item) => {
+                    this.addMark(item.Name, this.cls[item.Name], item);
+                });
+            }
+        }
     }
 
     public getObjMark(): ObjectReplicatedOption | undefined {

@@ -1,6 +1,6 @@
 import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat, ModelComponent, Color } from "cc";
-import { ReplicatedOption } from "../sync/ReplicateMark";
-import { applyDiff, genDiff, getReplicateObject, makeObjectReplicated, replicated } from "../sync/SyncUtil";
+import { getReplicateMark, ReplicatedOption } from "../sync/ReplicateMark";
+import { applyDiff, genDiff, getReplicateObject, getReplicator, makeObjectReplicated, replicated } from "../sync/SyncUtil";
 
 const { ccclass, property } = _decorator;
 
@@ -42,7 +42,11 @@ export default class SyncExample extends Component {
             {Name : '_lscale', Setter: 'setScale'}, 
             {Name : '_lpos', Setter: 'setPosition'}, 
             {Name : '_euler', Setter: 'eulerAngles'}];
-        makeObjectReplicated(this.leftNode, { SyncProperty : syncProperty});
+        //makeObjectReplicated(this.leftNode, { SyncProperty : syncProperty});
+        
+        let mark = getReplicateMark(this.leftNode);
+        mark.setObjMark({SyncProperty : syncProperty});
+        getReplicator(this.leftNode, true, mark);
     }
 
     onSyncClick() {
@@ -50,7 +54,12 @@ export default class SyncExample extends Component {
         let diffPos =  getReplicateObject(this.leftNode.position).genDiff(this.lastVersion, this.lastVersion + 1);
         let diffRot =  getReplicateObject(this.leftNode.eulerAngles).genDiff(this.lastVersion, this.lastVersion + 1);
         let diff = {scale : diffScale, position: diffPos, eulerAngles: diffRot};*/
-        let diff = getReplicateObject(this.leftNode).genDiff(this.lastVersion, this.lastVersion + 1);
+        /*let diff = getReplicateObject(this.leftNode).genDiff(this.lastVersion, this.lastVersion + 1);
+        if (diff) {
+            applyDiff(diff, this.rightNode);
+            this.lastVersion += 1;
+        }*/
+        let diff = getReplicator(this.leftNode).genDiff(this.lastVersion, this.lastVersion + 1);
         if (diff) {
             applyDiff(diff, this.rightNode);
             this.lastVersion += 1;

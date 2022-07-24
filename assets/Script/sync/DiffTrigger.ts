@@ -3,6 +3,7 @@
  * 2022-01-16 by 宝爷
  */
 
+import ReplicateMark from "./ReplicateMark";
 import { IReplicator, ReplicateProperty } from "./SyncUtil";
 
 export class ReplicateTrigger implements IReplicator {
@@ -19,6 +20,10 @@ export class ReplicateTrigger implements IReplicator {
     /** 在outter中的属性名 */
     private outterKey: string = "";
 
+    /** 构造函数 */
+    constructor(target: any, mark?: ReplicateMark) {
+        this.target = target;
+    }
     /**
      * 当一个属性被重新赋值时回调，即 target.key = v时
      * 1. 对比数值是否有发生变化，有则更新dataMap

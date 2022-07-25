@@ -35,6 +35,9 @@ export default class SyncExample extends Component {
         vec.x = 123;
         let diff =  getReplicateObject(vec).genDiff(this.lastVersion, this.lastVersion + 1);
         console.log(`vec diff ${diff}`);*/
+    }
+
+    makeObjectReplicated() {
         // 跟踪的属性并不能直接apply，而是需要调用接收者的如setPosition等方法使其生效
         // 这里可以考虑将Node的同步作为一个组件进行挂载，专门负责与Cocos节点相关的同步工作
         // 也可以考虑通过装饰器参数的描述来处理这种情况，比如 { name : _lpos, setter : setPosition, }
@@ -44,9 +47,9 @@ export default class SyncExample extends Component {
             {Name : '_euler', Setter: 'eulerAngles'}];
         //makeObjectReplicated(this.leftNode, { SyncProperty : syncProperty});
         
-        let mark = getReplicateMark(this.leftNode);
-        mark.setObjMark({SyncProperty : syncProperty});
+        let mark = getReplicateMark(this.leftNode, true, { SyncProperty : syncProperty});
         getReplicator(this.leftNode, true, mark);
+        getReplicator(this.rightNode, true, mark);
     }
 
     onSyncClick() {
@@ -61,12 +64,14 @@ export default class SyncExample extends Component {
         }*/
         let diff = getReplicator(this.leftNode).genDiff(this.lastVersion, this.lastVersion + 1);
         if (diff) {
-            applyDiff(diff, this.rightNode);
+            // applyDiff(diff, this.rightNode);
+            getReplicator(this.rightNode).applyDiff(diff);
             this.lastVersion += 1;
         }
     }
 
     onRotateClick() {
+        this.makeObjectReplicated()
         tween(this.leftNode)
         .by(3.0, {eulerAngles : new Vec3(0, randomRange(0, 180), 0)})
         .start();

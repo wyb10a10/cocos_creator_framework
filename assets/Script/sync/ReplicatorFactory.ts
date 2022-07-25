@@ -1,3 +1,5 @@
+import { Vec3 } from "cc";
+import { CCVec3Replicator } from "./CocosReplicator";
 import { ReplicateScanner } from "./DiffScaner";
 import { ReplicateTrigger } from "./DiffTrigger";
 import ReplicateMark, { ReplicateType } from "./ReplicateMark";
@@ -8,6 +10,8 @@ export function createReplicator(target: any, mark?: ReplicateMark) : IReplicato
     if (target instanceof Array) {
         // TODO: 数组类型
         return null;
+    } else if (target instanceof Vec3) {
+        return new CCVec3Replicator(target);
     } else if (target instanceof Object) {
         if (mark) {
             let objMark = mark.getObjMark();

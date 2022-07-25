@@ -38,16 +38,11 @@ export class ReplicateScanner implements IReplicator {
             for (let [name, info] of marks) {
                 let data = info.def || target[name];
                 // 如果def是函数，则执行函数返回一个新的对象(比如嵌套的对象)
-                if (typeof info.def === "function") {
+                /*if (typeof info.def === "function") {
                     data = info.def.call(target[name], target, info);
-                } else if (data instanceof Object) {
-                    if (info.option?.ObjectOption) {
-                        let subMark = getReplicateMark(data, true);
-                        subMark.setObjMark(info.option.ObjectOption);
-                        data = createReplicator(target[name], subMark);
-                    } else {
-                        data = createReplicator(target[name]);
-                    }
+                } else*/ if (data instanceof Object) {
+                    let subMark = getReplicateMark(data, true, info.option?.ObjectOption);
+                    data = createReplicator(target[name], subMark);
                 }
                 let rp: ReplicateProperty = { data, version: 0 };
                 if (info.option) {
@@ -82,7 +77,7 @@ export class ReplicateScanner implements IReplicator {
             // let setter = property.setter || name;
             let setter = name;
             // 判断是否实现了genDiff接口
-            if ("genDiff" in property.data) {
+            if (property.data instanceof Object && "genDiff" in property.data) {
                 let diff = property.data.genDiff(fromVersion, toVersion);
                 if (diff) {
                     ret[setter] = diff;
@@ -116,7 +111,7 @@ export class ReplicateScanner implements IReplicator {
                 if (property.setter && typeof this.target[property.setter] === "function") {
                     // diff[key]可能是数组，当它是数组的时候，可以得到下面这样的效果
                     // 如setPosition，this.target.setPosition(diff[key][0], diff[key][1], diff[key][2])
-                    this.target[property.setter].call(this.target[key], diff[key]);
+                    this.target[property.setter].apply(this.target, diff[key]);
                 } else if (property.data instanceof Object && "applyDiff" in property.data) {
                     // 判断是否实现了applyDiff接口
                     property.data.applyDiff(diff[key]);

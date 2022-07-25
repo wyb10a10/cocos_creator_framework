@@ -114,6 +114,7 @@ export default class ReplicateMark {
 
     public setObjMark(objMark?: ObjectReplicatedOption) {
         this.objMark = objMark;
+        this.initMark();
     }
 
     public getObjMark(): ObjectReplicatedOption | undefined {
@@ -135,7 +136,8 @@ export default class ReplicateMark {
             }
         } else {
             // 如果没有指定SyncProperty，则添加所有属性到标记中
-            for (let key in this.cls) {
+            // 使用Keys遍历，避免遍历到其原型属性导致无限递归
+            for (let key of Object.keys(this.cls)) {
                 this.addMark(key, this.cls[key]);
             }
         }

@@ -3,8 +3,60 @@
  * 2022-01-16 by 宝爷
  */
 
-import ReplicateMark from "./ReplicateMark";
-import { IReplicator, ReplicateProperty } from "./SyncUtil";
+import ReplicateMark, { ReplicatedOption } from "./ReplicateMark";
+import { getReplicator, IReplicator, ReplicateProperty } from "./SyncUtil";
+
+/**
+ * 构造一个属性复制的Descriptor，设置该Descriptor的get/set
+ * 在不影响原来set方法的基础上自动跟踪属性变化
+ * @param target 要跟踪的实例
+ * @param propertyKey 要跟踪的Key
+ * @param descriptor 要修改的descriptor
+ * @param option ReplicatedOption
+ */
+function makePropertyDescriptor(propertyKey: string, descriptor: PropertyDescriptor, option?: ReplicatedOption) {
+    // 在不影响原来set方法的基础上自动跟踪属性变化
+    let realProperty: string;
+    if (option && option.Setter) {
+        realProperty = option.Setter;
+    } else {
+        realProperty = propertyKey;
+    }
+
+    let oldValue = descriptor.value;
+    let oldSet = descriptor.set;
+    let oldGet = descriptor.get;
+    delete descriptor.value;
+    delete descriptor.writable;
+
+    if (oldValue === undefined
+        && Object.getOwnPropertyDescriptor(descriptor, "initializer")) {
+        let desc = descriptor as any;
+        oldValue = desc.initializer();
+        delete desc.initializer;
+    }
+
+    descriptor.set = function (v: any) {
+        let repObj = getReplicator(this, true) as ReplicateTrigger;
+        // 标记属性发生变化
+        repObj.propertyChanged(realProperty, v);
+        if (oldSet) {
+            oldSet(v);
+        }
+    }
+
+    // 在不影响原来get方法的基础上，实现set方法的对应操作
+    descriptor.get = function () {
+        let ret = undefined;
+        if (oldGet) {
+            ret = oldGet();
+        } else {
+            let repObj = getReplicator(this, true) as ReplicateTrigger;
+            ret = repObj.getProperty(realProperty);
+        }
+        return ret === undefined ? oldValue : ret;
+    }
+}
 
 export class ReplicateTrigger implements IReplicator {
     /** 最后一次检测的版本号 */
@@ -24,6 +76,12 @@ export class ReplicateTrigger implements IReplicator {
     constructor(target: any, mark?: ReplicateMark) {
         this.target = target;
     }
+
+    public getProperty(key: string): any {
+        let repPro = this.dataMap.get(key);
+        return repPro ? repPro.data : repPro;
+    }
+
     /**
      * 当一个属性被重新赋值时回调，即 target.key = v时
      * 1. 对比数值是否有发生变化，有则更新dataMap
@@ -35,7 +93,7 @@ export class ReplicateTrigger implements IReplicator {
      * @param v 
      * @param force 
      */
-     public propertyChanged(key: string, v?: any, force?: boolean): void {
+    public propertyChanged(key: string, v?: any, force?: boolean): void {
         let repPro = this.dataMap.get(key);
         let changed = force != true;
 
@@ -67,7 +125,7 @@ export class ReplicateTrigger implements IReplicator {
             this.hasNewChange = true;
         }
     }
-    
+
     /**
      * 生成Diff，toVersion必须为对象的最新版本号
      * @param fromVersion 从哪个版本开始扫描
@@ -125,7 +183,7 @@ export class ReplicateTrigger implements IReplicator {
             }
         }
     }
-    
+
     /**
      * 获取当前版本号
      * @returns 最后一个有数据变化的版本号

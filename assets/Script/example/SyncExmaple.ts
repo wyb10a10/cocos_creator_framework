@@ -1,6 +1,6 @@
 import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat, ModelComponent, Color } from "cc";
 import { getReplicateMark, ReplicatedOption } from "../sync/ReplicateMark";
-import { applyDiff, genDiff, getReplicateObject, getReplicator, makeObjectReplicated, replicated } from "../sync/SyncUtil";
+import { getReplicator, replicated } from "../sync/SyncUtil";
 
 const { ccclass, property } = _decorator;
 
@@ -27,8 +27,8 @@ export default class SyncExample extends Component {
     onLoad() {
         let a = new A();
         a.a = 12;
-        let diff = genDiff(a, 0, 1);
-        console.log(diff);
+        //let diff = genDiff(a, 0, 1);
+        //console.log(diff);
 
         this.makeObjectReplicated()
         /*let vec = new Vec3(Vec3.ZERO);

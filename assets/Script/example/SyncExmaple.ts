@@ -30,6 +30,7 @@ export default class SyncExample extends Component {
         let diff = genDiff(a, 0, 1);
         console.log(diff);
 
+        this.makeObjectReplicated()
         /*let vec = new Vec3(Vec3.ZERO);
         makeObjectReplicated(vec);
         vec.x = 123;
@@ -44,7 +45,7 @@ export default class SyncExample extends Component {
         let syncProperty : ReplicatedOption[] = [
             {Name : '_lscale', Setter: 'setScale'}, 
             {Name : '_lpos', Setter: 'setPosition'}, 
-            {Name : '_euler', Setter: 'eulerAngles'}];
+            {Name : '_euler', Setter: 'setRotationFromEuler'}];
         //makeObjectReplicated(this.leftNode, { SyncProperty : syncProperty});
         
         let mark = getReplicateMark(this.leftNode, true, { SyncProperty : syncProperty});
@@ -53,25 +54,14 @@ export default class SyncExample extends Component {
     }
 
     onSyncClick() {
-        /*let diffScale =  getReplicateObject(this.leftNode.scale).genDiff(this.lastVersion, this.lastVersion + 1);
-        let diffPos =  getReplicateObject(this.leftNode.position).genDiff(this.lastVersion, this.lastVersion + 1);
-        let diffRot =  getReplicateObject(this.leftNode.eulerAngles).genDiff(this.lastVersion, this.lastVersion + 1);
-        let diff = {scale : diffScale, position: diffPos, eulerAngles: diffRot};*/
-        /*let diff = getReplicateObject(this.leftNode).genDiff(this.lastVersion, this.lastVersion + 1);
-        if (diff) {
-            applyDiff(diff, this.rightNode);
-            this.lastVersion += 1;
-        }*/
         let diff = getReplicator(this.leftNode).genDiff(this.lastVersion, this.lastVersion + 1);
         if (diff) {
-            // applyDiff(diff, this.rightNode);
             getReplicator(this.rightNode).applyDiff(diff);
             this.lastVersion += 1;
         }
     }
 
     onRotateClick() {
-        this.makeObjectReplicated()
         tween(this.leftNode)
         .by(3.0, {eulerAngles : new Vec3(0, randomRange(0, 180), 0)})
         .start();
@@ -89,8 +79,6 @@ export default class SyncExample extends Component {
         let x = randomRange(-3, 3);
         let y = randomRange(-3, 3);
         let z = randomRange(-3, 3);
-        this.leftNode.setPosition(x, y, z);
-        return;
         tween(this.leftNode)
         .to(3.0, {position : new Vec3(x, y, z)})
         .start();

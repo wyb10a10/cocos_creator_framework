@@ -30,9 +30,9 @@ export default class SyncExample extends Component {
         a.a = 12;
         let b = new B();
         b.b = 64;
-        let diff1 = getReplicator(a, true).genDiff(0, 1);
+        let diff1 = getReplicator(a, true)?.genDiff(0, 1);
         console.log(diff1);
-        let diff2 = getReplicator(b, true).genDiff(0, 1);
+        let diff2 = getReplicator(b, true)?.genDiff(0, 1);
         console.log(diff2);
         //let diff = genDiff(a, 0, 1);
         //console.log(diff);
@@ -61,9 +61,9 @@ export default class SyncExample extends Component {
     }
 
     onSyncClick() {
-        let diff = getReplicator(this.leftNode).genDiff(this.lastVersion, this.lastVersion + 1);
+        let diff = getReplicator(this.leftNode)?.genDiff(this.lastVersion, this.lastVersion + 1);
         if (diff) {
-            getReplicator(this.rightNode).applyDiff(diff);
+            getReplicator(this.rightNode)?.applyDiff(diff);
             this.lastVersion += 1;
         }
     }

@@ -13,6 +13,7 @@
 
 import { ReplicateScanner } from "./DiffScaner";
 import ReplicateMark, { getReplicateMark, ObjectReplicatedOption, ReplicatedOption } from "./ReplicateMark";
+import { createReplicator } from "./ReplicatorFactory";
 
 /** 属性变化回调 */
 export type ReplicateNotify = (target: any, key: string, value: any) => boolean;
@@ -32,17 +33,22 @@ export const IsSupportGetSet = true;
  * @param mark 同步标记
  * @returns 
  */
-export function getReplicator(target: any, autoCreator: boolean = false, mark?: ReplicateMark): IReplicator {
-    let ret: IReplicator = target[REPLICATOR_INDEX];
+export function getReplicator(target: any, autoCreator: boolean = false, mark?: ReplicateMark): IReplicator | null {
+    let ret: IReplicator | null = target[REPLICATOR_INDEX];
     if (!ret && autoCreator) {
-        // TODO: 这里应该使用IReplicator的工厂
-        ret = new ReplicateScanner(target, mark);
-        Object.defineProperty(target, REPLICATOR_INDEX, {
-            value: ret,
-            enumerable: false,
-            writable: false,
-            configurable: true,
-        });
+        if(!mark) {
+            mark = getReplicateMark(target.constructor, true);
+        }
+        ret = createReplicator(target, mark);
+        if (ret) {
+            target[REPLICATOR_INDEX] = ret;
+            Object.defineProperty(target, REPLICATOR_INDEX, {
+                value: ret,
+                enumerable: false,
+                writable: false,
+                configurable: true,
+            });
+        }
     }
     return ret;
 }
@@ -78,8 +84,8 @@ function makePropertyReplicatedMark(cls: any, propertyKey: string, descriptor?: 
  * @param cls 
  * @param option 
  */
-function makeObjectReplicatedMark(cls: any, option?: ObjectReplicatedOption) {
-    getReplicateMark(cls, true, option);
+function makeObjectReplicatedMark(cls: any, option?: ObjectReplicatedOption): ReplicateMark {
+    return getReplicateMark(cls, true, option);
 }
 
 /**

@@ -11,7 +11,6 @@
  * 3. Diff的生成与Apply
  */
 
-import { ReplicateScanner } from "./DiffScaner";
 import ReplicateMark, { getReplicateMark, ObjectReplicatedOption, ReplicatedOption } from "./ReplicateMark";
 import { createReplicator } from "./ReplicatorFactory";
 
@@ -38,6 +37,8 @@ export function getReplicator(target: any, autoCreator: boolean = false, mark?: 
     if (!ret && autoCreator) {
         if(!mark) {
             mark = getReplicateMark(target.constructor, true);
+            // 当类装饰器作用时，如果属性还未生成，则需要使用类的实例进行初始化
+            mark.initMark(target);
         }
         ret = createReplicator(target, mark);
         if (ret) {

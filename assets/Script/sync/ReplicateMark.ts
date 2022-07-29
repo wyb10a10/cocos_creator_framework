@@ -59,7 +59,7 @@ export interface ReplicateMarkInfo {
  * @param target 要修饰的类对象
  * @returns ReplicateMark
  */
-export function getReplicateMark(target: any, autoCreator: boolean = true, option ?: ObjectReplicatedOption): ReplicateMark {
+export function getReplicateMark(target: any, autoCreator: boolean = true, option?: ObjectReplicatedOption): ReplicateMark {
     let ret: ReplicateMark = target[REPLICATE_MARK_INDEX];
     if (!ret && autoCreator) {
         ret = new ReplicateMark(target, option);
@@ -87,7 +87,12 @@ export default class ReplicateMark {
     public constructor(cls: any, objMark?: ObjectReplicatedOption) {
         this.cls = cls;
         this.objMark = objMark;
-        this.initMark();
+        // 如果明确指定了syncProperty
+        // 或cls存在成员变量，才执行initMark
+        // 其他情况表示，cls还未被初始化
+        if ((objMark && objMark.SyncProperty) || Object.keys(cls).length > 0) {
+            this.initMark();
+        }
     }
 
     public getCls(): any { return this.cls; }
@@ -121,9 +126,13 @@ export default class ReplicateMark {
         return this.objMark;
     }
 
-    public initMark() {
+    public initMark(cls?: any) {
         if (this.init) {
             return;
+        }
+
+        if(!cls) {
+            cls = this.cls;
         }
         this.init = true;
         let objMark = this.objMark;
@@ -132,13 +141,13 @@ export default class ReplicateMark {
         if (objMark && objMark.SyncProperty) {
             for (let i = 0; i < objMark.SyncProperty.length; i++) {
                 let option = objMark.SyncProperty[i];
-                this.addMark(option.Name, this.cls[option.Name], option);
+                this.addMark(option.Name, cls[option.Name], option);
             }
         } else {
             // 如果没有指定SyncProperty，则添加所有属性到标记中
             // 使用Keys遍历，避免遍历到其原型属性导致无限递归
-            for (let key of Object.keys(this.cls)) {
-                this.addMark(key, this.cls[key]);
+            for (let key of Object.keys(cls)) {
+                this.addMark(key, cls[key]);
             }
         }
 

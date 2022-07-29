@@ -131,6 +131,12 @@ export default class ReplicateMark {
             return;
         }
 
+        // 当对象通过addMark的方式初始化时，无需再检查
+        if (this.markMap.size > 0) {
+            this.init = true;
+            return;
+        }
+
         if(!cls) {
             cls = this.cls;
         }

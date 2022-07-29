@@ -36,7 +36,12 @@ export class ReplicateScanner implements IReplicator {
         if (mark) {
             let marks = mark.getMarks();
             for (let [name, info] of marks) {
-                let data = info.def || target[name];
+                let data: any;
+                if (undefined === info.def) {
+                    data = target[name];
+                } else {
+                    data = info.def;
+                }
                 // 如果def是函数，则执行函数返回一个新的对象(比如嵌套的对象)
                 /*if (typeof info.def === "function") {
                     data = info.def.call(target[name], target, info);

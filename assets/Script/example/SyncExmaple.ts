@@ -1,6 +1,6 @@
 import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat, ModelComponent, Color } from "cc";
 import { getReplicateMark, ReplicatedOption } from "../sync/ReplicateMark";
-import { getReplicator, replicated } from "../sync/SyncUtil";
+import { getReplicator, replicated, replicatedClass } from "../sync/SyncUtil";
 
 const { ccclass, property } = _decorator;
 
@@ -11,6 +11,7 @@ class A {
     b: number = 1;
 }
 
+@replicatedClass()
 class B {
     a : number = 1;
     b : number = 2;
@@ -27,6 +28,12 @@ export default class SyncExample extends Component {
     onLoad() {
         let a = new A();
         a.a = 12;
+        let b = new B();
+        b.b = 64;
+        let diff1 = getReplicator(a, true).genDiff(0, 1);
+        console.log(diff1);
+        let diff2 = getReplicator(b, true).genDiff(0, 1);
+        console.log(diff2);
         //let diff = genDiff(a, 0, 1);
         //console.log(diff);
 

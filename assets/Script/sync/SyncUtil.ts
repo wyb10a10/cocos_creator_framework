@@ -54,15 +54,6 @@ export function getReplicator(target: any, autoCreator: boolean = false, mark?: 
  * @param descriptor 属性的描述符
  * @param option 自定义同步选项
  */
-function makePropertyReplicated(target: any, propertyKey: string, descriptor?: PropertyDescriptor, option?: ReplicatedOption) {
-    if (descriptor) {
-        //makePropertyDescriptor(propertyKey, descriptor, option);
-        makePropertyReplicatedMark(target, propertyKey, descriptor, option);
-    } else {
-        console.warn(`makePropertyReplicated error, ${propertyKey} not found in target ${target}`);
-    }
-}
-
 function makePropertyReplicatedMark(cls: any, propertyKey: string, descriptor?: PropertyDescriptor, option?: ReplicatedOption) {
     if (descriptor) {
         // 获取这个类的同步标记
@@ -88,7 +79,7 @@ function makePropertyReplicatedMark(cls: any, propertyKey: string, descriptor?: 
  * @param option 
  */
 function makeObjectReplicatedMark(cls: any, option?: ObjectReplicatedOption) {
-    let markObj = getReplicateMark(cls, true, option);
+    getReplicateMark(cls, true, option);
 }
 
 /**
@@ -98,24 +89,20 @@ function makeObjectReplicatedMark(cls: any, option?: ObjectReplicatedOption) {
 export function replicated(option?: ReplicatedOption) {
     // 真正的装饰器
     return (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => {
-        return makePropertyReplicated(target, propertyKey, descriptor, option);
+        return makePropertyReplicatedMark(target, propertyKey, descriptor, option);
     };
 }
 
-/*export function replicatedClass<T extends Consturctor>(option?: ObjectReplicatedOption) {
+/**
+ * 类同步装饰器
+ * @param option 
+ * @returns 
+ */
+export function replicatedClass<T extends Consturctor>(option?: ObjectReplicatedOption) {
     return (target: T) => {
-        if (IsSupportGetSet) {
-            makeObjectReplicated(target, option);
-        } else {
-            // 这里无法获取成员属性的descriptor，对属性的定义也会被后续的实例化覆盖
-            if (option) {
-                getReplicateMark(target.prototype).setObjMark(option);
-            } else {
-                getReplicateMark(target.prototype).setDefaultMark(true);
-            }
-        }
+        makeObjectReplicatedMark(target, option);
     }
-}*/
+}
 
 /**
  * 一个属性的变化信息

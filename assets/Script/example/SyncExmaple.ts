@@ -29,10 +29,12 @@ export default class SyncExample extends Component {
         let a = new A();
         a.a = 12;
         let b = new B();
+        // 先生成第一版初始数据之后才能应用变化
+        let replicatorB = getReplicator(b, true);
         b.b = 64;
         let diff1 = getReplicator(a, true)?.genDiff(0, 1);
         console.log(diff1);
-        let diff2 = getReplicator(b, true)?.genDiff(0, 1);
+        let diff2 = replicatorB?.genDiff(0, 1);
         console.log(diff2);
         //let diff = genDiff(a, 0, 1);
         //console.log(diff);

@@ -2,47 +2,112 @@ import ReplicateMark from "./ReplicateMark";
 import { createReplicator } from "./ReplicatorFactory";
 import { IReplicator } from "./SyncUtil";
 
+export type SimpleType = number | string | boolean | bigint;
+
 /**
  * 数组对象某个版本的数据
  */
-interface ArrayVersion {
+interface ArrayVersionInfo {
     version: number;
-    data: any[];
+    data: SimpleType;
 }
 
-/**
- * ArrayDiffHistory管理一个数组的变化历史
- * 由于复杂Diff可以直接由genDiff生成，所以这里只需要保存简单Diff，如number、string、boolean等
- * 每个Diff的结构为[length, idx1, data1, idx2, data2, ...]
- */
-class ArrayDiffHistory {
-    private hisotry: ArrayVersion[] = [];
+export class SimpleArrayReplicator implements IReplicator {
+    /** 最后一个有数据变化的版本号 */
+    private lastVersion: number = 0;
+    /** 最后一次检测的版本号 */
+    private lastCheckVersion: number = 0;
+    /** 数组长度发生变化的最后一个版本 */
+    private lastLengthVersion: number = 0;
+    private data: ArrayVersionInfo[];
+    private target: SimpleType[];
 
-    /**
-     * append一个新的version
-     * @param version 新的版本号
-     * @param data 新的数据
-     */
-    append(version: number, data: any[]) {
-        this.hisotry.push({ version, data });
+    constructor(target: SimpleType[], mark?: ReplicateMark) {
+        this.target = target;
+        this.data = [];
+        this.makeUpDataArray(target, mark);
     }
 
-    /**
-     * 根据最新的diff，清理老版本的数据
-     * 如果length变小，删除历史中所有idx>length的数据
-     * 如果idx的data变化，删除历史中所有该idx的数据
-     */
-}
-
-export class SimpleArrayReplicator<T extends number|boolean|string> implements IReplicator {
-    genDiff(fromVersion: number, toVersion: number) {
-        throw new Error("Method not implemented.");
+    makeUpDataArray(target: SimpleType[], mark?: ReplicateMark) {
+        for (let i = 0; i < target.length; i++) {
+            this.data.push({ version: 0, data: target[i] });
+        }
     }
+
+    genDiff(fromVersion: number, toVersion: number): any {
+        if (toVersion < fromVersion) {
+            return false;
+        }
+        let needScan = this.lastCheckVersion < toVersion;
+        // 如果不需要扫描，且最终版本小于fromVersion，则直接返回
+        if (!needScan && fromVersion > this.lastVersion) {
+            return false;
+        }
+        // 如果需要扫描，先判断长度是否相等
+        if (needScan) {
+            let diff: SimpleType[] = [this.target.length];
+            let lengthChanged = this.data.length != this.target.length;
+            if (lengthChanged) {
+                this.lastLengthVersion = toVersion;
+            }
+            if (this.data.length > this.target.length) {
+                // 删除多余的data
+                this.data.splice(this.target.length, this.data.length - this.target.length);
+            }
+            for (let i = this.target.length; i < this.target.length; i++) {
+                if (this.data.length <= i) {
+                    this.data.push({ version: toVersion, data: this.target[i] });
+                    diff.push(i, this.target[i]);
+                } else if (this.data[i].data != this.target[i]) {
+                    this.data[i].version = toVersion;
+                    this.data[i].data = this.target[i];
+                    diff.push(i, this.target[i]);
+                }
+            }
+            this.lastCheckVersion = toVersion;
+            // 没有任何变化
+            if (!lengthChanged && diff.length == 1) {
+                return false;
+            }
+            this.lastVersion = toVersion;
+            return diff;
+        } else {
+            // 遍历data，过滤出版本范围内的数据
+            let diff: SimpleType[] = [this.target.length];
+            for (let i = 0; i < this.data.length; i++) {
+                if (this.data[i].version >= fromVersion && this.data[i].version <= toVersion) {
+                    diff.push(i, this.data[i].data);
+                }
+            }
+            // 没有任何变化
+            if (this.lastLengthVersion < fromVersion && diff.length == 1) {
+                return false;
+            }
+            return diff;
+        }
+    }
+
     applyDiff(diff: any): void {
-        throw new Error("Method not implemented.");
+        if (diff instanceof Array) {
+            // 如果长度减少，删除多余的对象
+            let length = diff[0];
+            if (length < this.target.length) {
+                this.target.splice(length, this.target.length - length);
+            }
+            // 遍历修改或push
+            for (let i = 1; i < diff.length; i += 2) {
+                let index = diff[i];
+                let value = diff[i + 1];
+                if (index >= this.target.length) {
+                    this.target.push(value);
+                } else {
+                    this.target[index] = value;
+                }
+            }
+        }
     }
     getVersion(): number {
-        throw new Error("Method not implemented.");
+        return this.lastVersion;
     }
 }
 
@@ -89,7 +154,7 @@ export class ArrayReplicator<T> implements IReplicator {
                 // 如果是一个新插入的对象，是否需要添加特殊的标识？方便对端实例化这个新对象
                 // continue;
             }
-            let data : any = this.data[i];
+            let data: any = this.data[i];
             if (data instanceof Object && "genDiff" in data) {
                 let diff = data.genDiff(fromVersion, toVersion);
                 if (diff) {
@@ -118,13 +183,13 @@ export class ArrayReplicator<T> implements IReplicator {
         if (diff instanceof Array) {
             // 如果长度减少，删除多余的对象
             let length = diff[0];
-            if(length < this.target.length) {
+            if (length < this.target.length) {
                 this.target.splice(length, this.target.length - length);
             }
             // 遍历修改或push
             for (let i = 1; i < diff.length; ++i) {
                 // 如果需要创建新的对象
-                if(i > this.target.length) {
+                if (i > this.target.length) {
                     //todo 为提高效率，可以把简单类型和复杂类型区分开
                     //this.target.push(new T());
                 }

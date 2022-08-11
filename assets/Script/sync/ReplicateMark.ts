@@ -4,7 +4,7 @@
  * 2022-01-16 by 宝爷
  */
 
-import { ReplicateNotify } from "./SyncUtil";
+import { Consturctor, ReplicateNotify } from "./SyncUtil";
 
 export const REPLICATE_MARK_INDEX = "__repMrk__";
 
@@ -43,6 +43,8 @@ export interface ObjectReplicatedOption {
     SkipProperty?: string[];
     /** 同步类型 */
     Type?: ReplicateType;
+    /** 构造函数，当数组需要创建新元素的时候指定 */
+    Constructor?: Consturctor;
 }
 
 /**

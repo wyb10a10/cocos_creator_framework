@@ -1,6 +1,6 @@
 import ReplicateMark from "./ReplicateMark";
 import { createReplicator } from "./ReplicatorFactory";
-import { IReplicator } from "./SyncUtil";
+import { Consturctor, IReplicator } from "./SyncUtil";
 
 export type SimpleType = number | string | boolean | bigint;
 
@@ -111,21 +111,30 @@ export class SimpleArrayReplicator implements IReplicator {
     }
 }
 
-export class ArrayReplicator<T> implements IReplicator {
-    private data: Array<any>;
+export class ArrayReplicator<T extends Consturctor> implements IReplicator {
+    private data: Array<IReplicator>;
     private target: Array<T>;
+    private ctor: Consturctor;
 
     constructor(target: Array<T>, mark?: ReplicateMark) {
+        let objMark = mark?.getObjMark();
+        if (objMark?.Constructor) {
+            this.ctor = objMark?.Constructor;
+        } else {
+            // 如果没有指定Constructor，则target数组不得为空
+            this.ctor = target[0];
+        }
         this.target = target;
         this.data = [];
         this.makeUpDataArray(target, mark);
     }
 
     pushData(data: T, mark?: ReplicateMark) {
-        if (data instanceof Object) {
-            this.data.push(createReplicator(data, mark));
+        let replicator = createReplicator(data, mark);
+        if (replicator) {
+            this.data.push(replicator);
         } else {
-            this.data.push(data);
+            console.error("ArrayReplicator.pushData createReplicator error:", data);
         }
     }
 
@@ -150,19 +159,13 @@ export class ArrayReplicator<T> implements IReplicator {
         for (let i = 0; i < this.target.length; i++) {
             // 如果i大于data的长度，表示插入了一个新的对象
             if (i >= this.data.length) {
+                // todo: 新插入的对象应该带最新的版本号？
                 this.pushData(this.target[i]);
-                // 如果是一个新插入的对象，是否需要添加特殊的标识？方便对端实例化这个新对象
-                // continue;
             }
             let data: any = this.data[i];
-            if (data instanceof Object && "genDiff" in data) {
-                let diff = data.genDiff(fromVersion, toVersion);
-                if (diff) {
-                    ret.push(i, diff);
-                }
-            } else if (data != this.target[i]) {
-                ret.push(i, this.target[i]);
-                this.data[i] = this.target[i];
+            let diff = data.genDiff(fromVersion, toVersion);
+            if (diff) {
+                ret.push(i, diff);
             }
         }
 
@@ -175,7 +178,6 @@ export class ArrayReplicator<T> implements IReplicator {
         if (this.data.length > this.target.length) {
             this.data.splice(this.target.length, this.data.length - this.target.length);
         }
-
         return ret;
     }
 
@@ -188,12 +190,14 @@ export class ArrayReplicator<T> implements IReplicator {
             }
             // 遍历修改或push
             for (let i = 1; i < diff.length; ++i) {
+                let index = diff[i];
+                let value = diff[i + 1];
                 // 如果需要创建新的对象
                 if (i > this.target.length) {
-                    //todo 为提高效率，可以把简单类型和复杂类型区分开
-                    //this.target.push(new T());
+                    // TODO: 如果有构造函数参数，如何传递？
+                    this.target.push(new this.ctor());
                 }
-                this.target.push(...diff);
+                this.data[index].applyDiff(value);
             }
         }
     }

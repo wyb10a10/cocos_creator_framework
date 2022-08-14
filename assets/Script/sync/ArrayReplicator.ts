@@ -7,11 +7,15 @@ export type SimpleType = number | string | boolean | bigint;
 /**
  * 数组对象某个版本的数据
  */
-interface ArrayVersionInfo {
+interface ArraySimpleVersionInfo {
     version: number;
     data: SimpleType;
 }
 
+/**
+ * SimpleArrayReplicator 高效的数组对象同步器
+ * 用于同步number、string、boolean、bigint等基础类型的数组对象
+ */
 export class SimpleArrayReplicator implements IReplicator {
     /** 最后一个有数据变化的版本号 */
     private lastVersion: number = 0;
@@ -19,7 +23,7 @@ export class SimpleArrayReplicator implements IReplicator {
     private lastCheckVersion: number = 0;
     /** 数组长度发生变化的最后一个版本 */
     private lastLengthVersion: number = 0;
-    private data: ArrayVersionInfo[];
+    private data: ArraySimpleVersionInfo[];
     private target: SimpleType[];
 
     constructor(target: SimpleType[], mark?: ReplicateMark) {
@@ -32,6 +36,14 @@ export class SimpleArrayReplicator implements IReplicator {
         for (let i = 0; i < target.length; i++) {
             this.data.push({ version: 0, data: target[i] });
         }
+    }
+
+    getTarget() {
+        return this.target;
+    }
+
+    setTarget(target: any): void {
+        this.target = target;
     }
 
     genDiff(fromVersion: number, toVersion: number): any {
@@ -111,9 +123,21 @@ export class SimpleArrayReplicator implements IReplicator {
     }
 }
 
+interface ArrayObjectVersionInfo {
+    version: number;
+    index: number;
+    data: IReplicator;
+}
+
+/**
+ * ArrayReplicator 数组对象同步器
+ * 用于同步对象类型的数组，例如自定义的ReplicateClass、cc.Vec2、cc.Color、cc.Rect等
+ */
 export class ArrayReplicator<T extends Consturctor> implements IReplicator {
-    private data: Array<IReplicator>;
+    private data: ArrayObjectVersionInfo[];
     private target: Array<T>;
+    private lastVersion: number = 0;
+    private lastCheckVersion: number = 0;
     private ctor: Consturctor;
 
     constructor(target: Array<T>, mark?: ReplicateMark) {
@@ -129,10 +153,22 @@ export class ArrayReplicator<T extends Consturctor> implements IReplicator {
         this.makeUpDataArray(target, mark);
     }
 
-    pushData(data: T, mark?: ReplicateMark) {
+    getTarget() {
+        return this.target;
+    }
+
+    setTarget(target: any): void {
+        this.target = target;
+    }
+
+    pushData(data: T, version: number, mark?: ReplicateMark) {
         let replicator = createReplicator(data, mark);
         if (replicator) {
-            this.data.push(replicator);
+            this.data.push({
+                version,
+                index: this.data.length + 1,
+                data: replicator
+            });
         } else {
             console.error("ArrayReplicator.pushData createReplicator error:", data);
         }
@@ -140,7 +176,7 @@ export class ArrayReplicator<T extends Consturctor> implements IReplicator {
 
     makeUpDataArray(target: Array<T>, mark?: ReplicateMark) {
         for (let i = 0; i < target.length; ++i) {
-            this.pushData(target[i], mark);
+            this.pushData(target[i], this.lastVersion, mark);
         }
     }
 
@@ -154,18 +190,50 @@ export class ArrayReplicator<T extends Consturctor> implements IReplicator {
             return false;
         }
 
-        // 先记录长度，再比较数据
-        let ret: Array<any> = [this.target.length];
-        for (let i = 0; i < this.target.length; i++) {
-            // 如果i大于data的长度，表示插入了一个新的对象
-            if (i >= this.data.length) {
-                // todo: 新插入的对象应该带最新的版本号？
-                this.pushData(this.target[i]);
+        let needScan = this.lastCheckVersion < toVersion;
+        // 如果不需要扫描，且最终版本小于fromVersion，则直接返回
+        if (!needScan && fromVersion > this.lastVersion) {
+            return false;
+        }
+
+        let ret: Array<any> = [];
+        if (needScan) {
+            ret.push(this.target.length);
+            for (let i = 0; i < this.target.length; i++) {
+                // 如果数组长度小于当前索引，则直接添加
+                if (this.data.length <= i) {
+                    this.pushData(this.target[i], toVersion);
+                    ret.push(i, this.data[i].data.genDiff(-1, toVersion));
+                } else {
+                    let data: IReplicator = this.data[i].data;
+                    // 如果由于数组的插入与删除，导致对象下标变化，则需要重新绑定
+                    if (this.data[i].index != i) {
+                        data.setTarget(this.target[i]);
+                        this.data[i].index = i;
+                    }
+                    let diff = data.genDiff(fromVersion, toVersion);
+                    // 如果不是新插入的，则需要有diff才进入ret
+                    if (diff) {
+                        ret.push(i, diff);
+                    }
+                }
             }
-            let data: any = this.data[i];
-            let diff = data.genDiff(fromVersion, toVersion);
-            if (diff) {
-                ret.push(i, diff);
+            this.lastCheckVersion = toVersion;
+        } else {
+            // 先记录长度，再比较数据，这里不再扫描target，直接使用data
+            ret.push(this.data.length);
+            for (let i = 0; i < this.data.length; i++) {
+                let data: IReplicator = this.data[i].data;
+                // 如果version大于fromVersion，则表示为新插入的，必须添加到ret
+                if (this.data[i].version > fromVersion) {
+                    ret.push(i, data.genDiff(-1, toVersion));
+                } else {
+                    // 元素有变化则更新
+                    let diff = data.genDiff(fromVersion, toVersion);
+                    if (diff) {
+                        ret.push(i, diff);
+                    }
+                }
             }
         }
 
@@ -174,6 +242,7 @@ export class ArrayReplicator<T extends Consturctor> implements IReplicator {
             return false;
         }
 
+        this.lastVersion = toVersion;
         // 如果data的长度大于target的长度，则删除data的多余部分
         if (this.data.length > this.target.length) {
             this.data.splice(this.target.length, this.data.length - this.target.length);
@@ -189,20 +258,29 @@ export class ArrayReplicator<T extends Consturctor> implements IReplicator {
                 this.target.splice(length, this.target.length - length);
             }
             // 遍历修改或push
-            for (let i = 1; i < diff.length; ++i) {
+            for (let i = 1; i < diff.length; i += 2) {
                 let index = diff[i];
                 let value = diff[i + 1];
                 // 如果需要创建新的对象
-                if (i > this.target.length) {
+                if (index >= this.target.length) {
                     // TODO: 如果有构造函数参数，如何传递？
+                    // 暂时只能使用默认构造函数，数值的变化可以使用applyDiff更新
                     this.target.push(new this.ctor());
+                    let replicator = createReplicator(this.target[index]);
+                    if (replicator) {
+                        this.data.push({
+                            version: this.lastVersion,
+                            data: replicator,
+                            index: index
+                        });
+                    }
                 }
-                this.data[index].applyDiff(value);
+                this.data[index].data.applyDiff(value);
             }
         }
     }
 
     getVersion(): number {
-        return 0;
+        return this.lastVersion;
     }
 }

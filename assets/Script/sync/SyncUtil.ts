@@ -148,4 +148,12 @@ export interface IReplicator {
      * 获取当前版本
      */
     getVersion(): number
+    /**
+     * 获取当前目标
+     */
+    getTarget(): any
+    /** 
+     * 设置当前目标
+     */
+    setTarget(target: any): void
 }

@@ -16,6 +16,16 @@ export class CCVec3Replicator implements IReplicator {
         this.version = 0;
     }
 
+    getTarget() {
+        return this.target;
+    }
+
+    setTarget(target: any): void {
+        if (target instanceof Vec3) {
+            this.target = target;
+        }
+    }
+
     genDiff(fromVersion: number, toVersion: number): any {
         if (toVersion < fromVersion) {
             return false;

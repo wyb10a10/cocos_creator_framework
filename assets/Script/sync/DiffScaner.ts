@@ -61,6 +61,14 @@ export class ReplicateScanner implements IReplicator {
         }
     }
 
+    getTarget() {
+        return this.target;
+    }
+
+    setTarget(target: any): void {
+        this.target = target;
+    }
+
     /**
      * 生成Diff，toVersion必须为对象的最新版本号
      * @param fromVersion 从哪个版本开始扫描

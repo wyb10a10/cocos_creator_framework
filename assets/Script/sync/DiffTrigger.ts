@@ -82,6 +82,14 @@ export class ReplicateTrigger implements IReplicator {
         return repPro ? repPro.data : repPro;
     }
 
+    getTarget() {
+        return this.target;
+    }
+
+    setTarget(target: any): void {
+        this.target = target;
+    }
+
     /**
      * 当一个属性被重新赋值时回调，即 target.key = v时
      * 1. 对比数值是否有发生变化，有则更新dataMap

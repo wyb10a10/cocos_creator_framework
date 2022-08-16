@@ -166,7 +166,7 @@ export class ArrayReplicator<T extends Consturctor> implements IReplicator {
         if (replicator) {
             this.data.push({
                 version,
-                index: this.data.length + 1,
+                index: this.data.length,
                 data: replicator
             });
         } else {
@@ -282,5 +282,182 @@ export class ArrayReplicator<T extends Consturctor> implements IReplicator {
 
     getVersion(): number {
         return this.lastVersion;
+    }
+}
+
+enum ActionType {
+    Insert, // 插入, index: 插入的位置
+    Delete, // 删除, index: 删除的位置
+    Move,   // 移动，index: 移动的位置，to: 移动到的位置
+    Clear,  // 清空
+}
+
+export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
+    private data: Array<ArrayObjectVersionInfo>;
+    private dataIndexMap: Map<T, number>;
+    private target: Array<T>;
+    private actionSequence: Array<any> = [];
+    private lastVersion: number = 0;
+    private lastCheckVersion: number = 0;
+    private ctor: Consturctor;
+
+    constructor(target: Array<T>, mark?: ReplicateMark) {
+        let objMark = mark?.getObjMark();
+        if (objMark?.Constructor) {
+            this.ctor = objMark?.Constructor;
+        } else {
+            // 如果没有指定Constructor，则target数组不得为空
+            this.ctor = target[0];
+        }
+        this.target = target;
+        this.data = [];
+        this.dataIndexMap = new Map();
+    }
+
+
+    getTarget() {
+        return this.target;
+    }
+
+    setTarget(target: any): void {
+        this.target = target;
+    }
+
+    pushData(data: T, version: number, mark?: ReplicateMark) {
+        let replicator = createReplicator(data, mark);
+        if (replicator) {
+            this.data.push({
+                version: version,
+                data: replicator,
+                index: this.data.length
+            });
+        } else {
+            console.error("ArrayReplicator.pushData createReplicator error:", data);
+        }
+    }
+
+    makeUpDataArray(target: Array<T>, mark?: ReplicateMark) {
+        for (let i = 0; i < target.length; ++i) {
+            this.pushData(target[i], this.lastVersion, mark);
+        }
+    }
+
+    /**
+     * 清理具体某个版本的操作序列
+     * @param delIndex 
+     * @param actions 
+     * @returns 新下标
+     */
+    clearActionSequence(delIndex:number, actions:number[]) : number {
+        // 遍历actionSequence
+        for (let i = 0; i < actions.length; ++i) {
+            if (actions[i] == ActionType.Insert) {
+                let index = actions[i + 1];
+                if (index > delIndex) {
+                    actions[i + 1] = index - 1;
+                }
+                i += 2;
+            } else if (actions[i] == ActionType.Delete) {
+                let index = actions[i + 1];
+                if (index > delIndex) {
+                    actions[i + 1] = index - 1;
+                }
+                i += 2;
+            } else if (actions[i] == ActionType.Move) {
+                let index = actions[i + 1];
+                if (index > delIndex) {
+                    actions[i + 1] = index - 1;
+                }
+                index = actions[i + 2];
+                if (index > delIndex) {
+                    actions[i + 2] = index - 1;
+                }
+                i += 3;
+            }
+        }
+        return delIndex;
+    }
+
+    /**
+     * 优化合并已删除的元素的操作历史，避免过多的操作历史
+     * @param delActions 删除的操作
+     */
+    mergeActionSequence(delActions: Array<any>) {
+        // 删没了，直接清空操作序列，收到diff的length可以直接清空
+        if (this.dataIndexMap.size == 0) {
+            this.actionSequence = [ActionType.Clear];
+            return;
+        }
+
+        // 遍历所有删除的下标（需要跳过ActionType.Delete
+        for (let j = 1; j < delActions.length; j+=2) {
+            let delIndex = delActions[j];
+            // 逆序遍历actionSequence
+            for (let i = this.actionSequence.length - 1; i >= 0; --i) {
+                let action = this.actionSequence[i];
+                // 如果是删除操作
+                if (action[0] == ActionType.Delete) {
+                    if (action[1] > delIndex) {
+                        // 如果删除的下标小于当前删除的下标，则当前删除的下标减一
+                        action[1] -= 1;
+                    }
+                    ++i; // 跳过1个参数
+                }
+                // 如果是插入操作
+                else if (action[0] == ActionType.Insert) {
+                }
+                // 如果是移动操作
+                else if (action[0] == ActionType.Move) {
+                }
+            }
+        }
+    }
+
+    /**
+     * 生成上个版本到此次版本的操作序列
+     * @returns [类型1, 操作1, 操作2, 类型2, 操作2...]
+     */
+    genActionSequence(): Array<any> {
+        let ret = [];
+        // 遍历target，检查dataIndexMap中是否有对应的下标
+        for (let i = 0; i < this.target.length; ++i) {
+            // 如果不存在则标记为新插入的
+            if (!this.dataIndexMap.has(this.target[i])) {
+                ret.push(ActionType.Insert, i);
+                this.dataIndexMap.set(this.target[i], i);
+            } else if (i != this.dataIndexMap.get(this.target[i])) {
+                ret.push(ActionType.Move, this.dataIndexMap.get(this.target[i]), i);
+                // 更新下标
+                this.dataIndexMap.set(this.target[i], i);
+            }
+        }
+        if (this.dataIndexMap.size > this.target.length) {
+            let delRet = [];
+            // 遍历dataIndexMap，检查是否有对应的不匹配target
+            for (let [obj, index] of this.dataIndexMap) {
+                if (index >= this.target.length) {
+                    delRet.push(ActionType.Delete, index);
+                    this.dataIndexMap.delete(obj);
+                } else if (obj != this.target[index]) {
+                    delRet.push(ActionType.Delete, index);
+                    this.dataIndexMap.delete(obj);
+                }
+            }
+            // 实际操作的时候需要先删除，再插入和移动
+            delRet.push(ret);
+            // TODO: 当出现删除时，可以回溯历史操作进行合并
+            return delRet;
+        }
+        return ret;
+    }
+
+    genDiff(fromVersion: number, toVersion: number) {
+        throw new Error("Method not implemented.");
+    }
+    applyDiff(diff: any): void {
+        throw new Error("Method not implemented.");
+    }
+    getVersion(): number {
+        throw new Error("Method not implemented.");
     }
 }

@@ -290,13 +290,19 @@ enum ActionType {
     Delete, // 删除, index: 删除的位置
     Move,   // 移动，index: 移动的位置，to: 移动到的位置
     Clear,  // 清空
+    Update, // 更新，index: 更新的位置
+}
+
+interface ArrayActionInfo {
+    version: number,
+    actions: number[],
 }
 
 export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
     private data: Array<ArrayObjectVersionInfo>;
     private dataIndexMap: Map<T, number>;
     private target: Array<T>;
-    private actionSequence: Array<any> = [];
+    private actionSequence: Array<ArrayActionInfo> = [];
     private lastVersion: number = 0;
     private lastCheckVersion: number = 0;
     private ctor: Consturctor;
@@ -313,7 +319,6 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
         this.data = [];
         this.dataIndexMap = new Map();
     }
-
 
     getTarget() {
         return this.target;
@@ -348,7 +353,7 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
      * @param actions 
      * @returns 新下标
      */
-    clearActionSequence(delIndex:number, actions:number[]) : number {
+    clearActionSequence(delIndex: number, actions: number[]): number {
         // 遍历actionSequence
         for (let i = 0; i < actions.length; ++i) {
             if (actions[i] == ActionType.Insert) {
@@ -383,34 +388,50 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
      * @param delActions 删除的操作
      */
     mergeActionSequence(delActions: Array<any>) {
-        // 删没了，直接清空操作序列，收到diff的length可以直接清空
-        if (this.dataIndexMap.size == 0) {
-            this.actionSequence = [ActionType.Clear];
-            return;
-        }
+        // 因为需要支持任意一个版本更新到最新版本，所以需要保留所有的操作历史
+        // // 遍历所有删除的下标（需要跳过ActionType.Delete
+        // for (let j = 1; j < delActions.length; j+=2) {
+        //     let delIndex = delActions[j];
+        //     // 逆序遍历actionSequence
+        //     for (let i = this.actionSequence.length - 1; i >= 0; --i) {
+        //         let action = this.actionSequence[i];
+        //         // 如果是删除操作
+        //         if (action[0] == ActionType.Delete) {
+        //             if (action[1] > delIndex) {
+        //                 // 如果删除的下标小于当前删除的下标，则当前删除的下标减一
+        //                 action[1] -= 1;
+        //             }
+        //             ++i; // 跳过1个参数
+        //         }
+        //         // 如果是插入操作
+        //         else if (action[0] == ActionType.Insert) {
+        //         }
+        //         // 如果是移动操作
+        //         else if (action[0] == ActionType.Move) {
+        //         }
+        //     }
+        // }
+    }
 
-        // 遍历所有删除的下标（需要跳过ActionType.Delete
-        for (let j = 1; j < delActions.length; j+=2) {
-            let delIndex = delActions[j];
-            // 逆序遍历actionSequence
-            for (let i = this.actionSequence.length - 1; i >= 0; --i) {
-                let action = this.actionSequence[i];
-                // 如果是删除操作
-                if (action[0] == ActionType.Delete) {
-                    if (action[1] > delIndex) {
-                        // 如果删除的下标小于当前删除的下标，则当前删除的下标减一
-                        action[1] -= 1;
-                    }
-                    ++i; // 跳过1个参数
-                }
-                // 如果是插入操作
-                else if (action[0] == ActionType.Insert) {
-                }
-                // 如果是移动操作
-                else if (action[0] == ActionType.Move) {
-                }
+    /**
+     * 使用二分法查找有序的actionSequence中，actionSequence.version>=version的最小index
+     * @param version 
+     * @returns 
+     */
+    getActionIndex(version: number): number {
+        let left = 0;
+        let right = this.actionSequence.length - 1;
+        while (left <= right) {
+            let mid = Math.floor((left + right) / 2);
+            if (this.actionSequence[mid].version == version) {
+                return mid;
+            } else if (this.actionSequence[mid].version < version) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
             }
         }
+        return left;
     }
 
     /**
@@ -445,6 +466,12 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
             }
             // 实际操作的时候需要先删除，再插入和移动
             delRet.push(ret);
+
+            // 删没了，直接清空操作序列，收到diff的length可以直接清空
+            if (this.dataIndexMap.size == 0) {
+                return [ActionType.Clear];
+            }
+
             // TODO: 当出现删除时，可以回溯历史操作进行合并
             return delRet;
         }
@@ -452,8 +479,59 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
     }
 
     genDiff(fromVersion: number, toVersion: number) {
-        throw new Error("Method not implemented.");
+        if (toVersion < fromVersion) {
+            return false;
+        }
+
+        // 长度都为0时，不发生变化
+        if (this.target.length == 0 && this.data.length == 0) {
+            return false;
+        }
+
+        let needScan = this.lastCheckVersion < toVersion;
+        // 如果不需要扫描，且最终版本小于fromVersion，则直接返回
+        if (!needScan && fromVersion > this.lastVersion) {
+            return false;
+        }
+
+        if (needScan) {
+            let actions = this.genActionSequence();
+            if (actions.length > 0) {
+                // 如果是清空操作
+                if (actions[0] == ActionType.Clear) {
+                    this.actionSequence = [];
+                }
+                this.actionSequence.push({
+                    version: toVersion,
+                    actions: actions
+                });
+            }
+            this.lastCheckVersion = toVersion;
+        }
+
+        // 获取从fromVersion到最新的操作序列
+        let fromIndex = this.getActionIndex(fromVersion);
+        let toIndex = this.actionSequence.length;
+        let ret = [];
+        for (let i = fromIndex; i <= toIndex; ++i) {
+            ret.push(this.actionSequence[i].actions);
+        }
+
+        // 遍历生成[下标，Diff, 下标，Diff...]的序列
+        let diffRet = [];
+        for (let i = 0; i < this.data.length; ++i) {
+            let diff = this.data[i].data.genDiff(fromVersion, toVersion);
+            if (diff) {
+                diffRet.push(i, diff);
+            }
+        }
+
+        // 如果有diff，则将diff插入到ret的最后
+        if (diffRet.length > 0) {
+            ret.push(ActionType.Update, diffRet);
+        }
     }
+
     applyDiff(diff: any): void {
         throw new Error("Method not implemented.");
     }

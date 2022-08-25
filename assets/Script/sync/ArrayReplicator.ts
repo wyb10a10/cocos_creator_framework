@@ -533,9 +533,27 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
     }
 
     applyDiff(diff: any): void {
-        throw new Error("Method not implemented.");
+        if (!(diff instanceof Array)) {
+            return;
+        }
+
+        for(let i = 0; i < diff.length; ++i) {
+            let action = diff[i];
+            if (action[0] == ActionType.Insert) {
+                this.data.splice(action[1], 0, this.data[action[1]]);
+            } else if (action[0] == ActionType.Delete) {
+                this.data.splice(action[1], 1);
+            } else if (action[0] == ActionType.Move) {
+                this.data.splice(action[2], 1, this.data[action[1]]);
+            } else if (action[0] == ActionType.Update) {
+                this.data[action[1]].data.applyDiff(action[2]);
+            } else if (action[0] == ActionType.Clear) {
+                this.data = [];
+            }
+        }
     }
+
     getVersion(): number {
-        throw new Error("Method not implemented.");
+        return this.lastVersion;
     }
 }

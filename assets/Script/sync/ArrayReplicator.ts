@@ -298,6 +298,35 @@ interface ArrayActionInfo {
     actions: number[],
 }
 
+interface SwapInfo {
+    targetIndex: number,
+    sourceIndex: number,
+}
+
+function fillSwapInfo(map: Map<any, SwapInfo>, source: any, target: any, index: number) {
+    let sourceSwapInfo = map.get(source);
+    if (!sourceSwapInfo) {
+        sourceSwapInfo = {
+            targetIndex: -1,
+            sourceIndex: index,
+        };
+        map.set(source, sourceSwapInfo);
+    } else {
+        sourceSwapInfo.sourceIndex = index;
+    }
+
+    let targetSwapInfo = map.get(target);
+    if (!targetSwapInfo) {
+        targetSwapInfo = {
+            targetIndex: index,
+            sourceIndex: -1,
+        };
+        map.set(target, targetSwapInfo);
+    } else {
+        targetSwapInfo.targetIndex = index;
+    }
+}
+
 export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
     private data: Array<ArrayObjectVersionInfo>;
     private dataIndexMap: Map<T, number>;
@@ -338,6 +367,19 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
             });
         } else {
             console.error("ArrayReplicator.pushData createReplicator error:", data);
+        }
+    }
+
+    insertData(data: T, index: number, version: number, mark?: ReplicateMark) {
+        let replicator = createReplicator(data, mark);
+        if (replicator) {
+            this.data.splice(index, 0, {
+                version: version,
+                data: replicator,
+                index: index
+            });
+        } else {
+            console.error("ArrayReplicator.insertData createReplicator error:", data);
         }
     }
 
@@ -439,42 +481,95 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
      * @returns [类型1, 操作1, 操作2, 类型2, 操作2...]
      */
     genActionSequence(): Array<any> {
+        // 先检测插入和删除操作，如果执行完插入和删除，下标不一致的，才需要进行移动操作
         let ret = [];
-        // 遍历target，检查dataIndexMap中是否有对应的下标
+
+        let hasChange = false;
+        // 遍历target，检查dataIndexMap中是否有对应target的下标
         for (let i = 0; i < this.target.length; ++i) {
             // 如果不存在则标记为新插入的
             if (!this.dataIndexMap.has(this.target[i])) {
                 ret.push(ActionType.Insert, i);
                 this.dataIndexMap.set(this.target[i], i);
-            } else if (i != this.dataIndexMap.get(this.target[i])) {
-                ret.push(ActionType.Move, this.dataIndexMap.get(this.target[i]), i);
-                // 更新下标
-                this.dataIndexMap.set(this.target[i], i);
+                hasChange = true;
+                // 并插入到data中，这里的i就是最终下标，先不insertData，因为删除操作未执行
+                // this.insertData(this.target[i], i, this.lastVersion);
+            } else if (!hasChange && this.dataIndexMap.get(this.target[i]) != i) {
+                hasChange = true;
             }
         }
-        if (this.dataIndexMap.size > this.target.length) {
-            let delRet = [];
-            // 遍历dataIndexMap，检查是否有对应的不匹配target
-            for (let [obj, index] of this.dataIndexMap) {
-                if (index >= this.target.length) {
-                    delRet.push(ActionType.Delete, index);
-                    this.dataIndexMap.delete(obj);
-                } else if (obj != this.target[index]) {
-                    delRet.push(ActionType.Delete, index);
-                    this.dataIndexMap.delete(obj);
+
+        // 删没了，直接清空操作序列，收到diff的length可以直接清空
+        if (this.target.length == 0) {
+            return [ActionType.Clear];
+        }
+
+        // 没有变化就直接返回
+        if (!hasChange) {
+            return ret;
+        }
+
+        // 如果有删除操作，先应用删除操作
+        let delCnt = this.dataIndexMap.size - this.target.length;
+        let delRet = [];
+        if (delCnt > 0) {
+            let tmpTargetMap = new Map<T, number>();
+            for (let i = 0; i < this.target.length; ++i) {
+                tmpTargetMap.set(this.target[i], i);
+            }
+
+            // 逆序遍历data，如果dataIndexMap中不存在，则删除
+            for (let i = this.data.length - 1; i >= 0; --i) {
+                let target = this.data[i].data.getTarget();
+                if (!tmpTargetMap.has(target)) {
+                    delRet.push(ActionType.Delete, i);
+                    this.dataIndexMap.delete(target);
+                    this.data.splice(i, 1);
+
+                    if (--delCnt == 0) {
+                        break;
+                    }
                 }
             }
-            // 实际操作的时候需要先删除，再插入和移动
-            delRet.push(ret);
-
-            // 删没了，直接清空操作序列，收到diff的length可以直接清空
-            if (this.dataIndexMap.size == 0) {
-                return [ActionType.Clear];
-            }
-
-            // TODO: 当出现删除时，可以回溯历史操作进行合并
-            return delRet;
         }
+
+        // 如果有插入操作，先应用插入操作
+        for (let i = 0; i < ret.length; i += 2) {
+            if (ret[i] == ActionType.Insert) {
+                this.insertData(this.target[ret[i + 1]], ret[i + 1], this.lastVersion);
+            }
+        }
+
+        // 需要先删除，再插入
+        if (delRet.length > 0) {
+            ret = delRet.concat(ret);
+        }
+
+        // 断言，this.data的长度和this.target的长度一致
+        if (this.data.length != this.target.length) {
+            console.error("this.data.length != this.target.length");
+        }
+
+        // 最后检测移动操作，移动操作都是成对出现的——交换(碰到连续交换如何处理？)
+        let swapMap = new Map<any, SwapInfo>();
+        for (let i = 0; i < this.data.length; ++i) {
+            let target = this.data[i].data.getTarget();
+            if (this.dataIndexMap.get(target) != i) {
+                this.dataIndexMap.set(target, i);
+            }
+            if (this.target[i] != target) {
+                fillSwapInfo(swapMap, target, this.target[i], i);
+            }
+        }
+
+        // 遍历swapMap，应用交换
+        for (let [key, value] of swapMap) {
+            if (this.data[value.sourceIndex].data.getTarget() != key) {
+            }
+            this.dataIndexMap.set(key, value.targetIndex);
+            ret.push(ActionType.Move, value.sourceIndex, value.targetIndex);
+        }
+
         return ret;
     }
 
@@ -499,12 +594,17 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
             if (actions.length > 0) {
                 // 如果是清空操作
                 if (actions[0] == ActionType.Clear) {
-                    this.actionSequence = [];
+                    this.actionSequence = [{
+                        version: toVersion,
+                        actions: actions
+                    }];
+                    return actions;
+                } else {
+                    this.actionSequence.push({
+                        version: toVersion,
+                        actions: actions
+                    });
                 }
-                this.actionSequence.push({
-                    version: toVersion,
-                    actions: actions
-                });
             }
             this.lastCheckVersion = toVersion;
         }
@@ -537,7 +637,7 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
             return;
         }
 
-        for(let i = 0; i < diff.length; ++i) {
+        for (let i = 0; i < diff.length; ++i) {
             let action = diff[i];
             if (action[0] == ActionType.Insert) {
                 this.data.splice(action[1], 0, this.data[action[1]]);

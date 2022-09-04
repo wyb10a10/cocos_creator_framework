@@ -301,14 +301,16 @@ interface ArrayActionInfo {
 interface SwapInfo {
     targetIndex: number,
     sourceIndex: number,
+    sourceData?: ArrayObjectVersionInfo
 }
 
-function fillSwapInfo(map: Map<any, SwapInfo>, source: any, target: any, index: number) {
+function fillSwapInfo(map: Map<any, SwapInfo>, source: any, target: any, sourceData: ArrayObjectVersionInfo, index: number) {
     let sourceSwapInfo = map.get(source);
     if (!sourceSwapInfo) {
         sourceSwapInfo = {
             targetIndex: -1,
             sourceIndex: index,
+            sourceData: sourceData
         };
         map.set(source, sourceSwapInfo);
     } else {
@@ -550,21 +552,23 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
             console.error("this.data.length != this.target.length");
         }
 
-        // 最后检测移动操作，移动操作都是成对出现的——交换(碰到连续交换如何处理？)
+        // 最后检测移动操作，移动操作都是成对出现的——交换(连续交换)
         let swapMap = new Map<any, SwapInfo>();
         for (let i = 0; i < this.data.length; ++i) {
             let target = this.data[i].data.getTarget();
-            if (this.dataIndexMap.get(target) != i) {
-                this.dataIndexMap.set(target, i);
-            }
+            // 例如下标1和2交换，2和3又交换
+            // target:  [1, 2, 3]
+            // data:    [2, 3, 1]
+            // 如果直接执行两两交换，先前交换的下标会影响后续的交换
             if (this.target[i] != target) {
-                fillSwapInfo(swapMap, target, this.target[i], i);
+                fillSwapInfo(swapMap, target, this.target[i], this.data[i], i);
             }
         }
 
         // 遍历swapMap，应用交换
         for (let [key, value] of swapMap) {
-            if (this.data[value.sourceIndex].data.getTarget() != key) {
+            if (value.sourceData) {
+                this.data[value.targetIndex] = value.sourceData;
             }
             this.dataIndexMap.set(key, value.targetIndex);
             ret.push(ActionType.Move, value.sourceIndex, value.targetIndex);
@@ -639,15 +643,28 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
 
         for (let i = 0; i < diff.length; ++i) {
             let action = diff[i];
-            if (action[0] == ActionType.Insert) {
-                this.data.splice(action[1], 0, this.data[action[1]]);
-            } else if (action[0] == ActionType.Delete) {
-                this.data.splice(action[1], 1);
-            } else if (action[0] == ActionType.Move) {
-                this.data.splice(action[2], 1, this.data[action[1]]);
-            } else if (action[0] == ActionType.Update) {
-                this.data[action[1]].data.applyDiff(action[2]);
-            } else if (action[0] == ActionType.Clear) {
+            if (action == ActionType.Insert) {
+                let target = new this.ctor();
+                ++i;
+                this.target.splice(diff[i], 0, target);
+                this.insertData(target, diff[i], this.lastVersion);
+            } else if (action == ActionType.Delete) {
+                ++i;
+                this.data.splice(diff[i], 1);
+                this.target.splice(diff[i], 1);
+            } else if (action == ActionType.Move) {
+                let tmp = this.data[diff[i + 1]];
+                this.data[diff[i + 1]] = this.data[diff[i + 2]];
+                this.data[diff[i + 2]] = tmp;
+                let tmp2 = this.target[diff[i + 1]];
+                this.target[diff[i + 1]] = this.target[diff[i + 2]];
+                this.target[diff[i + 2]] = tmp2;
+                i += 2;
+            } else if (action == ActionType.Update) {
+                this.data[diff[i + 1]].data.applyDiff(diff[i + 2]);
+                i += 2;
+            } else if (action == ActionType.Clear) {
+                this.target = [];
                 this.data = [];
             }
         }

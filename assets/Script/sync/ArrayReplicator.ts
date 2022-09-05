@@ -74,6 +74,8 @@ export class SimpleArrayReplicator implements IReplicator {
                     this.data[i].version = toVersion;
                     this.data[i].data = this.target[i];
                     diff.push(i, this.target[i]);
+                } else if (this.data[i].version >= fromVersion && this.data[i].version <= toVersion) {
+                    diff.push(i, this.target[i]);
                 }
             }
             this.lastCheckVersion = toVersion;
@@ -123,6 +125,9 @@ export class SimpleArrayReplicator implements IReplicator {
     }
 }
 
+/**
+ * 测试SimpleArrayReplicator的diff生成与应用
+ */
 export function TestSimpleArrayReplicator() {
     let source: number[] = [1, 2, 3, 4, 5];
     let sourceRp = new SimpleArrayReplicator(source);
@@ -143,6 +148,43 @@ export function TestSimpleArrayReplicator() {
     targetRp.applyDiff(diff);
     console.log(source);
     console.log(target);
+}
+
+export function TestSimpleArrayReplicatorVersion() {
+    let source: number[] = [];
+    let sourceRp = new SimpleArrayReplicator(source);
+    let target1: number[] = [];
+    let targetRp1 = new SimpleArrayReplicator(target1);
+    let target2: number[] = [];
+    let targetRp2 = new SimpleArrayReplicator(target2);
+
+    source.push(1, 3, 5);
+    let diff1 = sourceRp.genDiff(0, 1);
+    console.log(diff1);
+    targetRp1.applyDiff(diff1);
+    console.log(source);
+    console.log(target1);
+
+    source.push(2, 4, 6);
+    source.splice(0, 0, 1);
+    let diff2 = sourceRp.genDiff(1, 2);
+    console.log(diff2);
+    targetRp1.applyDiff(diff2);
+    console.log(source);
+    console.log(target1);
+
+    source.splice(0, 1);
+    source.push(7, 8, 9);
+    let diff3 = sourceRp.genDiff(0, 3);
+    console.log(diff3);
+    targetRp2.applyDiff(diff3);
+    console.log(source);
+    console.log(target2);
+
+    let diff4 = sourceRp.genDiff(2, 3);
+    console.log(diff4);
+    targetRp1.applyDiff(diff4);
+    console.log(target1);
 }
 
 interface ArrayObjectVersionInfo {

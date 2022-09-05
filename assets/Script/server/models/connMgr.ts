@@ -1,4 +1,4 @@
-import { WsConnection } from "../connection";
+/*import { WsConnection } from "../connection";
 
 export class ConnManager {
     private static _idConnMap : {[connId: number]: WsConnection | undefined};
@@ -29,4 +29,4 @@ export class ConnManager {
         }
         conn.options.ws.send(msg)
     }
-}
+}*/

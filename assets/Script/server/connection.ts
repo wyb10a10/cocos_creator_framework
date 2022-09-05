@@ -1,4 +1,4 @@
-import {WebSocket} from "ws"
+/*import {WebSocket} from "ws"
 import * as http from "http"
 import { HttpUtil } from "./models/HttpUtil"
 import { buffer } from "stream/consumers"
@@ -59,4 +59,4 @@ export class WsConnection {
     getIsClosed(): boolean {
         return this.options.ws.readyState !== WebSocket.OPEN;
     }
-}
+}*/

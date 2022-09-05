@@ -1,4 +1,4 @@
-import * as WebSocket from 'ws';
+/*import * as WebSocket from 'ws';
 import { Server as WebSocketServer } from 'ws';
 import {WsConnection} from "./connection"
 import * as http from "http"
@@ -98,5 +98,4 @@ export class WsServer {
     private onData(conn : WsConnection, data: Buffer) {
         console.log("conn on data", data)
     }
-}
-
+}*/

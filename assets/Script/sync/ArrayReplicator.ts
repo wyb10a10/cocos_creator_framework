@@ -66,7 +66,7 @@ export class SimpleArrayReplicator implements IReplicator {
                 // 删除多余的data
                 this.data.splice(this.target.length, this.data.length - this.target.length);
             }
-            for (let i = this.target.length; i < this.target.length; i++) {
+            for (let i = 0; i < this.target.length; i++) {
                 if (this.data.length <= i) {
                     this.data.push({ version: toVersion, data: this.target[i] });
                     diff.push(i, this.target[i]);
@@ -121,6 +121,28 @@ export class SimpleArrayReplicator implements IReplicator {
     getVersion(): number {
         return this.lastVersion;
     }
+}
+
+export function TestSimpleArrayReplicator() {
+    let source: number[] = [1, 2, 3, 4, 5];
+    let sourceRp = new SimpleArrayReplicator(source);
+    let target: number[] = [1, 2, 3, 4, 5];
+    let targetRp = new SimpleArrayReplicator(target);
+
+    source.push(6);
+    source.push(7);
+    source.splice(1, 0, 8);
+    source.splice(3, 1);
+    // swap source[3] and source[4]
+    let temp = source[3];
+    source[3] = source[4];
+    source[4] = temp;
+
+    let diff = sourceRp.genDiff(0, 1);
+    console.log(diff);
+    targetRp.applyDiff(diff);
+    console.log(source);
+    console.log(target);
 }
 
 interface ArrayObjectVersionInfo {

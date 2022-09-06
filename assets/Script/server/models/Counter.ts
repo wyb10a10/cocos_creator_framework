@@ -19,7 +19,7 @@ export class Counter {
         return this._last >= this._max ? (this._last = this._min) : ++this._last;
     }
 
-    get last() {
+    getlast() {
         return this._last;
     }
 }

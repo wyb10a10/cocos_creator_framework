@@ -1,4 +1,4 @@
-/*import * as WebSocket from 'ws';
+import * as WebSocket from 'ws';
 import { Server as WebSocketServer } from 'ws';
 import {WsConnection} from "./connection"
 import * as http from "http"
@@ -16,7 +16,7 @@ export interface WsServerOptions {
     host: string
     port: number
     timeout: number
-    onClientConnect: (ws : WebSocket, httpReq: http.IncomingMessage) => void
+    onClientConnect: ((ws : WebSocket, httpReq: http.IncomingMessage) => void) | undefined
 }
 
 const defaultWsServerOptions: WsServerOptions = {
@@ -30,7 +30,7 @@ export class WsServer {
     private status: WsServerStatus = WsServerStatus.Closed;
     private options: WsServerOptions;
 
-    private _wsServer: WebSocketServer;
+    private _wsServer: WebSocketServer | undefined;
     private _connIdCounter = new Counter(1);
 
     constructor (options?: WsServerOptions) {
@@ -38,6 +38,7 @@ export class WsServer {
         if (this.options.onClientConnect === undefined) {
             this.options.onClientConnect = this._onClientConnect;
         }
+        this._wsServer = undefined;
     }
 
     start() {
@@ -49,7 +50,7 @@ export class WsServer {
             console.log(`server started, listening on ${this.options.host}:${this.options.port}...`)
             this.status = WsServerStatus.Inited
         })
-        this._wsServer.on("connection", this.options.onClientConnect)
+        this._wsServer.on("connection", this.options.onClientConnect || this._onClientConnect)
         this._wsServer.on("error", e => {
             console.log("[server_error]", e)
         })
@@ -98,4 +99,4 @@ export class WsServer {
     private onData(conn : WsConnection, data: Buffer) {
         console.log("conn on data", data)
     }
-}*/
+}

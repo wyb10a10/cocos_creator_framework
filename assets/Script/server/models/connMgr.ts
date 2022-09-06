@@ -1,4 +1,4 @@
-/*import { WsConnection } from "../connection";
+import { WsConnection } from "../connection";
 
 export class ConnManager {
     private static _idConnMap : {[connId: number]: WsConnection | undefined};
@@ -27,6 +27,6 @@ export class ConnManager {
         if (conn === undefined) {
             console.log("conn is not exists");
         }
-        conn.options.ws.send(msg)
+        conn?.options.ws.send(msg)
     }
-}*/
+}

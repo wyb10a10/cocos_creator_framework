@@ -1,7 +1,6 @@
-/*import {WebSocket} from "ws"
+import {WebSocket} from "ws"
 import * as http from "http"
 import { HttpUtil } from "./models/HttpUtil"
-import { buffer } from "stream/consumers"
 
 export interface WsConnectionOptions {
     connId: number
@@ -53,10 +52,10 @@ export class WsConnection {
             this.options.ws.close(1000, reason || 'Server Closed');
         }
         this.options.ws.onopen = this.options.ws.onclose = this.options.ws.onmessage = this.options.ws.onerror = undefined as any;
-        this.ip = undefined;
+        this.ip = "";
     }
 
     getIsClosed(): boolean {
         return this.options.ws.readyState !== WebSocket.OPEN;
     }
-}*/
+}

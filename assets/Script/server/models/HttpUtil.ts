@@ -1,4 +1,4 @@
-/*import * as http from "http";
+import * as http from "http";
 
 export class HttpUtil {
     static getClientIp(req: http.IncomingMessage) {
@@ -13,4 +13,4 @@ export class HttpUtil {
         }
         return ipAddress ? ipAddress.replace(/^::ffff:/, '') : '';
     };
-}*/
+}

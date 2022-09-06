@@ -14,6 +14,9 @@ export const REPLICATE_MARK_INDEX = "__repMrk__";
 export enum ReplicateType {
     REPLICATE_SCAN = 0,
     REPLICATE_TRIGGER = 1,
+    REPLICATE_SIMPLE_ARRAY = 2, // 简单数组, 不支持嵌套 
+    REPLICATE_ARRAY = 3,        // 简单结构体数组, 支持嵌套，用于cc.Vec3等简单结构体
+    REPLICATE_LINK_ARRAY = 4,   // 引用对象数组, 支持嵌套，用于复杂对象
 }
 
 /**

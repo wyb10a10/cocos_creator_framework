@@ -4,6 +4,10 @@ import { Consturctor, IReplicator } from "./SyncUtil";
 
 export type SimpleType = number | string | boolean | bigint;
 
+export function isSimpleType(obj: any): boolean {
+    return typeof obj === "number" || typeof obj === "string" || typeof obj === "boolean" || typeof obj === "bigint";
+}
+
 /**
  * 数组对象某个版本的数据
  */

@@ -1,9 +1,9 @@
 import * as WebSocket from 'ws';
 import { Server as WebSocketServer } from 'ws';
-import {WsConnection} from "./connection"
+import {WsConnection} from "./Connection"
 import * as http from "http"
 import { Counter } from './models/Counter';
-import { ConnManager } from './models/connMgr';
+import { ConnManager } from './models/ConnManager';
 
 enum WsServerStatus {
     Initializing,

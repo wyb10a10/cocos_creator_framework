@@ -1,6 +1,6 @@
 import ReplicateMark from "./ReplicateMark";
 import { createReplicator } from "./ReplicatorFactory";
-import { Consturctor, IReplicator } from "./SyncUtil";
+import { Consturctor, getConsturctor, IReplicator } from "./SyncUtil";
 
 export type SimpleType = number | string | boolean | bigint;
 
@@ -201,12 +201,12 @@ interface ArrayObjectVersionInfo {
  * ArrayReplicator 数组对象同步器
  * 用于同步对象类型的数组，例如自定义的ReplicateClass、cc.Vec2、cc.Color、cc.Rect等
  */
-export class ArrayReplicator<T extends Consturctor> implements IReplicator {
+export class ArrayReplicator<T> implements IReplicator {
     private data: ArrayObjectVersionInfo[];
     private target: Array<T>;
     private lastVersion: number = 0;
     private lastCheckVersion: number = 0;
-    private ctor: Consturctor;
+    private ctor: Consturctor<T>;
 
     constructor(target: Array<T>, mark?: ReplicateMark) {
         let objMark = mark?.getObjMark();
@@ -214,7 +214,7 @@ export class ArrayReplicator<T extends Consturctor> implements IReplicator {
             this.ctor = objMark?.Constructor;
         } else {
             // 如果没有指定Constructor，则target数组不得为空
-            this.ctor = target[0];
+            this.ctor = getConsturctor(target[0]);
         }
         this.target = target;
         this.data = [];
@@ -353,6 +353,46 @@ export class ArrayReplicator<T extends Consturctor> implements IReplicator {
     }
 }
 
+export function TestArrayReplicator() {
+    class Point {
+        x: number;
+        y: number;
+        constructor(x: any = 0, y: any = 0) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    let source: Array<Point> = [new Point(1, 2), new Point(3, 4)];
+    let replicator = new ArrayReplicator(source);
+    let target: Array<Point> = [new Point(1, 2), new Point(3, 4)];
+    let targetReplicator = new ArrayReplicator(target);
+    source.push(new Point(5, 6));
+    source.push(new Point(7, 8));
+    source[0].x = 10;
+    source[1].y = 20;
+    let diff = replicator.genDiff(0, 1);
+    console.log(diff);
+    targetReplicator.applyDiff(diff);
+    console.log(source);
+    console.log(target);
+
+    source.splice(1,2);
+    diff = replicator.genDiff(1, 2);
+    console.log(diff);
+    targetReplicator.applyDiff(diff);
+    console.log(source);
+    console.log(target);
+
+    let target2: Array<Point> = [new Point(1, 2), new Point(3, 4)];
+    let targetReplicator2 = new ArrayReplicator(target2);
+    diff = replicator.genDiff(0, 2);
+    console.log(diff);
+    targetReplicator2.applyDiff(diff);
+    console.log(source);
+    console.log(target2);
+}
+
 enum ActionType {
     Insert, // 插入, index: 插入的位置
     Delete, // 删除, index: 删除的位置
@@ -397,14 +437,14 @@ function fillSwapInfo(map: Map<any, SwapInfo>, source: any, target: any, sourceD
     }
 }
 
-export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
+export class ArrayLinkReplicator<T extends Consturctor<T>> implements IReplicator {
     private data: Array<ArrayObjectVersionInfo>;
     private dataIndexMap: Map<T, number>;
     private target: Array<T>;
     private actionSequence: Array<ArrayActionInfo> = [];
     private lastVersion: number = 0;
     private lastCheckVersion: number = 0;
-    private ctor: Consturctor;
+    private ctor: Consturctor<T>;
 
     constructor(target: Array<T>, mark?: ReplicateMark) {
         let objMark = mark?.getObjMark();
@@ -412,7 +452,7 @@ export class ArrayLinkReplicator<T extends Consturctor> implements IReplicator {
             this.ctor = objMark?.Constructor;
         } else {
             // 如果没有指定Constructor，则target数组不得为空
-            this.ctor = target[0];
+            this.ctor = target[0].__proto__.constructor;
         }
         this.target = target;
         this.data = [];

@@ -16,13 +16,20 @@ import { createReplicator } from "./ReplicatorFactory";
 
 /** 属性变化回调 */
 export type ReplicateNotify = (target: any, key: string, value: any) => boolean;
-export type Consturctor = { new(...args: any[]): any };
+export type Consturctor<T> = {
+    [x: string]: any; new(...args: any[]): T
+};
 
 export const REPLICATE_OBJECT_INDEX = "__repObj__";
 export const REPLICATOR_INDEX = "__RI__";
 
 /** 是否支持装饰器的Setter设置 */
 export const IsSupportGetSet = true;
+
+
+export function getConsturctor<T>(obj: T): Consturctor<T> {
+    return (obj as any).__proto__.constructor as Consturctor<T>;
+}
 
 /**
  * 查询对象的ReplicateObject，检查对象的target.__repObj__字段
@@ -35,7 +42,7 @@ export const IsSupportGetSet = true;
 export function getReplicator(target: any, autoCreator: boolean = false, mark?: ReplicateMark): IReplicator | null {
     let ret: IReplicator | null = target[REPLICATOR_INDEX];
     if (!ret && autoCreator) {
-        if(!mark) {
+        if (!mark) {
             mark = getReplicateMark(target.constructor, true);
             // 当类装饰器作用时，如果属性还未生成，则需要使用类的实例进行初始化
             mark.initMark(target);
@@ -105,7 +112,7 @@ export function replicated(option?: ReplicatedOption) {
  * @param option 
  * @returns 
  */
-export function replicatedClass<T extends Consturctor>(option?: ObjectReplicatedOption) {
+export function replicatedClass<T extends Consturctor<T>>(option?: ObjectReplicatedOption) {
     return (target: T) => {
         makeObjectReplicatedMark(target, option);
     }

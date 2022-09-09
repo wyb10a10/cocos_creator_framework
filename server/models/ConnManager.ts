@@ -1,4 +1,4 @@
-import { WsConnection } from "../connection";
+import { WsConnection } from "../Connection";
 
 export class ConnManager {
     private static _idConnMap : {[connId: number]: WsConnection | undefined};

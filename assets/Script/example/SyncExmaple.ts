@@ -1,5 +1,5 @@
 import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat, ModelComponent, Color } from "cc";
-import { TestSimpleArrayReplicator, TestSimpleArrayReplicatorVersion } from "../sync/ArrayReplicator";
+import { TestArrayReplicator, TestSimpleArrayReplicator, TestSimpleArrayReplicatorVersion } from "../sync/ArrayReplicator";
 import { getReplicateMark, ReplicatedOption } from "../sync/ReplicateMark";
 import { getReplicator, replicated, replicatedClass } from "../sync/SyncUtil";
 
@@ -45,6 +45,8 @@ export default class SyncExample extends Component {
         TestSimpleArrayReplicator();
         console.log("==============");
         TestSimpleArrayReplicatorVersion();
+        console.log("==============");
+        TestArrayReplicator();
         /*let vec = new Vec3(Vec3.ZERO);
         makeObjectReplicated(vec);
         vec.x = 123;

@@ -1,6 +1,6 @@
 import ReplicateMark from "./ReplicateMark";
 import { createReplicator } from "./ReplicatorFactory";
-import { Consturctor, getConsturctor, IReplicator } from "./SyncUtil";
+import { Consturctor, getConsturctor, IReplicator, replicated } from "./SyncUtil";
 
 export type SimpleType = number | string | boolean | bigint;
 
@@ -355,7 +355,9 @@ export class ArrayReplicator<T> implements IReplicator {
 
 export function TestArrayReplicator() {
     class Point {
+        @replicated()
         x: number;
+        @replicated()
         y: number;
         constructor(x: any = 0, y: any = 0) {
             this.x = x;

@@ -73,7 +73,7 @@ function makePropertyReplicatedMark(cls: any, propertyKey: string, descriptor?: 
         // 获取这个类的同步标记
         let markObj = getReplicateMark(cls, true);
         // 初始化默认值def
-        if ('initializer' in descriptor) {
+        if ('initializer' in descriptor && typeof descriptor['initializer'] == 'function') {
             let def = (descriptor as any).initializer();
             markObj.addMark(propertyKey, def, option);
         } else {

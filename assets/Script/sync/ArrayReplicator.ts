@@ -275,9 +275,8 @@ export class ArrayReplicator<T> implements IReplicator {
                 } else {
                     let data: IReplicator = this.data[i].data;
                     // 如果由于数组的插入与删除，导致对象下标变化，则需要重新绑定
-                    if (this.data[i].index != i) {
+                    if (data.getTarget() != this.target[i]) {
                         data.setTarget(this.target[i]);
-                        this.data[i].index = i;
                     }
                     let diff = data.genDiff(fromVersion, toVersion);
                     // 如果不是新插入的，则需要有diff才进入ret
@@ -356,9 +355,9 @@ export class ArrayReplicator<T> implements IReplicator {
 export function TestArrayReplicator() {
     class Point {
         @replicated()
-        x: number;
+        x: number = 0;
         @replicated()
-        y: number;
+        y: number = 0;
         constructor(x: any = 0, y: any = 0) {
             this.x = x;
             this.y = y;
@@ -373,10 +372,10 @@ export function TestArrayReplicator() {
     source.push(new Point(7, 8));
     source[0].x = 10;
     source[1].y = 20;
+    console.log(source);
     let diff = replicator.genDiff(0, 1);
     console.log(diff);
     targetReplicator.applyDiff(diff);
-    console.log(source);
     console.log(target);
 
     source.splice(1,2);

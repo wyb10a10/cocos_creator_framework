@@ -438,7 +438,7 @@ function fillSwapInfo(map: Map<any, SwapInfo>, source: any, target: any, sourceD
     }
 }
 
-export class ArrayLinkReplicator<T extends Consturctor<T>> implements IReplicator {
+export class ArrayLinkReplicator<T> implements IReplicator {
     private data: Array<ArrayObjectVersionInfo>;
     private dataIndexMap: Map<T, number>;
     private target: Array<T>;
@@ -453,11 +453,12 @@ export class ArrayLinkReplicator<T extends Consturctor<T>> implements IReplicato
             this.ctor = objMark?.Constructor;
         } else {
             // 如果没有指定Constructor，则target数组不得为空
-            this.ctor = target[0].__proto__.constructor;
+            this.ctor = getConsturctor(target[0]);
         }
         this.target = target;
         this.data = [];
         this.dataIndexMap = new Map();
+        this.makeUpDataArray(target, mark);
     }
 
     getTarget() {
@@ -726,7 +727,7 @@ export class ArrayLinkReplicator<T extends Consturctor<T>> implements IReplicato
         let fromIndex = this.getActionIndex(fromVersion);
         let toIndex = this.actionSequence.length;
         let ret = [];
-        for (let i = fromIndex; i <= toIndex; ++i) {
+        for (let i = fromIndex; i < toIndex; ++i) {
             ret.push(this.actionSequence[i].actions);
         }
 
@@ -782,4 +783,46 @@ export class ArrayLinkReplicator<T extends Consturctor<T>> implements IReplicato
     getVersion(): number {
         return this.lastVersion;
     }
+}
+
+export function TestArrayLinkReplicator() {
+    class Point {
+        @replicated()
+        x: number = 0;
+        @replicated()
+        y: number = 0;
+        constructor(x: any = 0, y: any = 0) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    let source: Array<Point> = [new Point(1, 2), new Point(3, 4)];
+    let replicator = new ArrayLinkReplicator(source);
+    let target: Array<Point> = [new Point(1, 2), new Point(3, 4)];
+    let targetReplicator = new ArrayLinkReplicator(target);
+    source.push(new Point(5, 6));
+    source.push(new Point(7, 8));
+    source[0].x = 10;
+    source[1].y = 20;
+    console.log(source);
+    let diff = replicator.genDiff(0, 1);
+    console.log(diff);
+    targetReplicator.applyDiff(diff);
+    console.log(target);
+
+    source.splice(1,2);
+    diff = replicator.genDiff(1, 2);
+    console.log(diff);
+    targetReplicator.applyDiff(diff);
+    console.log(source);
+    console.log(target);
+
+    let target2: Array<Point> = [new Point(1, 2), new Point(3, 4)];
+    let targetReplicator2 = new ArrayLinkReplicator(target2);
+    diff = replicator.genDiff(0, 2);
+    console.log(diff);
+    targetReplicator2.applyDiff(diff);
+    console.log(source);
+    console.log(target2);
 }

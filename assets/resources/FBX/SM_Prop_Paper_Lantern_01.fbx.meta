@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "7d370358-79c4-4a1d-9d7d-a3a0dae310f8",
+  "files": [],
+  "subMetas": {
+    "4cdec": {
+      "importer": "gltf-mesh",
+      "uuid": "7d370358-79c4-4a1d-9d7d-a3a0dae310f8@4cdec",
+      "displayName": "",
+      "id": "4cdec",
+      "name": "SM_Prop_Paper_Lantern_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "fbe3b": {
+      "importer": "gltf-embeded-image",
+      "uuid": "7d370358-79c4-4a1d-9d7d-a3a0dae310f8@fbe3b",
+      "displayName": "",
+      "id": "fbe3b",
+      "name": "file542.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "472f6": {
+      "importer": "texture",
+      "uuid": "7d370358-79c4-4a1d-9d7d-a3a0dae310f8@472f6",
+      "displayName": "",
+      "id": "472f6",
+      "name": "file542.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "7d370358-79c4-4a1d-9d7d-a3a0dae310f8@fbe3b"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "adebd": {
+      "importer": "gltf-material",
+      "uuid": "7d370358-79c4-4a1d-9d7d-a3a0dae310f8@adebd",
+      "displayName": "",
+      "id": "adebd",
+      "name": "lambert214.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "22e0f": {
+      "importer": "gltf-scene",
+      "uuid": "7d370358-79c4-4a1d-9d7d-a3a0dae310f8@22e0f",
+      "displayName": "",
+      "id": "22e0f",
+      "name": "SM_Prop_Paper_Lantern_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file542",
+        "uri": "7d370358-79c4-4a1d-9d7d-a3a0dae310f8@fbe3b"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "7d370358-79c4-4a1d-9d7d-a3a0dae310f8@22e0f",
+    "assetFinder": {
+      "meshes": [
+        "7d370358-79c4-4a1d-9d7d-a3a0dae310f8@4cdec"
+      ],
+      "skeletons": [],
+      "textures": [
+        "7d370358-79c4-4a1d-9d7d-a3a0dae310f8@472f6"
+      ],
+      "materials": [
+        "7d370358-79c4-4a1d-9d7d-a3a0dae310f8@adebd"
+      ],
+      "scenes": [
+        "7d370358-79c4-4a1d-9d7d-a3a0dae310f8@22e0f"
+      ]
+    }
+  }
+}

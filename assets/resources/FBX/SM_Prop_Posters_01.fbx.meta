@@ -1,0 +1,109 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "0e02f97f-d5ce-47e3-9bca-4cc1885cf01a",
+  "files": [],
+  "subMetas": {
+    "80971": {
+      "importer": "gltf-material",
+      "uuid": "0e02f97f-d5ce-47e3-9bca-4cc1885cf01a@80971",
+      "displayName": "",
+      "id": "80971",
+      "name": "lambert222.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "03f51": {
+      "importer": "gltf-mesh",
+      "uuid": "0e02f97f-d5ce-47e3-9bca-4cc1885cf01a@03f51",
+      "displayName": "",
+      "id": "03f51",
+      "name": "SM_Prop_Posters_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "312ba": {
+      "importer": "texture",
+      "uuid": "0e02f97f-d5ce-47e3-9bca-4cc1885cf01a@312ba",
+      "displayName": "",
+      "id": "312ba",
+      "name": "file8.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/Billboards.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "18d73": {
+      "importer": "gltf-scene",
+      "uuid": "0e02f97f-d5ce-47e3-9bca-4cc1885cf01a@18d73",
+      "displayName": "",
+      "id": "18d73",
+      "name": "SM_Prop_Posters_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file8",
+        "uri": "db://assets/resources/Textures/Billboards.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "0e02f97f-d5ce-47e3-9bca-4cc1885cf01a@18d73",
+    "assetFinder": {
+      "meshes": [
+        "0e02f97f-d5ce-47e3-9bca-4cc1885cf01a@03f51"
+      ],
+      "skeletons": [],
+      "textures": [
+        "0e02f97f-d5ce-47e3-9bca-4cc1885cf01a@312ba"
+      ],
+      "materials": [
+        "0e02f97f-d5ce-47e3-9bca-4cc1885cf01a@80971"
+      ],
+      "scenes": [
+        "0e02f97f-d5ce-47e3-9bca-4cc1885cf01a@18d73"
+      ]
+    }
+  }
+}

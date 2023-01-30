@@ -1,0 +1,109 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "b3417403-f2f3-4593-8aa9-9f9ea6f883a1",
+  "files": [],
+  "subMetas": {
+    "25197": {
+      "importer": "gltf-mesh",
+      "uuid": "b3417403-f2f3-4593-8aa9-9f9ea6f883a1@25197",
+      "displayName": "",
+      "id": "25197",
+      "name": "SM_Bld_StripClub_Interior_03.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7986e": {
+      "importer": "texture",
+      "uuid": "b3417403-f2f3-4593-8aa9-9f9ea6f883a1@7986e",
+      "displayName": "",
+      "id": "7986e",
+      "name": "file972.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonScifi_01_A.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "b3417403-f2f3-4593-8aa9-9f9ea6f883a1@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5c156": {
+      "importer": "gltf-scene",
+      "uuid": "b3417403-f2f3-4593-8aa9-9f9ea6f883a1@5c156",
+      "displayName": "",
+      "id": "5c156",
+      "name": "SM_Bld_StripClub_Interior_03.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file972",
+        "uri": "db://assets/resources/Textures/PolygonScifi_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "b3417403-f2f3-4593-8aa9-9f9ea6f883a1@5c156",
+    "assetFinder": {
+      "meshes": [
+        "b3417403-f2f3-4593-8aa9-9f9ea6f883a1@25197"
+      ],
+      "skeletons": [],
+      "textures": [
+        "b3417403-f2f3-4593-8aa9-9f9ea6f883a1@7986e"
+      ],
+      "materials": [
+        "b3417403-f2f3-4593-8aa9-9f9ea6f883a1@8d883"
+      ],
+      "scenes": [
+        "b3417403-f2f3-4593-8aa9-9f9ea6f883a1@5c156"
+      ]
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "1d2a561f-8748-45e7-863b-01e79218ef79",
+  "files": [],
+  "subMetas": {
+    "1e345": {
+      "importer": "gltf-mesh",
+      "uuid": "1d2a561f-8748-45e7-863b-01e79218ef79@1e345",
+      "displayName": "",
+      "id": "1e345",
+      "name": "SM_Bld_Large_Part_08.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "1d2a561f-8748-45e7-863b-01e79218ef79@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "1d2a561f-8748-45e7-863b-01e79218ef79@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "1d2a561f-8748-45e7-863b-01e79218ef79@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6ea96": {
+      "importer": "gltf-material",
+      "uuid": "1d2a561f-8748-45e7-863b-01e79218ef79@6ea96",
+      "displayName": "",
+      "id": "6ea96",
+      "name": "lambert26.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4f47b": {
+      "importer": "gltf-scene",
+      "uuid": "1d2a561f-8748-45e7-863b-01e79218ef79@4f47b",
+      "displayName": "",
+      "id": "4f47b",
+      "name": "SM_Bld_Large_Part_08.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "1d2a561f-8748-45e7-863b-01e79218ef79@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "1d2a561f-8748-45e7-863b-01e79218ef79@4f47b",
+    "assetFinder": {
+      "meshes": [
+        "1d2a561f-8748-45e7-863b-01e79218ef79@1e345"
+      ],
+      "skeletons": [],
+      "textures": [
+        "1d2a561f-8748-45e7-863b-01e79218ef79@d20e9"
+      ],
+      "materials": [
+        "1d2a561f-8748-45e7-863b-01e79218ef79@6ea96"
+      ],
+      "scenes": [
+        "1d2a561f-8748-45e7-863b-01e79218ef79@4f47b"
+      ]
+    }
+  }
+}

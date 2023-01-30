@@ -1,0 +1,144 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "331ec813-d581-47e8-b866-8d53b4ff07be",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "331ec813-d581-47e8-b866-8d53b4ff07be@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "57a40": {
+      "importer": "gltf-mesh",
+      "uuid": "331ec813-d581-47e8-b866-8d53b4ff07be@57a40",
+      "displayName": "",
+      "id": "57a40",
+      "name": "SM_Prop_Crate_Military_03.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a7647": {
+      "importer": "gltf-mesh",
+      "uuid": "331ec813-d581-47e8-b866-8d53b4ff07be@a7647",
+      "displayName": "",
+      "id": "a7647",
+      "name": "SM_Prop_Crate_Military_03_Lid.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "331ec813-d581-47e8-b866-8d53b4ff07be@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "331ec813-d581-47e8-b866-8d53b4ff07be@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4de79": {
+      "importer": "gltf-material",
+      "uuid": "331ec813-d581-47e8-b866-8d53b4ff07be@4de79",
+      "displayName": "",
+      "id": "4de79",
+      "name": "lambert172.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e675e": {
+      "importer": "gltf-scene",
+      "uuid": "331ec813-d581-47e8-b866-8d53b4ff07be@e675e",
+      "displayName": "",
+      "id": "e675e",
+      "name": "SM_Prop_Crate_Military_03.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "331ec813-d581-47e8-b866-8d53b4ff07be@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "331ec813-d581-47e8-b866-8d53b4ff07be@e675e",
+    "assetFinder": {
+      "meshes": [
+        "331ec813-d581-47e8-b866-8d53b4ff07be@57a40",
+        "331ec813-d581-47e8-b866-8d53b4ff07be@a7647"
+      ],
+      "skeletons": [],
+      "textures": [
+        "331ec813-d581-47e8-b866-8d53b4ff07be@20e81"
+      ],
+      "materials": [
+        "331ec813-d581-47e8-b866-8d53b4ff07be@4de79"
+      ],
+      "scenes": [
+        "331ec813-d581-47e8-b866-8d53b4ff07be@e675e"
+      ]
+    }
+  }
+}

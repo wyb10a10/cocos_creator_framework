@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb",
+  "files": [],
+  "subMetas": {
+    "37857": {
+      "importer": "gltf-mesh",
+      "uuid": "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb@37857",
+      "displayName": "",
+      "id": "37857",
+      "name": "SM_Building_Shack_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "46676": {
+      "importer": "gltf-material",
+      "uuid": "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb@46676",
+      "displayName": "",
+      "id": "46676",
+      "name": "lambert60.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "50027": {
+      "importer": "texture",
+      "uuid": "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb@50027",
+      "displayName": "",
+      "id": "50027",
+      "name": "file407.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb@12d7e"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "12d7e": {
+      "importer": "gltf-embeded-image",
+      "uuid": "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb@12d7e",
+      "displayName": "",
+      "id": "12d7e",
+      "name": "file407.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6c7a9": {
+      "importer": "gltf-scene",
+      "uuid": "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb@6c7a9",
+      "displayName": "",
+      "id": "6c7a9",
+      "name": "SM_Building_Shack_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file407",
+        "uri": "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb@12d7e"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb@6c7a9",
+    "assetFinder": {
+      "meshes": [
+        "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb@37857"
+      ],
+      "skeletons": [],
+      "textures": [
+        "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb@50027"
+      ],
+      "materials": [
+        "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb@46676"
+      ],
+      "scenes": [
+        "e0b8bba0-6a2d-456f-8913-af3ffe8c90eb@6c7a9"
+      ]
+    }
+  }
+}

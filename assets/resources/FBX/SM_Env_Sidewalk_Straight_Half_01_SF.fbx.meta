@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "fa4a82de-b852-4101-a7ac-c776afaabee9",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "fa4a82de-b852-4101-a7ac-c776afaabee9@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "442fe": {
+      "importer": "gltf-mesh",
+      "uuid": "fa4a82de-b852-4101-a7ac-c776afaabee9@442fe",
+      "displayName": "",
+      "id": "442fe",
+      "name": "SM_Env_Sidewalk_Straight_Half_01_SF.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "fa4a82de-b852-4101-a7ac-c776afaabee9@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "fa4a82de-b852-4101-a7ac-c776afaabee9@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9e237": {
+      "importer": "gltf-material",
+      "uuid": "fa4a82de-b852-4101-a7ac-c776afaabee9@9e237",
+      "displayName": "",
+      "id": "9e237",
+      "name": "lambert136.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6ca48": {
+      "importer": "gltf-scene",
+      "uuid": "fa4a82de-b852-4101-a7ac-c776afaabee9@6ca48",
+      "displayName": "",
+      "id": "6ca48",
+      "name": "SM_Env_Sidewalk_Straight_Half_01_SF.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "fa4a82de-b852-4101-a7ac-c776afaabee9@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "fa4a82de-b852-4101-a7ac-c776afaabee9@6ca48",
+    "assetFinder": {
+      "meshes": [
+        "fa4a82de-b852-4101-a7ac-c776afaabee9@442fe"
+      ],
+      "skeletons": [],
+      "textures": [
+        "fa4a82de-b852-4101-a7ac-c776afaabee9@20e81"
+      ],
+      "materials": [
+        "fa4a82de-b852-4101-a7ac-c776afaabee9@9e237"
+      ],
+      "scenes": [
+        "fa4a82de-b852-4101-a7ac-c776afaabee9@6ca48"
+      ]
+    }
+  }
+}

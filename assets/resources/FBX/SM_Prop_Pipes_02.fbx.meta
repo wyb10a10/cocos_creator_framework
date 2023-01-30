@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "37c4e4c5-b213-4218-a98a-ff344fe35056",
+  "files": [],
+  "subMetas": {
+    "43ac6": {
+      "importer": "gltf-mesh",
+      "uuid": "37c4e4c5-b213-4218-a98a-ff344fe35056@43ac6",
+      "displayName": "",
+      "id": "43ac6",
+      "name": "SM_Prop_Pipes_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "37c4e4c5-b213-4218-a98a-ff344fe35056@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "37c4e4c5-b213-4218-a98a-ff344fe35056@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "37c4e4c5-b213-4218-a98a-ff344fe35056@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7d1ea": {
+      "importer": "gltf-material",
+      "uuid": "37c4e4c5-b213-4218-a98a-ff344fe35056@7d1ea",
+      "displayName": "",
+      "id": "7d1ea",
+      "name": "lambert220.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "2024d": {
+      "importer": "gltf-scene",
+      "uuid": "37c4e4c5-b213-4218-a98a-ff344fe35056@2024d",
+      "displayName": "",
+      "id": "2024d",
+      "name": "SM_Prop_Pipes_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "37c4e4c5-b213-4218-a98a-ff344fe35056@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "37c4e4c5-b213-4218-a98a-ff344fe35056@2024d",
+    "assetFinder": {
+      "meshes": [
+        "37c4e4c5-b213-4218-a98a-ff344fe35056@43ac6"
+      ],
+      "skeletons": [],
+      "textures": [
+        "37c4e4c5-b213-4218-a98a-ff344fe35056@d20e9"
+      ],
+      "materials": [
+        "37c4e4c5-b213-4218-a98a-ff344fe35056@7d1ea"
+      ],
+      "scenes": [
+        "37c4e4c5-b213-4218-a98a-ff344fe35056@2024d"
+      ]
+    }
+  }
+}

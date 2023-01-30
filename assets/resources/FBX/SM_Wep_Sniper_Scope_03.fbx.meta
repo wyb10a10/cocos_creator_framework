@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8",
+  "files": [],
+  "subMetas": {
+    "a19de": {
+      "importer": "gltf-mesh",
+      "uuid": "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8@a19de",
+      "displayName": "",
+      "id": "a19de",
+      "name": "SM_Wep_Sniper_Scope_03.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "96c6d": {
+      "importer": "gltf-scene",
+      "uuid": "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8@96c6d",
+      "displayName": "",
+      "id": "96c6d",
+      "name": "SM_Wep_Sniper_Scope_03.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8@96c6d",
+    "assetFinder": {
+      "meshes": [
+        "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8@a19de"
+      ],
+      "skeletons": [],
+      "textures": [
+        "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8@cc065"
+      ],
+      "materials": [
+        "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8@8d883"
+      ],
+      "scenes": [
+        "cd61c1f6-26af-4e03-b2c1-d0fe49d2e1b8@96c6d"
+      ]
+    }
+  }
+}

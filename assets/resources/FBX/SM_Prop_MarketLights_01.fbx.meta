@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "eef4ca54-b80d-45d1-97e5-752e80d4c55a",
+  "files": [],
+  "subMetas": {
+    "ee486": {
+      "importer": "gltf-mesh",
+      "uuid": "eef4ca54-b80d-45d1-97e5-752e80d4c55a@ee486",
+      "displayName": "",
+      "id": "ee486",
+      "name": "SM_Prop_MarketLights_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "eef4ca54-b80d-45d1-97e5-752e80d4c55a@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "eef4ca54-b80d-45d1-97e5-752e80d4c55a@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "eef4ca54-b80d-45d1-97e5-752e80d4c55a@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6b8b3": {
+      "importer": "gltf-material",
+      "uuid": "eef4ca54-b80d-45d1-97e5-752e80d4c55a@6b8b3",
+      "displayName": "",
+      "id": "6b8b3",
+      "name": "lambert198.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "fa292": {
+      "importer": "gltf-scene",
+      "uuid": "eef4ca54-b80d-45d1-97e5-752e80d4c55a@fa292",
+      "displayName": "",
+      "id": "fa292",
+      "name": "SM_Prop_MarketLights_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "eef4ca54-b80d-45d1-97e5-752e80d4c55a@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "eef4ca54-b80d-45d1-97e5-752e80d4c55a@fa292",
+    "assetFinder": {
+      "meshes": [
+        "eef4ca54-b80d-45d1-97e5-752e80d4c55a@ee486"
+      ],
+      "skeletons": [],
+      "textures": [
+        "eef4ca54-b80d-45d1-97e5-752e80d4c55a@d20e9"
+      ],
+      "materials": [
+        "eef4ca54-b80d-45d1-97e5-752e80d4c55a@6b8b3"
+      ],
+      "scenes": [
+        "eef4ca54-b80d-45d1-97e5-752e80d4c55a@fa292"
+      ]
+    }
+  }
+}

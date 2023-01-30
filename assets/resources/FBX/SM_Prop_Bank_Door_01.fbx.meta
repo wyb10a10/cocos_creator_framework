@@ -1,0 +1,162 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "c007d1c9-5b50-4f46-b2ff-75864a92e4dc",
+  "files": [],
+  "subMetas": {
+    "73108": {
+      "importer": "gltf-mesh",
+      "uuid": "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@73108",
+      "displayName": "",
+      "id": "73108",
+      "name": "SM_Prop_Bank_Door_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "205af": {
+      "importer": "gltf-mesh",
+      "uuid": "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@205af",
+      "displayName": "",
+      "id": "205af",
+      "name": "SM_Prop_Bank_Door_Left_01.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a7359": {
+      "importer": "gltf-mesh",
+      "uuid": "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@a7359",
+      "displayName": "",
+      "id": "a7359",
+      "name": "SM_Prop_Bank_Door_Right_01.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "daa77": {
+      "importer": "gltf-embeded-image",
+      "uuid": "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@daa77",
+      "displayName": "",
+      "id": "daa77",
+      "name": "file109.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a36aa": {
+      "importer": "texture",
+      "uuid": "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@a36aa",
+      "displayName": "",
+      "id": "a36aa",
+      "name": "file109.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@daa77"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "23c6c": {
+      "importer": "gltf-material",
+      "uuid": "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@23c6c",
+      "displayName": "",
+      "id": "23c6c",
+      "name": "lambert27.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1c33a": {
+      "importer": "gltf-scene",
+      "uuid": "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@1c33a",
+      "displayName": "",
+      "id": "1c33a",
+      "name": "SM_Prop_Bank_Door_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file109",
+        "uri": "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@daa77"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@1c33a",
+    "assetFinder": {
+      "meshes": [
+        "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@73108",
+        "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@205af",
+        "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@a7359"
+      ],
+      "skeletons": [],
+      "textures": [
+        "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@a36aa"
+      ],
+      "materials": [
+        "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@23c6c"
+      ],
+      "scenes": [
+        "c007d1c9-5b50-4f46-b2ff-75864a92e4dc@1c33a"
+      ]
+    }
+  }
+}

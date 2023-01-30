@@ -1,0 +1,288 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f",
+  "files": [],
+  "subMetas": {
+    "82202": {
+      "importer": "gltf-mesh",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@82202",
+      "displayName": "",
+      "id": "82202",
+      "name": "SM_Veh_Classic_01_Wheel_fr.mesh",
+      "userData": {
+        "gltfIndex": 7
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3bc1b": {
+      "importer": "gltf-mesh",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@3bc1b",
+      "displayName": "",
+      "id": "3bc1b",
+      "name": "SM_Veh_Classic_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8300c": {
+      "importer": "gltf-mesh",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@8300c",
+      "displayName": "",
+      "id": "8300c",
+      "name": "SM_Veh_Classic_01_Glass.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "df5ac": {
+      "importer": "gltf-mesh",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@df5ac",
+      "displayName": "",
+      "id": "df5ac",
+      "name": "SM_Veh_Classic_01_R_Door.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d0ffa": {
+      "importer": "gltf-mesh",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@d0ffa",
+      "displayName": "",
+      "id": "d0ffa",
+      "name": "SM_Veh_Classic_01_R_Glass.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "55f66": {
+      "importer": "gltf-mesh",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@55f66",
+      "displayName": "",
+      "id": "55f66",
+      "name": "SM_Veh_Classic_01_L_Door.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "331e2": {
+      "importer": "gltf-mesh",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@331e2",
+      "displayName": "",
+      "id": "331e2",
+      "name": "SM_Veh_Classic_01_L_Glass.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ab465": {
+      "importer": "gltf-mesh",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@ab465",
+      "displayName": "",
+      "id": "ab465",
+      "name": "SM_Veh_Classic_01_Wheel_fl.mesh",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "de706": {
+      "importer": "gltf-mesh",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@de706",
+      "displayName": "",
+      "id": "de706",
+      "name": "SM_Veh_Classic_01_Wheel_rl.mesh",
+      "userData": {
+        "gltfIndex": 8
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d9a70": {
+      "importer": "gltf-mesh",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@d9a70",
+      "displayName": "",
+      "id": "d9a70",
+      "name": "SM_Veh_Classic_01_Wheel_rr.mesh",
+      "userData": {
+        "gltfIndex": 9
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "c2455430-8911-4069-aa2d-aa9551f84f3f@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b7d27": {
+      "importer": "gltf-material",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@b7d27",
+      "displayName": "",
+      "id": "b7d27",
+      "name": "Body1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ceeb8": {
+      "importer": "gltf-scene",
+      "uuid": "c2455430-8911-4069-aa2d-aa9551f84f3f@ceeb8",
+      "displayName": "",
+      "id": "ceeb8",
+      "name": "SM_Veh_Classic_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "c2455430-8911-4069-aa2d-aa9551f84f3f@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "c2455430-8911-4069-aa2d-aa9551f84f3f@ceeb8",
+    "assetFinder": {
+      "meshes": [
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@3bc1b",
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@8300c",
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@df5ac",
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@d0ffa",
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@55f66",
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@331e2",
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@ab465",
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@82202",
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@de706",
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@d9a70"
+      ],
+      "skeletons": [],
+      "textures": [
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@20e81"
+      ],
+      "materials": [
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@b7d27"
+      ],
+      "scenes": [
+        "c2455430-8911-4069-aa2d-aa9551f84f3f@ceeb8"
+      ]
+    }
+  }
+}

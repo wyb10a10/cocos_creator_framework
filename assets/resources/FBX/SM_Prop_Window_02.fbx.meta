@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "b899e601-36fc-4aeb-8f37-b9952025cfa2",
+  "files": [],
+  "subMetas": {
+    "27342": {
+      "importer": "gltf-material",
+      "uuid": "b899e601-36fc-4aeb-8f37-b9952025cfa2@27342",
+      "displayName": "",
+      "id": "27342",
+      "name": "lambert265.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b64bd": {
+      "importer": "gltf-mesh",
+      "uuid": "b899e601-36fc-4aeb-8f37-b9952025cfa2@b64bd",
+      "displayName": "",
+      "id": "b64bd",
+      "name": "SM_Prop_Window_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "b899e601-36fc-4aeb-8f37-b9952025cfa2@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "b899e601-36fc-4aeb-8f37-b9952025cfa2@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "b899e601-36fc-4aeb-8f37-b9952025cfa2@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "679f6": {
+      "importer": "gltf-scene",
+      "uuid": "b899e601-36fc-4aeb-8f37-b9952025cfa2@679f6",
+      "displayName": "",
+      "id": "679f6",
+      "name": "SM_Prop_Window_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "b899e601-36fc-4aeb-8f37-b9952025cfa2@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "b899e601-36fc-4aeb-8f37-b9952025cfa2@679f6",
+    "assetFinder": {
+      "meshes": [
+        "b899e601-36fc-4aeb-8f37-b9952025cfa2@b64bd"
+      ],
+      "skeletons": [],
+      "textures": [
+        "b899e601-36fc-4aeb-8f37-b9952025cfa2@d20e9"
+      ],
+      "materials": [
+        "b899e601-36fc-4aeb-8f37-b9952025cfa2@27342"
+      ],
+      "scenes": [
+        "b899e601-36fc-4aeb-8f37-b9952025cfa2@679f6"
+      ]
+    }
+  }
+}

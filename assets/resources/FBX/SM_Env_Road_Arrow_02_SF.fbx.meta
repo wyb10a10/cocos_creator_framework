@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c",
+  "files": [],
+  "subMetas": {
+    "33798": {
+      "importer": "gltf-material",
+      "uuid": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@33798",
+      "displayName": "",
+      "id": "33798",
+      "name": "lambert109.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "46384": {
+      "importer": "gltf-mesh",
+      "uuid": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@46384",
+      "displayName": "",
+      "id": "46384",
+      "name": "SM_Env_Road_Arrow_02_SF.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "adacb": {
+      "importer": "gltf-embeded-image",
+      "uuid": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@adacb",
+      "displayName": "",
+      "id": "adacb",
+      "name": "file2.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e873a": {
+      "importer": "texture",
+      "uuid": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@e873a",
+      "displayName": "",
+      "id": "e873a",
+      "name": "file2.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@adacb"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "2a921": {
+      "importer": "gltf-scene",
+      "uuid": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@2a921",
+      "displayName": "",
+      "id": "2a921",
+      "name": "SM_Env_Road_Arrow_02_SF.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file2",
+        "uri": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@adacb"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@2a921",
+    "assetFinder": {
+      "meshes": [
+        "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@46384"
+      ],
+      "skeletons": [],
+      "textures": [
+        "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@e873a"
+      ],
+      "materials": [
+        "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@33798"
+      ],
+      "scenes": [
+        "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@2a921"
+      ]
+    }
+  }
+}

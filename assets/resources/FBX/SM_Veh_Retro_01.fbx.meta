@@ -1,0 +1,306 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ccde4": {
+      "importer": "gltf-mesh",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@ccde4",
+      "displayName": "",
+      "id": "ccde4",
+      "name": "SM_Veh_Retro_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bcc69": {
+      "importer": "gltf-mesh",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@bcc69",
+      "displayName": "",
+      "id": "bcc69",
+      "name": "SM_Veh_Retro_01_Glass.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5e6ef": {
+      "importer": "gltf-mesh",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@5e6ef",
+      "displayName": "",
+      "id": "5e6ef",
+      "name": "SM_Veh_Retro_01_SteeringW.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cfe6a": {
+      "importer": "gltf-mesh",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@cfe6a",
+      "displayName": "",
+      "id": "cfe6a",
+      "name": "SM_Veh_Retro_01_Door_L.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "91d08": {
+      "importer": "gltf-mesh",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@91d08",
+      "displayName": "",
+      "id": "91d08",
+      "name": "SM_Veh_Retro_01_Door_L_Glass.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a4902": {
+      "importer": "gltf-mesh",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@a4902",
+      "displayName": "",
+      "id": "a4902",
+      "name": "SM_Veh_Retro_01_Wheel_fl.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "69ee4": {
+      "importer": "gltf-mesh",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@69ee4",
+      "displayName": "",
+      "id": "69ee4",
+      "name": "SM_Veh_Retro_01_Wheel_rl.mesh",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "937f9": {
+      "importer": "gltf-mesh",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@937f9",
+      "displayName": "",
+      "id": "937f9",
+      "name": "SM_Veh_Retro_01_Door_R.mesh",
+      "userData": {
+        "gltfIndex": 7
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "da22a": {
+      "importer": "gltf-mesh",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@da22a",
+      "displayName": "",
+      "id": "da22a",
+      "name": "SM_Veh_Retro_01_Door_R_Glass.mesh",
+      "userData": {
+        "gltfIndex": 8
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "220af": {
+      "importer": "gltf-mesh",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@220af",
+      "displayName": "",
+      "id": "220af",
+      "name": "SM_Veh_Retro_01_Wheel_fr.mesh",
+      "userData": {
+        "gltfIndex": 9
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6a087": {
+      "importer": "gltf-mesh",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@6a087",
+      "displayName": "",
+      "id": "6a087",
+      "name": "SM_Veh_Retro_01_Wheel_rr.mesh",
+      "userData": {
+        "gltfIndex": 10
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "d84539fe-fd80-44fa-b0be-820764a9fa84@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b7d27": {
+      "importer": "gltf-material",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@b7d27",
+      "displayName": "",
+      "id": "b7d27",
+      "name": "Body1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3a1db": {
+      "importer": "gltf-scene",
+      "uuid": "d84539fe-fd80-44fa-b0be-820764a9fa84@3a1db",
+      "displayName": "",
+      "id": "3a1db",
+      "name": "SM_Veh_Retro_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "d84539fe-fd80-44fa-b0be-820764a9fa84@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "d84539fe-fd80-44fa-b0be-820764a9fa84@3a1db",
+    "assetFinder": {
+      "meshes": [
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@ccde4",
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@bcc69",
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@5e6ef",
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@cfe6a",
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@91d08",
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@a4902",
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@69ee4",
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@937f9",
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@da22a",
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@220af",
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@6a087"
+      ],
+      "skeletons": [],
+      "textures": [
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@20e81"
+      ],
+      "materials": [
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@b7d27"
+      ],
+      "scenes": [
+        "d84539fe-fd80-44fa-b0be-820764a9fa84@3a1db"
+      ]
+    }
+  }
+}

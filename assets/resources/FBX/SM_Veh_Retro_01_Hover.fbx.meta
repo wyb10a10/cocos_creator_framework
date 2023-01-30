@@ -1,0 +1,324 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5534f": {
+      "importer": "gltf-mesh",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@5534f",
+      "displayName": "",
+      "id": "5534f",
+      "name": "SM_Veh_Retro_01_Hover.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4825a": {
+      "importer": "gltf-mesh",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@4825a",
+      "displayName": "",
+      "id": "4825a",
+      "name": "SM_Veh_Retro_Hover_01_Wheel_rl_Hover.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7da54": {
+      "importer": "gltf-mesh",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@7da54",
+      "displayName": "",
+      "id": "7da54",
+      "name": "SM_Veh_Retro_Hover_01_Wheel_fl_Hover.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "425b0": {
+      "importer": "gltf-mesh",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@425b0",
+      "displayName": "",
+      "id": "425b0",
+      "name": "SM_Veh_Retro_Fins_01_Hover.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a301c": {
+      "importer": "gltf-mesh",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@a301c",
+      "displayName": "",
+      "id": "a301c",
+      "name": "SM_Veh_Retro_01_Glass_Hover.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ffbe3": {
+      "importer": "gltf-mesh",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@ffbe3",
+      "displayName": "",
+      "id": "ffbe3",
+      "name": "SM_Veh_Retro_01_SteeringW_Hover.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d247f": {
+      "importer": "gltf-mesh",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@d247f",
+      "displayName": "",
+      "id": "d247f",
+      "name": "SM_Veh_Retro_01_Door_L_Hover.mesh",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "02ab1": {
+      "importer": "gltf-mesh",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@02ab1",
+      "displayName": "",
+      "id": "02ab1",
+      "name": "SM_Veh_Retro_01_Door_L_Glass_Hover.mesh",
+      "userData": {
+        "gltfIndex": 7
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "586bb": {
+      "importer": "gltf-mesh",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@586bb",
+      "displayName": "",
+      "id": "586bb",
+      "name": "SM_Veh_Retro_01_Door_R_Hover.mesh",
+      "userData": {
+        "gltfIndex": 8
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f988b": {
+      "importer": "gltf-mesh",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@f988b",
+      "displayName": "",
+      "id": "f988b",
+      "name": "SM_Veh_Retro_01_Door_R_Glass_Hover.mesh",
+      "userData": {
+        "gltfIndex": 9
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e314e": {
+      "importer": "gltf-mesh",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@e314e",
+      "displayName": "",
+      "id": "e314e",
+      "name": "SM_Veh_Retro_Hover_01_Wheel_fr_Hover.mesh",
+      "userData": {
+        "gltfIndex": 10
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "72b05": {
+      "importer": "gltf-mesh",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@72b05",
+      "displayName": "",
+      "id": "72b05",
+      "name": "SM_Veh_Retro_Hover_01_Wheel_rr_Hover.mesh",
+      "userData": {
+        "gltfIndex": 11
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b7d27": {
+      "importer": "gltf-material",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@b7d27",
+      "displayName": "",
+      "id": "b7d27",
+      "name": "Body1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b31dd": {
+      "importer": "gltf-scene",
+      "uuid": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@b31dd",
+      "displayName": "",
+      "id": "b31dd",
+      "name": "SM_Veh_Retro_01_Hover.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@b31dd",
+    "assetFinder": {
+      "meshes": [
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@5534f",
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@4825a",
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@7da54",
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@425b0",
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@a301c",
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@ffbe3",
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@d247f",
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@02ab1",
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@586bb",
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@f988b",
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@e314e",
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@72b05"
+      ],
+      "skeletons": [],
+      "textures": [
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@20e81"
+      ],
+      "materials": [
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@b7d27"
+      ],
+      "scenes": [
+        "b35124b9-4d5c-4e2e-9ce0-b712d7ed6558@b31dd"
+      ]
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "48ac1c89-1094-4763-b096-99b292ffedbb",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "48ac1c89-1094-4763-b096-99b292ffedbb@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "95aa5": {
+      "importer": "gltf-mesh",
+      "uuid": "48ac1c89-1094-4763-b096-99b292ffedbb@95aa5",
+      "displayName": "",
+      "id": "95aa5",
+      "name": "SM_Prop_Atm_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "48ac1c89-1094-4763-b096-99b292ffedbb@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "48ac1c89-1094-4763-b096-99b292ffedbb@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43abc": {
+      "importer": "gltf-material",
+      "uuid": "48ac1c89-1094-4763-b096-99b292ffedbb@43abc",
+      "displayName": "",
+      "id": "43abc",
+      "name": "lambert144.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "edddb": {
+      "importer": "gltf-scene",
+      "uuid": "48ac1c89-1094-4763-b096-99b292ffedbb@edddb",
+      "displayName": "",
+      "id": "edddb",
+      "name": "SM_Prop_Atm_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "48ac1c89-1094-4763-b096-99b292ffedbb@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "48ac1c89-1094-4763-b096-99b292ffedbb@edddb",
+    "assetFinder": {
+      "meshes": [
+        "48ac1c89-1094-4763-b096-99b292ffedbb@95aa5"
+      ],
+      "skeletons": [],
+      "textures": [
+        "48ac1c89-1094-4763-b096-99b292ffedbb@20e81"
+      ],
+      "materials": [
+        "48ac1c89-1094-4763-b096-99b292ffedbb@43abc"
+      ],
+      "scenes": [
+        "48ac1c89-1094-4763-b096-99b292ffedbb@edddb"
+      ]
+    }
+  }
+}

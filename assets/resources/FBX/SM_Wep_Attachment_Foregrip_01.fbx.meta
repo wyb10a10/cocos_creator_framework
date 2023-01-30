@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "f12d7afe-a7e9-4328-ad06-3485dbe0ffad",
+  "files": [],
+  "subMetas": {
+    "1f022": {
+      "importer": "gltf-mesh",
+      "uuid": "f12d7afe-a7e9-4328-ad06-3485dbe0ffad@1f022",
+      "displayName": "",
+      "id": "1f022",
+      "name": "SM_Wep_Attachment_Foregrip_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "f12d7afe-a7e9-4328-ad06-3485dbe0ffad@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "f12d7afe-a7e9-4328-ad06-3485dbe0ffad@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "f12d7afe-a7e9-4328-ad06-3485dbe0ffad@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "f12d7afe-a7e9-4328-ad06-3485dbe0ffad@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d0f4c": {
+      "importer": "gltf-scene",
+      "uuid": "f12d7afe-a7e9-4328-ad06-3485dbe0ffad@d0f4c",
+      "displayName": "",
+      "id": "d0f4c",
+      "name": "SM_Wep_Attachment_Foregrip_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "f12d7afe-a7e9-4328-ad06-3485dbe0ffad@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "f12d7afe-a7e9-4328-ad06-3485dbe0ffad@d0f4c",
+    "assetFinder": {
+      "meshes": [
+        "f12d7afe-a7e9-4328-ad06-3485dbe0ffad@1f022"
+      ],
+      "skeletons": [],
+      "textures": [
+        "f12d7afe-a7e9-4328-ad06-3485dbe0ffad@cc065"
+      ],
+      "materials": [
+        "f12d7afe-a7e9-4328-ad06-3485dbe0ffad@8d883"
+      ],
+      "scenes": [
+        "f12d7afe-a7e9-4328-ad06-3485dbe0ffad@d0f4c"
+      ]
+    }
+  }
+}

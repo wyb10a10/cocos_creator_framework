@@ -1,0 +1,185 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "67a83694-0761-40ed-8df8-befc803cb178",
+  "files": [
+    "__original-animation-0.cconb"
+  ],
+  "subMetas": {
+    "ffd3c": {
+      "importer": "gltf-mesh",
+      "uuid": "67a83694-0761-40ed-8df8-befc803cb178@ffd3c",
+      "displayName": "",
+      "id": "ffd3c",
+      "name": "SK_Character_Alien_Male_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "73b7f": {
+      "importer": "gltf-animation",
+      "uuid": "67a83694-0761-40ed-8df8-befc803cb178@73b7f",
+      "displayName": "",
+      "id": "73b7f",
+      "name": "Take 001.animation",
+      "userData": {
+        "gltfIndex": 0,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 2.633333444595337
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    },
+    "438fe": {
+      "importer": "gltf-skeleton",
+      "uuid": "67a83694-0761-40ed-8df8-befc803cb178@438fe",
+      "displayName": "",
+      "id": "438fe",
+      "name": "UnnamedSkeleton.skeleton",
+      "userData": {
+        "gltfIndex": 0,
+        "jointsLength": 48
+      },
+      "ver": "1.0.1",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0350e": {
+      "importer": "gltf-embeded-image",
+      "uuid": "67a83694-0761-40ed-8df8-befc803cb178@0350e",
+      "displayName": "",
+      "id": "0350e",
+      "name": "file402.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "11ace": {
+      "importer": "texture",
+      "uuid": "67a83694-0761-40ed-8df8-befc803cb178@11ace",
+      "displayName": "",
+      "id": "11ace",
+      "name": "file402.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "67a83694-0761-40ed-8df8-befc803cb178@0350e"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d0a5b": {
+      "importer": "gltf-material",
+      "uuid": "67a83694-0761-40ed-8df8-befc803cb178@d0a5b",
+      "displayName": "",
+      "id": "d0a5b",
+      "name": "Characters.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f818a": {
+      "importer": "gltf-scene",
+      "uuid": "67a83694-0761-40ed-8df8-befc803cb178@f818a",
+      "displayName": "",
+      "id": "f818a",
+      "name": "SK_Character_Alien_Male_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file402",
+        "uri": "67a83694-0761-40ed-8df8-befc803cb178@0350e"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "animationImportSettings": [
+      {
+        "name": "Take 001",
+        "duration": 2.633333444595337,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "Take 001",
+            "from": 0,
+            "to": 2.633333444595337,
+            "wrapMode": 2
+          }
+        ]
+      }
+    ],
+    "redirect": "67a83694-0761-40ed-8df8-befc803cb178@f818a",
+    "assetFinder": {
+      "meshes": [
+        "67a83694-0761-40ed-8df8-befc803cb178@ffd3c"
+      ],
+      "skeletons": [
+        "67a83694-0761-40ed-8df8-befc803cb178@438fe"
+      ],
+      "textures": [
+        "67a83694-0761-40ed-8df8-befc803cb178@11ace"
+      ],
+      "materials": [
+        "67a83694-0761-40ed-8df8-befc803cb178@d0a5b"
+      ],
+      "scenes": [
+        "67a83694-0761-40ed-8df8-befc803cb178@f818a"
+      ]
+    }
+  }
+}

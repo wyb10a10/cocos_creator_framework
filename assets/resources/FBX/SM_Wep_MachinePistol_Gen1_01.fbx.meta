@@ -1,0 +1,198 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4",
+  "files": [],
+  "subMetas": {
+    "b9e7b": {
+      "importer": "gltf-mesh",
+      "uuid": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@b9e7b",
+      "displayName": "",
+      "id": "b9e7b",
+      "name": "SM_Wep_MachinePistol_Gen1_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6ff71": {
+      "importer": "gltf-mesh",
+      "uuid": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@6ff71",
+      "displayName": "",
+      "id": "6ff71",
+      "name": "SM_Wep_MachinePistol_Gen1_Mag_01.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "45e0c": {
+      "importer": "gltf-mesh",
+      "uuid": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@45e0c",
+      "displayName": "",
+      "id": "45e0c",
+      "name": "SM_Wep_MachinePistol_Gen1_Trigger_01.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8787d": {
+      "importer": "gltf-mesh",
+      "uuid": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@8787d",
+      "displayName": "",
+      "id": "8787d",
+      "name": "SM_Wep_MachinePistol_Gen1_ChargeHandle_01.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1cc86": {
+      "importer": "gltf-mesh",
+      "uuid": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@1cc86",
+      "displayName": "",
+      "id": "1cc86",
+      "name": "SM_Wep_MachinePistol_Gen1_Slide_01.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4a3b9": {
+      "importer": "gltf-scene",
+      "uuid": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@4a3b9",
+      "displayName": "",
+      "id": "4a3b9",
+      "name": "SM_Wep_MachinePistol_Gen1_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@4a3b9",
+    "assetFinder": {
+      "meshes": [
+        "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@b9e7b",
+        "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@6ff71",
+        "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@45e0c",
+        "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@8787d",
+        "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@1cc86"
+      ],
+      "skeletons": [],
+      "textures": [
+        "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@cc065"
+      ],
+      "materials": [
+        "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@8d883"
+      ],
+      "scenes": [
+        "bfb1c699-04c6-4d94-b9bd-7148d400f4c4@4a3b9"
+      ]
+    }
+  }
+}

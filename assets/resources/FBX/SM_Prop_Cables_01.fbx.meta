@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "b8b965a7-c7fd-4d97-aa07-1f2da11b8238",
+  "files": [],
+  "subMetas": {
+    "95e14": {
+      "importer": "gltf-mesh",
+      "uuid": "b8b965a7-c7fd-4d97-aa07-1f2da11b8238@95e14",
+      "displayName": "",
+      "id": "95e14",
+      "name": "SM_Prop_Cables_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "86e0a": {
+      "importer": "gltf-embeded-image",
+      "uuid": "b8b965a7-c7fd-4d97-aa07-1f2da11b8238@86e0a",
+      "displayName": "",
+      "id": "86e0a",
+      "name": "file414.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "170dc": {
+      "importer": "texture",
+      "uuid": "b8b965a7-c7fd-4d97-aa07-1f2da11b8238@170dc",
+      "displayName": "",
+      "id": "170dc",
+      "name": "file414.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "b8b965a7-c7fd-4d97-aa07-1f2da11b8238@86e0a"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9fc2a": {
+      "importer": "gltf-material",
+      "uuid": "b8b965a7-c7fd-4d97-aa07-1f2da11b8238@9fc2a",
+      "displayName": "",
+      "id": "9fc2a",
+      "name": "lambert160.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "23b02": {
+      "importer": "gltf-scene",
+      "uuid": "b8b965a7-c7fd-4d97-aa07-1f2da11b8238@23b02",
+      "displayName": "",
+      "id": "23b02",
+      "name": "SM_Prop_Cables_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file414",
+        "uri": "b8b965a7-c7fd-4d97-aa07-1f2da11b8238@86e0a"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "b8b965a7-c7fd-4d97-aa07-1f2da11b8238@23b02",
+    "assetFinder": {
+      "meshes": [
+        "b8b965a7-c7fd-4d97-aa07-1f2da11b8238@95e14"
+      ],
+      "skeletons": [],
+      "textures": [
+        "b8b965a7-c7fd-4d97-aa07-1f2da11b8238@170dc"
+      ],
+      "materials": [
+        "b8b965a7-c7fd-4d97-aa07-1f2da11b8238@9fc2a"
+      ],
+      "scenes": [
+        "b8b965a7-c7fd-4d97-aa07-1f2da11b8238@23b02"
+      ]
+    }
+  }
+}

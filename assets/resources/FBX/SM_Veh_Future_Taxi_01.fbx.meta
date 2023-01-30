@@ -1,0 +1,162 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "a9b03e3f-816e-45c7-9df7-d93e88b9766c",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "a9b03e3f-816e-45c7-9df7-d93e88b9766c@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "76c80": {
+      "importer": "gltf-mesh",
+      "uuid": "a9b03e3f-816e-45c7-9df7-d93e88b9766c@76c80",
+      "displayName": "",
+      "id": "76c80",
+      "name": "SM_Veh_Future_Taxi_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "268c8": {
+      "importer": "gltf-mesh",
+      "uuid": "a9b03e3f-816e-45c7-9df7-d93e88b9766c@268c8",
+      "displayName": "",
+      "id": "268c8",
+      "name": "SM_Veh_Future_Taxi_01SteeringW.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "2f908": {
+      "importer": "gltf-mesh",
+      "uuid": "a9b03e3f-816e-45c7-9df7-d93e88b9766c@2f908",
+      "displayName": "",
+      "id": "2f908",
+      "name": "SM_Veh_Future_Taxi_01_Glass.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "a9b03e3f-816e-45c7-9df7-d93e88b9766c@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "a9b03e3f-816e-45c7-9df7-d93e88b9766c@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b7d27": {
+      "importer": "gltf-material",
+      "uuid": "a9b03e3f-816e-45c7-9df7-d93e88b9766c@b7d27",
+      "displayName": "",
+      "id": "b7d27",
+      "name": "Body1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0b57a": {
+      "importer": "gltf-scene",
+      "uuid": "a9b03e3f-816e-45c7-9df7-d93e88b9766c@0b57a",
+      "displayName": "",
+      "id": "0b57a",
+      "name": "SM_Veh_Future_Taxi_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "a9b03e3f-816e-45c7-9df7-d93e88b9766c@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "a9b03e3f-816e-45c7-9df7-d93e88b9766c@0b57a",
+    "assetFinder": {
+      "meshes": [
+        "a9b03e3f-816e-45c7-9df7-d93e88b9766c@76c80",
+        "a9b03e3f-816e-45c7-9df7-d93e88b9766c@268c8",
+        "a9b03e3f-816e-45c7-9df7-d93e88b9766c@2f908"
+      ],
+      "skeletons": [],
+      "textures": [
+        "a9b03e3f-816e-45c7-9df7-d93e88b9766c@20e81"
+      ],
+      "materials": [
+        "a9b03e3f-816e-45c7-9df7-d93e88b9766c@b7d27"
+      ],
+      "scenes": [
+        "a9b03e3f-816e-45c7-9df7-d93e88b9766c@0b57a"
+      ]
+    }
+  }
+}

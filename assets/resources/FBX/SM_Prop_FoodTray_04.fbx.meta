@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "17fec5e3-b2cc-4fda-a841-69324ed42db9",
+  "files": [],
+  "subMetas": {
+    "85661": {
+      "importer": "gltf-material",
+      "uuid": "17fec5e3-b2cc-4fda-a841-69324ed42db9@85661",
+      "displayName": "",
+      "id": "85661",
+      "name": "lambert190.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f5c5c": {
+      "importer": "gltf-mesh",
+      "uuid": "17fec5e3-b2cc-4fda-a841-69324ed42db9@f5c5c",
+      "displayName": "",
+      "id": "f5c5c",
+      "name": "SM_Prop_FoodTray_04.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "17fec5e3-b2cc-4fda-a841-69324ed42db9@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "17fec5e3-b2cc-4fda-a841-69324ed42db9@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "17fec5e3-b2cc-4fda-a841-69324ed42db9@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e9015": {
+      "importer": "gltf-scene",
+      "uuid": "17fec5e3-b2cc-4fda-a841-69324ed42db9@e9015",
+      "displayName": "",
+      "id": "e9015",
+      "name": "SM_Prop_FoodTray_04.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "17fec5e3-b2cc-4fda-a841-69324ed42db9@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "17fec5e3-b2cc-4fda-a841-69324ed42db9@e9015",
+    "assetFinder": {
+      "meshes": [
+        "17fec5e3-b2cc-4fda-a841-69324ed42db9@f5c5c"
+      ],
+      "skeletons": [],
+      "textures": [
+        "17fec5e3-b2cc-4fda-a841-69324ed42db9@d20e9"
+      ],
+      "materials": [
+        "17fec5e3-b2cc-4fda-a841-69324ed42db9@85661"
+      ],
+      "scenes": [
+        "17fec5e3-b2cc-4fda-a841-69324ed42db9@e9015"
+      ]
+    }
+  }
+}

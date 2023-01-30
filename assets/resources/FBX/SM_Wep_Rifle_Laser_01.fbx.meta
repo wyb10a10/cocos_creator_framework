@@ -1,0 +1,162 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "769293af-9356-4355-bdbb-f1174d08e201",
+  "files": [],
+  "subMetas": {
+    "f06f3": {
+      "importer": "gltf-mesh",
+      "uuid": "769293af-9356-4355-bdbb-f1174d08e201@f06f3",
+      "displayName": "",
+      "id": "f06f3",
+      "name": "SM_Wep_Rifle_Laser_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f091b": {
+      "importer": "gltf-mesh",
+      "uuid": "769293af-9356-4355-bdbb-f1174d08e201@f091b",
+      "displayName": "",
+      "id": "f091b",
+      "name": "SM_Wep_Rifle_Laser_Mag_01.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6f605": {
+      "importer": "gltf-mesh",
+      "uuid": "769293af-9356-4355-bdbb-f1174d08e201@6f605",
+      "displayName": "",
+      "id": "6f605",
+      "name": "SM_Wep_Rifle_Laser_Trigger_01.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "769293af-9356-4355-bdbb-f1174d08e201@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "769293af-9356-4355-bdbb-f1174d08e201@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "769293af-9356-4355-bdbb-f1174d08e201@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "769293af-9356-4355-bdbb-f1174d08e201@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bc95d": {
+      "importer": "gltf-scene",
+      "uuid": "769293af-9356-4355-bdbb-f1174d08e201@bc95d",
+      "displayName": "",
+      "id": "bc95d",
+      "name": "SM_Wep_Rifle_Laser_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "769293af-9356-4355-bdbb-f1174d08e201@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "769293af-9356-4355-bdbb-f1174d08e201@bc95d",
+    "assetFinder": {
+      "meshes": [
+        "769293af-9356-4355-bdbb-f1174d08e201@f06f3",
+        "769293af-9356-4355-bdbb-f1174d08e201@f091b",
+        "769293af-9356-4355-bdbb-f1174d08e201@6f605"
+      ],
+      "skeletons": [],
+      "textures": [
+        "769293af-9356-4355-bdbb-f1174d08e201@cc065"
+      ],
+      "materials": [
+        "769293af-9356-4355-bdbb-f1174d08e201@8d883"
+      ],
+      "scenes": [
+        "769293af-9356-4355-bdbb-f1174d08e201@bc95d"
+      ]
+    }
+  }
+}

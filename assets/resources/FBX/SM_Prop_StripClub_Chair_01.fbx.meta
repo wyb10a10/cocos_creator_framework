@@ -1,0 +1,79 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "3511af3f-4a87-4b64-b5a1-c31f87468fe0",
+  "files": [],
+  "subMetas": {
+    "6ad1c": {
+      "importer": "gltf-mesh",
+      "uuid": "3511af3f-4a87-4b64-b5a1-c31f87468fe0@6ad1c",
+      "displayName": "",
+      "id": "6ad1c",
+      "name": "SM_Prop_StripClub_Chair_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "3511af3f-4a87-4b64-b5a1-c31f87468fe0@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3ddde": {
+      "importer": "gltf-scene",
+      "uuid": "3511af3f-4a87-4b64-b5a1-c31f87468fe0@3ddde",
+      "displayName": "",
+      "id": "3ddde",
+      "name": "SM_Prop_StripClub_Chair_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "3511af3f-4a87-4b64-b5a1-c31f87468fe0@3ddde",
+    "assetFinder": {
+      "meshes": [
+        "3511af3f-4a87-4b64-b5a1-c31f87468fe0@6ad1c"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "3511af3f-4a87-4b64-b5a1-c31f87468fe0@8d883"
+      ],
+      "scenes": [
+        "3511af3f-4a87-4b64-b5a1-c31f87468fe0@3ddde"
+      ]
+    }
+  }
+}

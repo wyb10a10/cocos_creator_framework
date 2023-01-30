@@ -1,0 +1,79 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "e5c40aff-5bea-42e5-aa7d-42cdad908c2a",
+  "files": [],
+  "subMetas": {
+    "9e13d": {
+      "importer": "gltf-mesh",
+      "uuid": "e5c40aff-5bea-42e5-aa7d-42cdad908c2a@9e13d",
+      "displayName": "",
+      "id": "9e13d",
+      "name": "SM_Props_StripClub_Stage_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "e5c40aff-5bea-42e5-aa7d-42cdad908c2a@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "725c2": {
+      "importer": "gltf-scene",
+      "uuid": "e5c40aff-5bea-42e5-aa7d-42cdad908c2a@725c2",
+      "displayName": "",
+      "id": "725c2",
+      "name": "SM_Props_StripClub_Stage_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "e5c40aff-5bea-42e5-aa7d-42cdad908c2a@725c2",
+    "assetFinder": {
+      "meshes": [
+        "e5c40aff-5bea-42e5-aa7d-42cdad908c2a@9e13d"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "e5c40aff-5bea-42e5-aa7d-42cdad908c2a@8d883"
+      ],
+      "scenes": [
+        "e5c40aff-5bea-42e5-aa7d-42cdad908c2a@725c2"
+      ]
+    }
+  }
+}

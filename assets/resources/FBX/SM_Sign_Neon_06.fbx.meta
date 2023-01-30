@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "eac30258-98cf-4542-ac83-a2e5a5c7f7dc",
+  "files": [],
+  "subMetas": {
+    "42875": {
+      "importer": "gltf-mesh",
+      "uuid": "eac30258-98cf-4542-ac83-a2e5a5c7f7dc@42875",
+      "displayName": "",
+      "id": "42875",
+      "name": "SM_Sign_Neon_06.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43357": {
+      "importer": "gltf-embeded-image",
+      "uuid": "eac30258-98cf-4542-ac83-a2e5a5c7f7dc@43357",
+      "displayName": "",
+      "id": "43357",
+      "name": "file13.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7a71f": {
+      "importer": "texture",
+      "uuid": "eac30258-98cf-4542-ac83-a2e5a5c7f7dc@7a71f",
+      "displayName": "",
+      "id": "7a71f",
+      "name": "file13.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "eac30258-98cf-4542-ac83-a2e5a5c7f7dc@43357"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cf8a3": {
+      "importer": "gltf-material",
+      "uuid": "eac30258-98cf-4542-ac83-a2e5a5c7f7dc@cf8a3",
+      "displayName": "",
+      "id": "cf8a3",
+      "name": "lambert264.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e62c5": {
+      "importer": "gltf-scene",
+      "uuid": "eac30258-98cf-4542-ac83-a2e5a5c7f7dc@e62c5",
+      "displayName": "",
+      "id": "e62c5",
+      "name": "SM_Sign_Neon_06.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file13",
+        "uri": "eac30258-98cf-4542-ac83-a2e5a5c7f7dc@43357"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "eac30258-98cf-4542-ac83-a2e5a5c7f7dc@e62c5",
+    "assetFinder": {
+      "meshes": [
+        "eac30258-98cf-4542-ac83-a2e5a5c7f7dc@42875"
+      ],
+      "skeletons": [],
+      "textures": [
+        "eac30258-98cf-4542-ac83-a2e5a5c7f7dc@7a71f"
+      ],
+      "materials": [
+        "eac30258-98cf-4542-ac83-a2e5a5c7f7dc@cf8a3"
+      ],
+      "scenes": [
+        "eac30258-98cf-4542-ac83-a2e5a5c7f7dc@e62c5"
+      ]
+    }
+  }
+}

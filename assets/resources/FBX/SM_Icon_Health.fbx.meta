@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "deedbb8d-442d-4f18-8eeb-4bcc8b080e89",
+  "files": [],
+  "subMetas": {
+    "05778": {
+      "importer": "gltf-mesh",
+      "uuid": "deedbb8d-442d-4f18-8eeb-4bcc8b080e89@05778",
+      "displayName": "",
+      "id": "05778",
+      "name": "SM_Icon_Health.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "deedbb8d-442d-4f18-8eeb-4bcc8b080e89@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "deedbb8d-442d-4f18-8eeb-4bcc8b080e89@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "deedbb8d-442d-4f18-8eeb-4bcc8b080e89@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "deedbb8d-442d-4f18-8eeb-4bcc8b080e89@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "49a7e": {
+      "importer": "gltf-scene",
+      "uuid": "deedbb8d-442d-4f18-8eeb-4bcc8b080e89@49a7e",
+      "displayName": "",
+      "id": "49a7e",
+      "name": "SM_Icon_Health.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "deedbb8d-442d-4f18-8eeb-4bcc8b080e89@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "deedbb8d-442d-4f18-8eeb-4bcc8b080e89@49a7e",
+    "assetFinder": {
+      "meshes": [
+        "deedbb8d-442d-4f18-8eeb-4bcc8b080e89@05778"
+      ],
+      "skeletons": [],
+      "textures": [
+        "deedbb8d-442d-4f18-8eeb-4bcc8b080e89@d20e9"
+      ],
+      "materials": [
+        "deedbb8d-442d-4f18-8eeb-4bcc8b080e89@8d883"
+      ],
+      "scenes": [
+        "deedbb8d-442d-4f18-8eeb-4bcc8b080e89@49a7e"
+      ]
+    }
+  }
+}

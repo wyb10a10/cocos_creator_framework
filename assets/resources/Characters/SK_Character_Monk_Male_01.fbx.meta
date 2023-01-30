@@ -1,0 +1,185 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "b1885ee8-fce3-4834-885b-a042685ea81f",
+  "files": [
+    "__original-animation-0.cconb"
+  ],
+  "subMetas": {
+    "ba597": {
+      "importer": "gltf-mesh",
+      "uuid": "b1885ee8-fce3-4834-885b-a042685ea81f@ba597",
+      "displayName": "",
+      "id": "ba597",
+      "name": "SK_Character_Monk_Male_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "73b7f": {
+      "importer": "gltf-animation",
+      "uuid": "b1885ee8-fce3-4834-885b-a042685ea81f@73b7f",
+      "displayName": "",
+      "id": "73b7f",
+      "name": "Take 001.animation",
+      "userData": {
+        "gltfIndex": 0,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 2.633333444595337
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    },
+    "438fe": {
+      "importer": "gltf-skeleton",
+      "uuid": "b1885ee8-fce3-4834-885b-a042685ea81f@438fe",
+      "displayName": "",
+      "id": "438fe",
+      "name": "UnnamedSkeleton.skeleton",
+      "userData": {
+        "gltfIndex": 0,
+        "jointsLength": 48
+      },
+      "ver": "1.0.1",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0350e": {
+      "importer": "gltf-embeded-image",
+      "uuid": "b1885ee8-fce3-4834-885b-a042685ea81f@0350e",
+      "displayName": "",
+      "id": "0350e",
+      "name": "file402.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "11ace": {
+      "importer": "texture",
+      "uuid": "b1885ee8-fce3-4834-885b-a042685ea81f@11ace",
+      "displayName": "",
+      "id": "11ace",
+      "name": "file402.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "b1885ee8-fce3-4834-885b-a042685ea81f@0350e"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d0a5b": {
+      "importer": "gltf-material",
+      "uuid": "b1885ee8-fce3-4834-885b-a042685ea81f@d0a5b",
+      "displayName": "",
+      "id": "d0a5b",
+      "name": "Characters.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4720c": {
+      "importer": "gltf-scene",
+      "uuid": "b1885ee8-fce3-4834-885b-a042685ea81f@4720c",
+      "displayName": "",
+      "id": "4720c",
+      "name": "SK_Character_Monk_Male_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file402",
+        "uri": "b1885ee8-fce3-4834-885b-a042685ea81f@0350e"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "animationImportSettings": [
+      {
+        "name": "Take 001",
+        "duration": 2.633333444595337,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "Take 001",
+            "from": 0,
+            "to": 2.633333444595337,
+            "wrapMode": 2
+          }
+        ]
+      }
+    ],
+    "redirect": "b1885ee8-fce3-4834-885b-a042685ea81f@4720c",
+    "assetFinder": {
+      "meshes": [
+        "b1885ee8-fce3-4834-885b-a042685ea81f@ba597"
+      ],
+      "skeletons": [
+        "b1885ee8-fce3-4834-885b-a042685ea81f@438fe"
+      ],
+      "textures": [
+        "b1885ee8-fce3-4834-885b-a042685ea81f@11ace"
+      ],
+      "materials": [
+        "b1885ee8-fce3-4834-885b-a042685ea81f@d0a5b"
+      ],
+      "scenes": [
+        "b1885ee8-fce3-4834-885b-a042685ea81f@4720c"
+      ]
+    }
+  }
+}

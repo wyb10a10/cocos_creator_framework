@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "f581c3e1-120c-48ae-b571-76b52a40cc9f",
+  "files": [],
+  "subMetas": {
+    "7930d": {
+      "importer": "gltf-mesh",
+      "uuid": "f581c3e1-120c-48ae-b571-76b52a40cc9f@7930d",
+      "displayName": "",
+      "id": "7930d",
+      "name": "SM_Bld_Background_Lrg_03.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "753b7": {
+      "importer": "gltf-embeded-image",
+      "uuid": "f581c3e1-120c-48ae-b571-76b52a40cc9f@753b7",
+      "displayName": "",
+      "id": "753b7",
+      "name": "Building_Window_Emissive_1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c4472": {
+      "importer": "texture",
+      "uuid": "f581c3e1-120c-48ae-b571-76b52a40cc9f@c4472",
+      "displayName": "",
+      "id": "c4472",
+      "name": "Building_Window_Emissive_1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "f581c3e1-120c-48ae-b571-76b52a40cc9f@753b7"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7a3ca": {
+      "importer": "gltf-material",
+      "uuid": "f581c3e1-120c-48ae-b571-76b52a40cc9f@7a3ca",
+      "displayName": "",
+      "id": "7a3ca",
+      "name": "lambert2.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e147b": {
+      "importer": "gltf-scene",
+      "uuid": "f581c3e1-120c-48ae-b571-76b52a40cc9f@e147b",
+      "displayName": "",
+      "id": "e147b",
+      "name": "SM_Bld_Background_Lrg_03.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "Building_Window_Emissive_1",
+        "uri": "f581c3e1-120c-48ae-b571-76b52a40cc9f@753b7"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "f581c3e1-120c-48ae-b571-76b52a40cc9f@e147b",
+    "assetFinder": {
+      "meshes": [
+        "f581c3e1-120c-48ae-b571-76b52a40cc9f@7930d"
+      ],
+      "skeletons": [],
+      "textures": [
+        "f581c3e1-120c-48ae-b571-76b52a40cc9f@c4472"
+      ],
+      "materials": [
+        "f581c3e1-120c-48ae-b571-76b52a40cc9f@7a3ca"
+      ],
+      "scenes": [
+        "f581c3e1-120c-48ae-b571-76b52a40cc9f@e147b"
+      ]
+    }
+  }
+}

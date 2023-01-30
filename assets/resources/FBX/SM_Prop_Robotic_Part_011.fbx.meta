@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "a79286ba-0e21-4510-8ad0-5b102f1bd0cc",
+  "files": [],
+  "subMetas": {
+    "597a4": {
+      "importer": "gltf-mesh",
+      "uuid": "a79286ba-0e21-4510-8ad0-5b102f1bd0cc@597a4",
+      "displayName": "",
+      "id": "597a4",
+      "name": "SM_Prop_Robotic_Part_011.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "a79286ba-0e21-4510-8ad0-5b102f1bd0cc@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "a79286ba-0e21-4510-8ad0-5b102f1bd0cc@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "a79286ba-0e21-4510-8ad0-5b102f1bd0cc@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "a79286ba-0e21-4510-8ad0-5b102f1bd0cc@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ffb9d": {
+      "importer": "gltf-scene",
+      "uuid": "a79286ba-0e21-4510-8ad0-5b102f1bd0cc@ffb9d",
+      "displayName": "",
+      "id": "ffb9d",
+      "name": "SM_Prop_Robotic_Part_011.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "a79286ba-0e21-4510-8ad0-5b102f1bd0cc@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "a79286ba-0e21-4510-8ad0-5b102f1bd0cc@ffb9d",
+    "assetFinder": {
+      "meshes": [
+        "a79286ba-0e21-4510-8ad0-5b102f1bd0cc@597a4"
+      ],
+      "skeletons": [],
+      "textures": [
+        "a79286ba-0e21-4510-8ad0-5b102f1bd0cc@d20e9"
+      ],
+      "materials": [
+        "a79286ba-0e21-4510-8ad0-5b102f1bd0cc@8d883"
+      ],
+      "scenes": [
+        "a79286ba-0e21-4510-8ad0-5b102f1bd0cc@ffb9d"
+      ]
+    }
+  }
+}

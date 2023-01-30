@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "21633fdd-cbca-4101-ad1c-b6e788e9754d",
+  "files": [],
+  "subMetas": {
+    "ff893": {
+      "importer": "gltf-mesh",
+      "uuid": "21633fdd-cbca-4101-ad1c-b6e788e9754d@ff893",
+      "displayName": "",
+      "id": "ff893",
+      "name": "SM_Env_Road_Crossing_02_SF.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "adacb": {
+      "importer": "gltf-embeded-image",
+      "uuid": "21633fdd-cbca-4101-ad1c-b6e788e9754d@adacb",
+      "displayName": "",
+      "id": "adacb",
+      "name": "file2.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e873a": {
+      "importer": "texture",
+      "uuid": "21633fdd-cbca-4101-ad1c-b6e788e9754d@e873a",
+      "displayName": "",
+      "id": "e873a",
+      "name": "file2.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "21633fdd-cbca-4101-ad1c-b6e788e9754d@adacb"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9698a": {
+      "importer": "gltf-material",
+      "uuid": "21633fdd-cbca-4101-ad1c-b6e788e9754d@9698a",
+      "displayName": "",
+      "id": "9698a",
+      "name": "lambert112.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cbddb": {
+      "importer": "gltf-scene",
+      "uuid": "21633fdd-cbca-4101-ad1c-b6e788e9754d@cbddb",
+      "displayName": "",
+      "id": "cbddb",
+      "name": "SM_Env_Road_Crossing_02_SF.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file2",
+        "uri": "21633fdd-cbca-4101-ad1c-b6e788e9754d@adacb"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "21633fdd-cbca-4101-ad1c-b6e788e9754d@cbddb",
+    "assetFinder": {
+      "meshes": [
+        "21633fdd-cbca-4101-ad1c-b6e788e9754d@ff893"
+      ],
+      "skeletons": [],
+      "textures": [
+        "21633fdd-cbca-4101-ad1c-b6e788e9754d@e873a"
+      ],
+      "materials": [
+        "21633fdd-cbca-4101-ad1c-b6e788e9754d@9698a"
+      ],
+      "scenes": [
+        "21633fdd-cbca-4101-ad1c-b6e788e9754d@cbddb"
+      ]
+    }
+  }
+}

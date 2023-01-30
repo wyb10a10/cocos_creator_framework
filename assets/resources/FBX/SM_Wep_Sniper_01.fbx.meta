@@ -1,0 +1,216 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202",
+  "files": [],
+  "subMetas": {
+    "17503": {
+      "importer": "gltf-mesh",
+      "uuid": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@17503",
+      "displayName": "",
+      "id": "17503",
+      "name": "SM_Wep_Sniper_ChargeHandle_01.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "61827": {
+      "importer": "gltf-scene",
+      "uuid": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@61827",
+      "displayName": "",
+      "id": "61827",
+      "name": "SM_Wep_Sniper_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "66ee6": {
+      "importer": "gltf-mesh",
+      "uuid": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@66ee6",
+      "displayName": "",
+      "id": "66ee6",
+      "name": "SM_Wep_Sniper_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "658dc": {
+      "importer": "gltf-mesh",
+      "uuid": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@658dc",
+      "displayName": "",
+      "id": "658dc",
+      "name": "SM_Wep_Sniper_Trigger_01.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "51f17": {
+      "importer": "gltf-mesh",
+      "uuid": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@51f17",
+      "displayName": "",
+      "id": "51f17",
+      "name": "SM_Wep_Sniper_Mag_01.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4be8d": {
+      "importer": "gltf-mesh",
+      "uuid": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@4be8d",
+      "displayName": "",
+      "id": "4be8d",
+      "name": "SM_Wep_Sniper_Scope_01.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1fa2d": {
+      "importer": "gltf-mesh",
+      "uuid": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@1fa2d",
+      "displayName": "",
+      "id": "1fa2d",
+      "name": "SM_Wep_Sniper_Slide_01.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@61827",
+    "assetFinder": {
+      "meshes": [
+        "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@66ee6",
+        "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@658dc",
+        "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@51f17",
+        "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@4be8d",
+        "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@17503",
+        "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@1fa2d"
+      ],
+      "skeletons": [],
+      "textures": [
+        "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@cc065"
+      ],
+      "materials": [
+        "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@8d883"
+      ],
+      "scenes": [
+        "08ee2b8a-f112-48c2-97a5-e1a88e2e2202@61827"
+      ]
+    }
+  }
+}

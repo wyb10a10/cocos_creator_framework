@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "c3666d8e-779b-4b3f-b4d0-fc106640dcd5",
+  "files": [],
+  "subMetas": {
+    "f3605": {
+      "importer": "gltf-mesh",
+      "uuid": "c3666d8e-779b-4b3f-b4d0-fc106640dcd5@f3605",
+      "displayName": "",
+      "id": "f3605",
+      "name": "SM_Wep_Ammo_Battery_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "c3666d8e-779b-4b3f-b4d0-fc106640dcd5@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "c3666d8e-779b-4b3f-b4d0-fc106640dcd5@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "c3666d8e-779b-4b3f-b4d0-fc106640dcd5@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "c3666d8e-779b-4b3f-b4d0-fc106640dcd5@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f2cb2": {
+      "importer": "gltf-scene",
+      "uuid": "c3666d8e-779b-4b3f-b4d0-fc106640dcd5@f2cb2",
+      "displayName": "",
+      "id": "f2cb2",
+      "name": "SM_Wep_Ammo_Battery_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "c3666d8e-779b-4b3f-b4d0-fc106640dcd5@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "c3666d8e-779b-4b3f-b4d0-fc106640dcd5@f2cb2",
+    "assetFinder": {
+      "meshes": [
+        "c3666d8e-779b-4b3f-b4d0-fc106640dcd5@f3605"
+      ],
+      "skeletons": [],
+      "textures": [
+        "c3666d8e-779b-4b3f-b4d0-fc106640dcd5@cc065"
+      ],
+      "materials": [
+        "c3666d8e-779b-4b3f-b4d0-fc106640dcd5@8d883"
+      ],
+      "scenes": [
+        "c3666d8e-779b-4b3f-b4d0-fc106640dcd5@f2cb2"
+      ]
+    }
+  }
+}

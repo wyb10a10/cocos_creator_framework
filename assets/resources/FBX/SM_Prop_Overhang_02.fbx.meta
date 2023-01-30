@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "ec789ff7-9619-41cd-895f-6020e30ded6e",
+  "files": [],
+  "subMetas": {
+    "6596d": {
+      "importer": "gltf-mesh",
+      "uuid": "ec789ff7-9619-41cd-895f-6020e30ded6e@6596d",
+      "displayName": "",
+      "id": "6596d",
+      "name": "SM_Prop_Overhang_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "ec789ff7-9619-41cd-895f-6020e30ded6e@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "ec789ff7-9619-41cd-895f-6020e30ded6e@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "ec789ff7-9619-41cd-895f-6020e30ded6e@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3ce98": {
+      "importer": "gltf-material",
+      "uuid": "ec789ff7-9619-41cd-895f-6020e30ded6e@3ce98",
+      "displayName": "",
+      "id": "3ce98",
+      "name": "lambert212.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bae9d": {
+      "importer": "gltf-scene",
+      "uuid": "ec789ff7-9619-41cd-895f-6020e30ded6e@bae9d",
+      "displayName": "",
+      "id": "bae9d",
+      "name": "SM_Prop_Overhang_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "ec789ff7-9619-41cd-895f-6020e30ded6e@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "ec789ff7-9619-41cd-895f-6020e30ded6e@bae9d",
+    "assetFinder": {
+      "meshes": [
+        "ec789ff7-9619-41cd-895f-6020e30ded6e@6596d"
+      ],
+      "skeletons": [],
+      "textures": [
+        "ec789ff7-9619-41cd-895f-6020e30ded6e@d20e9"
+      ],
+      "materials": [
+        "ec789ff7-9619-41cd-895f-6020e30ded6e@3ce98"
+      ],
+      "scenes": [
+        "ec789ff7-9619-41cd-895f-6020e30ded6e@bae9d"
+      ]
+    }
+  }
+}

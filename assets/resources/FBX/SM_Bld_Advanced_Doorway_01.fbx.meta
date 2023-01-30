@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "18ca4d54-cd03-4882-b9a6-5724de2c841a",
+  "files": [],
+  "subMetas": {
+    "0a742": {
+      "importer": "gltf-mesh",
+      "uuid": "18ca4d54-cd03-4882-b9a6-5724de2c841a@0a742",
+      "displayName": "",
+      "id": "0a742",
+      "name": "SM_Bld_Advanced_Doorway_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "99cf1": {
+      "importer": "gltf-embeded-image",
+      "uuid": "18ca4d54-cd03-4882-b9a6-5724de2c841a@99cf1",
+      "displayName": "",
+      "id": "99cf1",
+      "name": "file1047.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ea1cb": {
+      "importer": "texture",
+      "uuid": "18ca4d54-cd03-4882-b9a6-5724de2c841a@ea1cb",
+      "displayName": "",
+      "id": "ea1cb",
+      "name": "file1047.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "18ca4d54-cd03-4882-b9a6-5724de2c841a@99cf1"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "110dd": {
+      "importer": "gltf-material",
+      "uuid": "18ca4d54-cd03-4882-b9a6-5724de2c841a@110dd",
+      "displayName": "",
+      "id": "110dd",
+      "name": "lambert928.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d57df": {
+      "importer": "gltf-scene",
+      "uuid": "18ca4d54-cd03-4882-b9a6-5724de2c841a@d57df",
+      "displayName": "",
+      "id": "d57df",
+      "name": "SM_Bld_Advanced_Doorway_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1047",
+        "uri": "18ca4d54-cd03-4882-b9a6-5724de2c841a@99cf1"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "18ca4d54-cd03-4882-b9a6-5724de2c841a@d57df",
+    "assetFinder": {
+      "meshes": [
+        "18ca4d54-cd03-4882-b9a6-5724de2c841a@0a742"
+      ],
+      "skeletons": [],
+      "textures": [
+        "18ca4d54-cd03-4882-b9a6-5724de2c841a@ea1cb"
+      ],
+      "materials": [
+        "18ca4d54-cd03-4882-b9a6-5724de2c841a@110dd"
+      ],
+      "scenes": [
+        "18ca4d54-cd03-4882-b9a6-5724de2c841a@d57df"
+      ]
+    }
+  }
+}

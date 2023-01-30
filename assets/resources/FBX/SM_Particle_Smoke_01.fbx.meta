@@ -1,0 +1,79 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "97526b0f-4b49-447c-a2cd-bd9871222105",
+  "files": [],
+  "subMetas": {
+    "88823": {
+      "importer": "gltf-mesh",
+      "uuid": "97526b0f-4b49-447c-a2cd-bd9871222105@88823",
+      "displayName": "",
+      "id": "88823",
+      "name": "SM_Particle_Smoke_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "55b43": {
+      "importer": "gltf-material",
+      "uuid": "97526b0f-4b49-447c-a2cd-bd9871222105@55b43",
+      "displayName": "",
+      "id": "55b43",
+      "name": "lambert3.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "28d23": {
+      "importer": "gltf-scene",
+      "uuid": "97526b0f-4b49-447c-a2cd-bd9871222105@28d23",
+      "displayName": "",
+      "id": "28d23",
+      "name": "SM_Particle_Smoke_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "97526b0f-4b49-447c-a2cd-bd9871222105@28d23",
+    "assetFinder": {
+      "meshes": [
+        "97526b0f-4b49-447c-a2cd-bd9871222105@88823"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "97526b0f-4b49-447c-a2cd-bd9871222105@55b43"
+      ],
+      "scenes": [
+        "97526b0f-4b49-447c-a2cd-bd9871222105@28d23"
+      ]
+    }
+  }
+}

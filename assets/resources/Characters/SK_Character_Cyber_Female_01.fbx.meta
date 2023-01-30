@@ -1,0 +1,185 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "cb9f8c79-bc41-4674-9468-158723770e66",
+  "files": [
+    "__original-animation-0.cconb"
+  ],
+  "subMetas": {
+    "01b75": {
+      "importer": "gltf-mesh",
+      "uuid": "cb9f8c79-bc41-4674-9468-158723770e66@01b75",
+      "displayName": "",
+      "id": "01b75",
+      "name": "SK_Character_Cyber_Female_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "73b7f": {
+      "importer": "gltf-animation",
+      "uuid": "cb9f8c79-bc41-4674-9468-158723770e66@73b7f",
+      "displayName": "",
+      "id": "73b7f",
+      "name": "Take 001.animation",
+      "userData": {
+        "gltfIndex": 0,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 2.633333444595337
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    },
+    "438fe": {
+      "importer": "gltf-skeleton",
+      "uuid": "cb9f8c79-bc41-4674-9468-158723770e66@438fe",
+      "displayName": "",
+      "id": "438fe",
+      "name": "UnnamedSkeleton.skeleton",
+      "userData": {
+        "gltfIndex": 0,
+        "jointsLength": 48
+      },
+      "ver": "1.0.1",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0350e": {
+      "importer": "gltf-embeded-image",
+      "uuid": "cb9f8c79-bc41-4674-9468-158723770e66@0350e",
+      "displayName": "",
+      "id": "0350e",
+      "name": "file402.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "11ace": {
+      "importer": "texture",
+      "uuid": "cb9f8c79-bc41-4674-9468-158723770e66@11ace",
+      "displayName": "",
+      "id": "11ace",
+      "name": "file402.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "cb9f8c79-bc41-4674-9468-158723770e66@0350e"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d0a5b": {
+      "importer": "gltf-material",
+      "uuid": "cb9f8c79-bc41-4674-9468-158723770e66@d0a5b",
+      "displayName": "",
+      "id": "d0a5b",
+      "name": "Characters.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "31eb1": {
+      "importer": "gltf-scene",
+      "uuid": "cb9f8c79-bc41-4674-9468-158723770e66@31eb1",
+      "displayName": "",
+      "id": "31eb1",
+      "name": "SK_Character_Cyber_Female_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file402",
+        "uri": "cb9f8c79-bc41-4674-9468-158723770e66@0350e"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "animationImportSettings": [
+      {
+        "name": "Take 001",
+        "duration": 2.633333444595337,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "Take 001",
+            "from": 0,
+            "to": 2.633333444595337,
+            "wrapMode": 2
+          }
+        ]
+      }
+    ],
+    "redirect": "cb9f8c79-bc41-4674-9468-158723770e66@31eb1",
+    "assetFinder": {
+      "meshes": [
+        "cb9f8c79-bc41-4674-9468-158723770e66@01b75"
+      ],
+      "skeletons": [
+        "cb9f8c79-bc41-4674-9468-158723770e66@438fe"
+      ],
+      "textures": [
+        "cb9f8c79-bc41-4674-9468-158723770e66@11ace"
+      ],
+      "materials": [
+        "cb9f8c79-bc41-4674-9468-158723770e66@d0a5b"
+      ],
+      "scenes": [
+        "cb9f8c79-bc41-4674-9468-158723770e66@31eb1"
+      ]
+    }
+  }
+}

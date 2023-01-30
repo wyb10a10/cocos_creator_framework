@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "9cbfcf00-223a-42da-84bd-6a5315a9e695",
+  "files": [],
+  "subMetas": {
+    "b9416": {
+      "importer": "gltf-mesh",
+      "uuid": "9cbfcf00-223a-42da-84bd-6a5315a9e695@b9416",
+      "displayName": "",
+      "id": "b9416",
+      "name": "SM_Sign_Ad_21.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1792b": {
+      "importer": "gltf-embeded-image",
+      "uuid": "9cbfcf00-223a-42da-84bd-6a5315a9e695@1792b",
+      "displayName": "",
+      "id": "1792b",
+      "name": "file7.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "957bc": {
+      "importer": "texture",
+      "uuid": "9cbfcf00-223a-42da-84bd-6a5315a9e695@957bc",
+      "displayName": "",
+      "id": "957bc",
+      "name": "file7.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "9cbfcf00-223a-42da-84bd-6a5315a9e695@1792b"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b5872": {
+      "importer": "gltf-material",
+      "uuid": "9cbfcf00-223a-42da-84bd-6a5315a9e695@b5872",
+      "displayName": "",
+      "id": "b5872",
+      "name": "lambert289.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5f988": {
+      "importer": "gltf-scene",
+      "uuid": "9cbfcf00-223a-42da-84bd-6a5315a9e695@5f988",
+      "displayName": "",
+      "id": "5f988",
+      "name": "SM_Sign_Ad_21.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file7",
+        "uri": "9cbfcf00-223a-42da-84bd-6a5315a9e695@1792b"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "9cbfcf00-223a-42da-84bd-6a5315a9e695@5f988",
+    "assetFinder": {
+      "meshes": [
+        "9cbfcf00-223a-42da-84bd-6a5315a9e695@b9416"
+      ],
+      "skeletons": [],
+      "textures": [
+        "9cbfcf00-223a-42da-84bd-6a5315a9e695@957bc"
+      ],
+      "materials": [
+        "9cbfcf00-223a-42da-84bd-6a5315a9e695@b5872"
+      ],
+      "scenes": [
+        "9cbfcf00-223a-42da-84bd-6a5315a9e695@5f988"
+      ]
+    }
+  }
+}

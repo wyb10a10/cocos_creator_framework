@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a",
+  "files": [],
+  "subMetas": {
+    "ea68f": {
+      "importer": "gltf-mesh",
+      "uuid": "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a@ea68f",
+      "displayName": "",
+      "id": "ea68f",
+      "name": "SM_Prop_Medical_Chair_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7a3ca": {
+      "importer": "gltf-material",
+      "uuid": "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a@7a3ca",
+      "displayName": "",
+      "id": "7a3ca",
+      "name": "lambert2.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3a489": {
+      "importer": "gltf-scene",
+      "uuid": "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a@3a489",
+      "displayName": "",
+      "id": "3a489",
+      "name": "SM_Prop_Medical_Chair_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a@3a489",
+    "assetFinder": {
+      "meshes": [
+        "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a@ea68f"
+      ],
+      "skeletons": [],
+      "textures": [
+        "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a@d20e9"
+      ],
+      "materials": [
+        "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a@7a3ca"
+      ],
+      "scenes": [
+        "c2e752b5-8fa6-421e-973e-2d0aa2e3ed1a@3a489"
+      ]
+    }
+  }
+}

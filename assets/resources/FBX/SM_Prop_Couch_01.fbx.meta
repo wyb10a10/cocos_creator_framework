@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "505f8ca7-c686-4177-b200-485e04b7d160",
+  "files": [],
+  "subMetas": {
+    "a5c48": {
+      "importer": "gltf-mesh",
+      "uuid": "505f8ca7-c686-4177-b200-485e04b7d160@a5c48",
+      "displayName": "",
+      "id": "a5c48",
+      "name": "SM_Prop_Couch_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "daa77": {
+      "importer": "gltf-embeded-image",
+      "uuid": "505f8ca7-c686-4177-b200-485e04b7d160@daa77",
+      "displayName": "",
+      "id": "daa77",
+      "name": "file109.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a36aa": {
+      "importer": "texture",
+      "uuid": "505f8ca7-c686-4177-b200-485e04b7d160@a36aa",
+      "displayName": "",
+      "id": "a36aa",
+      "name": "file109.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "505f8ca7-c686-4177-b200-485e04b7d160@daa77"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "23c6c": {
+      "importer": "gltf-material",
+      "uuid": "505f8ca7-c686-4177-b200-485e04b7d160@23c6c",
+      "displayName": "",
+      "id": "23c6c",
+      "name": "lambert27.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "239a8": {
+      "importer": "gltf-scene",
+      "uuid": "505f8ca7-c686-4177-b200-485e04b7d160@239a8",
+      "displayName": "",
+      "id": "239a8",
+      "name": "SM_Prop_Couch_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file109",
+        "uri": "505f8ca7-c686-4177-b200-485e04b7d160@daa77"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "505f8ca7-c686-4177-b200-485e04b7d160@239a8",
+    "assetFinder": {
+      "meshes": [
+        "505f8ca7-c686-4177-b200-485e04b7d160@a5c48"
+      ],
+      "skeletons": [],
+      "textures": [
+        "505f8ca7-c686-4177-b200-485e04b7d160@a36aa"
+      ],
+      "materials": [
+        "505f8ca7-c686-4177-b200-485e04b7d160@23c6c"
+      ],
+      "scenes": [
+        "505f8ca7-c686-4177-b200-485e04b7d160@239a8"
+      ]
+    }
+  }
+}

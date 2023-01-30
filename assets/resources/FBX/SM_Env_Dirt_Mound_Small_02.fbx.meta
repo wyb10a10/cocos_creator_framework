@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "30af993e-2196-4398-aacf-47066ea99014",
+  "files": [],
+  "subMetas": {
+    "24913": {
+      "importer": "gltf-material",
+      "uuid": "30af993e-2196-4398-aacf-47066ea99014@24913",
+      "displayName": "",
+      "id": "24913",
+      "name": "lambert67.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "63451": {
+      "importer": "gltf-mesh",
+      "uuid": "30af993e-2196-4398-aacf-47066ea99014@63451",
+      "displayName": "",
+      "id": "63451",
+      "name": "SM_Env_Dirt_Mound_Small_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6f451": {
+      "importer": "gltf-embeded-image",
+      "uuid": "30af993e-2196-4398-aacf-47066ea99014@6f451",
+      "displayName": "",
+      "id": "6f451",
+      "name": "file409.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "16cf8": {
+      "importer": "texture",
+      "uuid": "30af993e-2196-4398-aacf-47066ea99014@16cf8",
+      "displayName": "",
+      "id": "16cf8",
+      "name": "file409.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "30af993e-2196-4398-aacf-47066ea99014@6f451"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5cb1f": {
+      "importer": "gltf-scene",
+      "uuid": "30af993e-2196-4398-aacf-47066ea99014@5cb1f",
+      "displayName": "",
+      "id": "5cb1f",
+      "name": "SM_Env_Dirt_Mound_Small_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file409",
+        "uri": "30af993e-2196-4398-aacf-47066ea99014@6f451"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "30af993e-2196-4398-aacf-47066ea99014@5cb1f",
+    "assetFinder": {
+      "meshes": [
+        "30af993e-2196-4398-aacf-47066ea99014@63451"
+      ],
+      "skeletons": [],
+      "textures": [
+        "30af993e-2196-4398-aacf-47066ea99014@16cf8"
+      ],
+      "materials": [
+        "30af993e-2196-4398-aacf-47066ea99014@24913"
+      ],
+      "scenes": [
+        "30af993e-2196-4398-aacf-47066ea99014@5cb1f"
+      ]
+    }
+  }
+}

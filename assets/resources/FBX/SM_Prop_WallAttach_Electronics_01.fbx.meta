@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1",
+  "files": [],
+  "subMetas": {
+    "2f03f": {
+      "importer": "gltf-mesh",
+      "uuid": "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1@2f03f",
+      "displayName": "",
+      "id": "2f03f",
+      "name": "SM_Prop_WallAttach_Electronics_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1c0b1": {
+      "importer": "gltf-material",
+      "uuid": "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1@1c0b1",
+      "displayName": "",
+      "id": "1c0b1",
+      "name": "lambert254.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9640f": {
+      "importer": "gltf-scene",
+      "uuid": "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1@9640f",
+      "displayName": "",
+      "id": "9640f",
+      "name": "SM_Prop_WallAttach_Electronics_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1@9640f",
+    "assetFinder": {
+      "meshes": [
+        "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1@2f03f"
+      ],
+      "skeletons": [],
+      "textures": [
+        "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1@d20e9"
+      ],
+      "materials": [
+        "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1@1c0b1"
+      ],
+      "scenes": [
+        "a3d79df2-ace4-4a9a-9725-7e8696f8bfd1@9640f"
+      ]
+    }
+  }
+}

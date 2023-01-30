@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "c26b3903-7093-4f01-95ed-50197a10c2f6",
+  "files": [],
+  "subMetas": {
+    "9f2f9": {
+      "importer": "gltf-mesh",
+      "uuid": "c26b3903-7093-4f01-95ed-50197a10c2f6@9f2f9",
+      "displayName": "",
+      "id": "9f2f9",
+      "name": "SM_Prop_ChargingStation_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "c26b3903-7093-4f01-95ed-50197a10c2f6@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "c26b3903-7093-4f01-95ed-50197a10c2f6@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "c26b3903-7093-4f01-95ed-50197a10c2f6@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "c26b3903-7093-4f01-95ed-50197a10c2f6@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d3de7": {
+      "importer": "gltf-scene",
+      "uuid": "c26b3903-7093-4f01-95ed-50197a10c2f6@d3de7",
+      "displayName": "",
+      "id": "d3de7",
+      "name": "SM_Prop_ChargingStation_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "c26b3903-7093-4f01-95ed-50197a10c2f6@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "c26b3903-7093-4f01-95ed-50197a10c2f6@d3de7",
+    "assetFinder": {
+      "meshes": [
+        "c26b3903-7093-4f01-95ed-50197a10c2f6@9f2f9"
+      ],
+      "skeletons": [],
+      "textures": [
+        "c26b3903-7093-4f01-95ed-50197a10c2f6@d20e9"
+      ],
+      "materials": [
+        "c26b3903-7093-4f01-95ed-50197a10c2f6@8d883"
+      ],
+      "scenes": [
+        "c26b3903-7093-4f01-95ed-50197a10c2f6@d3de7"
+      ]
+    }
+  }
+}

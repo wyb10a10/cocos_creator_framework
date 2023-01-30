@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed",
+  "files": [],
+  "subMetas": {
+    "e294d": {
+      "importer": "gltf-mesh",
+      "uuid": "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed@e294d",
+      "displayName": "",
+      "id": "e294d",
+      "name": "SM_Env_Road_Lines_01_SF.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "adacb": {
+      "importer": "gltf-embeded-image",
+      "uuid": "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed@adacb",
+      "displayName": "",
+      "id": "adacb",
+      "name": "file2.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e873a": {
+      "importer": "texture",
+      "uuid": "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed@e873a",
+      "displayName": "",
+      "id": "e873a",
+      "name": "file2.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed@adacb"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1a4d2": {
+      "importer": "gltf-material",
+      "uuid": "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed@1a4d2",
+      "displayName": "",
+      "id": "1a4d2",
+      "name": "lambert113.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "06e8c": {
+      "importer": "gltf-scene",
+      "uuid": "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed@06e8c",
+      "displayName": "",
+      "id": "06e8c",
+      "name": "SM_Env_Road_Lines_01_SF.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file2",
+        "uri": "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed@adacb"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed@06e8c",
+    "assetFinder": {
+      "meshes": [
+        "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed@e294d"
+      ],
+      "skeletons": [],
+      "textures": [
+        "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed@e873a"
+      ],
+      "materials": [
+        "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed@1a4d2"
+      ],
+      "scenes": [
+        "7533fb9b-55cd-4ec3-9c60-7e071e9ca7ed@06e8c"
+      ]
+    }
+  }
+}

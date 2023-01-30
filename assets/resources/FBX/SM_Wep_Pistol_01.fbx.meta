@@ -1,0 +1,224 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87",
+  "files": [],
+  "subMetas": {
+    "49758": {
+      "importer": "gltf-material",
+      "uuid": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@49758",
+      "displayName": "",
+      "id": "49758",
+      "name": "lambert16.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "98286": {
+      "importer": "gltf-embeded-image",
+      "uuid": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@98286",
+      "displayName": "",
+      "id": "98286",
+      "name": "file23.image",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ae002": {
+      "importer": "gltf-mesh",
+      "uuid": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@ae002",
+      "displayName": "",
+      "id": "ae002",
+      "name": "SM_Wep_Pistol_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "35fb7": {
+      "importer": "gltf-mesh",
+      "uuid": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@35fb7",
+      "displayName": "",
+      "id": "35fb7",
+      "name": "SM_Wep_Pistol_Trigger_01.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b4f8b": {
+      "importer": "gltf-mesh",
+      "uuid": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@b4f8b",
+      "displayName": "",
+      "id": "b4f8b",
+      "name": "SM_Wep_Pistol_Slide_01.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "03e1f": {
+      "importer": "texture",
+      "uuid": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@03e1f",
+      "displayName": "",
+      "id": "03e1f",
+      "name": "file23.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@98286"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "990b1": {
+      "importer": "gltf-scene",
+      "uuid": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@990b1",
+      "displayName": "",
+      "id": "990b1",
+      "name": "SM_Wep_Pistol_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@58e02"
+      },
+      {
+        "name": "file23",
+        "uri": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@98286"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@990b1",
+    "assetFinder": {
+      "meshes": [
+        "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@ae002",
+        "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@35fb7",
+        "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@b4f8b"
+      ],
+      "skeletons": [],
+      "textures": [
+        "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@cc065",
+        "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@03e1f"
+      ],
+      "materials": [
+        "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@8d883",
+        "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@49758"
+      ],
+      "scenes": [
+        "ddb788ba-c6c1-4db7-9d4d-f4466ef4ac87@990b1"
+      ]
+    }
+  }
+}

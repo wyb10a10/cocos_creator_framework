@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "4a41745d-8569-4ffa-97fc-0e0f049fb203",
+  "files": [],
+  "subMetas": {
+    "367bc": {
+      "importer": "gltf-mesh",
+      "uuid": "4a41745d-8569-4ffa-97fc-0e0f049fb203@367bc",
+      "displayName": "",
+      "id": "367bc",
+      "name": "SM_Prop_Medical_Table_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "4a41745d-8569-4ffa-97fc-0e0f049fb203@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "4a41745d-8569-4ffa-97fc-0e0f049fb203@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "4a41745d-8569-4ffa-97fc-0e0f049fb203@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "4a41745d-8569-4ffa-97fc-0e0f049fb203@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a104b": {
+      "importer": "gltf-scene",
+      "uuid": "4a41745d-8569-4ffa-97fc-0e0f049fb203@a104b",
+      "displayName": "",
+      "id": "a104b",
+      "name": "SM_Prop_Medical_Table_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "4a41745d-8569-4ffa-97fc-0e0f049fb203@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "4a41745d-8569-4ffa-97fc-0e0f049fb203@a104b",
+    "assetFinder": {
+      "meshes": [
+        "4a41745d-8569-4ffa-97fc-0e0f049fb203@367bc"
+      ],
+      "skeletons": [],
+      "textures": [
+        "4a41745d-8569-4ffa-97fc-0e0f049fb203@d20e9"
+      ],
+      "materials": [
+        "4a41745d-8569-4ffa-97fc-0e0f049fb203@8d883"
+      ],
+      "scenes": [
+        "4a41745d-8569-4ffa-97fc-0e0f049fb203@a104b"
+      ]
+    }
+  }
+}

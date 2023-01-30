@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "dfa556da-63ba-473c-8936-64f535de3227",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "dfa556da-63ba-473c-8936-64f535de3227@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "84f72": {
+      "importer": "gltf-mesh",
+      "uuid": "dfa556da-63ba-473c-8936-64f535de3227@84f72",
+      "displayName": "",
+      "id": "84f72",
+      "name": "SM_Bld_Section_Industrial_03.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "dfa556da-63ba-473c-8936-64f535de3227@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "dfa556da-63ba-473c-8936-64f535de3227@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3ae22": {
+      "importer": "gltf-material",
+      "uuid": "dfa556da-63ba-473c-8936-64f535de3227@3ae22",
+      "displayName": "",
+      "id": "3ae22",
+      "name": "lambert47.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "386c8": {
+      "importer": "gltf-scene",
+      "uuid": "dfa556da-63ba-473c-8936-64f535de3227@386c8",
+      "displayName": "",
+      "id": "386c8",
+      "name": "SM_Bld_Section_Industrial_03.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "dfa556da-63ba-473c-8936-64f535de3227@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "dfa556da-63ba-473c-8936-64f535de3227@386c8",
+    "assetFinder": {
+      "meshes": [
+        "dfa556da-63ba-473c-8936-64f535de3227@84f72"
+      ],
+      "skeletons": [],
+      "textures": [
+        "dfa556da-63ba-473c-8936-64f535de3227@20e81"
+      ],
+      "materials": [
+        "dfa556da-63ba-473c-8936-64f535de3227@3ae22"
+      ],
+      "scenes": [
+        "dfa556da-63ba-473c-8936-64f535de3227@386c8"
+      ]
+    }
+  }
+}

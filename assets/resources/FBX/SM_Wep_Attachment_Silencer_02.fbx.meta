@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "4f669d24-d956-49a5-aa6f-52e9159de581",
+  "files": [],
+  "subMetas": {
+    "10a08": {
+      "importer": "gltf-mesh",
+      "uuid": "4f669d24-d956-49a5-aa6f-52e9159de581@10a08",
+      "displayName": "",
+      "id": "10a08",
+      "name": "SM_Wep_Attachment_Silencer_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "4f669d24-d956-49a5-aa6f-52e9159de581@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "4f669d24-d956-49a5-aa6f-52e9159de581@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "4f669d24-d956-49a5-aa6f-52e9159de581@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "4f669d24-d956-49a5-aa6f-52e9159de581@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "355d9": {
+      "importer": "gltf-scene",
+      "uuid": "4f669d24-d956-49a5-aa6f-52e9159de581@355d9",
+      "displayName": "",
+      "id": "355d9",
+      "name": "SM_Wep_Attachment_Silencer_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "4f669d24-d956-49a5-aa6f-52e9159de581@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "4f669d24-d956-49a5-aa6f-52e9159de581@355d9",
+    "assetFinder": {
+      "meshes": [
+        "4f669d24-d956-49a5-aa6f-52e9159de581@10a08"
+      ],
+      "skeletons": [],
+      "textures": [
+        "4f669d24-d956-49a5-aa6f-52e9159de581@cc065"
+      ],
+      "materials": [
+        "4f669d24-d956-49a5-aa6f-52e9159de581@8d883"
+      ],
+      "scenes": [
+        "4f669d24-d956-49a5-aa6f-52e9159de581@355d9"
+      ]
+    }
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "86ec8579-0959-4cb3-bc24-32a6b1482bd1",
+  "files": [],
+  "subMetas": {
+    "d3024": {
+      "importer": "gltf-mesh",
+      "uuid": "86ec8579-0959-4cb3-bc24-32a6b1482bd1@d3024",
+      "displayName": "",
+      "id": "d3024",
+      "name": "SM_Prop_Glass_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "742b0": {
+      "importer": "gltf-mesh",
+      "uuid": "86ec8579-0959-4cb3-bc24-32a6b1482bd1@742b0",
+      "displayName": "",
+      "id": "742b0",
+      "name": "SM_Prop_Drink_01.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7986e": {
+      "importer": "texture",
+      "uuid": "86ec8579-0959-4cb3-bc24-32a6b1482bd1@7986e",
+      "displayName": "",
+      "id": "7986e",
+      "name": "file972.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonScifi_01_A.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "86ec8579-0959-4cb3-bc24-32a6b1482bd1@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0c506": {
+      "importer": "gltf-scene",
+      "uuid": "86ec8579-0959-4cb3-bc24-32a6b1482bd1@0c506",
+      "displayName": "",
+      "id": "0c506",
+      "name": "SM_Prop_Glass_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file972",
+        "uri": "db://assets/resources/Textures/PolygonScifi_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "86ec8579-0959-4cb3-bc24-32a6b1482bd1@0c506",
+    "assetFinder": {
+      "meshes": [
+        "86ec8579-0959-4cb3-bc24-32a6b1482bd1@d3024",
+        "86ec8579-0959-4cb3-bc24-32a6b1482bd1@742b0"
+      ],
+      "skeletons": [],
+      "textures": [
+        "86ec8579-0959-4cb3-bc24-32a6b1482bd1@7986e"
+      ],
+      "materials": [
+        "86ec8579-0959-4cb3-bc24-32a6b1482bd1@8d883"
+      ],
+      "scenes": [
+        "86ec8579-0959-4cb3-bc24-32a6b1482bd1@0c506"
+      ]
+    }
+  }
+}

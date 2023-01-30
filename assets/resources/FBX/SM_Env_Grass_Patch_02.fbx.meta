@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21",
+  "files": [],
+  "subMetas": {
+    "364db": {
+      "importer": "gltf-mesh",
+      "uuid": "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21@364db",
+      "displayName": "",
+      "id": "364db",
+      "name": "SM_Env_Grass_Patch_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ffd65": {
+      "importer": "gltf-material",
+      "uuid": "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21@ffd65",
+      "displayName": "",
+      "id": "ffd65",
+      "name": "lambert69.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0e659": {
+      "importer": "gltf-scene",
+      "uuid": "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21@0e659",
+      "displayName": "",
+      "id": "0e659",
+      "name": "SM_Env_Grass_Patch_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21@0e659",
+    "assetFinder": {
+      "meshes": [
+        "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21@364db"
+      ],
+      "skeletons": [],
+      "textures": [
+        "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21@d20e9"
+      ],
+      "materials": [
+        "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21@ffd65"
+      ],
+      "scenes": [
+        "ad5a2936-2fc2-4ec4-8a5a-48fba3e6fb21@0e659"
+      ]
+    }
+  }
+}

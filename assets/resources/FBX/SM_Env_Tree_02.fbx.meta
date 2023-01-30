@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054",
+  "files": [],
+  "subMetas": {
+    "20445": {
+      "importer": "gltf-material",
+      "uuid": "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054@20445",
+      "displayName": "",
+      "id": "20445",
+      "name": "lambert141.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "51fb1": {
+      "importer": "gltf-mesh",
+      "uuid": "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054@51fb1",
+      "displayName": "",
+      "id": "51fb1",
+      "name": "SM_Env_Tree_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "64a84": {
+      "importer": "gltf-scene",
+      "uuid": "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054@64a84",
+      "displayName": "",
+      "id": "64a84",
+      "name": "SM_Env_Tree_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054@64a84",
+    "assetFinder": {
+      "meshes": [
+        "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054@51fb1"
+      ],
+      "skeletons": [],
+      "textures": [
+        "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054@d20e9"
+      ],
+      "materials": [
+        "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054@20445"
+      ],
+      "scenes": [
+        "bb8f0437-cdae-4bb1-a5ef-c71aaa79e054@64a84"
+      ]
+    }
+  }
+}

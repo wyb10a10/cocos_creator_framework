@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "5442621f-01d8-450e-8beb-688ae471ecc5",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "5442621f-01d8-450e-8beb-688ae471ecc5@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cca96": {
+      "importer": "gltf-mesh",
+      "uuid": "5442621f-01d8-450e-8beb-688ae471ecc5@cca96",
+      "displayName": "",
+      "id": "cca96",
+      "name": "SM_Env_Sidewalk_Grate_02_SF.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "5442621f-01d8-450e-8beb-688ae471ecc5@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "5442621f-01d8-450e-8beb-688ae471ecc5@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d9309": {
+      "importer": "gltf-material",
+      "uuid": "5442621f-01d8-450e-8beb-688ae471ecc5@d9309",
+      "displayName": "",
+      "id": "d9309",
+      "name": "lambert127.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "542a3": {
+      "importer": "gltf-scene",
+      "uuid": "5442621f-01d8-450e-8beb-688ae471ecc5@542a3",
+      "displayName": "",
+      "id": "542a3",
+      "name": "SM_Env_Sidewalk_Grate_02_SF.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "5442621f-01d8-450e-8beb-688ae471ecc5@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "5442621f-01d8-450e-8beb-688ae471ecc5@542a3",
+    "assetFinder": {
+      "meshes": [
+        "5442621f-01d8-450e-8beb-688ae471ecc5@cca96"
+      ],
+      "skeletons": [],
+      "textures": [
+        "5442621f-01d8-450e-8beb-688ae471ecc5@20e81"
+      ],
+      "materials": [
+        "5442621f-01d8-450e-8beb-688ae471ecc5@d9309"
+      ],
+      "scenes": [
+        "5442621f-01d8-450e-8beb-688ae471ecc5@542a3"
+      ]
+    }
+  }
+}

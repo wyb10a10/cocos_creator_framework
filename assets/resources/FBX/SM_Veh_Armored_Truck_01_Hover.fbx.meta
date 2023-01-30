@@ -1,0 +1,270 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bfdf2": {
+      "importer": "gltf-mesh",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@bfdf2",
+      "displayName": "",
+      "id": "bfdf2",
+      "name": "SM_Veh_Armored_Truck_01_Hover.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ac249": {
+      "importer": "gltf-mesh",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@ac249",
+      "displayName": "",
+      "id": "ac249",
+      "name": "SM_Veh_Armored_Truck_01_Glass_Hover.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "385b8": {
+      "importer": "gltf-mesh",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@385b8",
+      "displayName": "",
+      "id": "385b8",
+      "name": "SM_Veh_Armored_Truck_SteeringW_01_Hover.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1293d": {
+      "importer": "gltf-mesh",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@1293d",
+      "displayName": "",
+      "id": "1293d",
+      "name": "SM_Veh_Armored_Truck_01_Wheel_fl_Hover.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b88ac": {
+      "importer": "gltf-mesh",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@b88ac",
+      "displayName": "",
+      "id": "b88ac",
+      "name": "SM_Veh_Armored_Truck_01_Wheel_rl_01_Hover.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0dda6": {
+      "importer": "gltf-mesh",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@0dda6",
+      "displayName": "",
+      "id": "0dda6",
+      "name": "SM_Veh_Armored_Truck_01_Wheel_rl_02_Hover.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d6690": {
+      "importer": "gltf-mesh",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@d6690",
+      "displayName": "",
+      "id": "d6690",
+      "name": "SM_Veh_Armored_Truck_01_Wheel_fr_Hover.mesh",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "209c4": {
+      "importer": "gltf-mesh",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@209c4",
+      "displayName": "",
+      "id": "209c4",
+      "name": "SM_Veh_Armored_Truck_01_Wheel_rr_01_Hover.mesh",
+      "userData": {
+        "gltfIndex": 7
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ee6c2": {
+      "importer": "gltf-mesh",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@ee6c2",
+      "displayName": "",
+      "id": "ee6c2",
+      "name": "SM_Veh_Armored_Truck_01_Wheel_rr_02_Hover.mesh",
+      "userData": {
+        "gltfIndex": 8
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b7d27": {
+      "importer": "gltf-material",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@b7d27",
+      "displayName": "",
+      "id": "b7d27",
+      "name": "Body1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "98a37": {
+      "importer": "gltf-scene",
+      "uuid": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@98a37",
+      "displayName": "",
+      "id": "98a37",
+      "name": "SM_Veh_Armored_Truck_01_Hover.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@98a37",
+    "assetFinder": {
+      "meshes": [
+        "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@bfdf2",
+        "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@ac249",
+        "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@385b8",
+        "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@1293d",
+        "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@b88ac",
+        "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@0dda6",
+        "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@d6690",
+        "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@209c4",
+        "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@ee6c2"
+      ],
+      "skeletons": [],
+      "textures": [
+        "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@20e81"
+      ],
+      "materials": [
+        "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@b7d27"
+      ],
+      "scenes": [
+        "e0ae5f66-4d2f-4e3a-af22-8edec86afe5c@98a37"
+      ]
+    }
+  }
+}

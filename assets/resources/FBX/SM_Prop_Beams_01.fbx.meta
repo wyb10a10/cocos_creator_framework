@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "0785a904-cd59-4927-b51d-6c35e97458b5",
+  "files": [],
+  "subMetas": {
+    "3430f": {
+      "importer": "gltf-mesh",
+      "uuid": "0785a904-cd59-4927-b51d-6c35e97458b5@3430f",
+      "displayName": "",
+      "id": "3430f",
+      "name": "SM_Prop_Beams_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "0785a904-cd59-4927-b51d-6c35e97458b5@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "0785a904-cd59-4927-b51d-6c35e97458b5@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "0785a904-cd59-4927-b51d-6c35e97458b5@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a0be8": {
+      "importer": "gltf-material",
+      "uuid": "0785a904-cd59-4927-b51d-6c35e97458b5@a0be8",
+      "displayName": "",
+      "id": "a0be8",
+      "name": "lambert151.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e0575": {
+      "importer": "gltf-scene",
+      "uuid": "0785a904-cd59-4927-b51d-6c35e97458b5@e0575",
+      "displayName": "",
+      "id": "e0575",
+      "name": "SM_Prop_Beams_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "0785a904-cd59-4927-b51d-6c35e97458b5@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "0785a904-cd59-4927-b51d-6c35e97458b5@e0575",
+    "assetFinder": {
+      "meshes": [
+        "0785a904-cd59-4927-b51d-6c35e97458b5@3430f"
+      ],
+      "skeletons": [],
+      "textures": [
+        "0785a904-cd59-4927-b51d-6c35e97458b5@d20e9"
+      ],
+      "materials": [
+        "0785a904-cd59-4927-b51d-6c35e97458b5@a0be8"
+      ],
+      "scenes": [
+        "0785a904-cd59-4927-b51d-6c35e97458b5@e0575"
+      ]
+    }
+  }
+}

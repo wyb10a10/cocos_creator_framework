@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "3767a67f-d6e9-412a-a532-7404478021d7",
+  "files": [],
+  "subMetas": {
+    "0fa35": {
+      "importer": "gltf-mesh",
+      "uuid": "3767a67f-d6e9-412a-a532-7404478021d7@0fa35",
+      "displayName": "",
+      "id": "0fa35",
+      "name": "SM_Env_Road_ParkingLines_01_SF.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "adacb": {
+      "importer": "gltf-embeded-image",
+      "uuid": "3767a67f-d6e9-412a-a532-7404478021d7@adacb",
+      "displayName": "",
+      "id": "adacb",
+      "name": "file2.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e873a": {
+      "importer": "texture",
+      "uuid": "3767a67f-d6e9-412a-a532-7404478021d7@e873a",
+      "displayName": "",
+      "id": "e873a",
+      "name": "file2.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "3767a67f-d6e9-412a-a532-7404478021d7@adacb"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5c3a0": {
+      "importer": "gltf-material",
+      "uuid": "3767a67f-d6e9-412a-a532-7404478021d7@5c3a0",
+      "displayName": "",
+      "id": "5c3a0",
+      "name": "lambert117.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0c4e5": {
+      "importer": "gltf-scene",
+      "uuid": "3767a67f-d6e9-412a-a532-7404478021d7@0c4e5",
+      "displayName": "",
+      "id": "0c4e5",
+      "name": "SM_Env_Road_ParkingLines_01_SF.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file2",
+        "uri": "3767a67f-d6e9-412a-a532-7404478021d7@adacb"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "3767a67f-d6e9-412a-a532-7404478021d7@0c4e5",
+    "assetFinder": {
+      "meshes": [
+        "3767a67f-d6e9-412a-a532-7404478021d7@0fa35"
+      ],
+      "skeletons": [],
+      "textures": [
+        "3767a67f-d6e9-412a-a532-7404478021d7@e873a"
+      ],
+      "materials": [
+        "3767a67f-d6e9-412a-a532-7404478021d7@5c3a0"
+      ],
+      "scenes": [
+        "3767a67f-d6e9-412a-a532-7404478021d7@0c4e5"
+      ]
+    }
+  }
+}

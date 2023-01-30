@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "22c58c04-4abf-46ed-938e-e5a0e5cff911",
+  "files": [],
+  "subMetas": {
+    "12ee7": {
+      "importer": "gltf-mesh",
+      "uuid": "22c58c04-4abf-46ed-938e-e5a0e5cff911@12ee7",
+      "displayName": "",
+      "id": "12ee7",
+      "name": "SM_Env_Road_Median_02_SF.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "adacb": {
+      "importer": "gltf-embeded-image",
+      "uuid": "22c58c04-4abf-46ed-938e-e5a0e5cff911@adacb",
+      "displayName": "",
+      "id": "adacb",
+      "name": "file2.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e873a": {
+      "importer": "texture",
+      "uuid": "22c58c04-4abf-46ed-938e-e5a0e5cff911@e873a",
+      "displayName": "",
+      "id": "e873a",
+      "name": "file2.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "22c58c04-4abf-46ed-938e-e5a0e5cff911@adacb"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "09dd5": {
+      "importer": "gltf-material",
+      "uuid": "22c58c04-4abf-46ed-938e-e5a0e5cff911@09dd5",
+      "displayName": "",
+      "id": "09dd5",
+      "name": "lambert116.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f6b46": {
+      "importer": "gltf-scene",
+      "uuid": "22c58c04-4abf-46ed-938e-e5a0e5cff911@f6b46",
+      "displayName": "",
+      "id": "f6b46",
+      "name": "SM_Env_Road_Median_02_SF.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file2",
+        "uri": "22c58c04-4abf-46ed-938e-e5a0e5cff911@adacb"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "22c58c04-4abf-46ed-938e-e5a0e5cff911@f6b46",
+    "assetFinder": {
+      "meshes": [
+        "22c58c04-4abf-46ed-938e-e5a0e5cff911@12ee7"
+      ],
+      "skeletons": [],
+      "textures": [
+        "22c58c04-4abf-46ed-938e-e5a0e5cff911@e873a"
+      ],
+      "materials": [
+        "22c58c04-4abf-46ed-938e-e5a0e5cff911@09dd5"
+      ],
+      "scenes": [
+        "22c58c04-4abf-46ed-938e-e5a0e5cff911@f6b46"
+      ]
+    }
+  }
+}

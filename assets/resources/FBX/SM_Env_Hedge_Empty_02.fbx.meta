@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "0d22062e-f2c3-4361-ae8c-5ade60993e89",
+  "files": [],
+  "subMetas": {
+    "56820": {
+      "importer": "gltf-material",
+      "uuid": "0d22062e-f2c3-4361-ae8c-5ade60993e89@56820",
+      "displayName": "",
+      "id": "56820",
+      "name": "lambert101.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3b982": {
+      "importer": "gltf-mesh",
+      "uuid": "0d22062e-f2c3-4361-ae8c-5ade60993e89@3b982",
+      "displayName": "",
+      "id": "3b982",
+      "name": "SM_Env_Hedge_Empty_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "0d22062e-f2c3-4361-ae8c-5ade60993e89@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "0d22062e-f2c3-4361-ae8c-5ade60993e89@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "0d22062e-f2c3-4361-ae8c-5ade60993e89@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d2dc0": {
+      "importer": "gltf-scene",
+      "uuid": "0d22062e-f2c3-4361-ae8c-5ade60993e89@d2dc0",
+      "displayName": "",
+      "id": "d2dc0",
+      "name": "SM_Env_Hedge_Empty_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "0d22062e-f2c3-4361-ae8c-5ade60993e89@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "0d22062e-f2c3-4361-ae8c-5ade60993e89@d2dc0",
+    "assetFinder": {
+      "meshes": [
+        "0d22062e-f2c3-4361-ae8c-5ade60993e89@3b982"
+      ],
+      "skeletons": [],
+      "textures": [
+        "0d22062e-f2c3-4361-ae8c-5ade60993e89@d20e9"
+      ],
+      "materials": [
+        "0d22062e-f2c3-4361-ae8c-5ade60993e89@56820"
+      ],
+      "scenes": [
+        "0d22062e-f2c3-4361-ae8c-5ade60993e89@d2dc0"
+      ]
+    }
+  }
+}

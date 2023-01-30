@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "44784c91-b5da-4e7b-91e8-be6dc426a2ff",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "44784c91-b5da-4e7b-91e8-be6dc426a2ff@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0849f": {
+      "importer": "gltf-mesh",
+      "uuid": "44784c91-b5da-4e7b-91e8-be6dc426a2ff@0849f",
+      "displayName": "",
+      "id": "0849f",
+      "name": "SM_Env_Sidewalk_Corner_Half_01_SF.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "44784c91-b5da-4e7b-91e8-be6dc426a2ff@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "44784c91-b5da-4e7b-91e8-be6dc426a2ff@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5057f": {
+      "importer": "gltf-material",
+      "uuid": "44784c91-b5da-4e7b-91e8-be6dc426a2ff@5057f",
+      "displayName": "",
+      "id": "5057f",
+      "name": "lambert126.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c7adc": {
+      "importer": "gltf-scene",
+      "uuid": "44784c91-b5da-4e7b-91e8-be6dc426a2ff@c7adc",
+      "displayName": "",
+      "id": "c7adc",
+      "name": "SM_Env_Sidewalk_Corner_Half_01_SF.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "44784c91-b5da-4e7b-91e8-be6dc426a2ff@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "44784c91-b5da-4e7b-91e8-be6dc426a2ff@c7adc",
+    "assetFinder": {
+      "meshes": [
+        "44784c91-b5da-4e7b-91e8-be6dc426a2ff@0849f"
+      ],
+      "skeletons": [],
+      "textures": [
+        "44784c91-b5da-4e7b-91e8-be6dc426a2ff@20e81"
+      ],
+      "materials": [
+        "44784c91-b5da-4e7b-91e8-be6dc426a2ff@5057f"
+      ],
+      "scenes": [
+        "44784c91-b5da-4e7b-91e8-be6dc426a2ff@c7adc"
+      ]
+    }
+  }
+}

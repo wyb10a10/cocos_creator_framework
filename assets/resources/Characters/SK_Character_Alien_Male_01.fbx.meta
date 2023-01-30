@@ -1,0 +1,218 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e",
+  "files": [
+    "__original-animation-0.cconb"
+  ],
+  "subMetas": {
+    "5995b": {
+      "importer": "gltf-mesh",
+      "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e@5995b",
+      "displayName": "",
+      "id": "5995b",
+      "name": "SK_Character_Alien_Male_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7f3dc": {
+      "importer": "gltf-animation",
+      "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e@7f3dc",
+      "displayName": "",
+      "id": "7f3dc",
+      "name": "walk.animation",
+      "userData": {
+        "gltfIndex": 0,
+        "wrapMode": 22,
+        "speed": 2,
+        "sample": 30,
+        "span": {
+          "from": 0.6,
+          "to": 1.3333333333333333
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    },
+    "6f220": {
+      "importer": "gltf-animation",
+      "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e@6f220",
+      "displayName": "",
+      "id": "6f220",
+      "name": "fall.animation",
+      "userData": {
+        "gltfIndex": 0,
+        "wrapMode": 22,
+        "speed": 1,
+        "sample": 30,
+        "span": {
+          "from": 1.3666666666666667,
+          "to": 2.633333444595337
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    },
+    "438fe": {
+      "importer": "gltf-skeleton",
+      "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e@438fe",
+      "displayName": "",
+      "id": "438fe",
+      "name": "UnnamedSkeleton.skeleton",
+      "userData": {
+        "gltfIndex": 0,
+        "jointsLength": 48
+      },
+      "ver": "1.0.1",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0350e": {
+      "importer": "gltf-embeded-image",
+      "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e@0350e",
+      "displayName": "",
+      "id": "0350e",
+      "name": "file402.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "11ace": {
+      "importer": "texture",
+      "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e@11ace",
+      "displayName": "",
+      "id": "11ace",
+      "name": "file402.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "5ce70548-bde9-4d5e-b295-b3672506741e@0350e"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d0a5b": {
+      "importer": "gltf-material",
+      "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e@d0a5b",
+      "displayName": "",
+      "id": "d0a5b",
+      "name": "Characters.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "2fd40": {
+      "importer": "gltf-scene",
+      "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e@2fd40",
+      "displayName": "",
+      "id": "2fd40",
+      "name": "SK_Character_Alien_Male_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file402",
+        "uri": "5ce70548-bde9-4d5e-b295-b3672506741e@0350e"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "animationImportSettings": [
+      {
+        "name": "Take 001",
+        "duration": 2.633333444595337,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "walk",
+            "from": 0.6,
+            "to": 1.3333333333333333,
+            "wrapMode": 22,
+            "speed": 2
+          },
+          {
+            "name": "fall",
+            "from": 1.3666666666666667,
+            "to": 2.633333444595337,
+            "wrapMode": 22,
+            "speed": 1
+          }
+        ]
+      }
+    ],
+    "redirect": "5ce70548-bde9-4d5e-b295-b3672506741e@2fd40",
+    "assetFinder": {
+      "meshes": [
+        "5ce70548-bde9-4d5e-b295-b3672506741e@5995b"
+      ],
+      "skeletons": [
+        "5ce70548-bde9-4d5e-b295-b3672506741e@438fe"
+      ],
+      "textures": [
+        "5ce70548-bde9-4d5e-b295-b3672506741e@11ace"
+      ],
+      "materials": [
+        "5ce70548-bde9-4d5e-b295-b3672506741e@d0a5b"
+      ],
+      "scenes": [
+        "5ce70548-bde9-4d5e-b295-b3672506741e@2fd40"
+      ]
+    }
+  }
+}

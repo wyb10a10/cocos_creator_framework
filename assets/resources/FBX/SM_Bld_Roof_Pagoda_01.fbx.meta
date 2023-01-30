@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1",
+  "files": [],
+  "subMetas": {
+    "0dfdd": {
+      "importer": "gltf-mesh",
+      "uuid": "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1@0dfdd",
+      "displayName": "",
+      "id": "0dfdd",
+      "name": "SM_Bld_Roof_Pagoda_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ed320": {
+      "importer": "gltf-material",
+      "uuid": "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1@ed320",
+      "displayName": "",
+      "id": "ed320",
+      "name": "lambert33.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "70fdf": {
+      "importer": "gltf-scene",
+      "uuid": "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1@70fdf",
+      "displayName": "",
+      "id": "70fdf",
+      "name": "SM_Bld_Roof_Pagoda_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1@70fdf",
+    "assetFinder": {
+      "meshes": [
+        "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1@0dfdd"
+      ],
+      "skeletons": [],
+      "textures": [
+        "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1@d20e9"
+      ],
+      "materials": [
+        "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1@ed320"
+      ],
+      "scenes": [
+        "d65aa9fe-18a0-4afe-a9da-bacbc6a584a1@70fdf"
+      ]
+    }
+  }
+}

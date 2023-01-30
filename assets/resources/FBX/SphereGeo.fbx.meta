@@ -1,0 +1,79 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "5ad70605-ae3b-4c1a-925c-91c9f1c88e38",
+  "files": [],
+  "subMetas": {
+    "db4bc": {
+      "importer": "gltf-mesh",
+      "uuid": "5ad70605-ae3b-4c1a-925c-91c9f1c88e38@db4bc",
+      "displayName": "",
+      "id": "db4bc",
+      "name": "SphereGeo.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "5ad70605-ae3b-4c1a-925c-91c9f1c88e38@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "dbf17": {
+      "importer": "gltf-scene",
+      "uuid": "5ad70605-ae3b-4c1a-925c-91c9f1c88e38@dbf17",
+      "displayName": "",
+      "id": "dbf17",
+      "name": "SphereGeo.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "5ad70605-ae3b-4c1a-925c-91c9f1c88e38@dbf17",
+    "assetFinder": {
+      "meshes": [
+        "5ad70605-ae3b-4c1a-925c-91c9f1c88e38@db4bc"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "5ad70605-ae3b-4c1a-925c-91c9f1c88e38@8d883"
+      ],
+      "scenes": [
+        "5ad70605-ae3b-4c1a-925c-91c9f1c88e38@dbf17"
+      ]
+    }
+  }
+}

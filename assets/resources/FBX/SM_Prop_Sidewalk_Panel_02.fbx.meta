@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "08700": {
+      "importer": "gltf-mesh",
+      "uuid": "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676@08700",
+      "displayName": "",
+      "id": "08700",
+      "name": "SM_Prop_Sidewalk_Panel_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5efa9": {
+      "importer": "gltf-material",
+      "uuid": "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676@5efa9",
+      "displayName": "",
+      "id": "5efa9",
+      "name": "lambert240.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "898aa": {
+      "importer": "gltf-scene",
+      "uuid": "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676@898aa",
+      "displayName": "",
+      "id": "898aa",
+      "name": "SM_Prop_Sidewalk_Panel_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676@898aa",
+    "assetFinder": {
+      "meshes": [
+        "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676@08700"
+      ],
+      "skeletons": [],
+      "textures": [
+        "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676@20e81"
+      ],
+      "materials": [
+        "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676@5efa9"
+      ],
+      "scenes": [
+        "459dd3d5-5571-4eae-8fe6-ca3ffe8dc676@898aa"
+      ]
+    }
+  }
+}

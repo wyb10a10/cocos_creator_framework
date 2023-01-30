@@ -1,0 +1,270 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3963c": {
+      "importer": "gltf-mesh",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@3963c",
+      "displayName": "",
+      "id": "3963c",
+      "name": "SM_Veh_Garbage_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ec304": {
+      "importer": "gltf-mesh",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@ec304",
+      "displayName": "",
+      "id": "ec304",
+      "name": "SM_Veh_Garbage_01_Wheel_fl.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4ba10": {
+      "importer": "gltf-mesh",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@4ba10",
+      "displayName": "",
+      "id": "4ba10",
+      "name": "SM_Veh_Garbage_01_Wheel_rl_01.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c26f7": {
+      "importer": "gltf-mesh",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@c26f7",
+      "displayName": "",
+      "id": "c26f7",
+      "name": "SM_Veh_Garbage_01_Wheel_rl_02.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "060b9": {
+      "importer": "gltf-mesh",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@060b9",
+      "displayName": "",
+      "id": "060b9",
+      "name": "SM_Veh_Garbage_01_Wheel_fr.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b9eb7": {
+      "importer": "gltf-mesh",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@b9eb7",
+      "displayName": "",
+      "id": "b9eb7",
+      "name": "SM_Veh_Garbage_01_Wheel_rr_01.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a0f1e": {
+      "importer": "gltf-mesh",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@a0f1e",
+      "displayName": "",
+      "id": "a0f1e",
+      "name": "SM_Veh_Garbage_01_Wheel_rr_02.mesh",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b9f49": {
+      "importer": "gltf-mesh",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@b9f49",
+      "displayName": "",
+      "id": "b9f49",
+      "name": "SM_Veh_Garbage_01_SteeringW.mesh",
+      "userData": {
+        "gltfIndex": 7
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "55f1b": {
+      "importer": "gltf-mesh",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@55f1b",
+      "displayName": "",
+      "id": "55f1b",
+      "name": "SM_Veh_Garbage_01_Glass.mesh",
+      "userData": {
+        "gltfIndex": 8
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "e9055d31-a1f8-4e92-8e29-0daf9585614f@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b7d27": {
+      "importer": "gltf-material",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@b7d27",
+      "displayName": "",
+      "id": "b7d27",
+      "name": "Body1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8b892": {
+      "importer": "gltf-scene",
+      "uuid": "e9055d31-a1f8-4e92-8e29-0daf9585614f@8b892",
+      "displayName": "",
+      "id": "8b892",
+      "name": "SM_Veh_Garbage_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "e9055d31-a1f8-4e92-8e29-0daf9585614f@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "e9055d31-a1f8-4e92-8e29-0daf9585614f@8b892",
+    "assetFinder": {
+      "meshes": [
+        "e9055d31-a1f8-4e92-8e29-0daf9585614f@3963c",
+        "e9055d31-a1f8-4e92-8e29-0daf9585614f@ec304",
+        "e9055d31-a1f8-4e92-8e29-0daf9585614f@4ba10",
+        "e9055d31-a1f8-4e92-8e29-0daf9585614f@c26f7",
+        "e9055d31-a1f8-4e92-8e29-0daf9585614f@060b9",
+        "e9055d31-a1f8-4e92-8e29-0daf9585614f@b9eb7",
+        "e9055d31-a1f8-4e92-8e29-0daf9585614f@a0f1e",
+        "e9055d31-a1f8-4e92-8e29-0daf9585614f@b9f49",
+        "e9055d31-a1f8-4e92-8e29-0daf9585614f@55f1b"
+      ],
+      "skeletons": [],
+      "textures": [
+        "e9055d31-a1f8-4e92-8e29-0daf9585614f@20e81"
+      ],
+      "materials": [
+        "e9055d31-a1f8-4e92-8e29-0daf9585614f@b7d27"
+      ],
+      "scenes": [
+        "e9055d31-a1f8-4e92-8e29-0daf9585614f@8b892"
+      ]
+    }
+  }
+}

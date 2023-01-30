@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "65ba635e-3105-4a1f-8c2c-2ab8175b1c85",
+  "files": [],
+  "subMetas": {
+    "fe48a": {
+      "importer": "gltf-mesh",
+      "uuid": "65ba635e-3105-4a1f-8c2c-2ab8175b1c85@fe48a",
+      "displayName": "",
+      "id": "fe48a",
+      "name": "SM_Prop_Bottle_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "65ba635e-3105-4a1f-8c2c-2ab8175b1c85@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "65ba635e-3105-4a1f-8c2c-2ab8175b1c85@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "65ba635e-3105-4a1f-8c2c-2ab8175b1c85@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0c993": {
+      "importer": "gltf-material",
+      "uuid": "65ba635e-3105-4a1f-8c2c-2ab8175b1c85@0c993",
+      "displayName": "",
+      "id": "0c993",
+      "name": "lambert157.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8974c": {
+      "importer": "gltf-scene",
+      "uuid": "65ba635e-3105-4a1f-8c2c-2ab8175b1c85@8974c",
+      "displayName": "",
+      "id": "8974c",
+      "name": "SM_Prop_Bottle_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "65ba635e-3105-4a1f-8c2c-2ab8175b1c85@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "65ba635e-3105-4a1f-8c2c-2ab8175b1c85@8974c",
+    "assetFinder": {
+      "meshes": [
+        "65ba635e-3105-4a1f-8c2c-2ab8175b1c85@fe48a"
+      ],
+      "skeletons": [],
+      "textures": [
+        "65ba635e-3105-4a1f-8c2c-2ab8175b1c85@d20e9"
+      ],
+      "materials": [
+        "65ba635e-3105-4a1f-8c2c-2ab8175b1c85@0c993"
+      ],
+      "scenes": [
+        "65ba635e-3105-4a1f-8c2c-2ab8175b1c85@8974c"
+      ]
+    }
+  }
+}

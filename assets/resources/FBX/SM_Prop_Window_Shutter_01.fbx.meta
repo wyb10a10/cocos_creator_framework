@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "b11eda5e-550f-44ac-b1d5-58dcea64c6a6",
+  "files": [],
+  "subMetas": {
+    "62a22": {
+      "importer": "gltf-mesh",
+      "uuid": "b11eda5e-550f-44ac-b1d5-58dcea64c6a6@62a22",
+      "displayName": "",
+      "id": "62a22",
+      "name": "SM_Prop_Window_Shutter_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "b11eda5e-550f-44ac-b1d5-58dcea64c6a6@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "b11eda5e-550f-44ac-b1d5-58dcea64c6a6@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "b11eda5e-550f-44ac-b1d5-58dcea64c6a6@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "b11eda5e-550f-44ac-b1d5-58dcea64c6a6@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9fe89": {
+      "importer": "gltf-scene",
+      "uuid": "b11eda5e-550f-44ac-b1d5-58dcea64c6a6@9fe89",
+      "displayName": "",
+      "id": "9fe89",
+      "name": "SM_Prop_Window_Shutter_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "b11eda5e-550f-44ac-b1d5-58dcea64c6a6@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "b11eda5e-550f-44ac-b1d5-58dcea64c6a6@9fe89",
+    "assetFinder": {
+      "meshes": [
+        "b11eda5e-550f-44ac-b1d5-58dcea64c6a6@62a22"
+      ],
+      "skeletons": [],
+      "textures": [
+        "b11eda5e-550f-44ac-b1d5-58dcea64c6a6@d20e9"
+      ],
+      "materials": [
+        "b11eda5e-550f-44ac-b1d5-58dcea64c6a6@8d883"
+      ],
+      "scenes": [
+        "b11eda5e-550f-44ac-b1d5-58dcea64c6a6@9fe89"
+      ]
+    }
+  }
+}

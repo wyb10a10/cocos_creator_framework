@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "360b8d64-b5be-4fad-9707-766d3f7d8f7b",
+  "files": [],
+  "subMetas": {
+    "cc9ec": {
+      "importer": "gltf-mesh",
+      "uuid": "360b8d64-b5be-4fad-9707-766d3f7d8f7b@cc9ec",
+      "displayName": "",
+      "id": "cc9ec",
+      "name": "SM_Prop_WallAttach_Vent_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "360b8d64-b5be-4fad-9707-766d3f7d8f7b@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "360b8d64-b5be-4fad-9707-766d3f7d8f7b@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "360b8d64-b5be-4fad-9707-766d3f7d8f7b@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4fe89": {
+      "importer": "gltf-material",
+      "uuid": "360b8d64-b5be-4fad-9707-766d3f7d8f7b@4fe89",
+      "displayName": "",
+      "id": "4fe89",
+      "name": "lambert260.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "998f8": {
+      "importer": "gltf-scene",
+      "uuid": "360b8d64-b5be-4fad-9707-766d3f7d8f7b@998f8",
+      "displayName": "",
+      "id": "998f8",
+      "name": "SM_Prop_WallAttach_Vent_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "360b8d64-b5be-4fad-9707-766d3f7d8f7b@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "360b8d64-b5be-4fad-9707-766d3f7d8f7b@998f8",
+    "assetFinder": {
+      "meshes": [
+        "360b8d64-b5be-4fad-9707-766d3f7d8f7b@cc9ec"
+      ],
+      "skeletons": [],
+      "textures": [
+        "360b8d64-b5be-4fad-9707-766d3f7d8f7b@d20e9"
+      ],
+      "materials": [
+        "360b8d64-b5be-4fad-9707-766d3f7d8f7b@4fe89"
+      ],
+      "scenes": [
+        "360b8d64-b5be-4fad-9707-766d3f7d8f7b@998f8"
+      ]
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "96b85922-3d6c-4c5b-a64b-f29b25b14c3d",
+  "files": [],
+  "subMetas": {
+    "0ccad": {
+      "importer": "gltf-mesh",
+      "uuid": "96b85922-3d6c-4c5b-a64b-f29b25b14c3d@0ccad",
+      "displayName": "",
+      "id": "0ccad",
+      "name": "SM_Veh_Hoverboard_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "96b85922-3d6c-4c5b-a64b-f29b25b14c3d@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "96b85922-3d6c-4c5b-a64b-f29b25b14c3d@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "96b85922-3d6c-4c5b-a64b-f29b25b14c3d@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "96b85922-3d6c-4c5b-a64b-f29b25b14c3d@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "13e9a": {
+      "importer": "gltf-scene",
+      "uuid": "96b85922-3d6c-4c5b-a64b-f29b25b14c3d@13e9a",
+      "displayName": "",
+      "id": "13e9a",
+      "name": "SM_Veh_Hoverboard_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "96b85922-3d6c-4c5b-a64b-f29b25b14c3d@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "96b85922-3d6c-4c5b-a64b-f29b25b14c3d@13e9a",
+    "assetFinder": {
+      "meshes": [
+        "96b85922-3d6c-4c5b-a64b-f29b25b14c3d@0ccad"
+      ],
+      "skeletons": [],
+      "textures": [
+        "96b85922-3d6c-4c5b-a64b-f29b25b14c3d@d20e9"
+      ],
+      "materials": [
+        "96b85922-3d6c-4c5b-a64b-f29b25b14c3d@8d883"
+      ],
+      "scenes": [
+        "96b85922-3d6c-4c5b-a64b-f29b25b14c3d@13e9a"
+      ]
+    }
+  }
+}

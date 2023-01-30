@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "8e622853-8f7e-40aa-9238-ee4f7d752cbb",
+  "files": [],
+  "subMetas": {
+    "70b51": {
+      "importer": "gltf-mesh",
+      "uuid": "8e622853-8f7e-40aa-9238-ee4f7d752cbb@70b51",
+      "displayName": "",
+      "id": "70b51",
+      "name": "SM_Env_Graffiti_Wall_03.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cfebd": {
+      "importer": "gltf-embeded-image",
+      "uuid": "8e622853-8f7e-40aa-9238-ee4f7d752cbb@cfebd",
+      "displayName": "",
+      "id": "cfebd",
+      "name": "file290.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e9e76": {
+      "importer": "texture",
+      "uuid": "8e622853-8f7e-40aa-9238-ee4f7d752cbb@e9e76",
+      "displayName": "",
+      "id": "e9e76",
+      "name": "file290.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "8e622853-8f7e-40aa-9238-ee4f7d752cbb@cfebd"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4ca6c": {
+      "importer": "gltf-material",
+      "uuid": "8e622853-8f7e-40aa-9238-ee4f7d752cbb@4ca6c",
+      "displayName": "",
+      "id": "4ca6c",
+      "name": "lambert367.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a3cd9": {
+      "importer": "gltf-scene",
+      "uuid": "8e622853-8f7e-40aa-9238-ee4f7d752cbb@a3cd9",
+      "displayName": "",
+      "id": "a3cd9",
+      "name": "SM_Env_Graffiti_Wall_03.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file290",
+        "uri": "8e622853-8f7e-40aa-9238-ee4f7d752cbb@cfebd"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "8e622853-8f7e-40aa-9238-ee4f7d752cbb@a3cd9",
+    "assetFinder": {
+      "meshes": [
+        "8e622853-8f7e-40aa-9238-ee4f7d752cbb@70b51"
+      ],
+      "skeletons": [],
+      "textures": [
+        "8e622853-8f7e-40aa-9238-ee4f7d752cbb@e9e76"
+      ],
+      "materials": [
+        "8e622853-8f7e-40aa-9238-ee4f7d752cbb@4ca6c"
+      ],
+      "scenes": [
+        "8e622853-8f7e-40aa-9238-ee4f7d752cbb@a3cd9"
+      ]
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "5c91a859-444a-4546-a232-0fe95a04ac2a",
+  "files": [],
+  "subMetas": {
+    "57948": {
+      "importer": "gltf-mesh",
+      "uuid": "5c91a859-444a-4546-a232-0fe95a04ac2a@57948",
+      "displayName": "",
+      "id": "57948",
+      "name": "SM_Prop_Sidewalk_Rubble_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "5c91a859-444a-4546-a232-0fe95a04ac2a@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "5c91a859-444a-4546-a232-0fe95a04ac2a@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "5c91a859-444a-4546-a232-0fe95a04ac2a@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e3e38": {
+      "importer": "gltf-material",
+      "uuid": "5c91a859-444a-4546-a232-0fe95a04ac2a@e3e38",
+      "displayName": "",
+      "id": "e3e38",
+      "name": "lambert247.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9fe80": {
+      "importer": "gltf-scene",
+      "uuid": "5c91a859-444a-4546-a232-0fe95a04ac2a@9fe80",
+      "displayName": "",
+      "id": "9fe80",
+      "name": "SM_Prop_Sidewalk_Rubble_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "5c91a859-444a-4546-a232-0fe95a04ac2a@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "5c91a859-444a-4546-a232-0fe95a04ac2a@9fe80",
+    "assetFinder": {
+      "meshes": [
+        "5c91a859-444a-4546-a232-0fe95a04ac2a@57948"
+      ],
+      "skeletons": [],
+      "textures": [
+        "5c91a859-444a-4546-a232-0fe95a04ac2a@20e81"
+      ],
+      "materials": [
+        "5c91a859-444a-4546-a232-0fe95a04ac2a@e3e38"
+      ],
+      "scenes": [
+        "5c91a859-444a-4546-a232-0fe95a04ac2a@9fe80"
+      ]
+    }
+  }
+}

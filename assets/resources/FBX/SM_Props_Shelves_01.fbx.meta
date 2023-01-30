@@ -1,0 +1,79 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "a451c325-c1e7-41e3-998f-00b5a9d560fb",
+  "files": [],
+  "subMetas": {
+    "c0132": {
+      "importer": "gltf-mesh",
+      "uuid": "a451c325-c1e7-41e3-998f-00b5a9d560fb@c0132",
+      "displayName": "",
+      "id": "c0132",
+      "name": "SM_Props_Shelves_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7a3ca": {
+      "importer": "gltf-material",
+      "uuid": "a451c325-c1e7-41e3-998f-00b5a9d560fb@7a3ca",
+      "displayName": "",
+      "id": "7a3ca",
+      "name": "lambert2.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "50a5e": {
+      "importer": "gltf-scene",
+      "uuid": "a451c325-c1e7-41e3-998f-00b5a9d560fb@50a5e",
+      "displayName": "",
+      "id": "50a5e",
+      "name": "SM_Props_Shelves_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "a451c325-c1e7-41e3-998f-00b5a9d560fb@50a5e",
+    "assetFinder": {
+      "meshes": [
+        "a451c325-c1e7-41e3-998f-00b5a9d560fb@c0132"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "a451c325-c1e7-41e3-998f-00b5a9d560fb@7a3ca"
+      ],
+      "scenes": [
+        "a451c325-c1e7-41e3-998f-00b5a9d560fb@50a5e"
+      ]
+    }
+  }
+}

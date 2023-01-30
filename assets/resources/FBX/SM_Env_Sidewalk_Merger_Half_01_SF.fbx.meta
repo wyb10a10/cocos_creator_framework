@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "25279d6e-7e05-4b1e-9b4f-77dd7cc18717",
+  "files": [],
+  "subMetas": {
+    "22919": {
+      "importer": "gltf-material",
+      "uuid": "25279d6e-7e05-4b1e-9b4f-77dd7cc18717@22919",
+      "displayName": "",
+      "id": "22919",
+      "name": "lambert130.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "25279d6e-7e05-4b1e-9b4f-77dd7cc18717@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ffd28": {
+      "importer": "gltf-mesh",
+      "uuid": "25279d6e-7e05-4b1e-9b4f-77dd7cc18717@ffd28",
+      "displayName": "",
+      "id": "ffd28",
+      "name": "SM_Env_Sidewalk_Merger_Half_01_SF.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "25279d6e-7e05-4b1e-9b4f-77dd7cc18717@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "25279d6e-7e05-4b1e-9b4f-77dd7cc18717@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d64cf": {
+      "importer": "gltf-scene",
+      "uuid": "25279d6e-7e05-4b1e-9b4f-77dd7cc18717@d64cf",
+      "displayName": "",
+      "id": "d64cf",
+      "name": "SM_Env_Sidewalk_Merger_Half_01_SF.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "25279d6e-7e05-4b1e-9b4f-77dd7cc18717@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "25279d6e-7e05-4b1e-9b4f-77dd7cc18717@d64cf",
+    "assetFinder": {
+      "meshes": [
+        "25279d6e-7e05-4b1e-9b4f-77dd7cc18717@ffd28"
+      ],
+      "skeletons": [],
+      "textures": [
+        "25279d6e-7e05-4b1e-9b4f-77dd7cc18717@20e81"
+      ],
+      "materials": [
+        "25279d6e-7e05-4b1e-9b4f-77dd7cc18717@22919"
+      ],
+      "scenes": [
+        "25279d6e-7e05-4b1e-9b4f-77dd7cc18717@d64cf"
+      ]
+    }
+  }
+}

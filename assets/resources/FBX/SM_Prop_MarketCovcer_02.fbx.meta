@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "da2983ae-046c-46df-ad80-ec7a19e01260",
+  "files": [],
+  "subMetas": {
+    "98280": {
+      "importer": "gltf-mesh",
+      "uuid": "da2983ae-046c-46df-ad80-ec7a19e01260@98280",
+      "displayName": "",
+      "id": "98280",
+      "name": "SM_Prop_MarketCovcer_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "da2983ae-046c-46df-ad80-ec7a19e01260@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "da2983ae-046c-46df-ad80-ec7a19e01260@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "da2983ae-046c-46df-ad80-ec7a19e01260@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c34f7": {
+      "importer": "gltf-material",
+      "uuid": "da2983ae-046c-46df-ad80-ec7a19e01260@c34f7",
+      "displayName": "",
+      "id": "c34f7",
+      "name": "lambert192.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "74c78": {
+      "importer": "gltf-scene",
+      "uuid": "da2983ae-046c-46df-ad80-ec7a19e01260@74c78",
+      "displayName": "",
+      "id": "74c78",
+      "name": "SM_Prop_MarketCovcer_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "da2983ae-046c-46df-ad80-ec7a19e01260@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "da2983ae-046c-46df-ad80-ec7a19e01260@74c78",
+    "assetFinder": {
+      "meshes": [
+        "da2983ae-046c-46df-ad80-ec7a19e01260@98280"
+      ],
+      "skeletons": [],
+      "textures": [
+        "da2983ae-046c-46df-ad80-ec7a19e01260@d20e9"
+      ],
+      "materials": [
+        "da2983ae-046c-46df-ad80-ec7a19e01260@c34f7"
+      ],
+      "scenes": [
+        "da2983ae-046c-46df-ad80-ec7a19e01260@74c78"
+      ]
+    }
+  }
+}

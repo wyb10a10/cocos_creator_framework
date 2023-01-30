@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "1112cbeb-9b5a-4938-b19f-58f55e21c152",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "1112cbeb-9b5a-4938-b19f-58f55e21c152@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8cbcf": {
+      "importer": "gltf-mesh",
+      "uuid": "1112cbeb-9b5a-4938-b19f-58f55e21c152@8cbcf",
+      "displayName": "",
+      "id": "8cbcf",
+      "name": "SM_Veh_Armored_Truck_Lights_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "1112cbeb-9b5a-4938-b19f-58f55e21c152@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "1112cbeb-9b5a-4938-b19f-58f55e21c152@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f4b39": {
+      "importer": "gltf-material",
+      "uuid": "1112cbeb-9b5a-4938-b19f-58f55e21c152@f4b39",
+      "displayName": "",
+      "id": "f4b39",
+      "name": "Body.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "22fb8": {
+      "importer": "gltf-scene",
+      "uuid": "1112cbeb-9b5a-4938-b19f-58f55e21c152@22fb8",
+      "displayName": "",
+      "id": "22fb8",
+      "name": "SM_Veh_Armored_Truck_Lights_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "1112cbeb-9b5a-4938-b19f-58f55e21c152@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "1112cbeb-9b5a-4938-b19f-58f55e21c152@22fb8",
+    "assetFinder": {
+      "meshes": [
+        "1112cbeb-9b5a-4938-b19f-58f55e21c152@8cbcf"
+      ],
+      "skeletons": [],
+      "textures": [
+        "1112cbeb-9b5a-4938-b19f-58f55e21c152@20e81"
+      ],
+      "materials": [
+        "1112cbeb-9b5a-4938-b19f-58f55e21c152@f4b39"
+      ],
+      "scenes": [
+        "1112cbeb-9b5a-4938-b19f-58f55e21c152@22fb8"
+      ]
+    }
+  }
+}

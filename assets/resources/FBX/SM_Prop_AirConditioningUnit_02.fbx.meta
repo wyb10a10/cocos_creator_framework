@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "7ee11b2f-4c32-409c-9e60-9e16b1210933",
+  "files": [],
+  "subMetas": {
+    "5bf52": {
+      "importer": "gltf-mesh",
+      "uuid": "7ee11b2f-4c32-409c-9e60-9e16b1210933@5bf52",
+      "displayName": "",
+      "id": "5bf52",
+      "name": "SM_Prop_AirConditioningUnit_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "7ee11b2f-4c32-409c-9e60-9e16b1210933@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "7ee11b2f-4c32-409c-9e60-9e16b1210933@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "7ee11b2f-4c32-409c-9e60-9e16b1210933@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "7ee11b2f-4c32-409c-9e60-9e16b1210933@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc376": {
+      "importer": "gltf-scene",
+      "uuid": "7ee11b2f-4c32-409c-9e60-9e16b1210933@cc376",
+      "displayName": "",
+      "id": "cc376",
+      "name": "SM_Prop_AirConditioningUnit_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "7ee11b2f-4c32-409c-9e60-9e16b1210933@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "7ee11b2f-4c32-409c-9e60-9e16b1210933@cc376",
+    "assetFinder": {
+      "meshes": [
+        "7ee11b2f-4c32-409c-9e60-9e16b1210933@5bf52"
+      ],
+      "skeletons": [],
+      "textures": [
+        "7ee11b2f-4c32-409c-9e60-9e16b1210933@d20e9"
+      ],
+      "materials": [
+        "7ee11b2f-4c32-409c-9e60-9e16b1210933@8d883"
+      ],
+      "scenes": [
+        "7ee11b2f-4c32-409c-9e60-9e16b1210933@cc376"
+      ]
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "9fefe0ad-6f72-496a-9746-b6c7a77c3ace",
+  "files": [],
+  "subMetas": {
+    "c0de8": {
+      "importer": "gltf-mesh",
+      "uuid": "9fefe0ad-6f72-496a-9746-b6c7a77c3ace@c0de8",
+      "displayName": "",
+      "id": "c0de8",
+      "name": "SM_Wep_Crosshair_Sniper_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "9fefe0ad-6f72-496a-9746-b6c7a77c3ace@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "9fefe0ad-6f72-496a-9746-b6c7a77c3ace@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "9fefe0ad-6f72-496a-9746-b6c7a77c3ace@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "9fefe0ad-6f72-496a-9746-b6c7a77c3ace@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cfa09": {
+      "importer": "gltf-scene",
+      "uuid": "9fefe0ad-6f72-496a-9746-b6c7a77c3ace@cfa09",
+      "displayName": "",
+      "id": "cfa09",
+      "name": "SM_Wep_Crosshair_Sniper_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "9fefe0ad-6f72-496a-9746-b6c7a77c3ace@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "9fefe0ad-6f72-496a-9746-b6c7a77c3ace@cfa09",
+    "assetFinder": {
+      "meshes": [
+        "9fefe0ad-6f72-496a-9746-b6c7a77c3ace@c0de8"
+      ],
+      "skeletons": [],
+      "textures": [
+        "9fefe0ad-6f72-496a-9746-b6c7a77c3ace@cc065"
+      ],
+      "materials": [
+        "9fefe0ad-6f72-496a-9746-b6c7a77c3ace@8d883"
+      ],
+      "scenes": [
+        "9fefe0ad-6f72-496a-9746-b6c7a77c3ace@cfa09"
+      ]
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b",
+  "files": [],
+  "subMetas": {
+    "c019c": {
+      "importer": "gltf-mesh",
+      "uuid": "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b@c019c",
+      "displayName": "",
+      "id": "c019c",
+      "name": "SM_Wep_Ammo_Rifle_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "454be": {
+      "importer": "gltf-scene",
+      "uuid": "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b@454be",
+      "displayName": "",
+      "id": "454be",
+      "name": "SM_Wep_Ammo_Rifle_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b@454be",
+    "assetFinder": {
+      "meshes": [
+        "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b@c019c"
+      ],
+      "skeletons": [],
+      "textures": [
+        "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b@cc065"
+      ],
+      "materials": [
+        "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b@8d883"
+      ],
+      "scenes": [
+        "6c2b3e6f-1e49-4ecf-938f-de3eb0f65b7b@454be"
+      ]
+    }
+  }
+}

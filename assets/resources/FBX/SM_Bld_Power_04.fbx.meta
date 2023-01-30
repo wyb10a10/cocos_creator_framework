@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "c4059eec-0198-43d6-9d04-7238e11be781",
+  "files": [],
+  "subMetas": {
+    "148c8": {
+      "importer": "gltf-mesh",
+      "uuid": "c4059eec-0198-43d6-9d04-7238e11be781@148c8",
+      "displayName": "",
+      "id": "148c8",
+      "name": "SM_Bld_Power_04.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "c4059eec-0198-43d6-9d04-7238e11be781@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "c4059eec-0198-43d6-9d04-7238e11be781@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "c4059eec-0198-43d6-9d04-7238e11be781@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "51eea": {
+      "importer": "gltf-material",
+      "uuid": "c4059eec-0198-43d6-9d04-7238e11be781@51eea",
+      "displayName": "",
+      "id": "51eea",
+      "name": "lambert30.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d78c6": {
+      "importer": "gltf-scene",
+      "uuid": "c4059eec-0198-43d6-9d04-7238e11be781@d78c6",
+      "displayName": "",
+      "id": "d78c6",
+      "name": "SM_Bld_Power_04.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "c4059eec-0198-43d6-9d04-7238e11be781@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "c4059eec-0198-43d6-9d04-7238e11be781@d78c6",
+    "assetFinder": {
+      "meshes": [
+        "c4059eec-0198-43d6-9d04-7238e11be781@148c8"
+      ],
+      "skeletons": [],
+      "textures": [
+        "c4059eec-0198-43d6-9d04-7238e11be781@d20e9"
+      ],
+      "materials": [
+        "c4059eec-0198-43d6-9d04-7238e11be781@51eea"
+      ],
+      "scenes": [
+        "c4059eec-0198-43d6-9d04-7238e11be781@d78c6"
+      ]
+    }
+  }
+}

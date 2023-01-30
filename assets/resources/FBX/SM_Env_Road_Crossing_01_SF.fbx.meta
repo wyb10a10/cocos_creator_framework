@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "4ebac543-19ed-451f-babd-a7bf6cac4246",
+  "files": [],
+  "subMetas": {
+    "52429": {
+      "importer": "gltf-material",
+      "uuid": "4ebac543-19ed-451f-babd-a7bf6cac4246@52429",
+      "displayName": "",
+      "id": "52429",
+      "name": "lambert111.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ad1f7": {
+      "importer": "gltf-mesh",
+      "uuid": "4ebac543-19ed-451f-babd-a7bf6cac4246@ad1f7",
+      "displayName": "",
+      "id": "ad1f7",
+      "name": "SM_Env_Road_Crossing_01_SF.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "adacb": {
+      "importer": "gltf-embeded-image",
+      "uuid": "4ebac543-19ed-451f-babd-a7bf6cac4246@adacb",
+      "displayName": "",
+      "id": "adacb",
+      "name": "file2.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e873a": {
+      "importer": "texture",
+      "uuid": "4ebac543-19ed-451f-babd-a7bf6cac4246@e873a",
+      "displayName": "",
+      "id": "e873a",
+      "name": "file2.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "4ebac543-19ed-451f-babd-a7bf6cac4246@adacb"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a5fe3": {
+      "importer": "gltf-scene",
+      "uuid": "4ebac543-19ed-451f-babd-a7bf6cac4246@a5fe3",
+      "displayName": "",
+      "id": "a5fe3",
+      "name": "SM_Env_Road_Crossing_01_SF.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file2",
+        "uri": "4ebac543-19ed-451f-babd-a7bf6cac4246@adacb"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "4ebac543-19ed-451f-babd-a7bf6cac4246@a5fe3",
+    "assetFinder": {
+      "meshes": [
+        "4ebac543-19ed-451f-babd-a7bf6cac4246@ad1f7"
+      ],
+      "skeletons": [],
+      "textures": [
+        "4ebac543-19ed-451f-babd-a7bf6cac4246@e873a"
+      ],
+      "materials": [
+        "4ebac543-19ed-451f-babd-a7bf6cac4246@52429"
+      ],
+      "scenes": [
+        "4ebac543-19ed-451f-babd-a7bf6cac4246@a5fe3"
+      ]
+    }
+  }
+}

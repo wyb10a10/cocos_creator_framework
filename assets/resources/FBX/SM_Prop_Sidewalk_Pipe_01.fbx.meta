@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "b93f711a-df86-44c1-8e25-d4a76d204d25",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "b93f711a-df86-44c1-8e25-d4a76d204d25@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6e5af": {
+      "importer": "gltf-mesh",
+      "uuid": "b93f711a-df86-44c1-8e25-d4a76d204d25@6e5af",
+      "displayName": "",
+      "id": "6e5af",
+      "name": "SM_Prop_Sidewalk_Pipe_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "b93f711a-df86-44c1-8e25-d4a76d204d25@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "b93f711a-df86-44c1-8e25-d4a76d204d25@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "04650": {
+      "importer": "gltf-material",
+      "uuid": "b93f711a-df86-44c1-8e25-d4a76d204d25@04650",
+      "displayName": "",
+      "id": "04650",
+      "name": "lambert245.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e66ec": {
+      "importer": "gltf-scene",
+      "uuid": "b93f711a-df86-44c1-8e25-d4a76d204d25@e66ec",
+      "displayName": "",
+      "id": "e66ec",
+      "name": "SM_Prop_Sidewalk_Pipe_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "b93f711a-df86-44c1-8e25-d4a76d204d25@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "b93f711a-df86-44c1-8e25-d4a76d204d25@e66ec",
+    "assetFinder": {
+      "meshes": [
+        "b93f711a-df86-44c1-8e25-d4a76d204d25@6e5af"
+      ],
+      "skeletons": [],
+      "textures": [
+        "b93f711a-df86-44c1-8e25-d4a76d204d25@20e81"
+      ],
+      "materials": [
+        "b93f711a-df86-44c1-8e25-d4a76d204d25@04650"
+      ],
+      "scenes": [
+        "b93f711a-df86-44c1-8e25-d4a76d204d25@e66ec"
+      ]
+    }
+  }
+}

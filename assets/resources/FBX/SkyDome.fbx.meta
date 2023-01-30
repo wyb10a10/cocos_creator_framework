@@ -1,0 +1,180 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "451db3ef-ffa5-449a-8b2a-de060faf9384",
+  "files": [],
+  "subMetas": {
+    "af4e2": {
+      "importer": "gltf-mesh",
+      "uuid": "451db3ef-ffa5-449a-8b2a-de060faf9384@af4e2",
+      "displayName": "",
+      "id": "af4e2",
+      "name": "Skydome.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f0dfd": {
+      "importer": "gltf-mesh",
+      "uuid": "451db3ef-ffa5-449a-8b2a-de060faf9384@f0dfd",
+      "displayName": "",
+      "id": "f0dfd",
+      "name": "Stars.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8453e": {
+      "importer": "gltf-mesh",
+      "uuid": "451db3ef-ffa5-449a-8b2a-de060faf9384@8453e",
+      "displayName": "",
+      "id": "8453e",
+      "name": "Sun.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "08a88": {
+      "importer": "gltf-mesh",
+      "uuid": "451db3ef-ffa5-449a-8b2a-de060faf9384@08a88",
+      "displayName": "",
+      "id": "08a88",
+      "name": "Moon.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "451db3ef-ffa5-449a-8b2a-de060faf9384@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "451db3ef-ffa5-449a-8b2a-de060faf9384@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "451db3ef-ffa5-449a-8b2a-de060faf9384@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b1467": {
+      "importer": "gltf-material",
+      "uuid": "451db3ef-ffa5-449a-8b2a-de060faf9384@b1467",
+      "displayName": "",
+      "id": "b1467",
+      "name": "blinn1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "286bb": {
+      "importer": "gltf-scene",
+      "uuid": "451db3ef-ffa5-449a-8b2a-de060faf9384@286bb",
+      "displayName": "",
+      "id": "286bb",
+      "name": "SkyDome.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "451db3ef-ffa5-449a-8b2a-de060faf9384@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "451db3ef-ffa5-449a-8b2a-de060faf9384@286bb",
+    "assetFinder": {
+      "meshes": [
+        "451db3ef-ffa5-449a-8b2a-de060faf9384@af4e2",
+        "451db3ef-ffa5-449a-8b2a-de060faf9384@f0dfd",
+        "451db3ef-ffa5-449a-8b2a-de060faf9384@8453e",
+        "451db3ef-ffa5-449a-8b2a-de060faf9384@08a88"
+      ],
+      "skeletons": [],
+      "textures": [
+        "451db3ef-ffa5-449a-8b2a-de060faf9384@d20e9"
+      ],
+      "materials": [
+        "451db3ef-ffa5-449a-8b2a-de060faf9384@b1467"
+      ],
+      "scenes": [
+        "451db3ef-ffa5-449a-8b2a-de060faf9384@286bb"
+      ]
+    }
+  }
+}

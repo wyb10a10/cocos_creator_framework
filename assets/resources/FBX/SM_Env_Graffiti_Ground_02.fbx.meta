@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "d1e7d585-a9a2-498b-8d62-a36f92345a5f",
+  "files": [],
+  "subMetas": {
+    "66b3c": {
+      "importer": "gltf-mesh",
+      "uuid": "d1e7d585-a9a2-498b-8d62-a36f92345a5f@66b3c",
+      "displayName": "",
+      "id": "66b3c",
+      "name": "SM_Env_Graffiti_Ground_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cfebd": {
+      "importer": "gltf-embeded-image",
+      "uuid": "d1e7d585-a9a2-498b-8d62-a36f92345a5f@cfebd",
+      "displayName": "",
+      "id": "cfebd",
+      "name": "file290.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e9e76": {
+      "importer": "texture",
+      "uuid": "d1e7d585-a9a2-498b-8d62-a36f92345a5f@e9e76",
+      "displayName": "",
+      "id": "e9e76",
+      "name": "file290.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "d1e7d585-a9a2-498b-8d62-a36f92345a5f@cfebd"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4ca6c": {
+      "importer": "gltf-material",
+      "uuid": "d1e7d585-a9a2-498b-8d62-a36f92345a5f@4ca6c",
+      "displayName": "",
+      "id": "4ca6c",
+      "name": "lambert367.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ac6c7": {
+      "importer": "gltf-scene",
+      "uuid": "d1e7d585-a9a2-498b-8d62-a36f92345a5f@ac6c7",
+      "displayName": "",
+      "id": "ac6c7",
+      "name": "SM_Env_Graffiti_Ground_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file290",
+        "uri": "d1e7d585-a9a2-498b-8d62-a36f92345a5f@cfebd"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "d1e7d585-a9a2-498b-8d62-a36f92345a5f@ac6c7",
+    "assetFinder": {
+      "meshes": [
+        "d1e7d585-a9a2-498b-8d62-a36f92345a5f@66b3c"
+      ],
+      "skeletons": [],
+      "textures": [
+        "d1e7d585-a9a2-498b-8d62-a36f92345a5f@e9e76"
+      ],
+      "materials": [
+        "d1e7d585-a9a2-498b-8d62-a36f92345a5f@4ca6c"
+      ],
+      "scenes": [
+        "d1e7d585-a9a2-498b-8d62-a36f92345a5f@ac6c7"
+      ]
+    }
+  }
+}

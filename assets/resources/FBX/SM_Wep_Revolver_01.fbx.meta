@@ -1,0 +1,180 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "8dd58300-0a05-41c1-b631-00227f4da3c3",
+  "files": [],
+  "subMetas": {
+    "142e6": {
+      "importer": "gltf-mesh",
+      "uuid": "8dd58300-0a05-41c1-b631-00227f4da3c3@142e6",
+      "displayName": "",
+      "id": "142e6",
+      "name": "SM_Wep_Revolver_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "dd6a8": {
+      "importer": "gltf-mesh",
+      "uuid": "8dd58300-0a05-41c1-b631-00227f4da3c3@dd6a8",
+      "displayName": "",
+      "id": "dd6a8",
+      "name": "SM_Wep_Revolver_Cylinder_01.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3f8bf": {
+      "importer": "gltf-mesh",
+      "uuid": "8dd58300-0a05-41c1-b631-00227f4da3c3@3f8bf",
+      "displayName": "",
+      "id": "3f8bf",
+      "name": "SM_Wep_Revolver_Hammer_01.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a7f91": {
+      "importer": "gltf-mesh",
+      "uuid": "8dd58300-0a05-41c1-b631-00227f4da3c3@a7f91",
+      "displayName": "",
+      "id": "a7f91",
+      "name": "SM_Wep_Revolver_Trigger_01.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "8dd58300-0a05-41c1-b631-00227f4da3c3@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "8dd58300-0a05-41c1-b631-00227f4da3c3@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "8dd58300-0a05-41c1-b631-00227f4da3c3@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "8dd58300-0a05-41c1-b631-00227f4da3c3@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "2025c": {
+      "importer": "gltf-scene",
+      "uuid": "8dd58300-0a05-41c1-b631-00227f4da3c3@2025c",
+      "displayName": "",
+      "id": "2025c",
+      "name": "SM_Wep_Revolver_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "8dd58300-0a05-41c1-b631-00227f4da3c3@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "8dd58300-0a05-41c1-b631-00227f4da3c3@2025c",
+    "assetFinder": {
+      "meshes": [
+        "8dd58300-0a05-41c1-b631-00227f4da3c3@142e6",
+        "8dd58300-0a05-41c1-b631-00227f4da3c3@dd6a8",
+        "8dd58300-0a05-41c1-b631-00227f4da3c3@3f8bf",
+        "8dd58300-0a05-41c1-b631-00227f4da3c3@a7f91"
+      ],
+      "skeletons": [],
+      "textures": [
+        "8dd58300-0a05-41c1-b631-00227f4da3c3@cc065"
+      ],
+      "materials": [
+        "8dd58300-0a05-41c1-b631-00227f4da3c3@8d883"
+      ],
+      "scenes": [
+        "8dd58300-0a05-41c1-b631-00227f4da3c3@2025c"
+      ]
+    }
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "17c9cb51-899d-4f28-beb9-ad2114b1f36a",
+  "files": [],
+  "subMetas": {
+    "44643": {
+      "importer": "gltf-mesh",
+      "uuid": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@44643",
+      "displayName": "",
+      "id": "44643",
+      "name": "SM_Wep_Syringe_Gun_Trigger_01.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "49758": {
+      "importer": "gltf-material",
+      "uuid": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@49758",
+      "displayName": "",
+      "id": "49758",
+      "name": "lambert16.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "98286": {
+      "importer": "gltf-embeded-image",
+      "uuid": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@98286",
+      "displayName": "",
+      "id": "98286",
+      "name": "file23.image",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b7861": {
+      "importer": "gltf-mesh",
+      "uuid": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@b7861",
+      "displayName": "",
+      "id": "b7861",
+      "name": "SM_Wep_Syringe_Gun_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6f427": {
+      "importer": "gltf-mesh",
+      "uuid": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@6f427",
+      "displayName": "",
+      "id": "6f427",
+      "name": "SM_Wep_Syringe_Gun_Charge_01.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "03e1f": {
+      "importer": "texture",
+      "uuid": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@03e1f",
+      "displayName": "",
+      "id": "03e1f",
+      "name": "file23.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@98286"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7be0d": {
+      "importer": "gltf-scene",
+      "uuid": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@7be0d",
+      "displayName": "",
+      "id": "7be0d",
+      "name": "SM_Wep_Syringe_Gun_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@58e02"
+      },
+      {
+        "name": "file23",
+        "uri": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@98286"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "17c9cb51-899d-4f28-beb9-ad2114b1f36a@7be0d",
+    "assetFinder": {
+      "meshes": [
+        "17c9cb51-899d-4f28-beb9-ad2114b1f36a@b7861",
+        "17c9cb51-899d-4f28-beb9-ad2114b1f36a@44643",
+        "17c9cb51-899d-4f28-beb9-ad2114b1f36a@6f427"
+      ],
+      "skeletons": [],
+      "textures": [
+        "17c9cb51-899d-4f28-beb9-ad2114b1f36a@cc065",
+        "17c9cb51-899d-4f28-beb9-ad2114b1f36a@03e1f"
+      ],
+      "materials": [
+        "17c9cb51-899d-4f28-beb9-ad2114b1f36a@8d883",
+        "17c9cb51-899d-4f28-beb9-ad2114b1f36a@49758"
+      ],
+      "scenes": [
+        "17c9cb51-899d-4f28-beb9-ad2114b1f36a@7be0d"
+      ]
+    }
+  }
+}

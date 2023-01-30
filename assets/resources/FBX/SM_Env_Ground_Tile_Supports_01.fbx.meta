@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "f6ef95e6-afda-4145-bce2-81688a5c73bb",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "f6ef95e6-afda-4145-bce2-81688a5c73bb@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c1ac2": {
+      "importer": "gltf-mesh",
+      "uuid": "f6ef95e6-afda-4145-bce2-81688a5c73bb@c1ac2",
+      "displayName": "",
+      "id": "c1ac2",
+      "name": "SM_Env_Ground_Tile_Supports_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "f6ef95e6-afda-4145-bce2-81688a5c73bb@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "f6ef95e6-afda-4145-bce2-81688a5c73bb@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "e5b72": {
+      "importer": "gltf-material",
+      "uuid": "f6ef95e6-afda-4145-bce2-81688a5c73bb@e5b72",
+      "displayName": "",
+      "id": "e5b72",
+      "name": "lambert94.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "39d14": {
+      "importer": "gltf-scene",
+      "uuid": "f6ef95e6-afda-4145-bce2-81688a5c73bb@39d14",
+      "displayName": "",
+      "id": "39d14",
+      "name": "SM_Env_Ground_Tile_Supports_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "f6ef95e6-afda-4145-bce2-81688a5c73bb@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "f6ef95e6-afda-4145-bce2-81688a5c73bb@39d14",
+    "assetFinder": {
+      "meshes": [
+        "f6ef95e6-afda-4145-bce2-81688a5c73bb@c1ac2"
+      ],
+      "skeletons": [],
+      "textures": [
+        "f6ef95e6-afda-4145-bce2-81688a5c73bb@20e81"
+      ],
+      "materials": [
+        "f6ef95e6-afda-4145-bce2-81688a5c73bb@e5b72"
+      ],
+      "scenes": [
+        "f6ef95e6-afda-4145-bce2-81688a5c73bb@39d14"
+      ]
+    }
+  }
+}

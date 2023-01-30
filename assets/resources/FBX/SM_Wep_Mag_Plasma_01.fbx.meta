@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "decb9b4a-06e0-4ed3-b164-29c4f351212c",
+  "files": [],
+  "subMetas": {
+    "f7da0": {
+      "importer": "gltf-mesh",
+      "uuid": "decb9b4a-06e0-4ed3-b164-29c4f351212c@f7da0",
+      "displayName": "",
+      "id": "f7da0",
+      "name": "SM_Wep_Mag_Plasma_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "decb9b4a-06e0-4ed3-b164-29c4f351212c@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "decb9b4a-06e0-4ed3-b164-29c4f351212c@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "decb9b4a-06e0-4ed3-b164-29c4f351212c@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "decb9b4a-06e0-4ed3-b164-29c4f351212c@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "98ca9": {
+      "importer": "gltf-scene",
+      "uuid": "decb9b4a-06e0-4ed3-b164-29c4f351212c@98ca9",
+      "displayName": "",
+      "id": "98ca9",
+      "name": "SM_Wep_Mag_Plasma_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "decb9b4a-06e0-4ed3-b164-29c4f351212c@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "decb9b4a-06e0-4ed3-b164-29c4f351212c@98ca9",
+    "assetFinder": {
+      "meshes": [
+        "decb9b4a-06e0-4ed3-b164-29c4f351212c@f7da0"
+      ],
+      "skeletons": [],
+      "textures": [
+        "decb9b4a-06e0-4ed3-b164-29c4f351212c@cc065"
+      ],
+      "materials": [
+        "decb9b4a-06e0-4ed3-b164-29c4f351212c@8d883"
+      ],
+      "scenes": [
+        "decb9b4a-06e0-4ed3-b164-29c4f351212c@98ca9"
+      ]
+    }
+  }
+}

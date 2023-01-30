@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "6d987716-4bb1-4394-89ef-8b35245b0a50",
+  "files": [],
+  "subMetas": {
+    "fa768": {
+      "importer": "gltf-mesh",
+      "uuid": "6d987716-4bb1-4394-89ef-8b35245b0a50@fa768",
+      "displayName": "",
+      "id": "fa768",
+      "name": "SM_Wep_Crosshair_04.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "6d987716-4bb1-4394-89ef-8b35245b0a50@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "6d987716-4bb1-4394-89ef-8b35245b0a50@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "6d987716-4bb1-4394-89ef-8b35245b0a50@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "6d987716-4bb1-4394-89ef-8b35245b0a50@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8fc95": {
+      "importer": "gltf-scene",
+      "uuid": "6d987716-4bb1-4394-89ef-8b35245b0a50@8fc95",
+      "displayName": "",
+      "id": "8fc95",
+      "name": "SM_Wep_Crosshair_04.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "6d987716-4bb1-4394-89ef-8b35245b0a50@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "6d987716-4bb1-4394-89ef-8b35245b0a50@8fc95",
+    "assetFinder": {
+      "meshes": [
+        "6d987716-4bb1-4394-89ef-8b35245b0a50@fa768"
+      ],
+      "skeletons": [],
+      "textures": [
+        "6d987716-4bb1-4394-89ef-8b35245b0a50@cc065"
+      ],
+      "materials": [
+        "6d987716-4bb1-4394-89ef-8b35245b0a50@8d883"
+      ],
+      "scenes": [
+        "6d987716-4bb1-4394-89ef-8b35245b0a50@8fc95"
+      ]
+    }
+  }
+}

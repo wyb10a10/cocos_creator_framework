@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "20ca5818-70e2-4b18-bc25-01ab931abcac",
+  "files": [],
+  "subMetas": {
+    "571b7": {
+      "importer": "gltf-mesh",
+      "uuid": "20ca5818-70e2-4b18-bc25-01ab931abcac@571b7",
+      "displayName": "",
+      "id": "571b7",
+      "name": "SM_Wep_Attachment_Rack_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "20ca5818-70e2-4b18-bc25-01ab931abcac@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "20ca5818-70e2-4b18-bc25-01ab931abcac@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "20ca5818-70e2-4b18-bc25-01ab931abcac@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "20ca5818-70e2-4b18-bc25-01ab931abcac@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "99ff8": {
+      "importer": "gltf-scene",
+      "uuid": "20ca5818-70e2-4b18-bc25-01ab931abcac@99ff8",
+      "displayName": "",
+      "id": "99ff8",
+      "name": "SM_Wep_Attachment_Rack_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "20ca5818-70e2-4b18-bc25-01ab931abcac@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "20ca5818-70e2-4b18-bc25-01ab931abcac@99ff8",
+    "assetFinder": {
+      "meshes": [
+        "20ca5818-70e2-4b18-bc25-01ab931abcac@571b7"
+      ],
+      "skeletons": [],
+      "textures": [
+        "20ca5818-70e2-4b18-bc25-01ab931abcac@cc065"
+      ],
+      "materials": [
+        "20ca5818-70e2-4b18-bc25-01ab931abcac@8d883"
+      ],
+      "scenes": [
+        "20ca5818-70e2-4b18-bc25-01ab931abcac@99ff8"
+      ]
+    }
+  }
+}

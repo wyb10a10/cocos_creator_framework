@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc",
+  "files": [],
+  "subMetas": {
+    "a3108": {
+      "importer": "gltf-mesh",
+      "uuid": "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc@a3108",
+      "displayName": "",
+      "id": "a3108",
+      "name": "SM_Prop_SatDish_03.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "33d15": {
+      "importer": "gltf-material",
+      "uuid": "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc@33d15",
+      "displayName": "",
+      "id": "33d15",
+      "name": "lambert232.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "361d8": {
+      "importer": "gltf-scene",
+      "uuid": "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc@361d8",
+      "displayName": "",
+      "id": "361d8",
+      "name": "SM_Prop_SatDish_03.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc@361d8",
+    "assetFinder": {
+      "meshes": [
+        "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc@a3108"
+      ],
+      "skeletons": [],
+      "textures": [
+        "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc@d20e9"
+      ],
+      "materials": [
+        "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc@33d15"
+      ],
+      "scenes": [
+        "431c9837-fc24-4d51-99ed-8ffc5a5f0ffc@361d8"
+      ]
+    }
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7",
+  "files": [],
+  "subMetas": {
+    "38810": {
+      "importer": "gltf-mesh",
+      "uuid": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@38810",
+      "displayName": "",
+      "id": "38810",
+      "name": "SM_HologramPods_01.mesh",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3a919": {
+      "importer": "gltf-mesh",
+      "uuid": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@3a919",
+      "displayName": "",
+      "id": "3a919",
+      "name": "SM_Bld_StripClub_Interior_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3fa31": {
+      "importer": "gltf-mesh",
+      "uuid": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@3fa31",
+      "displayName": "",
+      "id": "3fa31",
+      "name": "SM_Prop_Door_01.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6b68e": {
+      "importer": "gltf-mesh",
+      "uuid": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@6b68e",
+      "displayName": "",
+      "id": "6b68e",
+      "name": "SM_Prop_Door_02.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "792e9": {
+      "importer": "gltf-mesh",
+      "uuid": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@792e9",
+      "displayName": "",
+      "id": "792e9",
+      "name": "SM_Prop_Door_03.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9e336": {
+      "importer": "gltf-mesh",
+      "uuid": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@9e336",
+      "displayName": "",
+      "id": "9e336",
+      "name": "SM_Prop_Door_04.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "61d55": {
+      "importer": "gltf-mesh",
+      "uuid": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@61d55",
+      "displayName": "",
+      "id": "61d55",
+      "name": "SM_Prop_Door_05.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "87f64": {
+      "importer": "gltf-mesh",
+      "uuid": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@87f64",
+      "displayName": "",
+      "id": "87f64",
+      "name": "SM_Glass.mesh",
+      "userData": {
+        "gltfIndex": 7
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7986e": {
+      "importer": "texture",
+      "uuid": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@7986e",
+      "displayName": "",
+      "id": "7986e",
+      "name": "file972.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonScifi_01_A.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5f57d": {
+      "importer": "gltf-scene",
+      "uuid": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@5f57d",
+      "displayName": "",
+      "id": "5f57d",
+      "name": "SM_Bld_StripClub_Interior_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file972",
+        "uri": "db://assets/resources/Textures/PolygonScifi_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@5f57d",
+    "assetFinder": {
+      "meshes": [
+        "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@3a919",
+        "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@3fa31",
+        "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@6b68e",
+        "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@792e9",
+        "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@9e336",
+        "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@61d55",
+        "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@38810",
+        "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@87f64"
+      ],
+      "skeletons": [],
+      "textures": [
+        "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@7986e"
+      ],
+      "materials": [
+        "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@8d883"
+      ],
+      "scenes": [
+        "35676eb1-da6f-4ec3-b42a-b38f6199b0c7@5f57d"
+      ]
+    }
+  }
+}

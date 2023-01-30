@@ -1,0 +1,144 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "86ea4cde-274e-4b4a-8e7b-199c5e1173a0",
+  "files": [],
+  "subMetas": {
+    "5f348": {
+      "importer": "gltf-mesh",
+      "uuid": "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@5f348",
+      "displayName": "",
+      "id": "5f348",
+      "name": "SM_Bld_Section_Door_05.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "99b73": {
+      "importer": "gltf-mesh",
+      "uuid": "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@99b73",
+      "displayName": "",
+      "id": "99b73",
+      "name": "SM_Bld_Section_Door_05_Glass.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7dfce": {
+      "importer": "gltf-embeded-image",
+      "uuid": "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@7dfce",
+      "displayName": "",
+      "id": "7dfce",
+      "name": "file1081.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ba748": {
+      "importer": "texture",
+      "uuid": "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@ba748",
+      "displayName": "",
+      "id": "ba748",
+      "name": "file1081.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@7dfce"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d334": {
+      "importer": "gltf-material",
+      "uuid": "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@4d334",
+      "displayName": "",
+      "id": "4d334",
+      "name": "lambert964.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3c3d5": {
+      "importer": "gltf-scene",
+      "uuid": "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@3c3d5",
+      "displayName": "",
+      "id": "3c3d5",
+      "name": "SM_Bld_Section_Door_05.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1081",
+        "uri": "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@7dfce"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@3c3d5",
+    "assetFinder": {
+      "meshes": [
+        "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@5f348",
+        "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@99b73"
+      ],
+      "skeletons": [],
+      "textures": [
+        "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@ba748"
+      ],
+      "materials": [
+        "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@4d334"
+      ],
+      "scenes": [
+        "86ea4cde-274e-4b4a-8e7b-199c5e1173a0@3c3d5"
+      ]
+    }
+  }
+}

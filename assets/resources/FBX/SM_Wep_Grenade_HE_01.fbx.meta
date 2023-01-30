@@ -1,0 +1,162 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "bcb28250-97c4-4836-99bb-2e274f7e359d",
+  "files": [],
+  "subMetas": {
+    "1c727": {
+      "importer": "gltf-mesh",
+      "uuid": "bcb28250-97c4-4836-99bb-2e274f7e359d@1c727",
+      "displayName": "",
+      "id": "1c727",
+      "name": "SM_Wep_Grenade_HE_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "07800": {
+      "importer": "gltf-mesh",
+      "uuid": "bcb28250-97c4-4836-99bb-2e274f7e359d@07800",
+      "displayName": "",
+      "id": "07800",
+      "name": "SM_Wep_Grenade_HE_01_Pin.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d50a5": {
+      "importer": "gltf-mesh",
+      "uuid": "bcb28250-97c4-4836-99bb-2e274f7e359d@d50a5",
+      "displayName": "",
+      "id": "d50a5",
+      "name": "SM_Wep_Grenade_HE_01_Clip.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "bcb28250-97c4-4836-99bb-2e274f7e359d@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "bcb28250-97c4-4836-99bb-2e274f7e359d@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "bcb28250-97c4-4836-99bb-2e274f7e359d@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "bcb28250-97c4-4836-99bb-2e274f7e359d@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a20bc": {
+      "importer": "gltf-scene",
+      "uuid": "bcb28250-97c4-4836-99bb-2e274f7e359d@a20bc",
+      "displayName": "",
+      "id": "a20bc",
+      "name": "SM_Wep_Grenade_HE_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "bcb28250-97c4-4836-99bb-2e274f7e359d@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "bcb28250-97c4-4836-99bb-2e274f7e359d@a20bc",
+    "assetFinder": {
+      "meshes": [
+        "bcb28250-97c4-4836-99bb-2e274f7e359d@1c727",
+        "bcb28250-97c4-4836-99bb-2e274f7e359d@07800",
+        "bcb28250-97c4-4836-99bb-2e274f7e359d@d50a5"
+      ],
+      "skeletons": [],
+      "textures": [
+        "bcb28250-97c4-4836-99bb-2e274f7e359d@cc065"
+      ],
+      "materials": [
+        "bcb28250-97c4-4836-99bb-2e274f7e359d@8d883"
+      ],
+      "scenes": [
+        "bcb28250-97c4-4836-99bb-2e274f7e359d@a20bc"
+      ]
+    }
+  }
+}

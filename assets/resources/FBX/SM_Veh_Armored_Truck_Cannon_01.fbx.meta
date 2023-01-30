@@ -1,0 +1,144 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "1fac3604-b671-4081-8247-c21e39aaa0b6",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "1fac3604-b671-4081-8247-c21e39aaa0b6@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5ace0": {
+      "importer": "gltf-mesh",
+      "uuid": "1fac3604-b671-4081-8247-c21e39aaa0b6@5ace0",
+      "displayName": "",
+      "id": "5ace0",
+      "name": "SM_Veh_Armored_Truck_Cannon_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b444c": {
+      "importer": "gltf-mesh",
+      "uuid": "1fac3604-b671-4081-8247-c21e39aaa0b6@b444c",
+      "displayName": "",
+      "id": "b444c",
+      "name": "SM_Veh_Armored_Truck_Cannon_Barrel.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "1fac3604-b671-4081-8247-c21e39aaa0b6@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "1fac3604-b671-4081-8247-c21e39aaa0b6@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b7d27": {
+      "importer": "gltf-material",
+      "uuid": "1fac3604-b671-4081-8247-c21e39aaa0b6@b7d27",
+      "displayName": "",
+      "id": "b7d27",
+      "name": "Body1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1859b": {
+      "importer": "gltf-scene",
+      "uuid": "1fac3604-b671-4081-8247-c21e39aaa0b6@1859b",
+      "displayName": "",
+      "id": "1859b",
+      "name": "SM_Veh_Armored_Truck_Cannon_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "1fac3604-b671-4081-8247-c21e39aaa0b6@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "1fac3604-b671-4081-8247-c21e39aaa0b6@1859b",
+    "assetFinder": {
+      "meshes": [
+        "1fac3604-b671-4081-8247-c21e39aaa0b6@5ace0",
+        "1fac3604-b671-4081-8247-c21e39aaa0b6@b444c"
+      ],
+      "skeletons": [],
+      "textures": [
+        "1fac3604-b671-4081-8247-c21e39aaa0b6@20e81"
+      ],
+      "materials": [
+        "1fac3604-b671-4081-8247-c21e39aaa0b6@b7d27"
+      ],
+      "scenes": [
+        "1fac3604-b671-4081-8247-c21e39aaa0b6@1859b"
+      ]
+    }
+  }
+}

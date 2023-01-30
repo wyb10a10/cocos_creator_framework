@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9",
+  "files": [],
+  "subMetas": {
+    "b7ad1": {
+      "importer": "gltf-mesh",
+      "uuid": "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9@b7ad1",
+      "displayName": "",
+      "id": "b7ad1",
+      "name": "SM_Prop_Medical_Stool_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "64b1e": {
+      "importer": "gltf-scene",
+      "uuid": "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9@64b1e",
+      "displayName": "",
+      "id": "64b1e",
+      "name": "SM_Prop_Medical_Stool_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9@64b1e",
+    "assetFinder": {
+      "meshes": [
+        "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9@b7ad1"
+      ],
+      "skeletons": [],
+      "textures": [
+        "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9@d20e9"
+      ],
+      "materials": [
+        "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9@8d883"
+      ],
+      "scenes": [
+        "99d0b4c9-5ecb-4fe7-9b99-5a2a0ba4a1a9@64b1e"
+      ]
+    }
+  }
+}

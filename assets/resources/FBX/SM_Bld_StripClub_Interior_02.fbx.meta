@@ -1,0 +1,79 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "d29a8af8-6109-46df-b762-d9e6499cc32c",
+  "files": [],
+  "subMetas": {
+    "f964b": {
+      "importer": "gltf-mesh",
+      "uuid": "d29a8af8-6109-46df-b762-d9e6499cc32c@f964b",
+      "displayName": "",
+      "id": "f964b",
+      "name": "SM_Bld_StripClub_Interior_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "d29a8af8-6109-46df-b762-d9e6499cc32c@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9897c": {
+      "importer": "gltf-scene",
+      "uuid": "d29a8af8-6109-46df-b762-d9e6499cc32c@9897c",
+      "displayName": "",
+      "id": "9897c",
+      "name": "SM_Bld_StripClub_Interior_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "d29a8af8-6109-46df-b762-d9e6499cc32c@9897c",
+    "assetFinder": {
+      "meshes": [
+        "d29a8af8-6109-46df-b762-d9e6499cc32c@f964b"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "d29a8af8-6109-46df-b762-d9e6499cc32c@8d883"
+      ],
+      "scenes": [
+        "d29a8af8-6109-46df-b762-d9e6499cc32c@9897c"
+      ]
+    }
+  }
+}

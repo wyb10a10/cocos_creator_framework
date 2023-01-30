@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "3cf18277-dfbc-4a87-b345-963bb428c548",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "3cf18277-dfbc-4a87-b345-963bb428c548@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1f434": {
+      "importer": "gltf-mesh",
+      "uuid": "3cf18277-dfbc-4a87-b345-963bb428c548@1f434",
+      "displayName": "",
+      "id": "1f434",
+      "name": "SM_Env_Railing_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "3cf18277-dfbc-4a87-b345-963bb428c548@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "3cf18277-dfbc-4a87-b345-963bb428c548@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "87fe8": {
+      "importer": "gltf-material",
+      "uuid": "3cf18277-dfbc-4a87-b345-963bb428c548@87fe8",
+      "displayName": "",
+      "id": "87fe8",
+      "name": "lambert106.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d4551": {
+      "importer": "gltf-scene",
+      "uuid": "3cf18277-dfbc-4a87-b345-963bb428c548@d4551",
+      "displayName": "",
+      "id": "d4551",
+      "name": "SM_Env_Railing_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "3cf18277-dfbc-4a87-b345-963bb428c548@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "3cf18277-dfbc-4a87-b345-963bb428c548@d4551",
+    "assetFinder": {
+      "meshes": [
+        "3cf18277-dfbc-4a87-b345-963bb428c548@1f434"
+      ],
+      "skeletons": [],
+      "textures": [
+        "3cf18277-dfbc-4a87-b345-963bb428c548@20e81"
+      ],
+      "materials": [
+        "3cf18277-dfbc-4a87-b345-963bb428c548@87fe8"
+      ],
+      "scenes": [
+        "3cf18277-dfbc-4a87-b345-963bb428c548@d4551"
+      ]
+    }
+  }
+}

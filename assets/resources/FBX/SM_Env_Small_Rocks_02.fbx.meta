@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "60f4211d-f21b-4b03-8330-b544b83f9ba7",
+  "files": [],
+  "subMetas": {
+    "72eb8": {
+      "importer": "gltf-mesh",
+      "uuid": "60f4211d-f21b-4b03-8330-b544b83f9ba7@72eb8",
+      "displayName": "",
+      "id": "72eb8",
+      "name": "SM_Env_Small_Rocks_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "60f4211d-f21b-4b03-8330-b544b83f9ba7@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "60f4211d-f21b-4b03-8330-b544b83f9ba7@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "60f4211d-f21b-4b03-8330-b544b83f9ba7@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "2565c": {
+      "importer": "gltf-material",
+      "uuid": "60f4211d-f21b-4b03-8330-b544b83f9ba7@2565c",
+      "displayName": "",
+      "id": "2565c",
+      "name": "lambert138.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "33a60": {
+      "importer": "gltf-scene",
+      "uuid": "60f4211d-f21b-4b03-8330-b544b83f9ba7@33a60",
+      "displayName": "",
+      "id": "33a60",
+      "name": "SM_Env_Small_Rocks_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "60f4211d-f21b-4b03-8330-b544b83f9ba7@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "60f4211d-f21b-4b03-8330-b544b83f9ba7@33a60",
+    "assetFinder": {
+      "meshes": [
+        "60f4211d-f21b-4b03-8330-b544b83f9ba7@72eb8"
+      ],
+      "skeletons": [],
+      "textures": [
+        "60f4211d-f21b-4b03-8330-b544b83f9ba7@d20e9"
+      ],
+      "materials": [
+        "60f4211d-f21b-4b03-8330-b544b83f9ba7@2565c"
+      ],
+      "scenes": [
+        "60f4211d-f21b-4b03-8330-b544b83f9ba7@33a60"
+      ]
+    }
+  }
+}

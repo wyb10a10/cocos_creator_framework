@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "fcc73a25-4901-43d6-9ec3-925eed9f64e3",
+  "files": [],
+  "subMetas": {
+    "9d440": {
+      "importer": "gltf-mesh",
+      "uuid": "fcc73a25-4901-43d6-9ec3-925eed9f64e3@9d440",
+      "displayName": "",
+      "id": "9d440",
+      "name": "SM_Prop_Meat_03.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "fcc73a25-4901-43d6-9ec3-925eed9f64e3@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "fcc73a25-4901-43d6-9ec3-925eed9f64e3@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "fcc73a25-4901-43d6-9ec3-925eed9f64e3@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9fc2f": {
+      "importer": "gltf-material",
+      "uuid": "fcc73a25-4901-43d6-9ec3-925eed9f64e3@9fc2f",
+      "displayName": "",
+      "id": "9fc2f",
+      "name": "lambert207.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c308d": {
+      "importer": "gltf-scene",
+      "uuid": "fcc73a25-4901-43d6-9ec3-925eed9f64e3@c308d",
+      "displayName": "",
+      "id": "c308d",
+      "name": "SM_Prop_Meat_03.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "fcc73a25-4901-43d6-9ec3-925eed9f64e3@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "fcc73a25-4901-43d6-9ec3-925eed9f64e3@c308d",
+    "assetFinder": {
+      "meshes": [
+        "fcc73a25-4901-43d6-9ec3-925eed9f64e3@9d440"
+      ],
+      "skeletons": [],
+      "textures": [
+        "fcc73a25-4901-43d6-9ec3-925eed9f64e3@d20e9"
+      ],
+      "materials": [
+        "fcc73a25-4901-43d6-9ec3-925eed9f64e3@9fc2f"
+      ],
+      "scenes": [
+        "fcc73a25-4901-43d6-9ec3-925eed9f64e3@c308d"
+      ]
+    }
+  }
+}

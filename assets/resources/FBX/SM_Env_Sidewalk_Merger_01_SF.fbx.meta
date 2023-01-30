@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "968571b1-f499-4004-952b-efd9c9010925",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "968571b1-f499-4004-952b-efd9c9010925@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "aaf4f": {
+      "importer": "gltf-mesh",
+      "uuid": "968571b1-f499-4004-952b-efd9c9010925@aaf4f",
+      "displayName": "",
+      "id": "aaf4f",
+      "name": "SM_Env_Sidewalk_Merger_01_SF.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "968571b1-f499-4004-952b-efd9c9010925@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "968571b1-f499-4004-952b-efd9c9010925@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5fa27": {
+      "importer": "gltf-material",
+      "uuid": "968571b1-f499-4004-952b-efd9c9010925@5fa27",
+      "displayName": "",
+      "id": "5fa27",
+      "name": "lambert128.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3386f": {
+      "importer": "gltf-scene",
+      "uuid": "968571b1-f499-4004-952b-efd9c9010925@3386f",
+      "displayName": "",
+      "id": "3386f",
+      "name": "SM_Env_Sidewalk_Merger_01_SF.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "968571b1-f499-4004-952b-efd9c9010925@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "968571b1-f499-4004-952b-efd9c9010925@3386f",
+    "assetFinder": {
+      "meshes": [
+        "968571b1-f499-4004-952b-efd9c9010925@aaf4f"
+      ],
+      "skeletons": [],
+      "textures": [
+        "968571b1-f499-4004-952b-efd9c9010925@20e81"
+      ],
+      "materials": [
+        "968571b1-f499-4004-952b-efd9c9010925@5fa27"
+      ],
+      "scenes": [
+        "968571b1-f499-4004-952b-efd9c9010925@3386f"
+      ]
+    }
+  }
+}

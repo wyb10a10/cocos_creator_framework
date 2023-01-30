@@ -1,0 +1,79 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "2d4082ee-a799-43f2-b5d8-831ab415d9c0",
+  "files": [],
+  "subMetas": {
+    "40b7b": {
+      "importer": "gltf-mesh",
+      "uuid": "2d4082ee-a799-43f2-b5d8-831ab415d9c0@40b7b",
+      "displayName": "",
+      "id": "40b7b",
+      "name": "SM_Prop_StripClub_Sofa_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "2d4082ee-a799-43f2-b5d8-831ab415d9c0@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "fed11": {
+      "importer": "gltf-scene",
+      "uuid": "2d4082ee-a799-43f2-b5d8-831ab415d9c0@fed11",
+      "displayName": "",
+      "id": "fed11",
+      "name": "SM_Prop_StripClub_Sofa_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "2d4082ee-a799-43f2-b5d8-831ab415d9c0@fed11",
+    "assetFinder": {
+      "meshes": [
+        "2d4082ee-a799-43f2-b5d8-831ab415d9c0@40b7b"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "2d4082ee-a799-43f2-b5d8-831ab415d9c0@8d883"
+      ],
+      "scenes": [
+        "2d4082ee-a799-43f2-b5d8-831ab415d9c0@fed11"
+      ]
+    }
+  }
+}

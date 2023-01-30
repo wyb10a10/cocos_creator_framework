@@ -1,0 +1,144 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2",
+  "files": [],
+  "subMetas": {
+    "896bd": {
+      "importer": "gltf-mesh",
+      "uuid": "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@896bd",
+      "displayName": "",
+      "id": "896bd",
+      "name": "SM_Prop_Hologram_Bottle_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7579b": {
+      "importer": "gltf-mesh",
+      "uuid": "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@7579b",
+      "displayName": "",
+      "id": "7579b",
+      "name": "SM_Prop_Bottle_02_Outline.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "daa77": {
+      "importer": "gltf-embeded-image",
+      "uuid": "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@daa77",
+      "displayName": "",
+      "id": "daa77",
+      "name": "file109.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a36aa": {
+      "importer": "texture",
+      "uuid": "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@a36aa",
+      "displayName": "",
+      "id": "a36aa",
+      "name": "file109.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@daa77"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "23c6c": {
+      "importer": "gltf-material",
+      "uuid": "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@23c6c",
+      "displayName": "",
+      "id": "23c6c",
+      "name": "lambert27.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6f145": {
+      "importer": "gltf-scene",
+      "uuid": "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@6f145",
+      "displayName": "",
+      "id": "6f145",
+      "name": "SM_Prop_Hologram_Bottle_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file109",
+        "uri": "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@daa77"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@6f145",
+    "assetFinder": {
+      "meshes": [
+        "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@896bd",
+        "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@7579b"
+      ],
+      "skeletons": [],
+      "textures": [
+        "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@a36aa"
+      ],
+      "materials": [
+        "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@23c6c"
+      ],
+      "scenes": [
+        "c4316d5f-8e7c-4d44-ae89-dcf605a92ba2@6f145"
+      ]
+    }
+  }
+}

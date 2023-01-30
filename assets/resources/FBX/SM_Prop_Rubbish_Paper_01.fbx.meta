@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "b48e30c0-5fb1-427e-aae7-23f749a483f6",
+  "files": [],
+  "subMetas": {
+    "22516": {
+      "importer": "gltf-mesh",
+      "uuid": "b48e30c0-5fb1-427e-aae7-23f749a483f6@22516",
+      "displayName": "",
+      "id": "22516",
+      "name": "SM_Prop_Rubbish_Paper_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "b48e30c0-5fb1-427e-aae7-23f749a483f6@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "b48e30c0-5fb1-427e-aae7-23f749a483f6@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "b48e30c0-5fb1-427e-aae7-23f749a483f6@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "adebd": {
+      "importer": "gltf-material",
+      "uuid": "b48e30c0-5fb1-427e-aae7-23f749a483f6@adebd",
+      "displayName": "",
+      "id": "adebd",
+      "name": "lambert214.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "29e40": {
+      "importer": "gltf-scene",
+      "uuid": "b48e30c0-5fb1-427e-aae7-23f749a483f6@29e40",
+      "displayName": "",
+      "id": "29e40",
+      "name": "SM_Prop_Rubbish_Paper_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "b48e30c0-5fb1-427e-aae7-23f749a483f6@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "b48e30c0-5fb1-427e-aae7-23f749a483f6@29e40",
+    "assetFinder": {
+      "meshes": [
+        "b48e30c0-5fb1-427e-aae7-23f749a483f6@22516"
+      ],
+      "skeletons": [],
+      "textures": [
+        "b48e30c0-5fb1-427e-aae7-23f749a483f6@d20e9"
+      ],
+      "materials": [
+        "b48e30c0-5fb1-427e-aae7-23f749a483f6@adebd"
+      ],
+      "scenes": [
+        "b48e30c0-5fb1-427e-aae7-23f749a483f6@29e40"
+      ]
+    }
+  }
+}

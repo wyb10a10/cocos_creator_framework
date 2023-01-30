@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "b1000acf-3f08-4652-aef5-ba3b72f7e0c2",
+  "files": [],
+  "subMetas": {
+    "f15b0": {
+      "importer": "gltf-mesh",
+      "uuid": "b1000acf-3f08-4652-aef5-ba3b72f7e0c2@f15b0",
+      "displayName": "",
+      "id": "f15b0",
+      "name": "SM_Prop_Vent_04.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "b1000acf-3f08-4652-aef5-ba3b72f7e0c2@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "b1000acf-3f08-4652-aef5-ba3b72f7e0c2@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "b1000acf-3f08-4652-aef5-ba3b72f7e0c2@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4fc4a": {
+      "importer": "gltf-material",
+      "uuid": "b1000acf-3f08-4652-aef5-ba3b72f7e0c2@4fc4a",
+      "displayName": "",
+      "id": "4fc4a",
+      "name": "lambert253.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "faa1d": {
+      "importer": "gltf-scene",
+      "uuid": "b1000acf-3f08-4652-aef5-ba3b72f7e0c2@faa1d",
+      "displayName": "",
+      "id": "faa1d",
+      "name": "SM_Prop_Vent_04.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "b1000acf-3f08-4652-aef5-ba3b72f7e0c2@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "b1000acf-3f08-4652-aef5-ba3b72f7e0c2@faa1d",
+    "assetFinder": {
+      "meshes": [
+        "b1000acf-3f08-4652-aef5-ba3b72f7e0c2@f15b0"
+      ],
+      "skeletons": [],
+      "textures": [
+        "b1000acf-3f08-4652-aef5-ba3b72f7e0c2@d20e9"
+      ],
+      "materials": [
+        "b1000acf-3f08-4652-aef5-ba3b72f7e0c2@4fc4a"
+      ],
+      "scenes": [
+        "b1000acf-3f08-4652-aef5-ba3b72f7e0c2@faa1d"
+      ]
+    }
+  }
+}

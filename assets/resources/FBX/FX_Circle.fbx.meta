@@ -1,0 +1,79 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "9738f275-fe42-46b0-ba2b-53fbeea1e21c",
+  "files": [],
+  "subMetas": {
+    "e34ce": {
+      "importer": "gltf-mesh",
+      "uuid": "9738f275-fe42-46b0-ba2b-53fbeea1e21c@e34ce",
+      "displayName": "",
+      "id": "e34ce",
+      "name": "FX_Circle.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "9738f275-fe42-46b0-ba2b-53fbeea1e21c@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1259b": {
+      "importer": "gltf-scene",
+      "uuid": "9738f275-fe42-46b0-ba2b-53fbeea1e21c@1259b",
+      "displayName": "",
+      "id": "1259b",
+      "name": "FX_Circle.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "9738f275-fe42-46b0-ba2b-53fbeea1e21c@1259b",
+    "assetFinder": {
+      "meshes": [
+        "9738f275-fe42-46b0-ba2b-53fbeea1e21c@e34ce"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "9738f275-fe42-46b0-ba2b-53fbeea1e21c@8d883"
+      ],
+      "scenes": [
+        "9738f275-fe42-46b0-ba2b-53fbeea1e21c@1259b"
+      ]
+    }
+  }
+}

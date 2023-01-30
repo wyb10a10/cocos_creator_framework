@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "bdde1962-574a-436b-96b1-ea81f1702fc8",
+  "files": [],
+  "subMetas": {
+    "10254": {
+      "importer": "texture",
+      "uuid": "bdde1962-574a-436b-96b1-ea81f1702fc8@10254",
+      "displayName": "",
+      "id": "10254",
+      "name": "file1026.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "bdde1962-574a-436b-96b1-ea81f1702fc8@9f3a6"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cd392": {
+      "importer": "gltf-mesh",
+      "uuid": "bdde1962-574a-436b-96b1-ea81f1702fc8@cd392",
+      "displayName": "",
+      "id": "cd392",
+      "name": "SM_Bld_Section_Door_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9f3a6": {
+      "importer": "gltf-embeded-image",
+      "uuid": "bdde1962-574a-436b-96b1-ea81f1702fc8@9f3a6",
+      "displayName": "",
+      "id": "9f3a6",
+      "name": "file1026.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1dca3": {
+      "importer": "gltf-material",
+      "uuid": "bdde1962-574a-436b-96b1-ea81f1702fc8@1dca3",
+      "displayName": "",
+      "id": "1dca3",
+      "name": "lambert900.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c782d": {
+      "importer": "gltf-scene",
+      "uuid": "bdde1962-574a-436b-96b1-ea81f1702fc8@c782d",
+      "displayName": "",
+      "id": "c782d",
+      "name": "SM_Bld_Section_Door_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1026",
+        "uri": "bdde1962-574a-436b-96b1-ea81f1702fc8@9f3a6"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "bdde1962-574a-436b-96b1-ea81f1702fc8@c782d",
+    "assetFinder": {
+      "meshes": [
+        "bdde1962-574a-436b-96b1-ea81f1702fc8@cd392"
+      ],
+      "skeletons": [],
+      "textures": [
+        "bdde1962-574a-436b-96b1-ea81f1702fc8@10254"
+      ],
+      "materials": [
+        "bdde1962-574a-436b-96b1-ea81f1702fc8@1dca3"
+      ],
+      "scenes": [
+        "bdde1962-574a-436b-96b1-ea81f1702fc8@c782d"
+      ]
+    }
+  }
+}

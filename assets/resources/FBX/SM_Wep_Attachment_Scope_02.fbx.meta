@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197",
+  "files": [],
+  "subMetas": {
+    "9cad0": {
+      "importer": "gltf-mesh",
+      "uuid": "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197@9cad0",
+      "displayName": "",
+      "id": "9cad0",
+      "name": "SM_Wep_Attachment_Scope_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8f198": {
+      "importer": "gltf-scene",
+      "uuid": "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197@8f198",
+      "displayName": "",
+      "id": "8f198",
+      "name": "SM_Wep_Attachment_Scope_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197@8f198",
+    "assetFinder": {
+      "meshes": [
+        "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197@9cad0"
+      ],
+      "skeletons": [],
+      "textures": [
+        "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197@cc065"
+      ],
+      "materials": [
+        "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197@8d883"
+      ],
+      "scenes": [
+        "01bcc53d-9f00-4e66-a90e-ac7a9ddbe197@8f198"
+      ]
+    }
+  }
+}

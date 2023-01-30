@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "3a1a0242-55fa-48bc-acb3-4479a9a701aa",
+  "files": [],
+  "subMetas": {
+    "99703": {
+      "importer": "texture",
+      "uuid": "3a1a0242-55fa-48bc-acb3-4479a9a701aa@99703",
+      "displayName": "",
+      "id": "99703",
+      "name": "file418.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "3a1a0242-55fa-48bc-acb3-4479a9a701aa@363b8"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "51bdc": {
+      "importer": "gltf-mesh",
+      "uuid": "3a1a0242-55fa-48bc-acb3-4479a9a701aa@51bdc",
+      "displayName": "",
+      "id": "51bdc",
+      "name": "SM_Prop_Fence_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "363b8": {
+      "importer": "gltf-embeded-image",
+      "uuid": "3a1a0242-55fa-48bc-acb3-4479a9a701aa@363b8",
+      "displayName": "",
+      "id": "363b8",
+      "name": "file418.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "10a9c": {
+      "importer": "gltf-material",
+      "uuid": "3a1a0242-55fa-48bc-acb3-4479a9a701aa@10a9c",
+      "displayName": "",
+      "id": "10a9c",
+      "name": "lambert185.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3e3f4": {
+      "importer": "gltf-scene",
+      "uuid": "3a1a0242-55fa-48bc-acb3-4479a9a701aa@3e3f4",
+      "displayName": "",
+      "id": "3e3f4",
+      "name": "SM_Prop_Fence_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file418",
+        "uri": "3a1a0242-55fa-48bc-acb3-4479a9a701aa@363b8"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "3a1a0242-55fa-48bc-acb3-4479a9a701aa@3e3f4",
+    "assetFinder": {
+      "meshes": [
+        "3a1a0242-55fa-48bc-acb3-4479a9a701aa@51bdc"
+      ],
+      "skeletons": [],
+      "textures": [
+        "3a1a0242-55fa-48bc-acb3-4479a9a701aa@99703"
+      ],
+      "materials": [
+        "3a1a0242-55fa-48bc-acb3-4479a9a701aa@10a9c"
+      ],
+      "scenes": [
+        "3a1a0242-55fa-48bc-acb3-4479a9a701aa@3e3f4"
+      ]
+    }
+  }
+}

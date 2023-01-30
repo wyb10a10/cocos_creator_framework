@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "4399c10b-2b55-4e83-adea-1cc6beca8191",
+  "files": [],
+  "subMetas": {
+    "cafd3": {
+      "importer": "gltf-mesh",
+      "uuid": "4399c10b-2b55-4e83-adea-1cc6beca8191@cafd3",
+      "displayName": "",
+      "id": "cafd3",
+      "name": "SM_Wep_Attachment_Ironsight_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "4399c10b-2b55-4e83-adea-1cc6beca8191@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "4399c10b-2b55-4e83-adea-1cc6beca8191@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "4399c10b-2b55-4e83-adea-1cc6beca8191@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "4399c10b-2b55-4e83-adea-1cc6beca8191@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "eca91": {
+      "importer": "gltf-scene",
+      "uuid": "4399c10b-2b55-4e83-adea-1cc6beca8191@eca91",
+      "displayName": "",
+      "id": "eca91",
+      "name": "SM_Wep_Attachment_Ironsight_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "4399c10b-2b55-4e83-adea-1cc6beca8191@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "4399c10b-2b55-4e83-adea-1cc6beca8191@eca91",
+    "assetFinder": {
+      "meshes": [
+        "4399c10b-2b55-4e83-adea-1cc6beca8191@cafd3"
+      ],
+      "skeletons": [],
+      "textures": [
+        "4399c10b-2b55-4e83-adea-1cc6beca8191@cc065"
+      ],
+      "materials": [
+        "4399c10b-2b55-4e83-adea-1cc6beca8191@8d883"
+      ],
+      "scenes": [
+        "4399c10b-2b55-4e83-adea-1cc6beca8191@eca91"
+      ]
+    }
+  }
+}

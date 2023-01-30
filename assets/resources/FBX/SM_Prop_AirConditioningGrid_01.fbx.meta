@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "f2802d39-469d-4159-90ab-50bd194616d1",
+  "files": [],
+  "subMetas": {
+    "b8b7b": {
+      "importer": "gltf-mesh",
+      "uuid": "f2802d39-469d-4159-90ab-50bd194616d1@b8b7b",
+      "displayName": "",
+      "id": "b8b7b",
+      "name": "SM_Prop_AirConditioningGrid_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "f2802d39-469d-4159-90ab-50bd194616d1@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "f2802d39-469d-4159-90ab-50bd194616d1@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "f2802d39-469d-4159-90ab-50bd194616d1@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "f2802d39-469d-4159-90ab-50bd194616d1@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7844c": {
+      "importer": "gltf-scene",
+      "uuid": "f2802d39-469d-4159-90ab-50bd194616d1@7844c",
+      "displayName": "",
+      "id": "7844c",
+      "name": "SM_Prop_AirConditioningGrid_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "f2802d39-469d-4159-90ab-50bd194616d1@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "f2802d39-469d-4159-90ab-50bd194616d1@7844c",
+    "assetFinder": {
+      "meshes": [
+        "f2802d39-469d-4159-90ab-50bd194616d1@b8b7b"
+      ],
+      "skeletons": [],
+      "textures": [
+        "f2802d39-469d-4159-90ab-50bd194616d1@d20e9"
+      ],
+      "materials": [
+        "f2802d39-469d-4159-90ab-50bd194616d1@8d883"
+      ],
+      "scenes": [
+        "f2802d39-469d-4159-90ab-50bd194616d1@7844c"
+      ]
+    }
+  }
+}

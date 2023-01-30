@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "645e985d-706a-4fd6-bfe2-e0918f2223d2",
+  "files": [],
+  "subMetas": {
+    "fd2c2": {
+      "importer": "gltf-mesh",
+      "uuid": "645e985d-706a-4fd6-bfe2-e0918f2223d2@fd2c2",
+      "displayName": "",
+      "id": "fd2c2",
+      "name": "SM_Sign_Billboard_Border_Tall_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "645e985d-706a-4fd6-bfe2-e0918f2223d2@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "645e985d-706a-4fd6-bfe2-e0918f2223d2@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "645e985d-706a-4fd6-bfe2-e0918f2223d2@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8ef2d": {
+      "importer": "gltf-material",
+      "uuid": "645e985d-706a-4fd6-bfe2-e0918f2223d2@8ef2d",
+      "displayName": "",
+      "id": "8ef2d",
+      "name": "lambert306.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6fcd0": {
+      "importer": "gltf-scene",
+      "uuid": "645e985d-706a-4fd6-bfe2-e0918f2223d2@6fcd0",
+      "displayName": "",
+      "id": "6fcd0",
+      "name": "SM_Sign_Billboard_Border_Tall_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "645e985d-706a-4fd6-bfe2-e0918f2223d2@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "645e985d-706a-4fd6-bfe2-e0918f2223d2@6fcd0",
+    "assetFinder": {
+      "meshes": [
+        "645e985d-706a-4fd6-bfe2-e0918f2223d2@fd2c2"
+      ],
+      "skeletons": [],
+      "textures": [
+        "645e985d-706a-4fd6-bfe2-e0918f2223d2@d20e9"
+      ],
+      "materials": [
+        "645e985d-706a-4fd6-bfe2-e0918f2223d2@8ef2d"
+      ],
+      "scenes": [
+        "645e985d-706a-4fd6-bfe2-e0918f2223d2@6fcd0"
+      ]
+    }
+  }
+}

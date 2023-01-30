@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "cace9242-d254-47d4-aaa2-05f68710c7b1",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "cace9242-d254-47d4-aaa2-05f68710c7b1@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "fc8a7": {
+      "importer": "gltf-mesh",
+      "uuid": "cace9242-d254-47d4-aaa2-05f68710c7b1@fc8a7",
+      "displayName": "",
+      "id": "fc8a7",
+      "name": "SM_Bld_Underpass_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "cace9242-d254-47d4-aaa2-05f68710c7b1@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "cace9242-d254-47d4-aaa2-05f68710c7b1@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "761a2": {
+      "importer": "gltf-material",
+      "uuid": "cace9242-d254-47d4-aaa2-05f68710c7b1@761a2",
+      "displayName": "",
+      "id": "761a2",
+      "name": "lambert58.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8bf52": {
+      "importer": "gltf-scene",
+      "uuid": "cace9242-d254-47d4-aaa2-05f68710c7b1@8bf52",
+      "displayName": "",
+      "id": "8bf52",
+      "name": "SM_Bld_Underpass_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "cace9242-d254-47d4-aaa2-05f68710c7b1@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "cace9242-d254-47d4-aaa2-05f68710c7b1@8bf52",
+    "assetFinder": {
+      "meshes": [
+        "cace9242-d254-47d4-aaa2-05f68710c7b1@fc8a7"
+      ],
+      "skeletons": [],
+      "textures": [
+        "cace9242-d254-47d4-aaa2-05f68710c7b1@20e81"
+      ],
+      "materials": [
+        "cace9242-d254-47d4-aaa2-05f68710c7b1@761a2"
+      ],
+      "scenes": [
+        "cace9242-d254-47d4-aaa2-05f68710c7b1@8bf52"
+      ]
+    }
+  }
+}

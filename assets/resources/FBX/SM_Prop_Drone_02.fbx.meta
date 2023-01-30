@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "46986b30-81de-437e-a8d7-0684f1581d59",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "46986b30-81de-437e-a8d7-0684f1581d59@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ecb30": {
+      "importer": "gltf-mesh",
+      "uuid": "46986b30-81de-437e-a8d7-0684f1581d59@ecb30",
+      "displayName": "",
+      "id": "ecb30",
+      "name": "SM_Prop_Drone_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "46986b30-81de-437e-a8d7-0684f1581d59@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "46986b30-81de-437e-a8d7-0684f1581d59@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4bf91": {
+      "importer": "gltf-material",
+      "uuid": "46986b30-81de-437e-a8d7-0684f1581d59@4bf91",
+      "displayName": "",
+      "id": "4bf91",
+      "name": "lambert183.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f2e08": {
+      "importer": "gltf-scene",
+      "uuid": "46986b30-81de-437e-a8d7-0684f1581d59@f2e08",
+      "displayName": "",
+      "id": "f2e08",
+      "name": "SM_Prop_Drone_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "46986b30-81de-437e-a8d7-0684f1581d59@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "46986b30-81de-437e-a8d7-0684f1581d59@f2e08",
+    "assetFinder": {
+      "meshes": [
+        "46986b30-81de-437e-a8d7-0684f1581d59@ecb30"
+      ],
+      "skeletons": [],
+      "textures": [
+        "46986b30-81de-437e-a8d7-0684f1581d59@20e81"
+      ],
+      "materials": [
+        "46986b30-81de-437e-a8d7-0684f1581d59@4bf91"
+      ],
+      "scenes": [
+        "46986b30-81de-437e-a8d7-0684f1581d59@f2e08"
+      ]
+    }
+  }
+}

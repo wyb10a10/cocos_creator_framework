@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "9093ef51-6df9-464a-a462-ef7ca3cce817",
+  "files": [],
+  "subMetas": {
+    "6db69": {
+      "importer": "gltf-mesh",
+      "uuid": "9093ef51-6df9-464a-a462-ef7ca3cce817@6db69",
+      "displayName": "",
+      "id": "6db69",
+      "name": "SM_Wep_Knife_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "9093ef51-6df9-464a-a462-ef7ca3cce817@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "9093ef51-6df9-464a-a462-ef7ca3cce817@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "9093ef51-6df9-464a-a462-ef7ca3cce817@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "9093ef51-6df9-464a-a462-ef7ca3cce817@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4bf02": {
+      "importer": "gltf-scene",
+      "uuid": "9093ef51-6df9-464a-a462-ef7ca3cce817@4bf02",
+      "displayName": "",
+      "id": "4bf02",
+      "name": "SM_Wep_Knife_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "9093ef51-6df9-464a-a462-ef7ca3cce817@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "9093ef51-6df9-464a-a462-ef7ca3cce817@4bf02",
+    "assetFinder": {
+      "meshes": [
+        "9093ef51-6df9-464a-a462-ef7ca3cce817@6db69"
+      ],
+      "skeletons": [],
+      "textures": [
+        "9093ef51-6df9-464a-a462-ef7ca3cce817@cc065"
+      ],
+      "materials": [
+        "9093ef51-6df9-464a-a462-ef7ca3cce817@8d883"
+      ],
+      "scenes": [
+        "9093ef51-6df9-464a-a462-ef7ca3cce817@4bf02"
+      ]
+    }
+  }
+}

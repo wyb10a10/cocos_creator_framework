@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "015cd92e-c441-4f5a-a641-370af58354bd",
+  "files": [],
+  "subMetas": {
+    "9385f": {
+      "importer": "gltf-mesh",
+      "uuid": "015cd92e-c441-4f5a-a641-370af58354bd@9385f",
+      "displayName": "",
+      "id": "9385f",
+      "name": "SM_Wep_Ammo_Pistol_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "015cd92e-c441-4f5a-a641-370af58354bd@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "015cd92e-c441-4f5a-a641-370af58354bd@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "015cd92e-c441-4f5a-a641-370af58354bd@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "015cd92e-c441-4f5a-a641-370af58354bd@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b44ed": {
+      "importer": "gltf-scene",
+      "uuid": "015cd92e-c441-4f5a-a641-370af58354bd@b44ed",
+      "displayName": "",
+      "id": "b44ed",
+      "name": "SM_Wep_Ammo_Pistol_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "015cd92e-c441-4f5a-a641-370af58354bd@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "015cd92e-c441-4f5a-a641-370af58354bd@b44ed",
+    "assetFinder": {
+      "meshes": [
+        "015cd92e-c441-4f5a-a641-370af58354bd@9385f"
+      ],
+      "skeletons": [],
+      "textures": [
+        "015cd92e-c441-4f5a-a641-370af58354bd@cc065"
+      ],
+      "materials": [
+        "015cd92e-c441-4f5a-a641-370af58354bd@8d883"
+      ],
+      "scenes": [
+        "015cd92e-c441-4f5a-a641-370af58354bd@b44ed"
+      ]
+    }
+  }
+}

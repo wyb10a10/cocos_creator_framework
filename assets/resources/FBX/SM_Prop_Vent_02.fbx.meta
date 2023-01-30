@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "f41c68b3-486c-4811-8d67-ef8c8eea2a85",
+  "files": [],
+  "subMetas": {
+    "73933": {
+      "importer": "gltf-material",
+      "uuid": "f41c68b3-486c-4811-8d67-ef8c8eea2a85@73933",
+      "displayName": "",
+      "id": "73933",
+      "name": "lambert251.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "758d8": {
+      "importer": "gltf-mesh",
+      "uuid": "f41c68b3-486c-4811-8d67-ef8c8eea2a85@758d8",
+      "displayName": "",
+      "id": "758d8",
+      "name": "SM_Prop_Vent_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "f41c68b3-486c-4811-8d67-ef8c8eea2a85@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "f41c68b3-486c-4811-8d67-ef8c8eea2a85@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "f41c68b3-486c-4811-8d67-ef8c8eea2a85@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cecca": {
+      "importer": "gltf-scene",
+      "uuid": "f41c68b3-486c-4811-8d67-ef8c8eea2a85@cecca",
+      "displayName": "",
+      "id": "cecca",
+      "name": "SM_Prop_Vent_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "f41c68b3-486c-4811-8d67-ef8c8eea2a85@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "f41c68b3-486c-4811-8d67-ef8c8eea2a85@cecca",
+    "assetFinder": {
+      "meshes": [
+        "f41c68b3-486c-4811-8d67-ef8c8eea2a85@758d8"
+      ],
+      "skeletons": [],
+      "textures": [
+        "f41c68b3-486c-4811-8d67-ef8c8eea2a85@d20e9"
+      ],
+      "materials": [
+        "f41c68b3-486c-4811-8d67-ef8c8eea2a85@73933"
+      ],
+      "scenes": [
+        "f41c68b3-486c-4811-8d67-ef8c8eea2a85@cecca"
+      ]
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "eed717a1-fae1-4893-a376-8f55e342db72",
+  "files": [],
+  "subMetas": {
+    "44ac5": {
+      "importer": "gltf-mesh",
+      "uuid": "eed717a1-fae1-4893-a376-8f55e342db72@44ac5",
+      "displayName": "",
+      "id": "44ac5",
+      "name": "SM_Prop_DeadZub_03.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "eed717a1-fae1-4893-a376-8f55e342db72@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "eed717a1-fae1-4893-a376-8f55e342db72@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "eed717a1-fae1-4893-a376-8f55e342db72@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "eed717a1-fae1-4893-a376-8f55e342db72@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cb389": {
+      "importer": "gltf-scene",
+      "uuid": "eed717a1-fae1-4893-a376-8f55e342db72@cb389",
+      "displayName": "",
+      "id": "cb389",
+      "name": "SM_Prop_DeadZub_03.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "eed717a1-fae1-4893-a376-8f55e342db72@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "eed717a1-fae1-4893-a376-8f55e342db72@cb389",
+    "assetFinder": {
+      "meshes": [
+        "eed717a1-fae1-4893-a376-8f55e342db72@44ac5"
+      ],
+      "skeletons": [],
+      "textures": [
+        "eed717a1-fae1-4893-a376-8f55e342db72@d20e9"
+      ],
+      "materials": [
+        "eed717a1-fae1-4893-a376-8f55e342db72@8d883"
+      ],
+      "scenes": [
+        "eed717a1-fae1-4893-a376-8f55e342db72@cb389"
+      ]
+    }
+  }
+}

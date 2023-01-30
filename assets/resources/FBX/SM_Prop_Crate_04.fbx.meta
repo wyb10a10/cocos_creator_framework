@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93",
+  "files": [],
+  "subMetas": {
+    "113db": {
+      "importer": "gltf-mesh",
+      "uuid": "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93@113db",
+      "displayName": "",
+      "id": "113db",
+      "name": "SM_Prop_Crate_04.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "2b56c": {
+      "importer": "gltf-material",
+      "uuid": "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93@2b56c",
+      "displayName": "",
+      "id": "2b56c",
+      "name": "lambert168.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d80cd": {
+      "importer": "gltf-scene",
+      "uuid": "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93@d80cd",
+      "displayName": "",
+      "id": "d80cd",
+      "name": "SM_Prop_Crate_04.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93@d80cd",
+    "assetFinder": {
+      "meshes": [
+        "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93@113db"
+      ],
+      "skeletons": [],
+      "textures": [
+        "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93@d20e9"
+      ],
+      "materials": [
+        "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93@2b56c"
+      ],
+      "scenes": [
+        "1c1066ab-6b92-4ceb-b721-0a9cdaf96e93@d80cd"
+      ]
+    }
+  }
+}

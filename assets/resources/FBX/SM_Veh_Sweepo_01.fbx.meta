@@ -1,0 +1,270 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac",
+  "files": [],
+  "subMetas": {
+    "99646": {
+      "importer": "gltf-embeded-image",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@99646",
+      "displayName": "",
+      "id": "99646",
+      "name": "file108.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "53e7e": {
+      "importer": "gltf-mesh",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@53e7e",
+      "displayName": "",
+      "id": "53e7e",
+      "name": "SM_Veh_Sweepo_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "53b68": {
+      "importer": "gltf-mesh",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@53b68",
+      "displayName": "",
+      "id": "53b68",
+      "name": "SM_Veh_Sweepo_Brush_L.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "97a7a": {
+      "importer": "gltf-mesh",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@97a7a",
+      "displayName": "",
+      "id": "97a7a",
+      "name": "SM_Veh_Sweepo_01_Wheel_fl.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9e7bb": {
+      "importer": "gltf-mesh",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@9e7bb",
+      "displayName": "",
+      "id": "9e7bb",
+      "name": "SM_Veh_Sweepo_01_Wheel_rl.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9b393": {
+      "importer": "gltf-mesh",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@9b393",
+      "displayName": "",
+      "id": "9b393",
+      "name": "SM_Veh_Sweepo_Brush_R.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1afd1": {
+      "importer": "gltf-mesh",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@1afd1",
+      "displayName": "",
+      "id": "1afd1",
+      "name": "SM_Veh_Sweepo_01_Wheel_rr.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "252a9": {
+      "importer": "gltf-mesh",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@252a9",
+      "displayName": "",
+      "id": "252a9",
+      "name": "SM_Veh_Sweepo_01_Wheel_fr.mesh",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9e8e7": {
+      "importer": "gltf-mesh",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@9e8e7",
+      "displayName": "",
+      "id": "9e8e7",
+      "name": "SM_Veh_Sweepo_01_Glass.mesh",
+      "userData": {
+        "gltfIndex": 7
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8028e": {
+      "importer": "gltf-mesh",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@8028e",
+      "displayName": "",
+      "id": "8028e",
+      "name": "SM_Veh_Sweepo_01_SteeringW.mesh",
+      "userData": {
+        "gltfIndex": 8
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "20e81": {
+      "importer": "texture",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@20e81",
+      "displayName": "",
+      "id": "20e81",
+      "name": "file108.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "329484f1-6377-40dd-9490-0ea3025de6ac@99646"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b7d27": {
+      "importer": "gltf-material",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@b7d27",
+      "displayName": "",
+      "id": "b7d27",
+      "name": "Body1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3a678": {
+      "importer": "gltf-scene",
+      "uuid": "329484f1-6377-40dd-9490-0ea3025de6ac@3a678",
+      "displayName": "",
+      "id": "3a678",
+      "name": "SM_Veh_Sweepo_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file108",
+        "uri": "329484f1-6377-40dd-9490-0ea3025de6ac@99646"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "329484f1-6377-40dd-9490-0ea3025de6ac@3a678",
+    "assetFinder": {
+      "meshes": [
+        "329484f1-6377-40dd-9490-0ea3025de6ac@53e7e",
+        "329484f1-6377-40dd-9490-0ea3025de6ac@53b68",
+        "329484f1-6377-40dd-9490-0ea3025de6ac@97a7a",
+        "329484f1-6377-40dd-9490-0ea3025de6ac@9e7bb",
+        "329484f1-6377-40dd-9490-0ea3025de6ac@9b393",
+        "329484f1-6377-40dd-9490-0ea3025de6ac@1afd1",
+        "329484f1-6377-40dd-9490-0ea3025de6ac@252a9",
+        "329484f1-6377-40dd-9490-0ea3025de6ac@9e8e7",
+        "329484f1-6377-40dd-9490-0ea3025de6ac@8028e"
+      ],
+      "skeletons": [],
+      "textures": [
+        "329484f1-6377-40dd-9490-0ea3025de6ac@20e81"
+      ],
+      "materials": [
+        "329484f1-6377-40dd-9490-0ea3025de6ac@b7d27"
+      ],
+      "scenes": [
+        "329484f1-6377-40dd-9490-0ea3025de6ac@3a678"
+      ]
+    }
+  }
+}

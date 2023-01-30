@@ -1,0 +1,144 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "aca636c5-0df5-40da-9674-f60ed9e70557",
+  "files": [],
+  "subMetas": {
+    "7d806": {
+      "importer": "gltf-mesh",
+      "uuid": "aca636c5-0df5-40da-9674-f60ed9e70557@7d806",
+      "displayName": "",
+      "id": "7d806",
+      "name": "SM_Wep_Attachment_Bipod_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0382c": {
+      "importer": "gltf-mesh",
+      "uuid": "aca636c5-0df5-40da-9674-f60ed9e70557@0382c",
+      "displayName": "",
+      "id": "0382c",
+      "name": "SM_Wep_Attachment_Bipod_Legs_01.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58e02": {
+      "importer": "gltf-embeded-image",
+      "uuid": "aca636c5-0df5-40da-9674-f60ed9e70557@58e02",
+      "displayName": "",
+      "id": "58e02",
+      "name": "file20.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cc065": {
+      "importer": "texture",
+      "uuid": "aca636c5-0df5-40da-9674-f60ed9e70557@cc065",
+      "displayName": "",
+      "id": "cc065",
+      "name": "file20.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "aca636c5-0df5-40da-9674-f60ed9e70557@58e02"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "aca636c5-0df5-40da-9674-f60ed9e70557@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c3122": {
+      "importer": "gltf-scene",
+      "uuid": "aca636c5-0df5-40da-9674-f60ed9e70557@c3122",
+      "displayName": "",
+      "id": "c3122",
+      "name": "SM_Wep_Attachment_Bipod_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file20",
+        "uri": "aca636c5-0df5-40da-9674-f60ed9e70557@58e02"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "aca636c5-0df5-40da-9674-f60ed9e70557@c3122",
+    "assetFinder": {
+      "meshes": [
+        "aca636c5-0df5-40da-9674-f60ed9e70557@7d806",
+        "aca636c5-0df5-40da-9674-f60ed9e70557@0382c"
+      ],
+      "skeletons": [],
+      "textures": [
+        "aca636c5-0df5-40da-9674-f60ed9e70557@cc065"
+      ],
+      "materials": [
+        "aca636c5-0df5-40da-9674-f60ed9e70557@8d883"
+      ],
+      "scenes": [
+        "aca636c5-0df5-40da-9674-f60ed9e70557@c3122"
+      ]
+    }
+  }
+}

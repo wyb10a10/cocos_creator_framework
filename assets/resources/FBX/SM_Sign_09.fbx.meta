@@ -1,0 +1,126 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b",
+  "files": [],
+  "subMetas": {
+    "a576a": {
+      "importer": "gltf-mesh",
+      "uuid": "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b@a576a",
+      "displayName": "",
+      "id": "a576a",
+      "name": "SM_Sign_09.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "43c71": {
+      "importer": "gltf-embeded-image",
+      "uuid": "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b@43c71",
+      "displayName": "",
+      "id": "43c71",
+      "name": "file1.image",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d20e9": {
+      "importer": "texture",
+      "uuid": "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b@d20e9",
+      "displayName": "",
+      "id": "d20e9",
+      "name": "file1.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b@43c71"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8d883": {
+      "importer": "gltf-material",
+      "uuid": "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b@8d883",
+      "displayName": "",
+      "id": "8d883",
+      "name": "lambert1.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4c0ba": {
+      "importer": "gltf-scene",
+      "uuid": "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b@4c0ba",
+      "displayName": "",
+      "id": "4c0ba",
+      "name": "SM_Sign_09.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1",
+        "uri": "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b@43c71"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b@4c0ba",
+    "assetFinder": {
+      "meshes": [
+        "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b@a576a"
+      ],
+      "skeletons": [],
+      "textures": [
+        "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b@d20e9"
+      ],
+      "materials": [
+        "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b@8d883"
+      ],
+      "scenes": [
+        "e1b85b5b-26cf-4a7e-b17e-28ebf4c28e2b@4c0ba"
+      ]
+    }
+  }
+}

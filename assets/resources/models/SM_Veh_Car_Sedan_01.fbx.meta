@@ -1,0 +1,280 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac",
+  "files": [],
+  "subMetas": {
+    "89897": {
+      "importer": "gltf-mesh",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@89897",
+      "displayName": "",
+      "id": "89897",
+      "name": "SM_Veh_Car_Sedan_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4c7ea": {
+      "importer": "gltf-mesh",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@4c7ea",
+      "displayName": "",
+      "id": "4c7ea",
+      "name": "SM_Veh_Car_Sedan_Glass.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5057a": {
+      "importer": "gltf-mesh",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@5057a",
+      "displayName": "",
+      "id": "5057a",
+      "name": "SM_Veh_Car_Sedan_Wheel_fl.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1cdcc": {
+      "importer": "gltf-mesh",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@1cdcc",
+      "displayName": "",
+      "id": "1cdcc",
+      "name": "SM_Veh_Car_Sedan_Wheel_rl.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "af802": {
+      "importer": "gltf-mesh",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@af802",
+      "displayName": "",
+      "id": "af802",
+      "name": "SM_Veh_Car_Sedan_Wheel_fr.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "58f6b": {
+      "importer": "gltf-mesh",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@58f6b",
+      "displayName": "",
+      "id": "58f6b",
+      "name": "SM_Veh_Car_Sedan_Wheel_rr.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "da175": {
+      "importer": "gltf-mesh",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@da175",
+      "displayName": "",
+      "id": "da175",
+      "name": "SM_Veh_Car_Sedan_SteeringW.mesh",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1d177": {
+      "importer": "gltf-mesh",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@1d177",
+      "displayName": "",
+      "id": "1d177",
+      "name": "SM_Veh_Car_Sedan_Plates.mesh",
+      "userData": {
+        "gltfIndex": 7
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "458dd": {
+      "importer": "gltf-material",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@458dd",
+      "displayName": "",
+      "id": "458dd",
+      "name": "Mat_Glass_01.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "bdf41": {
+      "importer": "gltf-scene",
+      "uuid": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@bdf41",
+      "displayName": "",
+      "id": "bdf41",
+      "name": "SM_Veh_Car_Sedan_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@bdf41",
+    "assetFinder": {
+      "meshes": [
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@89897",
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@4c7ea",
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@5057a",
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@1cdcc",
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@af802",
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@58f6b",
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@da175",
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@1d177"
+      ],
+      "skeletons": [],
+      "textures": [
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@4d57f",
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@099b0"
+      ],
+      "materials": [
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@627b1",
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@458dd"
+      ],
+      "scenes": [
+        "05b6d53c-e3ae-4c11-a1a9-5ab767e1b9ac@bdf41"
+      ]
+    }
+  }
+}

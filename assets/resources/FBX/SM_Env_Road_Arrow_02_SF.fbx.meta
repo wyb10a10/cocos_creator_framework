@@ -38,23 +38,6 @@
       ],
       "subMetas": {}
     },
-    "adacb": {
-      "importer": "gltf-embeded-image",
-      "uuid": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@adacb",
-      "displayName": "",
-      "id": "adacb",
-      "name": "file2.image",
-      "userData": {
-        "gltfIndex": 0
-      },
-      "ver": "1.0.3",
-      "imported": true,
-      "files": [
-        ".png",
-        ".json"
-      ],
-      "subMetas": {}
-    },
     "e873a": {
       "importer": "texture",
       "uuid": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@e873a",
@@ -68,8 +51,8 @@
         "magfilter": "linear",
         "mipfilter": "none",
         "anisotropy": 0,
-        "isUuid": true,
-        "imageUuidOrDatabaseUri": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@adacb"
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Road_01.png"
       },
       "ver": "1.0.21",
       "imported": true,
@@ -99,7 +82,7 @@
     "imageMetas": [
       {
         "name": "file2",
-        "uri": "3b53416d-5e89-4cd1-a7b8-db382c7f9d3c@adacb"
+        "uri": "db://assets/resources/Textures/PolygonCity_Road_01.png"
       }
     ],
     "legacyFbxImporter": false,

@@ -1,0 +1,137 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "deabf39b-a259-4f7e-8832-9f85c3043f97",
+  "files": [],
+  "subMetas": {
+    "3f488": {
+      "importer": "gltf-mesh",
+      "uuid": "deabf39b-a259-4f7e-8832-9f85c3043f97@3f488",
+      "displayName": "",
+      "id": "3f488",
+      "name": "SM_Prop_LargeSign_Noodles_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "deabf39b-a259-4f7e-8832-9f85c3043f97@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "deabf39b-a259-4f7e-8832-9f85c3043f97@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "deabf39b-a259-4f7e-8832-9f85c3043f97@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ce691": {
+      "importer": "gltf-scene",
+      "uuid": "deabf39b-a259-4f7e-8832-9f85c3043f97@ce691",
+      "displayName": "",
+      "id": "ce691",
+      "name": "SM_Prop_LargeSign_Noodles_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "deabf39b-a259-4f7e-8832-9f85c3043f97@ce691",
+    "assetFinder": {
+      "meshes": [
+        "deabf39b-a259-4f7e-8832-9f85c3043f97@3f488"
+      ],
+      "skeletons": [],
+      "textures": [
+        "deabf39b-a259-4f7e-8832-9f85c3043f97@4d57f",
+        "deabf39b-a259-4f7e-8832-9f85c3043f97@099b0"
+      ],
+      "materials": [
+        "deabf39b-a259-4f7e-8832-9f85c3043f97@627b1"
+      ],
+      "scenes": [
+        "deabf39b-a259-4f7e-8832-9f85c3043f97@ce691"
+      ]
+    }
+  }
+}

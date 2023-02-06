@@ -1,0 +1,137 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "2a67524f-886d-420a-9ad7-d7309472c29a",
+  "files": [],
+  "subMetas": {
+    "b1d55": {
+      "importer": "gltf-mesh",
+      "uuid": "2a67524f-886d-420a-9ad7-d7309472c29a@b1d55",
+      "displayName": "",
+      "id": "b1d55",
+      "name": "SM_Bld_Apartment_Corner_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "2a67524f-886d-420a-9ad7-d7309472c29a@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "2a67524f-886d-420a-9ad7-d7309472c29a@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "2a67524f-886d-420a-9ad7-d7309472c29a@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f5416": {
+      "importer": "gltf-scene",
+      "uuid": "2a67524f-886d-420a-9ad7-d7309472c29a@f5416",
+      "displayName": "",
+      "id": "f5416",
+      "name": "SM_Bld_Apartment_Corner_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "2a67524f-886d-420a-9ad7-d7309472c29a@f5416",
+    "assetFinder": {
+      "meshes": [
+        "2a67524f-886d-420a-9ad7-d7309472c29a@b1d55"
+      ],
+      "skeletons": [],
+      "textures": [
+        "2a67524f-886d-420a-9ad7-d7309472c29a@4d57f",
+        "2a67524f-886d-420a-9ad7-d7309472c29a@099b0"
+      ],
+      "materials": [
+        "2a67524f-886d-420a-9ad7-d7309472c29a@627b1"
+      ],
+      "scenes": [
+        "2a67524f-886d-420a-9ad7-d7309472c29a@f5416"
+      ]
+    }
+  }
+}

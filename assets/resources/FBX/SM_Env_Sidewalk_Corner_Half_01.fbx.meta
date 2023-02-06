@@ -22,23 +22,6 @@
       ],
       "subMetas": {}
     },
-    "174b8": {
-      "importer": "gltf-embeded-image",
-      "uuid": "0fbea806-0f43-4d05-9e3d-e0241471ec3a@174b8",
-      "displayName": "",
-      "id": "174b8",
-      "name": "file410.image",
-      "userData": {
-        "gltfIndex": 0
-      },
-      "ver": "1.0.3",
-      "imported": true,
-      "files": [
-        ".png",
-        ".json"
-      ],
-      "subMetas": {}
-    },
     "244d7": {
       "importer": "texture",
       "uuid": "0fbea806-0f43-4d05-9e3d-e0241471ec3a@244d7",
@@ -52,8 +35,8 @@
         "magfilter": "linear",
         "mipfilter": "none",
         "anisotropy": 0,
-        "isUuid": true,
-        "imageUuidOrDatabaseUri": "0fbea806-0f43-4d05-9e3d-e0241471ec3a@174b8"
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
       },
       "ver": "1.0.21",
       "imported": true,
@@ -99,7 +82,7 @@
     "imageMetas": [
       {
         "name": "file410",
-        "uri": "0fbea806-0f43-4d05-9e3d-e0241471ec3a@174b8"
+        "uri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
       }
     ],
     "legacyFbxImporter": false,

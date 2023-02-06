@@ -1,0 +1,137 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "fbf67d2a-5047-4465-be68-2c82c08100df",
+  "files": [],
+  "subMetas": {
+    "f2dc1": {
+      "importer": "gltf-mesh",
+      "uuid": "fbf67d2a-5047-4465-be68-2c82c08100df@f2dc1",
+      "displayName": "",
+      "id": "f2dc1",
+      "name": "SM_Prop_TrafficLight_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "fbf67d2a-5047-4465-be68-2c82c08100df@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "fbf67d2a-5047-4465-be68-2c82c08100df@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "fbf67d2a-5047-4465-be68-2c82c08100df@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "aba57": {
+      "importer": "gltf-scene",
+      "uuid": "fbf67d2a-5047-4465-be68-2c82c08100df@aba57",
+      "displayName": "",
+      "id": "aba57",
+      "name": "SM_Prop_TrafficLight_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "fbf67d2a-5047-4465-be68-2c82c08100df@aba57",
+    "assetFinder": {
+      "meshes": [
+        "fbf67d2a-5047-4465-be68-2c82c08100df@f2dc1"
+      ],
+      "skeletons": [],
+      "textures": [
+        "fbf67d2a-5047-4465-be68-2c82c08100df@4d57f",
+        "fbf67d2a-5047-4465-be68-2c82c08100df@099b0"
+      ],
+      "materials": [
+        "fbf67d2a-5047-4465-be68-2c82c08100df@627b1"
+      ],
+      "scenes": [
+        "fbf67d2a-5047-4465-be68-2c82c08100df@aba57"
+      ]
+    }
+  }
+}

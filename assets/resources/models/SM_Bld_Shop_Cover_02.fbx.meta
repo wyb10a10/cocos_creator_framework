@@ -1,0 +1,137 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "04cc4d3e-4871-4f97-91fb-105b5360c6e3",
+  "files": [],
+  "subMetas": {
+    "b8869": {
+      "importer": "gltf-mesh",
+      "uuid": "04cc4d3e-4871-4f97-91fb-105b5360c6e3@b8869",
+      "displayName": "",
+      "id": "b8869",
+      "name": "SM_Bld_Shop_Cover_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "04cc4d3e-4871-4f97-91fb-105b5360c6e3@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "04cc4d3e-4871-4f97-91fb-105b5360c6e3@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "04cc4d3e-4871-4f97-91fb-105b5360c6e3@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "07db2": {
+      "importer": "gltf-scene",
+      "uuid": "04cc4d3e-4871-4f97-91fb-105b5360c6e3@07db2",
+      "displayName": "",
+      "id": "07db2",
+      "name": "SM_Bld_Shop_Cover_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "04cc4d3e-4871-4f97-91fb-105b5360c6e3@07db2",
+    "assetFinder": {
+      "meshes": [
+        "04cc4d3e-4871-4f97-91fb-105b5360c6e3@b8869"
+      ],
+      "skeletons": [],
+      "textures": [
+        "04cc4d3e-4871-4f97-91fb-105b5360c6e3@4d57f",
+        "04cc4d3e-4871-4f97-91fb-105b5360c6e3@099b0"
+      ],
+      "materials": [
+        "04cc4d3e-4871-4f97-91fb-105b5360c6e3@627b1"
+      ],
+      "scenes": [
+        "04cc4d3e-4871-4f97-91fb-105b5360c6e3@07db2"
+      ]
+    }
+  }
+}

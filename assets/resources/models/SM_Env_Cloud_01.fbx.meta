@@ -1,0 +1,137 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "d1c5c0fb-53a7-41ac-b127-fcda89553254",
+  "files": [],
+  "subMetas": {
+    "b895b": {
+      "importer": "gltf-mesh",
+      "uuid": "d1c5c0fb-53a7-41ac-b127-fcda89553254@b895b",
+      "displayName": "",
+      "id": "b895b",
+      "name": "SM_Env_Cloud_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "d1c5c0fb-53a7-41ac-b127-fcda89553254@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "d1c5c0fb-53a7-41ac-b127-fcda89553254@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "d1c5c0fb-53a7-41ac-b127-fcda89553254@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "fa3ef": {
+      "importer": "gltf-scene",
+      "uuid": "d1c5c0fb-53a7-41ac-b127-fcda89553254@fa3ef",
+      "displayName": "",
+      "id": "fa3ef",
+      "name": "SM_Env_Cloud_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "d1c5c0fb-53a7-41ac-b127-fcda89553254@fa3ef",
+    "assetFinder": {
+      "meshes": [
+        "d1c5c0fb-53a7-41ac-b127-fcda89553254@b895b"
+      ],
+      "skeletons": [],
+      "textures": [
+        "d1c5c0fb-53a7-41ac-b127-fcda89553254@4d57f",
+        "d1c5c0fb-53a7-41ac-b127-fcda89553254@099b0"
+      ],
+      "materials": [
+        "d1c5c0fb-53a7-41ac-b127-fcda89553254@627b1"
+      ],
+      "scenes": [
+        "d1c5c0fb-53a7-41ac-b127-fcda89553254@fa3ef"
+      ]
+    }
+  }
+}

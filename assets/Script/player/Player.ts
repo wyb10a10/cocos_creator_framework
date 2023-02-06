@@ -7,9 +7,7 @@ import {
     Vec3,
     Animation,
     Node,
-    SkeletalAnimation,
-    AnimationState,
-    pingPong,
+    RigidBody,
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -18,6 +16,13 @@ import type { JoystickData } from "../joystick/Joystick";
 
 @ccclass("Player")
 export class Player extends Component {
+    @property({
+        type: RigidBody,
+        displayName: "rigidbody",
+        tooltip: "刚体"
+    })
+    rigidBody: RigidBody | null = null;
+
     @property({
         type: Vec3,
         displayName: "Move Dir",
@@ -57,6 +62,7 @@ export class Player extends Component {
         eventInst.on(Input.EventType.TOUCH_END, this.onTouchEnd, this);
 
         this._animationComponent = this.player!.getComponent(Animation);
+        this.rigidBody = this.player!.getComponent(RigidBody);
     }
 
     onTouchStart() {
@@ -74,6 +80,7 @@ export class Player extends Component {
     onTouchEnd(event: EventTouch, data: JoystickData) {
         this._animationComponent?.crossFade("idle");
         this._moveSpeed = 0;
+        this.rigidBody?.clearVelocity();
     }
 
     move(deltaTime: number) {
@@ -97,14 +104,16 @@ export class Player extends Component {
             }
         }
 
-        console.log(this._targetRotation.y, this._curRotation.y);
-
+        let curSpeed = new Vec3(this._moveSpeed * Math.sin(this.moveDir.x / 1.0), 0, this._moveSpeed * Math.sin(this.moveDir.z / 1.0));
+        /*
         const oldPos = this.node.getPosition();
         const newPos = oldPos?.add(
             this.moveDir.clone().multiplyScalar(this._moveSpeed * deltaTime)
         );
         this.node.setPosition(newPos);
         console.log(newPos);
+        */
+       this.rigidBody?.setLinearVelocity(curSpeed);
     }
 
     update(deltaTime: number) {

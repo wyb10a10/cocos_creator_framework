@@ -1,0 +1,109 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "8d60a29a-86d6-47aa-99b3-dccf72c45877",
+  "files": [],
+  "subMetas": {
+    "809d5": {
+      "importer": "gltf-mesh",
+      "uuid": "8d60a29a-86d6-47aa-99b3-dccf72c45877@809d5",
+      "displayName": "",
+      "id": "809d5",
+      "name": "SM_Prop_Billboard_Sign_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8eead": {
+      "importer": "texture",
+      "uuid": "8d60a29a-86d6-47aa-99b3-dccf72c45877@8eead",
+      "displayName": "",
+      "id": "8eead",
+      "name": "file1012.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/BillboardAds.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cf7ad": {
+      "importer": "gltf-material",
+      "uuid": "8d60a29a-86d6-47aa-99b3-dccf72c45877@cf7ad",
+      "displayName": "",
+      "id": "cf7ad",
+      "name": "Mat_Billboard_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "407bd": {
+      "importer": "gltf-scene",
+      "uuid": "8d60a29a-86d6-47aa-99b3-dccf72c45877@407bd",
+      "displayName": "",
+      "id": "407bd",
+      "name": "SM_Prop_Billboard_Sign_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1012",
+        "uri": "db://assets/resources/Textures/BillboardAds.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "8d60a29a-86d6-47aa-99b3-dccf72c45877@407bd",
+    "assetFinder": {
+      "meshes": [
+        "8d60a29a-86d6-47aa-99b3-dccf72c45877@809d5"
+      ],
+      "skeletons": [],
+      "textures": [
+        "8d60a29a-86d6-47aa-99b3-dccf72c45877@8eead"
+      ],
+      "materials": [
+        "8d60a29a-86d6-47aa-99b3-dccf72c45877@cf7ad"
+      ],
+      "scenes": [
+        "8d60a29a-86d6-47aa-99b3-dccf72c45877@407bd"
+      ]
+    }
+  }
+}

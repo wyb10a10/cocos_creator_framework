@@ -1,0 +1,172 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "41d3c3b4-0d47-4e64-b00c-bded5fba1699",
+  "files": [],
+  "subMetas": {
+    "9edf7": {
+      "importer": "gltf-mesh",
+      "uuid": "41d3c3b4-0d47-4e64-b00c-bded5fba1699@9edf7",
+      "displayName": "",
+      "id": "9edf7",
+      "name": "SM_Bld_OfficeOctagon_Base_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "062c4": {
+      "importer": "gltf-mesh",
+      "uuid": "41d3c3b4-0d47-4e64-b00c-bded5fba1699@062c4",
+      "displayName": "",
+      "id": "062c4",
+      "name": "SM_Bld_OfficeOctagon_Base_01_Glass.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "41d3c3b4-0d47-4e64-b00c-bded5fba1699@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "41d3c3b4-0d47-4e64-b00c-bded5fba1699@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "41d3c3b4-0d47-4e64-b00c-bded5fba1699@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "458dd": {
+      "importer": "gltf-material",
+      "uuid": "41d3c3b4-0d47-4e64-b00c-bded5fba1699@458dd",
+      "displayName": "",
+      "id": "458dd",
+      "name": "Mat_Glass_01.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "429bf": {
+      "importer": "gltf-scene",
+      "uuid": "41d3c3b4-0d47-4e64-b00c-bded5fba1699@429bf",
+      "displayName": "",
+      "id": "429bf",
+      "name": "SM_Bld_OfficeOctagon_Base_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "41d3c3b4-0d47-4e64-b00c-bded5fba1699@429bf",
+    "assetFinder": {
+      "meshes": [
+        "41d3c3b4-0d47-4e64-b00c-bded5fba1699@9edf7",
+        "41d3c3b4-0d47-4e64-b00c-bded5fba1699@062c4"
+      ],
+      "skeletons": [],
+      "textures": [
+        "41d3c3b4-0d47-4e64-b00c-bded5fba1699@4d57f",
+        "41d3c3b4-0d47-4e64-b00c-bded5fba1699@099b0"
+      ],
+      "materials": [
+        "41d3c3b4-0d47-4e64-b00c-bded5fba1699@627b1",
+        "41d3c3b4-0d47-4e64-b00c-bded5fba1699@458dd"
+      ],
+      "scenes": [
+        "41d3c3b4-0d47-4e64-b00c-bded5fba1699@429bf"
+      ]
+    }
+  }
+}

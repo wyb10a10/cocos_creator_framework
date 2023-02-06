@@ -1,0 +1,137 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "3ed7c2f2-73f1-4c48-b0e1-a705300aea66",
+  "files": [],
+  "subMetas": {
+    "ef5d3": {
+      "importer": "gltf-mesh",
+      "uuid": "3ed7c2f2-73f1-4c48-b0e1-a705300aea66@ef5d3",
+      "displayName": "",
+      "id": "ef5d3",
+      "name": "SM_Env_WaterEdge_Pipe_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "3ed7c2f2-73f1-4c48-b0e1-a705300aea66@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "3ed7c2f2-73f1-4c48-b0e1-a705300aea66@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "3ed7c2f2-73f1-4c48-b0e1-a705300aea66@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d5cb3": {
+      "importer": "gltf-scene",
+      "uuid": "3ed7c2f2-73f1-4c48-b0e1-a705300aea66@d5cb3",
+      "displayName": "",
+      "id": "d5cb3",
+      "name": "SM_Env_WaterEdge_Pipe_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "3ed7c2f2-73f1-4c48-b0e1-a705300aea66@d5cb3",
+    "assetFinder": {
+      "meshes": [
+        "3ed7c2f2-73f1-4c48-b0e1-a705300aea66@ef5d3"
+      ],
+      "skeletons": [],
+      "textures": [
+        "3ed7c2f2-73f1-4c48-b0e1-a705300aea66@4d57f",
+        "3ed7c2f2-73f1-4c48-b0e1-a705300aea66@099b0"
+      ],
+      "materials": [
+        "3ed7c2f2-73f1-4c48-b0e1-a705300aea66@627b1"
+      ],
+      "scenes": [
+        "3ed7c2f2-73f1-4c48-b0e1-a705300aea66@d5cb3"
+      ]
+    }
+  }
+}

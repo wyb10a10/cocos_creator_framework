@@ -10,5 +10,10 @@
     "legacyFbxImporter": {
       "visible": true
     }
+  },
+  "physics": {
+    "defaultMaterial": {
+      "restitution": 0
+    }
   }
 }

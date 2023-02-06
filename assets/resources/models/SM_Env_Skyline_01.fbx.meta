@@ -1,0 +1,109 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "4853d60d-341f-4f8c-a306-da83473116ae",
+  "files": [],
+  "subMetas": {
+    "6e584": {
+      "importer": "gltf-mesh",
+      "uuid": "4853d60d-341f-4f8c-a306-da83473116ae@6e584",
+      "displayName": "",
+      "id": "6e584",
+      "name": "SM_Env_Skyline_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3a660": {
+      "importer": "texture",
+      "uuid": "4853d60d-341f-4f8c-a306-da83473116ae@3a660",
+      "displayName": "",
+      "id": "3a660",
+      "name": "file1010.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Texture_Skyline.tga"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "46a2c": {
+      "importer": "gltf-material",
+      "uuid": "4853d60d-341f-4f8c-a306-da83473116ae@46a2c",
+      "displayName": "",
+      "id": "46a2c",
+      "name": "Mat_Skyline_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "39d5b": {
+      "importer": "gltf-scene",
+      "uuid": "4853d60d-341f-4f8c-a306-da83473116ae@39d5b",
+      "displayName": "",
+      "id": "39d5b",
+      "name": "SM_Env_Skyline_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1010",
+        "uri": "db://assets/resources/Textures/PolygonCity_Texture_Skyline.tga"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "4853d60d-341f-4f8c-a306-da83473116ae@39d5b",
+    "assetFinder": {
+      "meshes": [
+        "4853d60d-341f-4f8c-a306-da83473116ae@6e584"
+      ],
+      "skeletons": [],
+      "textures": [
+        "4853d60d-341f-4f8c-a306-da83473116ae@3a660"
+      ],
+      "materials": [
+        "4853d60d-341f-4f8c-a306-da83473116ae@46a2c"
+      ],
+      "scenes": [
+        "4853d60d-341f-4f8c-a306-da83473116ae@39d5b"
+      ]
+    }
+  }
+}

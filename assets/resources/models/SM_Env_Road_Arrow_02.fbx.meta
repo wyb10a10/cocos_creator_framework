@@ -1,0 +1,109 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "4e843b29-21ea-495d-a613-a1fe6ae9f839",
+  "files": [],
+  "subMetas": {
+    "b72e7": {
+      "importer": "gltf-mesh",
+      "uuid": "4e843b29-21ea-495d-a613-a1fe6ae9f839@b72e7",
+      "displayName": "",
+      "id": "b72e7",
+      "name": "SM_Env_Road_Arrow_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b1062": {
+      "importer": "texture",
+      "uuid": "4e843b29-21ea-495d-a613-a1fe6ae9f839@b1062",
+      "displayName": "",
+      "id": "b1062",
+      "name": "file1008.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Road_01.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "70e0f": {
+      "importer": "gltf-material",
+      "uuid": "4e843b29-21ea-495d-a613-a1fe6ae9f839@70e0f",
+      "displayName": "",
+      "id": "70e0f",
+      "name": "Mat_Road_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "583f2": {
+      "importer": "gltf-scene",
+      "uuid": "4e843b29-21ea-495d-a613-a1fe6ae9f839@583f2",
+      "displayName": "",
+      "id": "583f2",
+      "name": "SM_Env_Road_Arrow_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1008",
+        "uri": "db://assets/resources/Textures/PolygonCity_Road_01.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "4e843b29-21ea-495d-a613-a1fe6ae9f839@583f2",
+    "assetFinder": {
+      "meshes": [
+        "4e843b29-21ea-495d-a613-a1fe6ae9f839@b72e7"
+      ],
+      "skeletons": [],
+      "textures": [
+        "4e843b29-21ea-495d-a613-a1fe6ae9f839@b1062"
+      ],
+      "materials": [
+        "4e843b29-21ea-495d-a613-a1fe6ae9f839@70e0f"
+      ],
+      "scenes": [
+        "4e843b29-21ea-495d-a613-a1fe6ae9f839@583f2"
+      ]
+    }
+  }
+}

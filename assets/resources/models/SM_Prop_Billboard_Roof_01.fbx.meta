@@ -1,0 +1,137 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "2e56bf36-0b3f-43ba-ae3c-38ef02bdabae",
+  "files": [],
+  "subMetas": {
+    "b15c5": {
+      "importer": "gltf-mesh",
+      "uuid": "2e56bf36-0b3f-43ba-ae3c-38ef02bdabae@b15c5",
+      "displayName": "",
+      "id": "b15c5",
+      "name": "SM_Prop_Billboard_Roof_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "2e56bf36-0b3f-43ba-ae3c-38ef02bdabae@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "2e56bf36-0b3f-43ba-ae3c-38ef02bdabae@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "2e56bf36-0b3f-43ba-ae3c-38ef02bdabae@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "29dfa": {
+      "importer": "gltf-scene",
+      "uuid": "2e56bf36-0b3f-43ba-ae3c-38ef02bdabae@29dfa",
+      "displayName": "",
+      "id": "29dfa",
+      "name": "SM_Prop_Billboard_Roof_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/Textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/Textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "2e56bf36-0b3f-43ba-ae3c-38ef02bdabae@29dfa",
+    "assetFinder": {
+      "meshes": [
+        "2e56bf36-0b3f-43ba-ae3c-38ef02bdabae@b15c5"
+      ],
+      "skeletons": [],
+      "textures": [
+        "2e56bf36-0b3f-43ba-ae3c-38ef02bdabae@4d57f",
+        "2e56bf36-0b3f-43ba-ae3c-38ef02bdabae@099b0"
+      ],
+      "materials": [
+        "2e56bf36-0b3f-43ba-ae3c-38ef02bdabae@627b1"
+      ],
+      "scenes": [
+        "2e56bf36-0b3f-43ba-ae3c-38ef02bdabae@29dfa"
+      ]
+    }
+  }
+}

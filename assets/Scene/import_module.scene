@@ -24,20 +24,20 @@
         "__id__": 35
       },
       {
-        "__id__": 42
+        "__id__": 43
       },
       {
-        "__id__": 107
+        "__id__": 108
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 109
+      "__id__": 110
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 110
+      "__id__": 111
     },
     "_id": "95012268-9fb5-4ffe-811b-07370ab311c2"
   },
@@ -1087,10 +1087,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 39
+        "__id__": 40
       },
       {
-        "__id__": 41
+        "__id__": 42
       }
     ],
     "_prefab": null,
@@ -1135,13 +1135,16 @@
     "_components": [
       {
         "__id__": 37
+      },
+      {
+        "__id__": 39
       }
     ],
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 2.35,
+      "y": 1,
       "z": 0
     },
     "_lrot": {
@@ -1213,6 +1216,31 @@
     "_lightmapSize": 64
   },
   {
+    "__type__": "cc.BoxCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 36
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_material": null,
+    "_isTrigger": false,
+    "_center": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_size": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_id": "5c+RE5qcRF/J80kjFU+WRl"
+  },
+  {
     "__type__": "cc.MeshRenderer",
     "_name": "Cube<ModelComponent>",
     "_objFlags": 0,
@@ -1229,7 +1257,7 @@
       }
     ],
     "lightmapSettings": {
-      "__id__": 40
+      "__id__": 41
     },
     "_mesh": {
       "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@2e76e",
@@ -1292,13 +1320,13 @@
     },
     "_children": [
       {
-        "__id__": 43
+        "__id__": 44
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 106
+        "__id__": 107
       }
     ],
     "_prefab": null,
@@ -1335,26 +1363,26 @@
     "_name": "SK_Character_Alien_Male_01",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 42
+      "__id__": 43
     },
     "_children": [
       {
-        "__id__": 44
+        "__id__": 45
       },
       {
-        "__id__": 47
+        "__id__": 48
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 103
-      },
-      {
         "__id__": 104
       },
       {
         "__id__": 105
+      },
+      {
+        "__id__": 106
       }
     ],
     "_prefab": null,
@@ -1362,7 +1390,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 2.35,
-      "z": 0
+      "z": 2.067
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -1391,13 +1419,13 @@
     "_name": "SK_Character_Alien_Male_01",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 43
+      "__id__": 44
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 45
+        "__id__": 46
       }
     ],
     "_prefab": null,
@@ -1434,7 +1462,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 44
+      "__id__": 45
     },
     "_enabled": true,
     "__prefab": null,
@@ -1454,7 +1482,7 @@
       }
     ],
     "lightmapSettings": {
-      "__id__": 46
+      "__id__": 47
     },
     "_mesh": {
       "__uuid__": "5ce70548-bde9-4d5e-b295-b3672506741e@5995b",
@@ -1470,7 +1498,7 @@
       "__expectedType__": "cc.Skeleton"
     },
     "_skinningRoot": {
-      "__id__": 43
+      "__id__": 44
     },
     "_id": "76Pizye49J+prJwa1Sztit"
   },
@@ -1495,17 +1523,17 @@
     "_name": "Root",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 43
+      "__id__": 44
     },
     "_children": [
       {
-        "__id__": 48
+        "__id__": 49
       },
       {
-        "__id__": 96
+        "__id__": 97
       },
       {
-        "__id__": 99
+        "__id__": 100
       }
     ],
     "_active": true,
@@ -1544,17 +1572,17 @@
     "_name": "Pelvis",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 47
+      "__id__": 48
     },
     "_children": [
       {
-        "__id__": 49
+        "__id__": 50
       },
       {
-        "__id__": 86
+        "__id__": 87
       },
       {
-        "__id__": 91
+        "__id__": 92
       }
     ],
     "_active": true,
@@ -1593,11 +1621,11 @@
     "_name": "spine_01",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 48
+      "__id__": 49
     },
     "_children": [
       {
-        "__id__": 50
+        "__id__": 51
       }
     ],
     "_active": true,
@@ -1636,11 +1664,11 @@
     "_name": "spine_02",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 49
+      "__id__": 50
     },
     "_children": [
       {
-        "__id__": 51
+        "__id__": 52
       }
     ],
     "_active": true,
@@ -1679,17 +1707,17 @@
     "_name": "spine_03",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 50
+      "__id__": 51
     },
     "_children": [
       {
-        "__id__": 52
+        "__id__": 53
       },
       {
-        "__id__": 56
+        "__id__": 57
       },
       {
-        "__id__": 71
+        "__id__": 72
       }
     ],
     "_active": true,
@@ -1728,11 +1756,11 @@
     "_name": "neck_01",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 51
+      "__id__": 52
     },
     "_children": [
       {
-        "__id__": 53
+        "__id__": 54
       }
     ],
     "_active": true,
@@ -1771,14 +1799,14 @@
     "_name": "head",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 52
+      "__id__": 53
     },
     "_children": [
       {
-        "__id__": 54
+        "__id__": 55
       },
       {
-        "__id__": 55
+        "__id__": 56
       }
     ],
     "_active": true,
@@ -1817,7 +1845,7 @@
     "_name": "eyes",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 53
+      "__id__": 54
     },
     "_children": [],
     "_active": true,
@@ -1856,7 +1884,7 @@
     "_name": "eyebrows",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 53
+      "__id__": 54
     },
     "_children": [],
     "_active": true,
@@ -1895,11 +1923,11 @@
     "_name": "clavicle_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 51
+      "__id__": 52
     },
     "_children": [
       {
-        "__id__": 57
+        "__id__": 58
       }
     ],
     "_active": true,
@@ -1938,11 +1966,11 @@
     "_name": "UpperArm_L",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 56
+      "__id__": 57
     },
     "_children": [
       {
-        "__id__": 58
+        "__id__": 59
       }
     ],
     "_active": true,
@@ -1981,11 +2009,11 @@
     "_name": "lowerarm_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 57
+      "__id__": 58
     },
     "_children": [
       {
-        "__id__": 59
+        "__id__": 60
       }
     ],
     "_active": true,
@@ -2024,17 +2052,17 @@
     "_name": "Hand_L",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 58
+      "__id__": 59
     },
     "_children": [
       {
-        "__id__": 60
+        "__id__": 61
       },
       {
-        "__id__": 63
+        "__id__": 64
       },
       {
-        "__id__": 67
+        "__id__": 68
       }
     ],
     "_active": true,
@@ -2073,11 +2101,11 @@
     "_name": "thumb_01_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 59
+      "__id__": 60
     },
     "_children": [
       {
-        "__id__": 61
+        "__id__": 62
       }
     ],
     "_active": true,
@@ -2116,11 +2144,11 @@
     "_name": "thumb_02_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 60
+      "__id__": 61
     },
     "_children": [
       {
-        "__id__": 62
+        "__id__": 63
       }
     ],
     "_active": true,
@@ -2159,7 +2187,7 @@
     "_name": "thumb_03_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 61
+      "__id__": 62
     },
     "_children": [],
     "_active": true,
@@ -2198,11 +2226,11 @@
     "_name": "indexFinger_01_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 59
+      "__id__": 60
     },
     "_children": [
       {
-        "__id__": 64
+        "__id__": 65
       }
     ],
     "_active": true,
@@ -2241,11 +2269,11 @@
     "_name": "indexFinger_02_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 63
+      "__id__": 64
     },
     "_children": [
       {
-        "__id__": 65
+        "__id__": 66
       }
     ],
     "_active": true,
@@ -2284,11 +2312,11 @@
     "_name": "indexFinger_03_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 64
+      "__id__": 65
     },
     "_children": [
       {
-        "__id__": 66
+        "__id__": 67
       }
     ],
     "_active": true,
@@ -2327,7 +2355,7 @@
     "_name": "indexFinger_04_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 65
+      "__id__": 66
     },
     "_children": [],
     "_active": true,
@@ -2366,11 +2394,11 @@
     "_name": "finger_01_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 59
+      "__id__": 60
     },
     "_children": [
       {
-        "__id__": 68
+        "__id__": 69
       }
     ],
     "_active": true,
@@ -2409,11 +2437,11 @@
     "_name": "finger_02_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 67
+      "__id__": 68
     },
     "_children": [
       {
-        "__id__": 69
+        "__id__": 70
       }
     ],
     "_active": true,
@@ -2452,11 +2480,11 @@
     "_name": "finger_03_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 68
+      "__id__": 69
     },
     "_children": [
       {
-        "__id__": 70
+        "__id__": 71
       }
     ],
     "_active": true,
@@ -2495,7 +2523,7 @@
     "_name": "finger_04_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 69
+      "__id__": 70
     },
     "_children": [],
     "_active": true,
@@ -2534,11 +2562,11 @@
     "_name": "clavicle_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 51
+      "__id__": 52
     },
     "_children": [
       {
-        "__id__": 72
+        "__id__": 73
       }
     ],
     "_active": true,
@@ -2577,11 +2605,11 @@
     "_name": "UpperArm_R",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 71
+      "__id__": 72
     },
     "_children": [
       {
-        "__id__": 73
+        "__id__": 74
       }
     ],
     "_active": true,
@@ -2620,11 +2648,11 @@
     "_name": "lowerarm_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 72
+      "__id__": 73
     },
     "_children": [
       {
-        "__id__": 74
+        "__id__": 75
       }
     ],
     "_active": true,
@@ -2663,17 +2691,17 @@
     "_name": "Hand_R",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 73
+      "__id__": 74
     },
     "_children": [
       {
-        "__id__": 75
+        "__id__": 76
       },
       {
-        "__id__": 78
+        "__id__": 79
       },
       {
-        "__id__": 82
+        "__id__": 83
       }
     ],
     "_active": true,
@@ -2712,11 +2740,11 @@
     "_name": "thumb_01_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 74
+      "__id__": 75
     },
     "_children": [
       {
-        "__id__": 76
+        "__id__": 77
       }
     ],
     "_active": true,
@@ -2755,11 +2783,11 @@
     "_name": "thumb_02_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 75
+      "__id__": 76
     },
     "_children": [
       {
-        "__id__": 77
+        "__id__": 78
       }
     ],
     "_active": true,
@@ -2798,7 +2826,7 @@
     "_name": "thumb_03_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 76
+      "__id__": 77
     },
     "_children": [],
     "_active": true,
@@ -2837,11 +2865,11 @@
     "_name": "indexFinger_01_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 74
+      "__id__": 75
     },
     "_children": [
       {
-        "__id__": 79
+        "__id__": 80
       }
     ],
     "_active": true,
@@ -2880,11 +2908,11 @@
     "_name": "indexFinger_02_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 78
+      "__id__": 79
     },
     "_children": [
       {
-        "__id__": 80
+        "__id__": 81
       }
     ],
     "_active": true,
@@ -2923,11 +2951,11 @@
     "_name": "indexFinger_03_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 79
+      "__id__": 80
     },
     "_children": [
       {
-        "__id__": 81
+        "__id__": 82
       }
     ],
     "_active": true,
@@ -2966,7 +2994,7 @@
     "_name": "indexFinger_04_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 80
+      "__id__": 81
     },
     "_children": [],
     "_active": true,
@@ -3005,11 +3033,11 @@
     "_name": "finger_01_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 74
+      "__id__": 75
     },
     "_children": [
       {
-        "__id__": 83
+        "__id__": 84
       }
     ],
     "_active": true,
@@ -3048,11 +3076,11 @@
     "_name": "finger_02_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 82
+      "__id__": 83
     },
     "_children": [
       {
-        "__id__": 84
+        "__id__": 85
       }
     ],
     "_active": true,
@@ -3091,11 +3119,11 @@
     "_name": "finger_03_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 83
+      "__id__": 84
     },
     "_children": [
       {
-        "__id__": 85
+        "__id__": 86
       }
     ],
     "_active": true,
@@ -3134,7 +3162,7 @@
     "_name": "finger_04_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 84
+      "__id__": 85
     },
     "_children": [],
     "_active": true,
@@ -3173,11 +3201,11 @@
     "_name": "Thigh_R",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 48
+      "__id__": 49
     },
     "_children": [
       {
-        "__id__": 87
+        "__id__": 88
       }
     ],
     "_active": true,
@@ -3216,11 +3244,11 @@
     "_name": "calf_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 86
+      "__id__": 87
     },
     "_children": [
       {
-        "__id__": 88
+        "__id__": 89
       }
     ],
     "_active": true,
@@ -3259,11 +3287,11 @@
     "_name": "Foot_R",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 87
+      "__id__": 88
     },
     "_children": [
       {
-        "__id__": 89
+        "__id__": 90
       }
     ],
     "_active": true,
@@ -3302,11 +3330,11 @@
     "_name": "ball_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 88
+      "__id__": 89
     },
     "_children": [
       {
-        "__id__": 90
+        "__id__": 91
       }
     ],
     "_active": true,
@@ -3345,7 +3373,7 @@
     "_name": "toes_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 89
+      "__id__": 90
     },
     "_children": [],
     "_active": true,
@@ -3384,11 +3412,11 @@
     "_name": "Thigh_L",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 48
+      "__id__": 49
     },
     "_children": [
       {
-        "__id__": 92
+        "__id__": 93
       }
     ],
     "_active": true,
@@ -3427,11 +3455,11 @@
     "_name": "calf_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 91
+      "__id__": 92
     },
     "_children": [
       {
-        "__id__": 93
+        "__id__": 94
       }
     ],
     "_active": true,
@@ -3470,11 +3498,11 @@
     "_name": "Foot_L",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 92
+      "__id__": 93
     },
     "_children": [
       {
-        "__id__": 94
+        "__id__": 95
       }
     ],
     "_active": true,
@@ -3513,11 +3541,11 @@
     "_name": "ball_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 93
+      "__id__": 94
     },
     "_children": [
       {
-        "__id__": 95
+        "__id__": 96
       }
     ],
     "_active": true,
@@ -3556,7 +3584,7 @@
     "_name": "toes_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 94
+      "__id__": 95
     },
     "_children": [],
     "_active": true,
@@ -3595,14 +3623,14 @@
     "_name": "ik_foot_root",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 47
+      "__id__": 48
     },
     "_children": [
       {
-        "__id__": 97
+        "__id__": 98
       },
       {
-        "__id__": 98
+        "__id__": 99
       }
     ],
     "_active": true,
@@ -3641,7 +3669,7 @@
     "_name": "ik_foot_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 96
+      "__id__": 97
     },
     "_children": [],
     "_active": true,
@@ -3680,7 +3708,7 @@
     "_name": "ik_foot_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 96
+      "__id__": 97
     },
     "_children": [],
     "_active": true,
@@ -3719,11 +3747,11 @@
     "_name": "ik_hand_root",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 47
+      "__id__": 48
     },
     "_children": [
       {
-        "__id__": 100
+        "__id__": 101
       }
     ],
     "_active": true,
@@ -3762,14 +3790,14 @@
     "_name": "ik_hand_gun",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 99
+      "__id__": 100
     },
     "_children": [
       {
-        "__id__": 101
+        "__id__": 102
       },
       {
-        "__id__": 102
+        "__id__": 103
       }
     ],
     "_active": true,
@@ -3808,7 +3836,7 @@
     "_name": "ik_hand_l",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 100
+      "__id__": 101
     },
     "_children": [],
     "_active": true,
@@ -3847,7 +3875,7 @@
     "_name": "ik_hand_r",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 100
+      "__id__": 101
     },
     "_children": [],
     "_active": true,
@@ -3886,7 +3914,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 43
+      "__id__": 44
     },
     "_enabled": true,
     "__prefab": null,
@@ -3916,7 +3944,7 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
-      "__id__": 43
+      "__id__": 44
     },
     "_enabled": true,
     "__prefab": null,
@@ -3947,7 +3975,7 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
-      "__id__": 43
+      "__id__": 44
     },
     "_enabled": true,
     "__prefab": null,
@@ -3969,10 +3997,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 42
+      "__id__": 43
     },
     "_enabled": true,
     "__prefab": null,
+    "rigidBody": null,
     "moveDir": {
       "__type__": "cc.Vec3",
       "x": 0,
@@ -3981,7 +4010,7 @@
     },
     "moveSpeed": 5,
     "player": {
-      "__id__": 43
+      "__id__": 44
     },
     "_moveSpeed": 0,
     "_id": "883728qQBI8IFGZGvl+kkJ"
@@ -3998,7 +4027,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 108
+        "__id__": 109
       }
     ],
     "_prefab": null,
@@ -4035,7 +4064,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 107
+      "__id__": 108
     },
     "_enabled": true,
     "__prefab": null,
@@ -4078,19 +4107,19 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 111
-    },
-    "shadows": {
       "__id__": 112
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 113
     },
-    "fog": {
+    "_skybox": {
       "__id__": 114
     },
-    "octree": {
+    "fog": {
       "__id__": 115
+    },
+    "octree": {
+      "__id__": 116
     }
   },
   {

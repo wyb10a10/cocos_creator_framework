@@ -13,7 +13,7 @@
   },
   "physics": {
     "defaultMaterial": {
-      "restitution": 0
+      "restitution": 0.1
     }
   }
 }

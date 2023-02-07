@@ -62,7 +62,6 @@ export class Player extends Component {
         eventInst.on(Input.EventType.TOUCH_END, this.onTouchEnd, this);
 
         this._animationComponent = this.player!.getComponent(Animation);
-        this.rigidBody = this.player!.getComponent(RigidBody);
     }
 
     onTouchStart() {

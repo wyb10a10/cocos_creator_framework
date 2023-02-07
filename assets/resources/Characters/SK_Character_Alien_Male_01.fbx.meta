@@ -213,6 +213,74 @@
       "scenes": [
         "5ce70548-bde9-4d5e-b295-b3672506741e@2fd40"
       ]
+    },
+    "materials": {
+      "5ce70548-bde9-4d5e-b295-b3672506741e@d0a5b": {
+        "__type__": "cc.Material",
+        "_name": "",
+        "_objFlags": 0,
+        "_native": "",
+        "_effectAsset": {
+          "__uuid__": "f648964e-8d32-41fc-9ac9-7a1e714dd17b",
+          "__expectedType__": "cc.EffectAsset"
+        },
+        "_techIdx": 0,
+        "_defines": [
+          {
+            "USE_ALBEDO_MAP": true
+          },
+          {},
+          {}
+        ],
+        "_states": [
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          },
+          {
+            "rasterizerState": {},
+            "depthStencilState": {},
+            "blendState": {
+              "targets": [
+                {}
+              ]
+            }
+          }
+        ],
+        "_props": [
+          {
+            "mainTexture": {
+              "__uuid__": "27f91fbd-2ff2-4626-981e-9cd566f97006@6c48a",
+              "__expectedType__": "cc.Texture2D"
+            },
+            "albedoScale": 0.800000011920929,
+            "shininessExponentMap": {
+              "__uuid__": "815fbb6d-d9f6-4a32-9f5b-b7603f2ea94f@6c48a",
+              "__expectedType__": "cc.Texture2D"
+            },
+            "specularMap": {
+              "__uuid__": "815fbb6d-d9f6-4a32-9f5b-b7603f2ea94f@6c48a",
+              "__expectedType__": "cc.Texture2D"
+            }
+          },
+          {},
+          {}
+        ]
+      }
     }
   }
 }

@@ -13,6 +13,8 @@ const { ccclass, property } = _decorator;
 
 import { eventInst } from "../joystick/Joystick";
 import type { JoystickData } from "../joystick/Joystick";
+import { shootEventInst } from "../fight/ShootOp";
+import { GunSc } from "../fight/GunSc";
 
 @ccclass("Player")
 export class Player extends Component {
@@ -44,9 +46,19 @@ export class Player extends Component {
     player: Node | null = null;
 
     @property({
+        type: Node,
+        displayName: "Gun",
+        tooltip: "人物对象",
+    })
+    gun: Node | null = null;
+
+    @property({
         type: CCInteger,
     })
     _moveSpeed = 0;
+
+    // 射击状态
+    _isShooting = false;
 
     // 视角控制
     _oriRotation: Vec3 = new Vec3(0, 0, 0);
@@ -60,6 +72,9 @@ export class Player extends Component {
         eventInst.on(Input.EventType.TOUCH_START, this.onTouchStart, this);
         eventInst.on(Input.EventType.TOUCH_MOVE, this.onTouchMove, this);
         eventInst.on(Input.EventType.TOUCH_END, this.onTouchEnd, this);
+
+        shootEventInst.on(Input.EventType.TOUCH_START, this.startShooting, this)
+        shootEventInst.on(Input.EventType.TOUCH_END, this.stopShooting, this)
 
         this._animationComponent = this.player!.getComponent(Animation);
     }
@@ -80,6 +95,14 @@ export class Player extends Component {
         this._animationComponent?.crossFade("idle");
         this._moveSpeed = 0;
         this.rigidBody?.clearVelocity();
+    }
+
+    startShooting() {
+        this._isShooting = true;
+    }
+
+    stopShooting() {
+        this._isShooting = false;
     }
 
     move(deltaTime: number) {
@@ -113,12 +136,17 @@ export class Player extends Component {
         console.log(newPos);
         */
        this.rigidBody?.setLinearVelocity(curSpeed);
+        
     }
 
     update(deltaTime: number) {
         if (this._moveSpeed !== 0 && this.player !== null) {
             this.move(deltaTime);
         }
+       if (this._isShooting) {
+            let gunSc = this.gun?.getComponent(GunSc);
+            gunSc?.shot();
+       }
     }
 }
 

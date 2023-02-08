@@ -1,0 +1,80 @@
+{
+  "ver": "2.2.0",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "4958506c-713d-4f07-ad5e-e89e92880979",
+  "files": [],
+  "subMetas": {
+    "8c2fb": {
+      "importer": "gltf-mesh",
+      "uuid": "4958506c-713d-4f07-ad5e-e89e92880979@8c2fb",
+      "displayName": "",
+      "id": "8c2fb",
+      "name": "muzzleFlare.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b88e6": {
+      "importer": "gltf-material",
+      "uuid": "4958506c-713d-4f07-ad5e-e89e92880979@b88e6",
+      "displayName": "",
+      "id": "b88e6",
+      "name": "Default OBJ.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a0024": {
+      "importer": "gltf-scene",
+      "uuid": "4958506c-713d-4f07-ad5e-e89e92880979@a0024",
+      "displayName": "",
+      "id": "a0024",
+      "name": "muzzleFlare.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "legacyFbxImporter": false,
+    "redirect": "4958506c-713d-4f07-ad5e-e89e92880979@a0024",
+    "assetFinder": {
+      "meshes": [
+        "4958506c-713d-4f07-ad5e-e89e92880979@8c2fb"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "4958506c-713d-4f07-ad5e-e89e92880979@b88e6"
+      ],
+      "scenes": [
+        "4958506c-713d-4f07-ad5e-e89e92880979@a0024"
+      ]
+    },
+    "fbx": {
+      "preferLocalTimeSpan": false,
+      "smartMaterialEnabled": false
+    }
+  }
+}

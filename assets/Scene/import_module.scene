@@ -3611,9 +3611,16 @@
       {
         "__uuid__": "eb4fe565-c44d-430b-8a28-63de117ef15c@1f586",
         "__expectedType__": "cc.AnimationClip"
+      },
+      {
+        "__uuid__": "c7f34a9d-cd28-4cd1-91ab-2cdfb9295660@a0c23",
+        "__expectedType__": "cc.AnimationClip"
       }
     ],
-    "_defaultClip": null,
+    "_defaultClip": {
+      "__uuid__": "c7f34a9d-cd28-4cd1-91ab-2cdfb9295660@a0c23",
+      "__expectedType__": "cc.AnimationClip"
+    },
     "_useBakedAnimation": true,
     "_sockets": [],
     "_id": "64ik6e7LhFsq/9IojpXEZG"
@@ -4160,14 +4167,14 @@
       "x": 0.2392156862745098,
       "y": 0.3607843137254902,
       "z": 0.796078431372549,
-      "w": 1
+      "w": 0.520833125
     },
     "_skyColor": {
       "__type__": "cc.Vec4",
       "x": 0.2392156862745098,
       "y": 0.3607843137254902,
       "z": 0.796078431372549,
-      "w": 1
+      "w": 0.520833125
     },
     "_skyIllumHDR": 20000,
     "_skyIllum": 20000,

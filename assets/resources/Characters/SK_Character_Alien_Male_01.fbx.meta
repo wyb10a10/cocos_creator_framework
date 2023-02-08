@@ -4,7 +4,8 @@
   "imported": true,
   "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e",
   "files": [
-    "__original-animation-0.cconb"
+    "__original-animation-0.cconb",
+    "__original-animation-1.cconb"
   ],
   "subMetas": {
     "5995b": {
@@ -62,6 +63,29 @@
         "span": {
           "from": 1.3666666666666667,
           "to": 2.633333444595337
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    },
+    "18d6f": {
+      "importer": "gltf-animation",
+      "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e@18d6f",
+      "displayName": "",
+      "id": "18d6f",
+      "name": "mixamo.com.animation",
+      "userData": {
+        "gltfIndex": 1,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 1.2000000476837158
         },
         "events": []
       },
@@ -192,6 +216,19 @@
             "to": 2.633333444595337,
             "wrapMode": 22,
             "speed": 1
+          }
+        ]
+      },
+      {
+        "name": "mixamo.com",
+        "duration": 1.2000000476837158,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "mixamo.com",
+            "from": 0,
+            "to": 1.2000000476837158,
+            "wrapMode": 2
           }
         ]
       }

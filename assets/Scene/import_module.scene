@@ -4286,12 +4286,12 @@
         "__expectedType__": "cc.AnimationClip"
       },
       {
-        "__uuid__": "e3434998-a21c-4ddc-bfb3-03f50ddfeaec@8b652",
+        "__uuid__": "203bdb5d-8881-44c6-9891-4644a5339e7e@b719f",
         "__expectedType__": "cc.AnimationClip"
       }
     ],
     "_defaultClip": {
-      "__uuid__": "c7f34a9d-cd28-4cd1-91ab-2cdfb9295660@a0c23",
+      "__uuid__": "203bdb5d-8881-44c6-9891-4644a5339e7e@b719f",
       "__expectedType__": "cc.AnimationClip"
     },
     "_useBakedAnimation": false,

@@ -25,14 +25,23 @@ export class GunSc extends Component {
     @property(Node)
     muzzleNode: Node | null = null;
     private vec3: Vec3 = v3();
-    shot() {
-        this.createBullet();
-        const arr = this.fireEffect!.getComponentsInChildren(ParticleSystem);
-        for(let a of arr){
-            a.stop();
-            a.play();
+
+    private _shotCD: number = 0;
+
+    shot(deltaTime: number) {
+        if (this._shotCD <= 0) {
+            this.createBullet();
+            const arr = this.fireEffect!.getComponentsInChildren(ParticleSystem);
+            for(let a of arr){
+                a.stop();
+                a.play();
+            }
+            this._shotCD = 0.3;
+        } else {
+            this._shotCD -= deltaTime;
         }
     }
+
     private _quat = new Quat();
     private createBullet() {
         Vec3.subtract(this.vec3, this.muzzleNode!.worldPosition, this.node.worldPosition);

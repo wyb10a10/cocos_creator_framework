@@ -76,6 +76,7 @@ export class Player extends Component {
         shootEventInst.on(Input.EventType.TOUCH_START, this.startShooting, this)
         shootEventInst.on(Input.EventType.TOUCH_END, this.stopShooting, this)
 
+
         this._animationComponent = this.player!.getComponent(Animation);
     }
 
@@ -145,7 +146,7 @@ export class Player extends Component {
         }
        if (this._isShooting) {
             let gunSc = this.gun?.getComponent(GunSc);
-            gunSc?.shot();
+            gunSc?.shot(deltaTime);
        }
     }
 }

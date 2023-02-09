@@ -36,7 +36,7 @@ export class GunSc extends Component {
                 a.stop();
                 a.play();
             }
-            this._shotCD = 0.3;
+            this._shotCD = 0.1;
         } else {
             this._shotCD -= deltaTime;
         }
@@ -45,14 +45,15 @@ export class GunSc extends Component {
     private _quat = new Quat();
     private createBullet() {
         Vec3.subtract(this.vec3, this.muzzleNode!.worldPosition, this.node.worldPosition);
+        this.vec3.y = 0;
         const b = instantiate(this.bullet);
-        director.getScene().addChild(b);
+        director.getScene()?.addChild(b);
         b.setWorldPosition(this.muzzleNode!.worldPosition);
         b.setWorldRotation(this.muzzleNode!.worldRotation);
         let rot = this._quat;
         const speadValue = 0;
-        Quat.fromEuler(rot, (Math.random() * 2 - 1) * speadValue,
-            (Math.random() * 2 - 1) * speadValue, (Math.random() * 2 - 1) * speadValue);
+//        Quat.fromEuler(rot, (Math.random() * 2 - 1) * speadValue,
+//           (Math.random() * 2 - 1) * speadValue, (Math.random() * 2 - 1) * speadValue);
         Vec3.transformQuat(this.vec3,this.vec3.normalize(),rot);
         b.forward = this.vec3;
         b.getComponent(BulletSc).setVector(b.forward);

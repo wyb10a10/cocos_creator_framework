@@ -79,10 +79,8 @@ export class Joystick extends Component {
             return;
         }
 
-        console.log("66666");
         const size = this.radius * 2;
         const ringSize = new Size(size, size);
-        console.log(ringSize);
 
         this.ring.getComponent(UITransform)?.
             setContentSize(ringSize);

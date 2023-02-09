@@ -1,6 +1,7 @@
 
 import { _decorator, Component, Node, Vec3, v3, geometry, physics, RigidBody, game } from 'cc';
 import { AutoRecycleSc } from './AutoRecycleSc';
+import { BeHitHelper } from './BeHitHelper';
 import { ImpactHelperSc } from './ImpactHelperSc';
 const { ccclass, property } = _decorator;
 
@@ -41,7 +42,6 @@ export class BulletSc extends Component {
         if (this._vector) {
             Vec3.multiplyScalar(this._vec3, this._vector, deltaTime);
             this.node.position = this.node.position.add(this._vec3);
-            console.log(this.node.position);
             BulletSc.preCheck(this, this._vec3.length());
         }
     }
@@ -55,10 +55,13 @@ export class BulletSc extends Component {
                 let result = phy.raycastResults[0];    
                 game.emit(ImpactHelperSc.AddImpactEvent,b,result);
                 if (result.collider.getComponent(RigidBody)) {
-                    result.collider.getComponent(RigidBody).applyForce(b._vector, result.hitPoint);
+                    result.collider.getComponent(RigidBody)?.applyForce(b._vector, result.hitPoint);
+                }
+                if (result.collider.getComponent(BeHitHelper)) {
+                    result.collider.getComponent(BeHitHelper)?.beHit();
                 }
                 if (b.getComponent(AutoRecycleSc))
-                    b.getComponent(AutoRecycleSc).recycle();
+                    b.getComponent(AutoRecycleSc)?.recycle();
             }
         }
     }

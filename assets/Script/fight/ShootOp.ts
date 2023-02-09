@@ -27,16 +27,13 @@ export class ShootOp extends Component {
     }
 
     _touchStartEvent(event: EventTouch) {
-        console.log("start shoot");
         shootEventInst.emit(Input.EventType.TOUCH_START, event);
     }
 
     _touchMoveEvent(event: EventTouch) {
-        console.log("keep shoot");
     }
 
     _touchEndEvent(event: EventTouch) {
-        console.log("keep shoot");
         shootEventInst.emit(Input.EventType.TOUCH_END, event);
     }
 

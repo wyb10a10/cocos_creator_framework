@@ -4,8 +4,8 @@
   "imported": true,
   "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e",
   "files": [
-    "__original-animation-0.cconb",
-    "__original-animation-1.cconb"
+    "__original-animation-1.cconb",
+    "__original-animation-0.cconb"
   ],
   "subMetas": {
     "5995b": {
@@ -25,12 +25,12 @@
       ],
       "subMetas": {}
     },
-    "7f3dc": {
+    "f0865": {
       "importer": "gltf-animation",
-      "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e@7f3dc",
+      "uuid": "5ce70548-bde9-4d5e-b295-b3672506741e@f0865",
       "displayName": "",
-      "id": "7f3dc",
-      "name": "walk.animation",
+      "id": "f0865",
+      "name": "running.animation",
       "userData": {
         "gltfIndex": 0,
         "wrapMode": 22,
@@ -204,7 +204,7 @@
         "fps": 30,
         "splits": [
           {
-            "name": "walk",
+            "name": "running",
             "from": 0.6,
             "to": 1.3333333333333333,
             "wrapMode": 22,

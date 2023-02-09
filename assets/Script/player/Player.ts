@@ -67,6 +67,14 @@ export class Player extends Component {
 
     // 动画插件
     _animationComponent: Animation | null = null;
+    _curAnimationName : string = "";
+
+    playAni(tarAniName: string) {
+        if (tarAniName != this._curAnimationName) {
+            this._animationComponent?.play(tarAniName);
+            this._curAnimationName = tarAniName;
+        }
+    }
 
     onLoad() {
         eventInst.on(Input.EventType.TOUCH_START, this.onTouchStart, this);
@@ -85,7 +93,7 @@ export class Player extends Component {
 
     onTouchMove(event: EventTouch, data: JoystickData) {
         if (this._moveSpeed === 0) {
-            this._animationComponent!.play("walk");
+            this.playAni("running");
         }
         this._moveSpeed = this.moveSpeed;
         const curMoveDir = new Vec3(-data.moveDir.y, data.moveDir.z, -data.moveDir.x);
@@ -94,6 +102,7 @@ export class Player extends Component {
 
     onTouchEnd(event: EventTouch, data: JoystickData) {
         this._animationComponent?.crossFade("idle");
+        this._curAnimationName = "idle";
         this._moveSpeed = 0;
         this.rigidBody?.clearVelocity();
     }
@@ -136,6 +145,7 @@ export class Player extends Component {
         this.node.setPosition(newPos);
         console.log(newPos);
         */
+       console.log(curSpeed);
        this.rigidBody?.setLinearVelocity(curSpeed);
         
     }
@@ -145,6 +155,12 @@ export class Player extends Component {
             this.move(deltaTime);
         }
        if (this._isShooting) {
+            if (this._moveSpeed === 0) {
+                this._animationComponent?.play("idleAim");
+                this.playAni("idleAim");
+            } else {
+                this.playAni("walkAim");
+            }
             let gunSc = this.gun?.getComponent(GunSc);
             gunSc?.shot(deltaTime);
        }

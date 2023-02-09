@@ -258,13 +258,16 @@
         "_objFlags": 0,
         "_native": "",
         "_effectAsset": {
-          "__uuid__": "f648964e-8d32-41fc-9ac9-7a1e714dd17b",
+          "__uuid__": "1baf0fc9-befa-459c-8bdd-af1a450a0319",
           "__expectedType__": "cc.EffectAsset"
         },
         "_techIdx": 0,
         "_defines": [
           {
-            "USE_ALBEDO_MAP": true
+            "USE_NORMAL_MAP": true,
+            "USE_ALBEDO_MAP": true,
+            "USE_METALLIC_ROUGHNESS_MAP": true,
+            "USE_EMISSIVE_MAP": true
           },
           {},
           {}
@@ -300,17 +303,29 @@
         ],
         "_props": [
           {
+            "metallic": 0,
+            "emissive": {
+              "__type__": "cc.Color",
+              "r": 10,
+              "g": 10,
+              "b": 10,
+              "a": 255
+            },
+            "normalStrength": 0.5,
             "mainTexture": {
-              "__uuid__": "27f91fbd-2ff2-4626-981e-9cd566f97006@6c48a",
+              "__uuid__": "c6fa9466-a1d6-4579-82ee-b55a409d0831@6c48a",
               "__expectedType__": "cc.Texture2D"
             },
-            "albedoScale": 0.800000011920929,
-            "shininessExponentMap": {
-              "__uuid__": "815fbb6d-d9f6-4a32-9f5b-b7603f2ea94f@6c48a",
+            "normalMap": {
+              "__uuid__": "b5b472c5-0524-49f0-9551-090f08aa0a0e@6c48a",
               "__expectedType__": "cc.Texture2D"
             },
-            "specularMap": {
-              "__uuid__": "815fbb6d-d9f6-4a32-9f5b-b7603f2ea94f@6c48a",
+            "metallicRoughnessMap": {
+              "__uuid__": "c9a8c58f-63ed-42d3-af9a-64c079287b96@6c48a",
+              "__expectedType__": "cc.Texture2D"
+            },
+            "emissiveMap": {
+              "__uuid__": "07310834-b9c2-4ac5-951d-cd436d5227ae@6c48a",
               "__expectedType__": "cc.Texture2D"
             }
           },
@@ -318,6 +333,8 @@
           {}
         ]
       }
-    }
+    },
+    "dumpMaterials": false,
+    "materialDumpDir": "db://assets/resources/Characters/Materials_SK_Character_Alien_Male_01"
   }
 }

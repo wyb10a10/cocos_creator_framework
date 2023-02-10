@@ -1,5 +1,6 @@
 
 import { _decorator, Component, Node, Prefab, game, PhysicsRayResult, instantiate } from 'cc';
+import { BeHitHelper } from './BeHitHelper';
 import { BulletSc } from './BulletSc';
 const { ccclass, property } = _decorator;
 
@@ -30,7 +31,10 @@ export class ImpactHelperSc extends Component {
         impact.forward=e.hitNormal.multiplyScalar(-1);
         impact.scale = b.node.scale;
         impact.setParent(e.collider.node,true);
-        
+
+        if (e.collider.getComponent(BeHitHelper)) {
+            e.collider.getComponent(BeHitHelper)?.beHit()
+        }
     }
     // update (deltaTime: number) {
     //     // [4]

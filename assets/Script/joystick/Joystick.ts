@@ -15,7 +15,7 @@ import {
 } from "cc";
 const { ccclass, property } = _decorator;
 
-export const eventInst = new EventTarget()
+import { eventInst } from "../fight/InputHelper";
 
 export enum JoystickType {
     FIXED,

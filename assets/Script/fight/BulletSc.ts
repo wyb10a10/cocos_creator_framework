@@ -54,9 +54,11 @@ export class BulletSc extends Component {
             if (phy.raycastResults.length > 0) {
                 let result = phy.raycastResults[0];    
                 game.emit(ImpactHelperSc.AddImpactEvent,b,result);
+                /*
                 if (result.collider.getComponent(RigidBody)) {
                     result.collider.getComponent(RigidBody)?.applyForce(b._vector, result.hitPoint);
                 }
+                */
                 if (result.collider.getComponent(BeHitHelper)) {
                     result.collider.getComponent(BeHitHelper)?.beHit();
                 }

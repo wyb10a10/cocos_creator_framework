@@ -6,11 +6,20 @@ const { ccclass } = _decorator;
 export class BeHitHelper extends Component {
 
     
-    update(deltaTime: number) {
+    private alive: number = 1;
+    private delayDestoryTime: number = 0.2;
 
+    update(deltaTime: number) {
+        if (!this.alive) {
+            if (this.delayDestoryTime <= 0) {
+                this.node.destroy();
+            } else {
+                this.delayDestoryTime -= deltaTime;
+            }
+        }
     }
 
     beHit() {
-        this.node.destroy();
+        this.alive = 0;
     }
 }

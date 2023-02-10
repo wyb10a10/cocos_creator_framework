@@ -11,9 +11,8 @@ import {
 } from "cc";
 const { ccclass, property } = _decorator;
 
-import { eventInst } from "../joystick/Joystick";
 import type { JoystickData } from "../joystick/Joystick";
-import { shootEventInst } from "../fight/ShootOp";
+import { eventInst } from "../fight/InputHelper";
 import { GunSc } from "../fight/GunSc";
 
 @ccclass("Player")
@@ -81,8 +80,7 @@ export class Player extends Component {
         eventInst.on(Input.EventType.TOUCH_MOVE, this.onTouchMove, this);
         eventInst.on(Input.EventType.TOUCH_END, this.onTouchEnd, this);
 
-        shootEventInst.on(Input.EventType.TOUCH_START, this.startShooting, this)
-        shootEventInst.on(Input.EventType.TOUCH_END, this.stopShooting, this)
+        eventInst.on("shooting", this.shooting, this)
 
 
         this._animationComponent = this.player!.getComponent(Animation);
@@ -107,12 +105,12 @@ export class Player extends Component {
         this.rigidBody?.clearVelocity();
     }
 
-    startShooting() {
-        this._isShooting = true;
-    }
-
-    stopShooting() {
-        this._isShooting = false;
+    shooting(type: Input.EventType) {
+        if (type === Input.EventType.KEY_DOWN) {
+            this._isShooting = true;
+        } else if (type === Input.EventType.KEY_UP) {
+            this._isShooting = false;
+        }
     }
 
     move(deltaTime: number) {
@@ -145,7 +143,6 @@ export class Player extends Component {
         this.node.setPosition(newPos);
         console.log(newPos);
         */
-       console.log(curSpeed);
        this.rigidBody?.setLinearVelocity(curSpeed);
         
     }

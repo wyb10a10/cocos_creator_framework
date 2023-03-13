@@ -378,7 +378,7 @@ export function TestArrayReplicator() {
     targetReplicator.applyDiff(diff);
     console.log(target);
 
-    source.splice(1,2);
+    source.splice(1, 2);
     diff = replicator.genDiff(1, 2);
     console.log(diff);
     targetReplicator.applyDiff(diff);
@@ -502,40 +502,55 @@ export class ArrayLinkReplicator<T> implements IReplicator {
     }
 
     /**
-     * 清理具体某个版本的操作序列
+     * 清理具体某个版本的操作序列，actions是操作序列，包含了插入、删除、移动3种情况，格式如下：
+     * 插入和删除操作的格式为：[action, index]，其中action是操作类型，index是操作的位置
+     * 移动操作序列的格式为：[action, index, to]，其中action是操作类型，index是操作的位置，to是移动的目标位置
+     * 当delIndex在当前的操作序列中匹配到插入操作时，则删除这个操作，返回-1表示结束
+     * 当delIndex在当前的操作序列中匹配到移动操作的to位置时，for循环结束后，应该修改为该移动操作的index位置
      * @param delIndex 
      * @param actions 
      * @returns 新下标
      */
     clearActionSequence(delIndex: number, actions: number[]): number {
-        // 遍历actionSequence
+        let insertIndex = -1;
+        let beforeMoveIndex = -1;
         for (let i = 0; i < actions.length; ++i) {
-            if (actions[i] == ActionType.Insert) {
-                let index = actions[i + 1];
-                if (index > delIndex) {
-                    actions[i + 1] = index - 1;
+            let action = actions[i];
+            let index1 = actions[i + 1];
+
+            // 如果是插入操作，且插入的位置是要删除的位置，则删除这个插入操作
+            if (ActionType.Insert == action && index1 == delIndex) {
+                insertIndex = i;
+            }
+
+            ++i;
+            if (index1 > delIndex) {
+                actions[i] = index1 - 1;
+            }
+
+            if (ActionType.Move == action) {
+                ++i;
+                let index2 = actions[i];
+                if (index2 > delIndex) {
+                    actions[i] = index2 - 1;
+                } else if (index2 == delIndex) {
+                    beforeMoveIndex = index1;
                 }
-                i += 2;
-            } else if (actions[i] == ActionType.Delete) {
-                let index = actions[i + 1];
-                if (index > delIndex) {
-                    actions[i + 1] = index - 1;
-                }
-                i += 2;
-            } else if (actions[i] == ActionType.Move) {
-                let index = actions[i + 1];
-                if (index > delIndex) {
-                    actions[i + 1] = index - 1;
-                }
-                index = actions[i + 2];
-                if (index > delIndex) {
-                    actions[i + 2] = index - 1;
-                }
-                i += 3;
             }
         }
+
+        if (insertIndex >= 0) {
+            actions.splice(insertIndex, 2);
+            return -1;
+        }
+
+        if (beforeMoveIndex >= 0) {
+            return beforeMoveIndex;
+        }
+
         return delIndex;
     }
+
 
     /**
      * 优化合并已删除的元素的操作历史，避免过多的操作历史
@@ -811,7 +826,7 @@ export function TestArrayLinkReplicator() {
     targetReplicator.applyDiff(diff);
     console.log(target);
 
-    source.splice(1,2);
+    source.splice(1, 2);
     diff = replicator.genDiff(1, 2);
     console.log(diff);
     targetReplicator.applyDiff(diff);

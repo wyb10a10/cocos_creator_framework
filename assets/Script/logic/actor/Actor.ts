@@ -22,6 +22,7 @@ export class Actor extends Component implements IActorInput {
 
     _actorMove: ActorMove | undefined;
 
+
     start() {
         this._actorMove = this.node.getComponent(ActorMove)!;
     }

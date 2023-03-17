@@ -11,9 +11,9 @@ import {
 } from "cc";
 const { ccclass, property } = _decorator;
 
-import type { JoystickData } from "../joystick/Joystick";
-import { eventInst } from "../fight/InputHelper";
-import { GunSc } from "../fight/GunSc";
+import type { JoystickData } from "../../joystick/Joystick";
+import { eventInst } from "../../fight/InputHelper";
+import { GunSc } from "../../fight/GunSc";
 
 @ccclass("Player")
 export class Player extends Component {

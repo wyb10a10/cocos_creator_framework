@@ -69,7 +69,6 @@ export class AiAction extends Component {
             return;
         }
 
-        console.log(this._distance);
         let moveLen = this._moveSpeed * deltaTime;
         if (moveLen > this._distance) {
             moveLen = this._distance;

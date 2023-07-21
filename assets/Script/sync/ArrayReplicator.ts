@@ -414,27 +414,30 @@ interface SwapInfo {
 }
 
 function fillSwapInfo(map: Map<any, SwapInfo>, source: any, target: any, sourceData: ArrayObjectVersionInfo | undefined, index: number) {
-    let sourceSwapInfo = map.get(source);
-    if (!sourceSwapInfo) {
-        sourceSwapInfo = {
-            targetIndex: -1,
-            sourceIndex: index,
-            sourceData: sourceData
-        };
-        map.set(source, sourceSwapInfo);
-    } else {
-        sourceSwapInfo.sourceIndex = index;
+    if (source) {
+        let sourceSwapInfo = map.get(source);
+        if (!sourceSwapInfo) {
+            sourceSwapInfo = {
+                targetIndex: -1,
+                sourceIndex: index,
+                sourceData: sourceData
+            };
+            map.set(source, sourceSwapInfo);
+        } else {
+            sourceSwapInfo.sourceIndex = index;
+        }
     }
-
-    let targetSwapInfo = map.get(target);
-    if (!targetSwapInfo) {
-        targetSwapInfo = {
-            targetIndex: index,
-            sourceIndex: -1,
-        };
-        map.set(target, targetSwapInfo);
-    } else {
-        targetSwapInfo.targetIndex = index;
+    if (target) {
+        let targetSwapInfo = map.get(target);
+        if (!targetSwapInfo) {
+            targetSwapInfo = {
+                targetIndex: index,
+                sourceIndex: -1,
+            };
+            map.set(target, targetSwapInfo);
+        } else {
+            targetSwapInfo.targetIndex = index;
+        }
     }
 }
 
@@ -706,9 +709,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
                 fillSwapInfo(swapMap, target, null, undefined, i);
             } else {
                 let source = this.data[i].data.getTarget();
-                if (target != source) {
-                    fillSwapInfo(swapMap, target, source, this.data[i], i);
-                }
+                fillSwapInfo(swapMap, target, source, this.data[i], i);
             }
         }
 
@@ -727,32 +728,145 @@ export class ArrayLinkReplicator<T> implements IReplicator {
         // 根据swapMap生成对应的操作
         let insertActions: number[] = [];
         let deleteActions: number[] = [];
-        let moveActions: number[] = [];
 
-        swapMap.forEach((swapInfo, target) => {
+        for (let [_target, swapInfo] of swapMap.entries()) {
             if (swapInfo.targetIndex === -1) {
                 insertActions.push(swapInfo.sourceIndex);
-                this.insertData(target, swapInfo.sourceIndex, this.lastVersion);
             } else if (swapInfo.sourceIndex === -1) {
                 deleteActions.push(swapInfo.targetIndex);
-                this.data.splice(swapInfo.targetIndex, 1);
-                this.dataIndexMap.delete(target);
-            } else {
-                moveActions.push(swapInfo.sourceIndex, swapInfo.targetIndex);
-                [this.data[swapInfo.sourceIndex], this.data[swapInfo.targetIndex]] = [this.data[swapInfo.targetIndex], this.data[swapInfo.sourceIndex]];
-                this.dataIndexMap.set(target, swapInfo.targetIndex);
             }
-        });
+        }
+
+        // 按照下标顺序对操作数组进行排序
+        insertActions.sort((a, b) => a - b);
+        deleteActions.sort((a, b) => b - a);
+
+        // 先执行所有的删除操作
+        for (let index of deleteActions) {
+            let target = this.data[index].data.getTarget();
+            this.data.splice(index, 1);
+            this.dataIndexMap.delete(target);
+        }
+
+        // 再执行所有的插入操作
+        for (let index of insertActions) {
+            let target = this.target[index];
+            this.insertData(target, index, this.lastVersion);
+        }
+
+        // 重新构建一个新的swapMap，用于存储已更新的sourceIndex和targetIndex
+        let newSwapMap = new Map<any, SwapInfo>();
+        for (let i = 0; i < this.target.length; ++i) {
+            let target = this.target[i];
+            let source = this.data[i].data.getTarget();
+            if (target != source) {
+                fillSwapInfo(newSwapMap, target, source, this.data[i], i);
+            }
+        }
+
+        // 遍历第二个swapMap，直接将移动操作添加到结果数组中
+        for (let [target, swapInfo] of newSwapMap.entries()) {
+            ret.push(ActionType.Move, swapInfo.sourceIndex, swapInfo.targetIndex);
+            [this.data[swapInfo.sourceIndex], this.data[swapInfo.targetIndex]] = [this.data[swapInfo.targetIndex], this.data[swapInfo.sourceIndex]];
+            this.dataIndexMap.set(target, swapInfo.targetIndex);
+        }
 
         if (deleteActions.length > 0) {
-            ret.push(ActionType.Delete, ...deleteActions);
+            ret.push(ActionType.Delete, deleteActions.length, ...deleteActions);
         }
         if (insertActions.length > 0) {
-            ret.push(ActionType.Insert, ...insertActions);
+            ret.push(ActionType.Insert, insertActions.length, ...insertActions);
         }
-        if (moveActions.length > 0) {
-            ret.push(ActionType.Move, moveActions.length / 2, ...moveActions);
+        return ret;
+    }
+
+    /**
+     * 快速对比data和target的差异，生成操作序列并将target的元素位置更新到data和dataIndexMap中
+     * 如果没有新的变化，那么data[i].data.getTarget() 与 target[i]是同一个对象
+     * dataIndexMap中存储的是data[i].data.getTarget() 与 i 的映射关系
+     * 调用该方法之前，target数组可能添加了新的元素，也可能删除了元素，也可能移动了元素
+     * 需要插入新元素时，执行this.insertData(this.target[i], i, this.lastVersion);在data中的i位置插入
+     * 同时，如果data中存在target中不存在的元素，则删除data中的元素和dataIndexMap中的元素
+     * 操作序列数组的格式为[ActionType, ...params]
+     * 1. 如被清空，则返回[ActionType.Clear]
+     * 2. 如有插入，则返回[ActionType.Insert, count, index1, index2...]
+     * 3. 如有删除，则返回[ActionType.Delete, count, index1, index2...]
+     * 4. 如有移动，则返回[ActionType.Move, count, index1, to1, index2, to2...]
+     * 非清空的情况下，返回顺序为删除、插入、移动
+     * @returns 操作序列数组，格式为[ActionType, ...params]
+     */
+    genActionSequence3(): any[] {
+        // 先检测插入和删除操作，如果执行完插入和删除，下标不一致的，才需要进行移动操作
+        let ret: any[] = [];
+
+        // 删没了，直接清空操作序列，收到diff的length可以直接清空
+        if (this.target.length == 0) {
+            this.dataIndexMap.clear();
+            this.data.length = 0;
+            return [ActionType.Clear];
         }
+
+        let oldIndex: number[] = [];
+        let newDataIndexMap = new Map<T, number>();
+        let insertIndices: number[] = [];
+        let deleteIndices: number[] = [];
+        // 遍历target
+        for (let i = 0; i < this.target.length; ++i) {
+            let target = this.target[i];
+            // 如果dataIndexMap中不存在，则表示是新插入的
+            let old = this.dataIndexMap.get(target);
+            if (old == undefined) {
+                oldIndex.push(-1);
+                insertIndices.push(i);
+            } else {
+                // 记录原来的坐标
+                oldIndex.push(old);
+                this.dataIndexMap.delete(target);
+            }
+            newDataIndexMap.set(target, i);
+        }
+
+        // 剩下的dataIndexMap中所有元素都是需要删除的
+        this.dataIndexMap.forEach((value, key) => {
+            deleteIndices.push(value);
+        });
+
+        // 先执行删除操作，删除的都是target中不存在的元素，所以并不影响insert
+        if (deleteIndices.length > 0) {
+            ret.push(ActionType.Delete, deleteIndices.length, ...deleteIndices.sort((a, b) => b - a));
+            for (let i of deleteIndices) {
+                this.data.splice(i, 1);
+            }
+        }
+
+        // 执行插入操作，这里的目标位置都是正确的，而且按从小到大的顺序排列，所以不需要额外排序
+        // 之所以先执行删除操作，是因为删除操作会导致后面的下标发生变化
+        // 而删除target中不存在的元素，并不影响这里的操作将target插入到正确的data中
+        if (insertIndices.length > 0) {
+            ret.push(ActionType.Insert, insertIndices.length, ...insertIndices);
+            for (let i of insertIndices) {
+                this.insertData(this.target[i], i, this.lastVersion);
+            }
+        }
+
+        // 最后的交换操作，需要边遍历边执行，因为交换操作会导致后面的下标发生变化
+        let moveIndices: number[] = [];
+        for (let i = 0; i < this.data.length; ++i) {
+            let target = this.data[i].data.getTarget();
+            let index = newDataIndexMap.get(target);
+            // 找出当前下标的正确位置，如果不是当前位置，则需要交换，因为在这里做了swap，所以不会出现重复的交换
+            if (index !== undefined && index != i) {
+                moveIndices.push(i, index);
+                [this.data[i], this.data[index]] = [this.data[index], this.data[i]];
+            }
+        }
+
+        if (moveIndices.length > 0) {
+            ret.push(ActionType.Move, moveIndices.length / 2, ...moveIndices);
+        }
+
+        // 刷新一下dataIndexMap
+        this.dataIndexMap = newDataIndexMap;
         return ret;
     }
 
@@ -853,7 +967,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
         }
 
         if (needScan) {
-            let actions = this.genActionSequence();
+            let actions = this.genActionSequence3();
             if (actions.length > 0) {
                 // 如果是清空操作
                 if (actions[0] == ActionType.Clear) {
@@ -872,12 +986,15 @@ export class ArrayLinkReplicator<T> implements IReplicator {
             this.lastCheckVersion = toVersion;
         }
 
-        // 获取从fromVersion到最新的操作序列
-        let fromIndex = this.getActionIndex(fromVersion);
+        // 获取从fromVersion到最新的操作序列，从fromVersion的下一个操作开始
+        let fromIndex = 0;
+        if (fromVersion > 0) {
+            fromIndex = this.getActionIndex(fromVersion) + 1;
+        }
         let toIndex = this.actionSequence.length;
         let ret = [];
         for (let i = fromIndex; i < toIndex; ++i) {
-            ret.push(this.actionSequence[i].actions);
+            ret.push(...this.actionSequence[i].actions);
         }
 
         // 遍历生成[下标，Diff, 下标，Diff...]的序列
@@ -891,8 +1008,10 @@ export class ArrayLinkReplicator<T> implements IReplicator {
 
         // 如果有diff，则将diff插入到ret的最后
         if (diffRet.length > 0) {
-            ret.push(ActionType.Update, diffRet);
+            ret.push(ActionType.Update, ...diffRet);
         }
+
+        return ret;
     }
 
     applyDiff(diff: any): void {
@@ -903,37 +1022,49 @@ export class ArrayLinkReplicator<T> implements IReplicator {
         for (let i = 0; i < diff.length; ++i) {
             let action = diff[i];
             if (action == ActionType.Insert) {
-                let target = new this.ctor();
-                ++i;
-                this.target.splice(diff[i], 0, target);
-                this.insertData(target, diff[i], this.lastVersion);
+                // 插入操作的格式为：[ActionType.Insert, count, 下标, 下标...]
+                let count = diff[++i];
+                let logStr = `insert ${count} items at `;
+                for (let j = 0; j < count; ++j) {
+                    let index = diff[++i];
+                    logStr += `${index}, `;
+                    let target = new this.ctor();
+                    this.target.splice(index, 0, target);
+                    this.insertData(target, index, this.lastVersion);
+                }
+                console.log(logStr + ` i = ${i}`);
             } else if (action == ActionType.Delete) {
-                ++i;
-                this.data.splice(diff[i], 1);
-                this.target.splice(diff[i], 1);
+                // 删除操作的格式为：[ActionType.Delete, count, 下标，下标...]
+                let count = diff[++i];
+                let logStr = `delete ${count} items at `;
+                for (let j = 0; j < count; ++j) {
+                    let index = diff[++i];
+                    logStr += `${index}, `;
+                    this.data.splice(index, 1);
+                    this.target.splice(index, 1);
+                }
+                console.log(logStr + ` i = ${i}`);
             } else if (action == ActionType.Move) {
                 let count = diff[++i];
-                let targets = [];
+                let logStr = `move ${count} items from `;
                 // 批量取出再更新，避免连续交换导致的数据错误
                 for (let j = 0; j < count; ++j) {
-                    targets.push(this.target[diff[++i]], this.data[i], diff[++i])
+                    let index1 = diff[++i];
+                    let index2 = diff[++i];
+                    [this.data[index1], this.data[index2]] = [this.data[index2], this.data[index1]];
+                    [this.target[index1], this.target[index2]] = [this.target[index2], this.target[index1]];
+                    logStr += `${index1} to ${index2}, `;
                 }
-                i += count * 2;
-                for (let j = 0; j < count; ++j) {
-                    let index = j * 3 + 2;
-                    this.target[index] = targets[index - 2];
-                    this.data[index] = targets[index - 1];
-                }
-                /*let tmp = this.data[diff[i + 1]];
-                this.data[diff[i + 1]] = this.data[diff[i + 2]];
-                this.data[diff[i + 2]] = tmp;
-                let tmp2 = this.target[diff[i + 1]];
-                this.target[diff[i + 1]] = this.target[diff[i + 2]];
-                this.target[diff[i + 2]] = tmp2;
-                i += 2;*/
+                console.log(logStr + ` i = ${i}`);
             } else if (action == ActionType.Update) {
-                this.data[diff[i + 1]].data.applyDiff(diff[i + 2]);
-                i += 2;
+                // 更新操作的格式为：[ActionType.Update, 下标，Diff, 下标，Diff...]
+                // 更新操作是最后一个操作，批量处理完，把data中对应的数据更新Diff
+                for (let j = i + 1; j < diff.length; j += 2) {
+                    let index = diff[j];
+                    let data = diff[j + 1];
+                    this.data[index].data.applyDiff(data);
+                }
+                break;
             } else if (action == ActionType.Clear) {
                 this.target = [];
                 this.data = [];
@@ -966,6 +1097,64 @@ export class ArrayLinkReplicator<T> implements IReplicator {
     }
 }
 
+function isEqual(obj1: any, obj2: any): boolean {
+    // 如果两个对象引用相同，则它们是相等的
+    if (obj1 === obj2) {
+        return true;
+    }
+
+    // 如果两个对象的类型不同，则它们不相等
+    if (typeof obj1 !== typeof obj2) {
+        return false;
+    }
+
+    // 如果两个对象都是 null 或 undefined，则它们是相等的
+    if (obj1 == null && obj2 == null) {
+        return true;
+    }
+
+    // 如果一个对象是 null 或 undefined，而另一个不是，则它们不相等
+    if (obj1 == null || obj2 == null) {
+        return false;
+    }
+
+    // 如果两个对象都是基本类型，则比较它们的值
+    if (typeof obj1 !== 'object' && typeof obj2 !== 'object') {
+        return obj1 === obj2;
+    }
+
+    // 如果两个对象都是数组，则比较它们的元素
+    if (Array.isArray(obj1) && Array.isArray(obj2)) {
+        if (obj1.length !== obj2.length) {
+            return false;
+        }
+
+        for (let i = 0; i < obj1.length; i++) {
+            if (!isEqual(obj1[i], obj2[i])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // 如果两个对象都是对象，则比较它们的属性
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) {
+        return false;
+    }
+
+    for (const key of keys1) {
+        if (keys2.indexOf(key) === -1 || !isEqual(obj1[key], obj2[key])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 export function TestArrayLinkReplicator() {
     class Point {
         @replicated()
@@ -986,24 +1175,40 @@ export function TestArrayLinkReplicator() {
     source.push(new Point(7, 8));
     source[0].x = 10;
     source[1].y = 20;
-    console.log(source);
     let diff = replicator.genDiff(0, 1);
-    console.log(diff);
+    // 按json格式输出
+    console.log(JSON.stringify(diff));
+    console.log(JSON.stringify(source));
     targetReplicator.applyDiff(diff);
-    console.log(target);
+    console.log(JSON.stringify(target));
+
+    // 断言，source和target应该是相等的，使用isEqual比较
+    if (!isEqual(source, target)) {
+        console.error("source != target");
+    }
 
     source.splice(1, 2);
     diff = replicator.genDiff(1, 2);
-    console.log(diff);
+    console.log(JSON.stringify(diff));
+    console.log(JSON.stringify(source));
     targetReplicator.applyDiff(diff);
-    console.log(source);
-    console.log(target);
+    console.log(JSON.stringify(target));
+    // 断言，source和target应该是相等的，使用isEqual比较
+    if (!isEqual(source, target)) {
+        console.error("source != target");
+    }
 
+    // 把source的前面2个元素交换位置
+    [source[0], source[1]] = [source[1], source[0]];
     let target2: Array<Point> = [new Point(1, 2), new Point(3, 4)];
     let targetReplicator2 = new ArrayLinkReplicator(target2);
-    diff = replicator.genDiff(0, 2);
-    console.log(diff);
+    diff = replicator.genDiff(0, 3);
+    console.log(JSON.stringify(diff));
+    console.log(JSON.stringify(source));
     targetReplicator2.applyDiff(diff);
-    console.log(source);
-    console.log(target2);
+    console.log(JSON.stringify(target2));
+    // 断言，source和target应该是相等的，使用isEqual比较
+    if (!isEqual(source, target2)) {
+        console.error("source != target2");
+    }
 }

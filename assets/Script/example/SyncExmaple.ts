@@ -42,11 +42,11 @@ export default class SyncExample extends Component {
 
         this.makeObjectReplicated()
 
-        TestSimpleArrayReplicator();
+        //TestSimpleArrayReplicator();
         console.log("==============");
-        TestSimpleArrayReplicatorVersion();
+        //TestSimpleArrayReplicatorVersion();
         console.log("==============");
-        TestArrayReplicator();
+        //TestArrayReplicator();
         console.log("==============");
         TestArrayLinkReplicator();
         /*let vec = new Vec3(Vec3.ZERO);

@@ -98,13 +98,11 @@ export class ReplicateScanner implements IReplicator {
                     changed = true;
                 }
             } else {
-                if (needScan) {
-                    if (property.data != this.target[name]) {
-                        property.data = this.target[name];
-                        ret[setter] = property.data;
-                        property.version = toVersion;
-                        changed = true;
-                    }
+                if (needScan && property.data != this.target[name]) {
+                    property.data = this.target[name];
+                    ret[setter] = property.data;
+                    property.version = toVersion;
+                    changed = true;
                 } else if (property.version > fromVersion) {
                     ret[setter] = property.data;
                     changed = true;

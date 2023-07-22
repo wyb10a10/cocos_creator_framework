@@ -955,11 +955,6 @@ export class ArrayLinkReplicator<T> implements IReplicator {
             return false;
         }
 
-        // 长度都为0时，不发生变化
-        if (this.target.length == 0 && this.data.length == 0) {
-            return false;
-        }
-
         let needScan = this.lastCheckVersion < toVersion;
         // 如果不需要扫描，且最终版本小于fromVersion，则直接返回
         if (!needScan && fromVersion > this.lastVersion) {
@@ -968,6 +963,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
 
         if (needScan) {
             let actions = this.genActionSequence3();
+            this.lastCheckVersion = toVersion;
             if (actions.length > 0) {
                 // 如果是清空操作
                 if (actions[0] == ActionType.Clear) {
@@ -975,6 +971,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
                         version: toVersion,
                         actions: actions
                     }];
+                    this.lastVersion = toVersion;
                     return actions;
                 } else {
                     this.actionSequence.push({
@@ -983,13 +980,12 @@ export class ArrayLinkReplicator<T> implements IReplicator {
                     });
                 }
             }
-            this.lastCheckVersion = toVersion;
         }
 
         // 获取从fromVersion到最新的操作序列，从fromVersion的下一个操作开始
         let fromIndex = 0;
         if (fromVersion > 0) {
-            fromIndex = this.getActionIndex(fromVersion) + 1;
+            fromIndex = this.getActionIndex(fromVersion + 1);
         }
         let toIndex = this.actionSequence.length;
         let ret = [];
@@ -1000,6 +996,10 @@ export class ArrayLinkReplicator<T> implements IReplicator {
         // 遍历生成[下标，Diff, 下标，Diff...]的序列
         let diffRet = [];
         for (let i = 0; i < this.data.length; ++i) {
+            // 如果是在这之后新插入的，则需要从0开始完整同步
+            if (this.data[i].version > fromVersion) {
+                fromVersion = 0;
+            }
             let diff = this.data[i].data.genDiff(fromVersion, toVersion);
             if (diff) {
                 diffRet.push(i, diff);
@@ -1011,6 +1011,9 @@ export class ArrayLinkReplicator<T> implements IReplicator {
             ret.push(ActionType.Update, ...diffRet);
         }
 
+        if (ret.length > 0) {
+            this.lastVersion = toVersion;
+        }
         return ret;
     }
 
@@ -1066,8 +1069,8 @@ export class ArrayLinkReplicator<T> implements IReplicator {
                 }
                 break;
             } else if (action == ActionType.Clear) {
-                this.target = [];
-                this.data = [];
+                this.target.length = 0;
+                this.data.length = 0;
             }
         }
     }
@@ -1155,7 +1158,7 @@ function isEqual(obj1: any, obj2: any): boolean {
     return true;
 }
 
-export function TestArrayLinkReplicator() {
+export function TestArrayLinkReplicator2() {
     class Point {
         @replicated()
         x: number = 0;
@@ -1175,7 +1178,9 @@ export function TestArrayLinkReplicator() {
     source.push(new Point(7, 8));
     source[0].x = 10;
     source[1].y = 20;
+    source.length = 0;
     let diff = replicator.genDiff(0, 1);
+    let diff2 = replicator.genDiff(0, 1);
     // 按json格式输出
     console.log(JSON.stringify(diff));
     console.log(JSON.stringify(source));
@@ -1210,5 +1215,108 @@ export function TestArrayLinkReplicator() {
     // 断言，source和target应该是相等的，使用isEqual比较
     if (!isEqual(source, target2)) {
         console.error("source != target2");
+    }
+}
+
+export function TestArrayLinkReplicator() {
+    class Point {
+        @replicated()
+        x: number = 0;
+        @replicated()
+        y: number = 0;
+        constructor(x: any = 0, y: any = 0) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    function performRandomOperations(source: Array<Point>, n: number) {
+        let beforStr = JSON.stringify(source);
+        for (let i = 0; i < n; i++) {
+            let operationType = Math.floor(Math.random() * 4);
+            let index = Math.floor(Math.random() * source.length);
+
+            switch (operationType) {
+                case 0: // insert
+                    source.splice(index, 0, new Point(Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000)));
+                    console.log(`performRandomOperations: insert 1 item at ${index}, length is ${source.length}`);
+                    break;
+                case 1: // delete
+                    if (source.length > 0) {
+                        source.splice(index, 1);
+                        console.log(`performRandomOperations: delete 1 item at ${index}, length is ${source.length}`);
+                    }
+                    break;
+                case 2: // update
+                    if (source.length > 0) {
+                        source[index].x = Math.floor(Math.random() * 1000);
+                        source[index].y = Math.floor(Math.random() * 1000);
+                        console.log(`performRandomOperations: update item at ${index}, new value: (${source[index].x.toFixed(2)}, ${source[index].y.toFixed(2)})`);
+                    }
+                    break;
+                case 3: // swap
+                    if (source.length > 1) {
+                        let index2 = (index + 1) % source.length;
+                        [source[index], source[index2]] = [source[index2], source[index]];
+                        console.log(`performRandomOperations: swap items at ${index} and ${index2}`);
+                    }
+                    break;
+            }
+        }
+        // 打印前后对比
+        console.log("performRandomOperations befor : " + beforStr);
+        console.log("performRandomOperations after : " + JSON.stringify(source));
+        console.log("perform end ================================================");
+
+    }
+
+    function performTest(
+        source: Array<Point>,
+        target: Array<Point>,
+        replicator: ArrayLinkReplicator<Point>,
+        targetReplicator: ArrayLinkReplicator<Point>,
+        startVersion: number,
+        endVersion: number
+    ) {
+        let diff = replicator.genDiff(startVersion, endVersion);
+        console.log(JSON.stringify(diff));
+        console.log(JSON.stringify(source));
+        targetReplicator.applyDiff(diff);
+
+        if (!isEqual(source, target)) {
+            console.log(JSON.stringify(target));
+            console.error("source != target");
+        }
+    }
+
+    let source: Array<Point> = [new Point(1, 2), new Point(3, 4)];
+    let target1: Array<Point> = [new Point(1, 2), new Point(3, 4)];
+    let target2: Array<Point> = [new Point(1, 2), new Point(3, 4)];
+    let replicator = new ArrayLinkReplicator(source);
+    let targetReplicator1 = new ArrayLinkReplicator(target1);
+    let targetReplicator2 = new ArrayLinkReplicator(target2);
+
+    let totalVersions = 50;
+    let version1 = 0;
+    let version2 = 0;
+
+    for (let i = 0; i < totalVersions; i++) {
+        console.log(`performTest: version i = ${i} ==========`);
+        performRandomOperations(source, Math.floor(Math.random() * 10) + 1);
+
+        let updateFrequency1 = Math.floor(Math.random() * 5) + 1;
+        let updateFrequency2 = Math.floor(Math.random() * 5) + 1;
+
+        if (i % updateFrequency1 === 0) {
+            console.log(`performTest: version1 = ${version1}, endVersion1 = ${i+1}************************`);
+            performTest(source, target1, replicator, targetReplicator1, version1, i+1);
+            version1 = i+1;
+        }
+
+        if (i % updateFrequency2 === 0) {
+            console.log(`performTest: version2 = ${version2}, endVersion2 = ${i+1}************************`);
+            performTest(source, target2, replicator, targetReplicator2, version2, i+1);
+            version2 = i+1;
+        }
     }
 }

@@ -86,6 +86,7 @@ export class ReplicateScanner implements IReplicator {
         }
         let ret: any = {};
         let changed = false;
+        let hasData = false;
         // 遍历生成Diff
         for (let [name, property] of this.dataMap) {
             // let setter = property.setter || name;
@@ -105,12 +106,16 @@ export class ReplicateScanner implements IReplicator {
                     changed = true;
                 } else if (property.version > fromVersion) {
                     ret[setter] = property.data;
-                    changed = true;
+                    hasData = true;
                 }
             }
         }
+        // 这个版本已经检查过了，不需要重复检查
         this.lastCheckVersion = toVersion;
-        if (!changed) {
+        // 如果有数据变化，更新lastVersion
+        if (changed) {
+            this.lastVersion = toVersion;
+        } else if (!hasData) {
             return false;
         }
         return ret;

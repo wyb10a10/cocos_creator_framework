@@ -395,11 +395,13 @@ export function TestArrayReplicator() {
 }
 
 enum ActionType {
-    Insert, // 插入, index: 插入的位置
-    Delete, // 删除, index: 删除的位置
-    Move,   // 移动，count: 总数, index: 移动的位置，to: 移动到的位置，因为move会有相互影响，所以Move需要一次性处理完毕，避免上一次Move的结果影响到了下一次Move
-    Clear,  // 清空
-    Update, // 更新，index: 更新的位置
+    Insert,         // 插入, index: 插入的位置
+    Delete,         // 删除, index: 删除的位置
+    BatchInsert,    // 插入, count: 总数, index: 插入的位置
+    BatchDelete,    // 删除, count: 总数, index: 删除的位置
+    BatchMove,      // 移动，count: 总数, index: 移动的位置，to: 移动到的位置，因为move会有相互影响，所以Move需要一次性处理完毕，避免上一次Move的结果影响到了下一次Move
+    Clear,          // 清空
+    Update,         // 更新，index: 更新的位置
 }
 
 enum ArrayLinkType {
@@ -528,7 +530,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
             let index1 = actions[i + 1];
 
             // 如果是插入操作，且插入的位置是要删除的位置，则删除这个插入操作
-            if (ActionType.Insert == action && index1 == delIndex) {
+            if (ActionType.BatchInsert == action && index1 == delIndex) {
                 insertIndex = i;
             }
 
@@ -537,7 +539,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
                 actions[i] = index1 - 1;
             }
 
-            if (ActionType.Move == action) {
+            if (ActionType.BatchMove == action) {
                 ++i;
                 let index2 = actions[i];
                 if (index2 > delIndex) {
@@ -691,16 +693,16 @@ export class ArrayLinkReplicator<T> implements IReplicator {
 
         // 遍历第二个swapMap，直接将移动操作添加到结果数组中
         for (let [target, swapInfo] of newSwapMap.entries()) {
-            ret.push(ActionType.Move, swapInfo.sourceIndex, swapInfo.targetIndex);
+            ret.push(ActionType.BatchMove, swapInfo.sourceIndex, swapInfo.targetIndex);
             [this.data[swapInfo.sourceIndex], this.data[swapInfo.targetIndex]] = [this.data[swapInfo.targetIndex], this.data[swapInfo.sourceIndex]];
             this.dataIndexMap.set(target, swapInfo.targetIndex);
         }
 
         if (deleteActions.length > 0) {
-            ret.push(ActionType.Delete, deleteActions.length, ...deleteActions);
+            ret.push(ActionType.BatchDelete, deleteActions.length, ...deleteActions);
         }
         if (insertActions.length > 0) {
-            ret.push(ActionType.Insert, insertActions.length, ...insertActions);
+            ret.push(ActionType.BatchInsert, insertActions.length, ...insertActions);
         }
         return ret;
     }
@@ -758,7 +760,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
 
         // 先执行删除操作，删除的都是target中不存在的元素，所以并不影响insert
         if (deleteIndices.length > 0) {
-            ret.push(ActionType.Delete, deleteIndices.length, ...deleteIndices.sort((a, b) => b - a));
+            ret.push(ActionType.BatchDelete, deleteIndices.length, ...deleteIndices.sort((a, b) => b - a));
             for (let i of deleteIndices) {
                 let delCnt = this.data.splice(i, 1);
                 // 删除数量校验
@@ -772,7 +774,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
         // 之所以先执行删除操作，是因为删除操作会导致后面的下标发生变化
         // 而删除target中不存在的元素，并不影响这里的操作将target插入到正确的data中
         if (insertIndices.length > 0) {
-            ret.push(ActionType.Insert, insertIndices.length, ...insertIndices);
+            ret.push(ActionType.BatchInsert, insertIndices.length, ...insertIndices);
             for (let i of insertIndices) {
                 this.insertData(this.target[i], i, this.lastVersion);
             }
@@ -803,7 +805,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
         }
 
         if (moveIndices.length > 0) {
-            ret.push(ActionType.Move, moveIndices.length / 2, ...moveIndices);
+            ret.push(ActionType.BatchMove, moveIndices.length / 2, ...moveIndices);
         }
 
         // 刷新一下dataIndexMap
@@ -816,8 +818,44 @@ export class ArrayLinkReplicator<T> implements IReplicator {
      * @returns [类型1, 操作1, 操作2, 类型2, 操作2...]
      */
     genActionSequence(): Array<any> {
-        // 先检测插入和删除操作，如果执行完插入和删除，下标不一致的，才需要进行移动操作
         let ret: any[] = [];
+        // 删没了，直接清空操作序列，收到diff的length可以直接清空
+        if (this.target.length == 0) {
+            this.dataIndexMap.clear();
+            this.data.length = 0;
+            return [ActionType.Clear];
+        }
+
+        // 遍历target
+        for (let i = 0; i < this.target.length; ++i) {
+            let target = this.target[i];
+            // 如果dataIndexMap中不存在，则表示是新插入的
+            let old = this.dataIndexMap.get(target);
+            if (old == undefined) {
+                ret.push(ActionType.Insert, i);
+                this.insertData(target, i, this.lastVersion);
+                this.dataIndexMap.set(target, i);
+            } else {
+                while (true) {
+                    let data = this.data[i].data.getTarget();
+                    // 如果dataIndexMap中的target不是当前的target，则需要交换
+                    if (data !== target) {
+                        // 不相等就删除，然后继续循环，直到相等为止
+                        ret.push(ActionType.Delete, i);
+                        this.data.splice(i, 1);
+                        this.dataIndexMap.delete(data);
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        // 断言data和target的长度相同
+        if (this.data.length != this.target.length) {
+            console.error(`Gen Action: =========== this.data.length != this.target.length, this.data.length=${this.data.length}, this.target.length=${this.target.length}`);
+        }
+
         return ret;
     }
 
@@ -833,7 +871,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
         }
 
         if (needScan) {
-            let actions = this.genActionSequence3();
+            let actions = this.genActionSequence();
             this.lastCheckVersion = toVersion;
             if (actions.length > 0) {
                 // 如果是清空操作
@@ -895,7 +933,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
 
         for (let i = 0; i < diff.length; ++i) {
             let action = diff[i];
-            if (action == ActionType.Insert) {
+            if (action == ActionType.BatchInsert) {
                 // 插入操作的格式为：[ActionType.Insert, count, 下标, 下标...]
                 let count = diff[++i];
                 let logStr = `insert ${count} items at `;
@@ -907,7 +945,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
                     this.insertData(target, index, this.lastVersion);
                 }
                 console.log(logStr + ` i = ${i}`);
-            } else if (action == ActionType.Delete) {
+            } else if (action == ActionType.BatchDelete) {
                 // 删除操作的格式为：[ActionType.Delete, count, 下标，下标...]
                 let count = diff[++i];
                 let logStr = `delete ${count} items at `;
@@ -918,7 +956,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
                     this.target.splice(index, 1);
                 }
                 console.log(logStr + ` i = ${i}`);
-            } else if (action == ActionType.Move) {
+            } else if (action == ActionType.BatchMove) {
                 let count = diff[++i];
                 let logStr = `move ${count} items from `;
                 // 批量取出再更新，避免连续交换导致的数据错误
@@ -1112,7 +1150,7 @@ export function TestArrayLinkReplicator() {
         return currentSeed / m;
     }
 
-    const operationWeights = [2, 2, 0, 3]; // Adjust the weights of operations: [insert, delete, update, swap]
+    const operationWeights = [2, 2, 0, 0]; // Adjust the weights of operations: [insert, delete, update, swap]
 
     function getRandomOperationType(operationWeights: number[]) {
         const totalWeight = operationWeights.reduce((a, b) => a + b, 0);
@@ -1208,15 +1246,15 @@ export function TestArrayLinkReplicator() {
         let updateFrequency2 = Math.floor(customRandom() * 5) + 1;
 
         if (i % updateFrequency1 === 0) {
-            console.log(`performTest: version1 = ${version1}, endVersion1 = ${i+1}************************`);
-            performTest(source, target1, replicator, targetReplicator1, version1, i+1);
-            version1 = i+1;
+            console.log(`performTest: version1 = ${version1}, endVersion1 = ${i + 1}************************`);
+            performTest(source, target1, replicator, targetReplicator1, version1, i + 1);
+            version1 = i + 1;
         }
 
         if (i % updateFrequency2 === 0) {
-            console.log(`performTest: version2 = ${version2}, endVersion2 = ${i+1}************************`);
-            performTest(source, target2, replicator, targetReplicator2, version2, i+1);
-            version2 = i+1;
+            console.log(`performTest: version2 = ${version2}, endVersion2 = ${i + 1}************************`);
+            performTest(source, target2, replicator, targetReplicator2, version2, i + 1);
+            version2 = i + 1;
         }
     }
 }

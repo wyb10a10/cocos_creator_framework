@@ -865,24 +865,20 @@ export class ArrayLinkReplicator<T> implements IReplicator {
         // 最后的交换操作，需要边遍历边执行，因为交换操作会导致后面的下标发生变化
         let moveIndices: number[] = [];
         for (let i = 0; i < this.data.length; ++i) {
-            let target = this.data[i].data.getTarget();
-            let index = newDataIndexMap.get(target);
-            // 找出当前下标的正确位置，如果不是当前位置，则需要交换，因为在这里做了swap，所以不会出现重复的交换
-            if (index !== undefined && index != i) {
-                moveIndices.push(i, index);
-                if (index < i) {
-                    console.error(`Move: =========== index < i, index=${index}, i=${i}. data.target=${JSON.stringify(target)} this.target=${JSON.stringify(this.target[i])}`);
-                    this.debugData();
+            // 这里之所以用while循环，是为了解决连续交换的问题
+            // 交换之后，当前data[i]的target可以去到正确的位置，但交换过来的data[i]的target可能还是不正确的
+            // 所以这里是要保证data[i]的target与target[i]是同一个对象
+            while (true) {
+                let target = this.data[i].data.getTarget();
+                let index = newDataIndexMap.get(target);
+                // 找出当前下标的正确位置，如果不是当前位置，则需要交换，因为在这里做了swap，所以不会出现重复的交换
+                if (index !== undefined && index != i) {
+                    moveIndices.push(i, index);
+                    [this.data[i], this.data[index]] = [this.data[index], this.data[i]];
                 } else {
-                    console.log(`Gen Move: =========== index=${index}, i=${i}`);
+                    break;
                 }
-                [this.data[i], this.data[index]] = [this.data[index], this.data[i]];
-            } else if (target !== this.target[i]) {
-                console.error(`Move: =========== target !== this.target[i], target=${target}, this.target[i]=${this.target[i]}`);
-            } else {
-                console.log(`Not Move: =========== target=${JSON.stringify(target)}, this.target[${i}]=${JSON.stringify(this.target[i])}`);
             }
-            this.checkData();
         }
 
         if (moveIndices.length > 0) {
@@ -1367,7 +1363,7 @@ export function TestArrayLinkReplicator() {
     let targetReplicator1 = new ArrayLinkReplicator(target1);
     let targetReplicator2 = new ArrayLinkReplicator(target2);
 
-    let totalVersions = 50;
+    let totalVersions = 500;
     let version1 = 0;
     let version2 = 0;
 

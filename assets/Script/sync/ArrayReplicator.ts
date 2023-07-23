@@ -402,6 +402,11 @@ enum ActionType {
     Update, // 更新，index: 更新的位置
 }
 
+enum ArrayLinkType {
+    Full,   // 全功能，支持插入、删除、移动、清空、更新，性能较差
+    NoSwap, // 支持插入、删除、移动、清空、更新。不支持移动，性能较好
+}
+
 interface ArrayActionInfo {
     version: number,
     actions: number[],
@@ -555,7 +560,6 @@ export class ArrayLinkReplicator<T> implements IReplicator {
         return delIndex;
     }
 
-
     /**
      * 优化合并已删除的元素的操作历史，避免过多的操作历史
      * @param delActions 删除的操作
@@ -605,85 +609,6 @@ export class ArrayLinkReplicator<T> implements IReplicator {
             }
         }
         return left;
-    }
-
-    /**
-     * 生成删除操作，并删除data数组和dataIndexMap中的数据
-     * @param delCnt 
-     * @returns 
-     */
-    genDeleteAction(delCnt: number): Array<any> {
-        let delRet = [];
-        if (this.data.length > 10) {
-            let targetIndexMap = new Map<T, number>();
-            for (let i = 0; i < this.target.length; ++i) {
-                targetIndexMap.set(this.target[i], i);
-            }
-            // 逆序遍历data，如果dataIndexMap中不存在，则删除
-            for (let i = this.data.length - 1; i >= 0; --i) {
-                let target = this.data[i].data.getTarget();
-                if (!targetIndexMap.has(target)) {
-                    delRet.push(ActionType.Delete, i);
-                    this.dataIndexMap.delete(target);
-                    this.data.splice(i, 1);
-
-                    if (--delCnt == 0) {
-                        break;
-                    }
-                }
-            }
-        } else if (this.data.length > 0) {
-            for (let i = this.data.length - 1; i >= 0; --i) {
-                let target = this.data[i].data.getTarget();
-                if (this.target.indexOf(target) < 0) {
-                    delRet.push(ActionType.Delete, i);
-                    this.dataIndexMap.delete(target);
-                    this.data.splice(i, 1);
-
-                    if (--delCnt == 0) {
-                        break;
-                    }
-                }
-            }
-        }
-
-        // TODO: 当生成了新的删除操作时，可以优化actionSequence中的操作历史
-        return delRet;
-    }
-
-    /**
-     * 生成交换操作，并更新data数组和dataIndexMap中的数据
-     * @returns 
-     */
-    genSwapAction(actions: Array<any>): Array<any> {
-        // 最后检测移动操作，移动操作都是成对出现的——交换(连续交换)
-        let swapMap = new Map<any, SwapInfo>();
-        for (let i = 0; i < this.data.length; ++i) {
-            let target = this.data[i].data.getTarget();
-            // 例如下标1和2交换，2和3又交换，如果直接执行两两交换，先前交换的下标会影响后续的交换
-            // target:  [1, 2, 3]
-            // data:    [2, 3, 1]
-            // 输出结果为 [Move, 0, 1, Move, 1, 2, Move, 2, 0]
-            if (this.target[i] != target) {
-                // 当知道当前下标需要交换时，记录下2份信息：
-                // 1. targe[i] 处于下标i的位置，需要交换到其他位置（暂时不清楚是哪个位置，但遍历完可以知道）
-                // 2. data[i] 处于下标i的位置，会被交换成target中的某个元素（暂时不清楚是哪个元素，但遍历完可以知道）
-                fillSwapInfo(swapMap, target, this.target[i], this.data[i], i);
-            }
-        }
-
-        // 遍历swapMap，应用交换
-        if (swapMap.size > 0) {
-            actions.push([ActionType.Move, swapMap.size]);
-            for (let [key, value] of swapMap) {
-                if (value.sourceData) {
-                    this.data[value.targetIndex] = value.sourceData;
-                }
-                this.dataIndexMap.set(key, value.targetIndex);
-                actions.push(value.sourceIndex, value.targetIndex);
-            }
-        }
-        return actions;
     }
 
     /**
@@ -858,10 +783,6 @@ export class ArrayLinkReplicator<T> implements IReplicator {
             console.error(`Gen Action: =========== this.data.length != this.target.length, this.data.length=${this.data.length}, this.target.length=${this.target.length}`);
         }
 
-        // 开源开始前的data和target
-        console.log(`Gen Action: =========== this.target=${JSON.stringify(this.target)}`);
-        this.debugData();
-
         // 最后的交换操作，需要边遍历边执行，因为交换操作会导致后面的下标发生变化
         let moveIndices: number[] = [];
         for (let i = 0; i < this.data.length; ++i) {
@@ -896,77 +817,7 @@ export class ArrayLinkReplicator<T> implements IReplicator {
      */
     genActionSequence(): Array<any> {
         // 先检测插入和删除操作，如果执行完插入和删除，下标不一致的，才需要进行移动操作
-        let ret = [];
-
-        // 删没了，直接清空操作序列，收到diff的length可以直接清空
-        if (this.target.length == 0) {
-            this.dataIndexMap.clear();
-            this.data.length = 0;
-            return [ActionType.Clear];
-        }
-
-        // 如果最新的target数组对比上次的target数组，有出现增删交换等情况，则需要重新生成操作序列
-        let hasChange = false;
-        let minIndex = -1;
-        // 遍历target，检查dataIndexMap中是否有对应target的下标，必须0开始遍历
-        for (let i = 0; i < this.target.length; ++i) {
-            // 如果不存在则标记为新插入的
-            if (!this.dataIndexMap.has(this.target[i])) {
-                ret.push(ActionType.Insert, i);
-                this.dataIndexMap.set(this.target[i], i);
-                if (hasChange == false) {
-                    hasChange = true;
-                    // 计算最小影响的下标
-                    minIndex = i;
-                }
-            } else if (!hasChange && this.dataIndexMap.get(this.target[i]) != i) {
-                hasChange = true;
-            }
-        }
-        // 计算考虑了插入操作后，删除的数量（这里dataIndexMap已经包含了插入后的数据）
-        let delCnt = this.dataIndexMap.size - this.target.length;
-
-        // 没有变化就直接返回
-        if (!hasChange && delCnt == 0) {
-            return ret;
-        }
-
-        // 如果有删除操作，先应用删除操作
-        let delRet = this.genDeleteAction(delCnt);
-
-        // 如果有插入操作，应用插入操作，这里是从前往后插入
-        for (let i = 0; i < ret.length; i += 2) {
-            if (ret[i] == ActionType.Insert) {
-                this.insertData(this.target[ret[i + 1]], ret[i + 1], this.lastVersion);
-            }
-        }
-
-        // 需要先删除，再插入（TODO: 这里是否有更优化的写法？）
-        if (delRet.length > 0) {
-            // delRet最后一个表示最小的删除的下标
-            let minDelIndex = delRet[delRet.length - 1];
-            if (minDelIndex < minIndex) {
-                minIndex = minDelIndex;
-            }
-            // 把delRet数组插入到ret的前面
-            ret = delRet.concat(ret);
-        }
-
-        // 断言，this.data的长度和this.target的长度一致
-        if (this.data.length != this.target.length) {
-            console.error("this.data.length != this.target.length");
-        }
-
-        // 最后检测移动操作，移动操作都是成对出现的——交换(连续交换)
-        ret = this.genSwapAction(ret);
-
-        // 刷新一下dataIndexMap
-        if (minIndex >= 0) {
-            for (let i = minIndex; i < this.target.length; ++i) {
-                this.dataIndexMap.set(this.target[i], i);
-            }
-        }
-
+        let ret: any[] = [];
         return ret;
     }
 
@@ -1118,24 +969,6 @@ export class ArrayLinkReplicator<T> implements IReplicator {
             }
         }
     }
-
-    checkData() {
-        // 检查data中是否有undefined
-        for (let i = 0; i < this.data.length; ++i) {
-            if (this.data[i] == undefined) {
-                console.error(`this.data[${i}] == undefined`);
-            }
-        }
-    }
-
-    debugData() {
-        // 把data中的target按顺序添加到数组中，并打印json
-        let data = [];
-        for (let i = 0; i < this.data.length; ++i) {
-            data.push(this.data[i].data.getTarget());
-        }
-        console.log(JSON.stringify(data));
-    }
 }
 
 function isEqual(obj1: any, obj2: any): boolean {
@@ -1196,7 +1029,7 @@ function isEqual(obj1: any, obj2: any): boolean {
     return true;
 }
 
-export function TestArrayLinkReplicator2() {
+export function TestArrayLinkReplicatorSimple() {
     class Point {
         @replicated()
         x: number = 0;

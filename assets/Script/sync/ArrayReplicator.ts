@@ -835,7 +835,11 @@ export class ArrayLinkReplicator<T> implements IReplicator {
         if (deleteIndices.length > 0) {
             ret.push(ActionType.Delete, deleteIndices.length, ...deleteIndices.sort((a, b) => b - a));
             for (let i of deleteIndices) {
-                this.data.splice(i, 1);
+                let delCnt = this.data.splice(i, 1);
+                // 删除数量校验
+                if (delCnt.length != 1) {
+                    console.error(`Gen Action: =========== delCnt.length != 1, delCnt.length=${delCnt.length}`);
+                }
             }
         }
 
@@ -849,6 +853,15 @@ export class ArrayLinkReplicator<T> implements IReplicator {
             }
         }
 
+        // data和target长度校验
+        if (this.data.length != this.target.length) {
+            console.error(`Gen Action: =========== this.data.length != this.target.length, this.data.length=${this.data.length}, this.target.length=${this.target.length}`);
+        }
+
+        // 开源开始前的data和target
+        console.log(`Gen Action: =========== this.target=${JSON.stringify(this.target)}`);
+        this.debugData();
+
         // 最后的交换操作，需要边遍历边执行，因为交换操作会导致后面的下标发生变化
         let moveIndices: number[] = [];
         for (let i = 0; i < this.data.length; ++i) {
@@ -857,8 +870,19 @@ export class ArrayLinkReplicator<T> implements IReplicator {
             // 找出当前下标的正确位置，如果不是当前位置，则需要交换，因为在这里做了swap，所以不会出现重复的交换
             if (index !== undefined && index != i) {
                 moveIndices.push(i, index);
+                if (index < i) {
+                    console.error(`Move: =========== index < i, index=${index}, i=${i}. data.target=${JSON.stringify(target)} this.target=${JSON.stringify(this.target[i])}`);
+                    this.debugData();
+                } else {
+                    console.log(`Gen Move: =========== index=${index}, i=${i}`);
+                }
                 [this.data[i], this.data[index]] = [this.data[index], this.data[i]];
+            } else if (target !== this.target[i]) {
+                console.error(`Move: =========== target !== this.target[i], target=${target}, this.target[i]=${this.target[i]}`);
+            } else {
+                console.log(`Not Move: =========== target=${JSON.stringify(target)}, this.target[${i}]=${JSON.stringify(this.target[i])}`);
             }
+            this.checkData();
         }
 
         if (moveIndices.length > 0) {
@@ -1091,12 +1115,30 @@ export class ArrayLinkReplicator<T> implements IReplicator {
 
         for (let i = 0; i < this.data.length; ++i) {
             if (this.data[i].data.getTarget() != this.target[i]) {
-                console.error("this.data[i].target != this.target[i]");
+                console.error(`this.data[${i}].target != this.target[${i}]`);
             }
             if (this.dataIndexMap.get(this.target[i]) != i) {
                 console.error("this.dataIndexMap.get(this.target[i]) != i");
             }
         }
+    }
+
+    checkData() {
+        // 检查data中是否有undefined
+        for (let i = 0; i < this.data.length; ++i) {
+            if (this.data[i] == undefined) {
+                console.error(`this.data[${i}] == undefined`);
+            }
+        }
+    }
+
+    debugData() {
+        // 把data中的target按顺序添加到数组中，并打印json
+        let data = [];
+        for (let i = 0; i < this.data.length; ++i) {
+            data.push(this.data[i].data.getTarget());
+        }
+        console.log(JSON.stringify(data));
     }
 }
 
@@ -1230,15 +1272,44 @@ export function TestArrayLinkReplicator() {
         }
     }
 
+    const seed = 123456;
+    let currentSeed = seed;
+
+    function customRandom() {
+        const a = 1664525;
+        const c = 1013904223;
+        const m = 2 ** 32;
+        currentSeed = (a * currentSeed + c) % m;
+        return currentSeed / m;
+    }
+
+    const operationWeights = [2, 2, 0, 3]; // Adjust the weights of operations: [insert, delete, update, swap]
+
+    function getRandomOperationType(operationWeights: number[]) {
+        const totalWeight = operationWeights.reduce((a, b) => a + b, 0);
+        let randomWeight = customRandom() * totalWeight;
+        let operationType = -1;
+
+        for (let i = 0; i < operationWeights.length; i++) {
+            randomWeight -= operationWeights[i];
+            if (randomWeight < 0) {
+                operationType = i;
+                break;
+            }
+        }
+
+        return operationType;
+    }
+
     function performRandomOperations(source: Array<Point>, n: number) {
         let beforStr = JSON.stringify(source);
         for (let i = 0; i < n; i++) {
-            let operationType = Math.floor(Math.random() * 4);
-            let index = Math.floor(Math.random() * source.length);
+            let operationType = getRandomOperationType(operationWeights);
+            let index = Math.floor(customRandom() * source.length);
 
             switch (operationType) {
                 case 0: // insert
-                    source.splice(index, 0, new Point(Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000)));
+                    source.splice(index, 0, new Point(Math.floor(customRandom() * 1000), Math.floor(customRandom() * 1000)));
                     console.log(`performRandomOperations: insert 1 item at ${index}, length is ${source.length}`);
                     break;
                 case 1: // delete
@@ -1249,8 +1320,8 @@ export function TestArrayLinkReplicator() {
                     break;
                 case 2: // update
                     if (source.length > 0) {
-                        source[index].x = Math.floor(Math.random() * 1000);
-                        source[index].y = Math.floor(Math.random() * 1000);
+                        source[index].x = Math.floor(customRandom() * 1000);
+                        source[index].y = Math.floor(customRandom() * 1000);
                         console.log(`performRandomOperations: update item at ${index}, new value: (${source[index].x.toFixed(2)}, ${source[index].y.toFixed(2)})`);
                     }
                     break;
@@ -1302,10 +1373,10 @@ export function TestArrayLinkReplicator() {
 
     for (let i = 0; i < totalVersions; i++) {
         console.log(`performTest: version i = ${i} ==========`);
-        performRandomOperations(source, Math.floor(Math.random() * 10) + 1);
+        performRandomOperations(source, Math.floor(customRandom() * 10) + 1);
 
-        let updateFrequency1 = Math.floor(Math.random() * 5) + 1;
-        let updateFrequency2 = Math.floor(Math.random() * 5) + 1;
+        let updateFrequency1 = Math.floor(customRandom() * 5) + 1;
+        let updateFrequency2 = Math.floor(customRandom() * 5) + 1;
 
         if (i % updateFrequency1 === 0) {
             console.log(`performTest: version1 = ${version1}, endVersion1 = ${i+1}************************`);

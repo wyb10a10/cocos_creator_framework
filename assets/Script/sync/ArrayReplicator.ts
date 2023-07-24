@@ -1,12 +1,6 @@
 import ReplicateMark from "./ReplicateMark";
 import { createReplicator } from "./ReplicatorFactory";
-import { Consturctor, getConsturctor, IReplicator, replicated } from "./SyncUtil";
-
-export type SimpleType = number | string | boolean | bigint;
-
-export function isSimpleType(obj: any): boolean {
-    return typeof obj === "number" || typeof obj === "string" || typeof obj === "boolean" || typeof obj === "bigint";
-}
+import { Consturctor, getConsturctor, IReplicator, replicated, SimpleType } from "./SyncUtil";
 
 /**
  * 数组对象某个版本的数据

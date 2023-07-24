@@ -26,6 +26,11 @@ export const REPLICATOR_INDEX = "__RI__";
 /** 是否支持装饰器的Setter设置 */
 export const IsSupportGetSet = true;
 
+export type SimpleType = number | string | boolean | bigint;
+
+export function isSimpleType(obj: any): boolean {
+    return typeof obj === "number" || typeof obj === "string" || typeof obj === "boolean" || typeof obj === "bigint";
+}
 
 export function getConsturctor<T>(obj: T): Consturctor<T> {
     return (obj as any).__proto__.constructor as Consturctor<T>;

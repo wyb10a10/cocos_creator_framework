@@ -169,3 +169,73 @@ export interface IReplicator {
      */
     setTarget(target: any): void
 }
+
+export function isEqual(obj1: any, obj2: any): boolean {
+    // 如果两个对象引用相同，则它们是相等的
+    if (obj1 === obj2) {
+        return true;
+    }
+
+    // 如果两个对象的类型不同，则它们不相等
+    if (typeof obj1 !== typeof obj2) {
+        return false;
+    }
+
+    // 如果两个对象都是 null 或 undefined，则它们是相等的
+    if (obj1 == null && obj2 == null) {
+        return true;
+    }
+
+    // 如果一个对象是 null 或 undefined，而另一个不是，则它们不相等
+    if (obj1 == null || obj2 == null) {
+        return false;
+    }
+
+    // 如果两个对象都是基本类型，则比较它们的值
+    if (typeof obj1 !== 'object' && typeof obj2 !== 'object') {
+        return obj1 === obj2;
+    }
+
+    // 如果两个对象都是数组，则比较它们的元素
+    if (Array.isArray(obj1) && Array.isArray(obj2)) {
+        if (obj1.length !== obj2.length) {
+            return false;
+        }
+
+        for (let i = 0; i < obj1.length; i++) {
+            if (!isEqual(obj1[i], obj2[i])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // 如果两个对象都是对象，则比较它们的属性
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) {
+        return false;
+    }
+
+    for (const key of keys1) {
+        if (keys2.indexOf(key) === -1 || !isEqual(obj1[key], obj2[key])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// 把当前时间戳作为随机数种子，并打印出来，方便调试
+let currentSeed = Date.now();
+console.log("customRandom currentSeed: ", currentSeed);
+
+export function customRandom() {
+    const a = 1664525;
+    const c = 1013904223;
+    const m = 2 ** 32;
+    currentSeed = (a * currentSeed + c) % m;
+    return currentSeed / m;
+}

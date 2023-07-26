@@ -2,6 +2,7 @@ import { Component, Label, _decorator, view, director, Node, RichText, tween, Tw
 import { TestArrayLinkReplicator, TestArrayReplicator, TestSimpleArrayReplicator, TestSimpleArrayReplicatorVersion } from "../sync/ArrayReplicator";
 import { getReplicateMark, ReplicatedOption } from "../sync/ReplicateMark";
 import { getReplicator, replicated, replicatedClass } from "../sync/SyncUtil";
+import { TestSimpleSetReplicator } from "../sync/SetReplicator";
 
 const { ccclass, property } = _decorator;
 
@@ -48,7 +49,8 @@ export default class SyncExample extends Component {
         console.log("==============");
         //TestArrayReplicator();
         console.log("==============");
-        TestArrayLinkReplicator();
+        //TestArrayLinkReplicator();
+        TestSimpleSetReplicator();
         /*let vec = new Vec3(Vec3.ZERO);
         makeObjectReplicated(vec);
         vec.x = 123;

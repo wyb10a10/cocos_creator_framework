@@ -191,6 +191,21 @@ export function isEqual(obj1: any, obj2: any): boolean {
         return false;
     }
 
+    // 如果是Set，则比较Set的元素
+    if (obj1 instanceof Set && obj2 instanceof Set) {
+        if (obj1.size !== obj2.size) {
+            return false;
+        } else {
+            for (const item of obj1) {
+                if (!obj2.has(item)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+
     // 如果两个对象都是基本类型，则比较它们的值
     if (typeof obj1 !== 'object' && typeof obj2 !== 'object') {
         return obj1 === obj2;

@@ -223,7 +223,7 @@ export function TestSimpleSetReplicator() {
     }
 
     function performRandomOperations(source: Set<SimpleType>, n: number) {
-        let beforStr = JSON.stringify(source);
+        let beforStr = Array.from(source).join(', ');
         for (let i = 0; i < n; i++) {
             let operationType = getRandomOperationType(operationWeights);
             switch (operationType) {
@@ -249,7 +249,7 @@ export function TestSimpleSetReplicator() {
         }
         // 打印前后对比
         console.log("performRandomOperations befor : " + beforStr);
-        console.log("performRandomOperations after : " + JSON.stringify(source));
+        console.log("performRandomOperations after : " + Array.from(source).join(', '));
         console.log("perform end ================================================");
 
     }
@@ -264,11 +264,11 @@ export function TestSimpleSetReplicator() {
     ) {
         let diff = replicator.genDiff(startVersion, endVersion);
         console.log(JSON.stringify(diff));
-        console.log(JSON.stringify(source));
+        console.log(Array.from(source).join(', '));
         targetReplicator.applyDiff(diff);
 
         if (!isEqual(source, target)) {
-            console.log(JSON.stringify(target));
+            console.log(Array.from(target).join(', '));
             console.error("source != target");
         }
     }

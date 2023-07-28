@@ -1,36 +1,30 @@
 import ReplicateMark from "./ReplicateMark";
-import { IReplicator, SimpleType } from "./SyncUtil";
+import { IReplicator, SimpleType, customRandom, isEqual } from "./SyncUtil";
 
 /**
  * Hash对象某个版本的数据
  */
 interface HashSimpleVersionInfo {
     version: number;
-    data: SimpleType;
+    actions: SimpleType[];
 }
 
-/**
- * SimpleHashReplicator 高效的Hash对象同步器
- * 用于同步number、string、boolean、bigint等基础类型的Hash对象
- */
+enum HashActionType {
+    Add,    // 添加：count, key1, value1, key2, value2, ...
+    Delete, // 删除：count, key1, key2, ...
+    Clear,  // 清空
+}
+
 export class SimpleHashReplicator implements IReplicator {
-    /** 最后一个有数据变化的版本号 */
     private lastVersion: number = 0;
-    /** 最后一次检测的版本号 */
     private lastCheckVersion: number = 0;
-    private data: Map<SimpleType, HashSimpleVersionInfo>;
+    private clone: Map<SimpleType, SimpleType>;
     private target: Map<SimpleType, SimpleType>;
+    private actionSequence: HashSimpleVersionInfo[] = [];
 
-    constructor(target: Map<SimpleType, SimpleType>, mark?: ReplicateMark) {
+    constructor(target: Map<SimpleType, SimpleType>, _mark?: ReplicateMark) {
         this.target = target;
-        this.data = new Map();
-        this.makeUpDataMap(target, mark);
-    }
-
-    makeUpDataMap(target: Map<SimpleType, SimpleType>, mark?: ReplicateMark) {
-        for (let [key, value] of target.entries()) {
-            this.data.set(key, { version: 0, data: value });
-        }
+        this.clone = new Map(target);
     }
 
     getTarget() {
@@ -39,6 +33,70 @@ export class SimpleHashReplicator implements IReplicator {
 
     setTarget(target: any): void {
         this.target = target;
+    }
+
+    /**
+     * 生成序列操作
+     */
+    genSequenceAction(): SimpleType[] {
+        let ret: SimpleType[] = [];
+        if (this.target.size === 0) {
+            ret.push(HashActionType.Clear);
+            this.clone.clear();
+            return ret;
+        }
+
+        // 遍历target，找出需要添加的元素
+        let addItems: SimpleType[] = [];
+        for (let [key, value] of this.target) {
+            if (!this.clone.has(key) || this.clone.get(key) !== value) {
+                addItems.push(key, value);
+                this.clone.set(key, value);
+            }
+        }
+        if (addItems.length > 0) {
+            ret.push(HashActionType.Add, addItems.length / 2, ...addItems);
+        }
+
+        // 如果长度匹配则直接返回
+        if (this.target.size == this.clone.size) {
+            return ret;
+        }
+
+        // 遍历clone，找出需要删除的元素
+        let deleteItems: SimpleType[] = [];
+        for (let key of this.clone.keys()) {
+            if (!this.target.has(key)) {
+                deleteItems.push(key);
+                this.clone.delete(key);
+            }
+        }
+        if (deleteItems.length > 0) {
+            ret.push(HashActionType.Delete, deleteItems.length, ...deleteItems);
+        }
+        return ret;
+    }
+
+
+    /**
+     * 使用二分法查找有序的actionSequence中，actionSequence.version>=version的最小index
+     * @param version 
+     * @returns 
+     */
+    getActionIndex(version: number): number {
+        let left = 0;
+        let right = this.actionSequence.length - 1;
+        while (left <= right) {
+            let mid = Math.floor((left + right) / 2);
+            if (this.actionSequence[mid].version == version) {
+                return mid;
+            } else if (this.actionSequence[mid].version < version) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return left;
     }
 
     genDiff(fromVersion: number, toVersion: number): any {
@@ -50,104 +108,203 @@ export class SimpleHashReplicator implements IReplicator {
             return false;
         }
         if (needScan) {
-            let diff: [SimpleType, SimpleType][] = [];
-            for (let [key, value] of this.target.entries()) {
-                let oldValue = this.data.get(key);
-                if (!oldValue) {
-                    this.data.set(key, { version: toVersion, data: value });
-                    diff.push([key, value]);
-                } else if (oldValue.data !== value) {
-                    oldValue.version = toVersion;
-                    oldValue.data = value;
-                    diff.push([key, value]);
-                }
-            }
+            let actions = this.genSequenceAction();
             this.lastCheckVersion = toVersion;
-            if (diff.length === 0) {
-                return false;
-            }
-            this.lastVersion = toVersion;
-            return diff;
-        } else {
-            let diff: [SimpleType, SimpleType][] = [];
-            for (let [key, value] of this.data.entries()) {
-                if (value.version >= fromVersion && value.version <= toVersion) {
-                    diff.push([key, value.data]);
+            if (actions.length > 0) {
+                // 如果是清空操作
+                if (actions[0] == HashActionType.Clear) {
+                    this.actionSequence = [{
+                        version: toVersion,
+                        actions: actions
+                    }];
+                    this.lastVersion = toVersion;
+                    return actions;
+                } else {
+                    this.actionSequence.push({
+                        version: toVersion,
+                        actions: actions
+                    });
                 }
             }
-            if (diff.length === 0) {
-                return false;
-            }
-            return diff;
         }
+
+        // 获取从fromVersion到最新的操作序列，从fromVersion的下一个操作开始
+        let fromIndex = 0;
+        if (fromVersion > 0) {
+            fromIndex = this.getActionIndex(fromVersion + 1);
+        }
+        let toIndex = this.actionSequence.length;
+        let ret = [];
+        for (let i = fromIndex; i < toIndex; ++i) {
+            ret.push(...this.actionSequence[i].actions);
+        }
+
+        if (ret.length === 0) {
+            return false;
+        }
+        this.lastVersion = toVersion;
+        return ret;
     }
 
     applyDiff(diff: any): void {
-        if (diff instanceof Array) {
-            for (let [key, value] of diff) {
-                this.target.set(key, value);
+        if (!(diff instanceof Array)) {
+            return;
+        }
+
+        // diff的格式为：[MapActionType, count, key1, value1/key2, ...]
+        for (let i = 0; i < diff.length;) {
+            let actionType = diff[i++];
+            switch (actionType) {
+                case HashActionType.Add: {
+                    let count = diff[i++];
+                    for (let j = 0; j < count; ++j) {
+                        let key = diff[i++];
+                        let value = diff[i++];
+                        this.target.set(key, value);
+                    }
+                    break;
+                }
+                case HashActionType.Delete: {
+                    let count = diff[i++];
+                    for (let j = 0; j < count; ++j) {
+                        this.target.delete(diff[i++]);
+                    }
+                    break;
+                }
+                case HashActionType.Clear: {
+                    this.target.clear();
+                    break;
+                }
             }
         }
     }
+
     getVersion(): number {
         return this.lastVersion;
     }
+
+    /**
+     * 用于调试，检查数据是否正确
+     * 不正确则打印错误的数据
+     */
+     debugCheck() {
+        if (this.target.size !== this.clone.size) {
+            console.error("target.size != clone.size");
+            // 把target和clone的key组成数组都打印出来
+            let targetKeys = Array.from(this.target.keys());
+            let cloneKeys = Array.from(this.clone.keys());
+            console.error("targetKeys:", targetKeys);
+            console.error("cloneKeys:", cloneKeys);
+            return;
+        }
+        for (let [key, value] of this.target) {
+            if (!this.clone.has(key) || this.clone.get(key) !== value) {
+                console.error("target has key not in clone, key:", key, "value:", value);
+                return;
+            }
+        }
+    }
 }
 
-export function testSimpleHashReplicator() {
-    const target1 = new Map<string, SimpleType>();
-    const replicator1 = new SimpleHashReplicator(target1);
+export function TestSimpleHashReplicator() {
+    const operationWeights = [4, 2, 1]; // Adjust the weights of operations: [insert, delete, update, swap]
 
-    // 添加操作
-    target1.set('a', 1);
-    target1.set('b', 'hello');
-    target1.set('c', true);
-    target1.set('d', 123);
+    function getRandomOperationType(operationWeights: number[]) {
+        const totalWeight = operationWeights.reduce((a, b) => a + b, 0);
+        let randomWeight = customRandom() * totalWeight;
+        let operationType = -1;
 
-    // 生成版本1的Diff
-    const diff1 = replicator1.genDiff(0, 1);
-    console.log('diff1:', diff1);
+        for (let i = 0; i < operationWeights.length; i++) {
+            randomWeight -= operationWeights[i];
+            if (randomWeight < 0) {
+                operationType = i;
+                break;
+            }
+        }
 
-    // 应用版本1的Diff
-    const target2 = new Map<string, SimpleType>();
-    const replicator2 = new SimpleHashReplicator(target2);
-    replicator2.applyDiff(diff1);
-    console.log('target2:', target2);
+        return operationType;
+    }
 
-    // 修改操作
-    target1.set('a', 2);
-    target1.set('b', 'world');
-    target1.set('c', false);
+    function performRandomOperations(source: Map<SimpleType, SimpleType>, n: number) {
+        let beforStr = Array.from(source).join(', ');
+        for (let i = 0; i < n; i++) {
+            let operationType = getRandomOperationType(operationWeights);
+            switch (operationType) {
+                case 0: // insert
+                    let item = Math.floor(customRandom() * 1000);
+                    let value = Math.floor(customRandom() * 1000);
+                    source.set(item, value);
+                    console.log(`performRandomOperations: insert 1 item ${item}, length is ${source.size}`);
+                    break;
+                case 1: // delete
+                    if (source.size > 0) {
+                        // 随机删除一个元素
+                        let index = Math.floor(customRandom() * source.size);
+                        let item = [...source][index];
+                        source.delete(item[0]);
+                        console.log(`performRandomOperations: delete 1 item ${item}, length is ${source.size}`);
+                    }
+                    break;
+                case 2: // clear
+                    source.clear();
+                    console.log(`performRandomOperations: clear all items, length is ${source.size}`);
+                    break;
+            }
+        }
+        // 打印前后对比
+        console.log("performRandomOperations befor : " + beforStr);
+        console.log("performRandomOperations after : " + Array.from(source).join(', '));
+        console.log("perform end ================================================");
 
-    // 删除操作
-    target1.delete('d');
+    }
 
-    // 生成版本2的Diff
-    const diff2 = replicator1.genDiff(1, 2);
-    console.log('diff2:', diff2);
+    function performTest(
+        source: Map<SimpleType, SimpleType>,
+        target: Map<SimpleType, SimpleType>,
+        replicator: SimpleHashReplicator,
+        targetReplicator: SimpleHashReplicator,
+        startVersion: number,
+        endVersion: number
+    ) {
+        let diff = replicator.genDiff(startVersion, endVersion);
+        console.log(JSON.stringify(diff));
+        console.log(Array.from(source).join(', '));
+        targetReplicator.applyDiff(diff);
 
-    // 应用版本2的Diff
-    replicator2.applyDiff(diff2);
-    console.log('target2:', target2);
+        if (!isEqual(source, target)) {
+            console.log(Array.from(target).join(', '));
+            console.error("source != target");
+        }
+    }
 
-    // 清空操作
-    target1.clear();
+    let source: Map<SimpleType, SimpleType> = new Map([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]);
+    let target1: Map<SimpleType, SimpleType> = new Map([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]);
+    let target2: Map<SimpleType, SimpleType> = new Map([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]);
+    let replicator = new SimpleHashReplicator(source);
+    let targetReplicator1 = new SimpleHashReplicator(target1);
+    let targetReplicator2 = new SimpleHashReplicator(target2);
 
-    // 生成版本3的Diff
-    const diff3 = replicator1.genDiff(2, 3);
-    console.log('diff3:', diff3);
+    let totalVersions = 500;
+    let version1 = 0;
+    let version2 = 0;
 
-    // 应用版本3的Diff
-    replicator2.applyDiff(diff3);
-    console.log('target2:', target2);
+    for (let i = 0; i < totalVersions; i++) {
+        console.log(`performTest: version i = ${i} ==========`);
+        performRandomOperations(source, Math.floor(customRandom() * 10) + 1);
 
-    // 生成跨版本的Diff
-    const diff4 = replicator1.genDiff(0, 3);
-    console.log('diff4:', diff4);
+        let updateFrequency1 = Math.floor(customRandom() * 5) + 1;
+        let updateFrequency2 = Math.floor(customRandom() * 5) + 1;
 
-    // 应用跨版本的Diff
-    const target3 = new Map<string, SimpleType>();
-    const replicator3 = new SimpleHashReplicator(target3);
-    replicator3.applyDiff(diff4);
-    console.log('target3:', target3);
+        if (i % updateFrequency1 === 0) {
+            console.log(`performTest: version1 = ${version1}, endVersion1 = ${i + 1}************************`);
+            performTest(source, target1, replicator, targetReplicator1, version1, i + 1);
+            version1 = i + 1;
+        }
+
+        if (i % updateFrequency2 === 0) {
+            console.log(`performTest: version2 = ${version2}, endVersion2 = ${i + 1}************************`);
+            performTest(source, target2, replicator, targetReplicator2, version2, i + 1);
+            version2 = i + 1;
+        }
+    }
 }

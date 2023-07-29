@@ -205,6 +205,19 @@ export function isEqual(obj1: any, obj2: any): boolean {
         }
     }
 
+    // 如果是Map，则比较Map的元素
+    if (obj1 instanceof Map && obj2 instanceof Map) {
+        if (obj1.size !== obj2.size) {
+            return false;
+        } else {
+            for (const [key, value] of obj1) {
+                if (!obj2.has(key) || !isEqual(value, obj2.get(key))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 
     // 如果两个对象都是基本类型，则比较它们的值
     if (typeof obj1 !== 'object' && typeof obj2 !== 'object') {

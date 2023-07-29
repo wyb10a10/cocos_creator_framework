@@ -1,6 +1,6 @@
 import ReplicateMark from "./ReplicateMark";
 import { createReplicator } from "./ReplicatorFactory";
-import { Consturctor, IReplicator, SimpleType, customRandom, getConsturctor, isEqual } from "./SyncUtil";
+import { Consturctor, IReplicator, SimpleType, customRandom, getConsturctor, isEqual, replicated } from "./SyncUtil";
 
 /**
  * Hash对象某个版本的数据
@@ -189,7 +189,7 @@ export class SimpleHashReplicator implements IReplicator {
      * 用于调试，检查数据是否正确
      * 不正确则打印错误的数据
      */
-     debugCheck() {
+    debugCheck() {
         if (this.target.size !== this.clone.size) {
             console.error("target.size != clone.size");
             // 把target和clone的key组成数组都打印出来
@@ -369,7 +369,8 @@ export class HashReplicator<T> implements IReplicator {
         // 遍历target，找出需要添加的元素
         let addItems: any[] = [];
         for (let [key, value] of this.target) {
-            if (!this.clone.has(key) || this.clone.get(key) !== value) {
+            let item = this.clone.get(key);
+            if (!item || item[0] !== value) {
                 addItems.push(key);
                 this.insertData(key, value, currentVersion);
             }
@@ -459,7 +460,19 @@ export class HashReplicator<T> implements IReplicator {
             ret.push(...this.actionSequence[i].actions);
         }
 
-        // 
+        // 遍历data生成[Key，Diff, Key，Diff...]的序列
+        let diffRet = [];
+        for (let [key, value] of this.clone) {
+            let from = value[1] > fromVersion ? 0 : fromVersion;
+            let diff = value[0].genDiff(from, toVersion);
+            if (diff) {
+                diffRet.push(key, diff);
+            }
+        }
+
+        if (diffRet.length > 0) {
+            ret.push(HashActionType.Update, ...diffRet);
+        }
 
         if (ret.length === 0) {
             return false;
@@ -481,21 +494,37 @@ export class HashReplicator<T> implements IReplicator {
                     let count = diff[i++];
                     for (let j = 0; j < count; ++j) {
                         let key = diff[i++];
-                        let value = diff[i++];
+                        let value = new this.ctor();
                         this.target.set(key, value);
+                        this.insertData(key, value, this.lastVersion);
                     }
                     break;
                 }
                 case HashActionType.Delete: {
                     let count = diff[i++];
                     for (let j = 0; j < count; ++j) {
-                        this.target.delete(diff[i++]);
+                        let key = diff[i++];
+                        this.target.delete(key);
+                        this.clone.delete(key);
                     }
                     break;
                 }
                 case HashActionType.Clear: {
                     this.target.clear();
+                    this.clone.clear();
                     break;
+                }
+                case HashActionType.Update: {
+                    for (; i < diff.length; i += 2) {
+                        let key = diff[i];
+                        let value = diff[i + 1];
+                        let item = this.clone.get(key);
+                        if (item) {
+                            item[0].applyDiff(value);
+                        } else {
+                            console.error("HashReplicator applyDiff error, key:", key, "value:", value);
+                        }
+                    }
                 }
             }
         }
@@ -509,7 +538,7 @@ export class HashReplicator<T> implements IReplicator {
      * 用于调试，检查数据是否正确
      * 不正确则打印错误的数据
      */
-     debugCheck() {
+    debugCheck() {
         if (this.target.size !== this.clone.size) {
             console.error("target.size != clone.size");
             // 把target和clone的key组成数组都打印出来
@@ -524,6 +553,128 @@ export class HashReplicator<T> implements IReplicator {
                 console.error("target has key not in clone, key:", key, "value:", value);
                 return;
             }
+        }
+    }
+}
+
+export function TestHashReplicator() {
+    class Point {
+        @replicated()
+        x: number = 0;
+        @replicated()
+        y: number = 0;
+        constructor(x: any = 0, y: any = 0) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+    const operationWeights = [4, 2, 2, 1]; // Adjust the weights of operations: [insert, delete, update, swap]
+
+    function getRandomOperationType(operationWeights: number[]) {
+        const totalWeight = operationWeights.reduce((a, b) => a + b, 0);
+        let randomWeight = customRandom() * totalWeight;
+        let operationType = -1;
+
+        for (let i = 0; i < operationWeights.length; i++) {
+            randomWeight -= operationWeights[i];
+            if (randomWeight < 0) {
+                operationType = i;
+                break;
+            }
+        }
+
+        return operationType;
+    }
+
+    function performRandomOperations(source: Map<SimpleType, Point>, n: number) {
+        let beforStr = Array.from(source).map(([key, value]) => `${key}: ${JSON.stringify(value)}`).join(',');
+        for (let i = 0; i < n; i++) {
+            let operationType = getRandomOperationType(operationWeights);
+            switch (operationType) {
+                case 0: // insert
+                    let item = Math.floor(customRandom() * 1000);
+                    let value = new Point(Math.floor(customRandom() * 1000), Math.floor(customRandom() * 1000));
+                    source.set(item, value);
+                    console.log(`performRandomOperations: insert 1 item ${item} - ${JSON.stringify(value)}, length is ${source.size}`);
+                    break;
+                case 1: // delete
+                    if (source.size > 0) {
+                        // 随机删除一个元素
+                        let index = Math.floor(customRandom() * source.size);
+                        let item = [...source][index];
+                        source.delete(item[0]);
+                        console.log(`performRandomOperations: delete 1 item ${item[0]} - ${JSON.stringify(item[1])}, length is ${source.size}`);
+                    }
+                    break;
+                case 2: // update
+                    if (source.size > 0) {
+                        // 随机更新一个元素
+                        let index = Math.floor(customRandom() * source.size);
+                        let item = [...source][index];
+                        item[1].x = Math.floor(customRandom() * 1000);
+                        item[1].y = Math.floor(customRandom() * 1000);
+                        console.log(`performRandomOperations: update 1 item ${item[0]} - ${JSON.stringify(item[1])}, length is ${source.size}`);
+                    }
+                    break;
+                case 3: // clear
+                    source.clear();
+                    console.log(`performRandomOperations: clear all items, length is ${source.size}`);
+                    break;
+            }
+        }
+        // 打印前后对比
+        console.log("performRandomOperations befor : " + beforStr);
+        console.log("performRandomOperations after : " + Array.from(source).map(([key, value]) => `${key}: ${JSON.stringify(value)}`).join(','));
+        console.log("perform end ================================================");
+    }
+
+    function performTest(
+        source: Map<SimpleType, Point>,
+        target: Map<SimpleType, Point>,
+        replicator: HashReplicator<Point>,
+        targetReplicator: HashReplicator<Point>,
+        startVersion: number,
+        endVersion: number
+    ) {
+        let diff = replicator.genDiff(startVersion, endVersion);
+        console.log(JSON.stringify(diff));
+        console.log(Array.from(source).map(([key, value]) => `${key}: ${JSON.stringify(value)}`).join(','))
+        targetReplicator.applyDiff(diff);
+
+        if (!isEqual(source, target)) {
+            console.log(Array.from(source).map(([key, value]) => `${key}: ${JSON.stringify(value)}`).join(','))
+            console.error("source != target");
+        }
+    }
+
+    let source: Map<SimpleType, Point> = new Map([[1, new Point(1, 1)], [2, new Point(2, 2)], [3, new Point(3, 3)], [4, new Point(4, 4)], [5, new Point(5, 5)]]);
+    let target1 = new Map(source);
+    let target2 = new Map(source);
+    let replicator = new HashReplicator<Point>(source);
+    let targetReplicator1 = new HashReplicator<Point>(target1);
+    let targetReplicator2 = new HashReplicator<Point>(target2);
+
+    let totalVersions = 500;
+    let version1 = 0;
+    let version2 = 0;
+
+    for (let i = 0; i < totalVersions; i++) {
+        console.log(`performTest: version i = ${i} ==========`);
+        performRandomOperations(source, Math.floor(customRandom() * 10) + 1);
+
+        let updateFrequency1 = Math.floor(customRandom() * 5) + 1;
+        let updateFrequency2 = Math.floor(customRandom() * 5) + 1;
+
+        if (i % updateFrequency1 === 0) {
+            console.log(`performTest: version1 = ${version1}, endVersion1 = ${i + 1}************************`);
+            performTest(source, target1, replicator, targetReplicator1, version1, i + 1);
+            version1 = i + 1;
+        }
+
+        if (i % updateFrequency2 === 0) {
+            console.log(`performTest: version2 = ${version2}, endVersion2 = ${i + 1}************************`);
+            performTest(source, target2, replicator, targetReplicator2, version2, i + 1);
+            version2 = i + 1;
         }
     }
 }

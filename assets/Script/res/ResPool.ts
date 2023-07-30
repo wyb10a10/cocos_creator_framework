@@ -28,9 +28,9 @@
 //     public loadRes(url: string, use?: string);
 //     public loadRes(url: string, onCompleted: CompletedCallback, use?: string);
 //     public loadRes(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);
-//     public loadRes(url: string, type: typeof cc.Asset, use?: string);
-//     public loadRes(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback, use?: string);
-//     public loadRes(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);
+//     public loadRes(url: string, type: typeof Asset, use?: string);
+//     public loadRes(url: string, type: typeof Asset, onCompleted: CompletedCallback, use?: string);
+//     public loadRes(url: string, type: typeof Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback, use?: string);
 //     public loadRes() {
 //         this.autoCheck();
 //         let resArgs: LoadResArgs = ResLoader.makeLoadResArgs.apply(this, arguments);

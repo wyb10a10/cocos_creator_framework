@@ -18,7 +18,7 @@ export interface CallbackObject {
 export interface RequestObject {
     buffer: NetData,            // 请求的Buffer
     rspCmd: number,             // 等待响应指令
-    rspObject: CallbackObject,  // 等待响应的回调对象
+    rspObject: CallbackObject | null,  // 等待响应的回调对象
 }
 
 // 协议辅助接口
@@ -50,16 +50,19 @@ export class DefStringProtocol implements IProtocolHelper {
     }
 }
 
+export type SocketFunc = (event: any) => void;
+export type MessageFunc = (msg: NetData) => void;
+
 // Socket接口
 export interface ISocket {
-    onConnected: (event) => void;           // 连接回调
-    onMessage: (msg: NetData) => void;      // 消息回调
-    onError: (event) => void;               // 错误回调
-    onClosed: (event) => void;              // 关闭回调
+    onConnected: SocketFunc | null;         // 连接回调
+    onMessage: MessageFunc | null;          // 消息回调
+    onError: SocketFunc | null;             // 错误回调
+    onClosed: SocketFunc | null;            // 关闭回调
     
-    connect(options: any);                  // 连接接口
-    send(buffer: NetData);                  // 数据发送接口
-    close(code?: number, reason?: string);  // 关闭接口
+    connect(options: any): any;                     // 连接接口
+    send(buffer: NetData): number;                  // 数据发送接口
+    close(code?: number, reason?: string): void;    // 关闭接口
 }
 
 // 网络提示接口

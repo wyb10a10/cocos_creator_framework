@@ -1,77 +1,10 @@
+import { instantiate, Node, Asset, Prefab } from "cc";
 import { ResKeeper } from "./ResKeeper";
-import { CompletedCallback, ProcessCallback } from "./ResLoader";
-import ResManager from "./ResManager";
+import { CompleteCallback, ProgressCallback } from "./ResLoader";
 /**
  * 资源使用相关工具类
  * 2020-1-18 by 宝爷
  */
-
-function parseDepends(key, parsed: Set<string>) {
-    let loader: any = cc.loader;
-    var item = loader.getItem(key);
-    if (item) {
-        var depends = item.dependKeys;
-        if (depends) {
-            for (var i = 0; i < depends.length; i++) {
-                var depend = depends[i];
-                if (!parsed.has(depend)) {
-                    parsed.add(depend);
-                    parseDepends(depend, parsed);
-                }
-            }
-        }
-    }
-}
-
-function visitAsset(asset, excludeMap: Set<string>) {
-    if (!asset._uuid) {
-        return;
-    }
-    let loader: any = cc.loader;
-    var key = loader._getReferenceKey(asset);
-    if (!excludeMap.has(key)) {
-        excludeMap.add(key);
-        parseDepends(key, excludeMap);
-    }
-}
-
-function visitComponent(comp, excludeMap) {
-    var props = Object.getOwnPropertyNames(comp);
-    for (var i = 0; i < props.length; i++) {
-        var value = comp[props[i]];
-        if (typeof value === 'object' && value) {
-            if (Array.isArray(value)) {
-                for (let j = 0; j < value.length; j++) {
-                    let val = value[j];
-                    if (val instanceof cc.RawAsset) {
-                        visitAsset(val, excludeMap);
-                    }
-                }
-            }
-            else if (!value.constructor || value.constructor === Object) {
-                let keys = Object.getOwnPropertyNames(value);
-                for (let j = 0; j < keys.length; j++) {
-                    let val = value[keys[j]];
-                    if (val instanceof cc.RawAsset) {
-                        visitAsset(val, excludeMap);
-                    }
-                }
-            }
-            else if (value instanceof cc.RawAsset) {
-                visitAsset(value, excludeMap);
-            }
-        }
-    }
-}
-
-function visitNode(node, excludeMap) {
-    for (let i = 0; i < node._components.length; i++) {
-        visitComponent(node._components[i], excludeMap);
-    }
-    for (let i = 0; i < node._children.length; i++) {
-        visitNode(node._children[i], excludeMap);
-    }
-}
 
 export class ResUtil {
     /**
@@ -82,30 +15,17 @@ export class ResUtil {
      * @param onProgess     加载进度回调
      * @param onCompleted   加载完成回调
      */
-    public static load(attachNode: cc.Node, url: string, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, url: string[], onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, url: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, url: string[], type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, url: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, bundle: string, url: string, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, bundle: string, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, bundle: string, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, bundle: string, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, bundle: string, url: string[], onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, bundle: string, url: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, bundle: string, url: string[], type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public static load(attachNode: cc.Node, bundle: string, url: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public static load() {
-        let attachNode = arguments[0];
+    public static load<T extends Asset>(attachNode: Node, url: string | string[], onCompleted: CompleteCallback<T> | null): void;
+    public static load<T extends Asset>(attachNode: Node, url: string | string[], onProgess: ProgressCallback | null, onCompleted: CompleteCallback<T> | null): void;
+    public static load<T extends Asset>(attachNode: Node, url: string | string[], type: typeof Asset, onCompleted: CompleteCallback<T> | null): void;
+    public static load<T extends Asset>(attachNode: Node, url: string | string[], type: typeof Asset, onProgess: ProgressCallback | null, onCompleted: CompleteCallback<T> | null): void;
+    public static load<T extends Asset>(attachNode: Node, bundle: string, url: string | string[], onCompleted: CompleteCallback<T> | null): void;
+    public static load<T extends Asset>(attachNode: Node, bundle: string, url: string | string[], onProgess: ProgressCallback | null, onCompleted: CompleteCallback<T> | null): void;
+    public static load<T extends Asset>(attachNode: Node, bundle: string, url: string | string[], type: typeof Asset, onCompleted: CompleteCallback<T> | null): void;
+    public static load<T extends Asset>(attachNode: Node, bundle: string, url: string | string[], type: typeof Asset, onProgess: ProgressCallback | null, onCompleted: CompleteCallback<T> | null): void;
+    public static load<T extends Asset>(attachNode: Node, ...args: any): void {
         let keeper = ResUtil.getResKeeper(attachNode);
-        let newArgs = new Array();
-        for (let i = 1; i < arguments.length; ++i) {
-            newArgs[i - 1] = arguments[i];
-        }
-        keeper.load.apply(keeper, newArgs);
+        keeper!.load.apply(keeper, args);
     }
 
     /**
@@ -113,31 +33,32 @@ export class ResUtil {
      * @param attachNode 目标节点
      * @param autoCreate 当目标节点找不到ResKeeper时是否自动创建一个
      */
-    public static getResKeeper(attachNode: cc.Node, autoCreate?: boolean): ResKeeper {
+    public static getResKeeper(attachNode: Node, autoCreate?: boolean): ResKeeper | null {
         if (attachNode) {
             let ret = attachNode.getComponent(ResKeeper);
             if (!ret) {
                 if (autoCreate) {
                     return attachNode.addComponent(ResKeeper);
                 } else {
-                    return ResUtil.getResKeeper(attachNode.parent, autoCreate);
+                    return ResUtil.getResKeeper(attachNode.parent!, autoCreate);
                 }
             }
             return ret;
         }
-        return ResManager.Instance.getKeeper();
+        // 返回一个默认的ResKeeper
+        return null;
     }
 
-     /**
-     * 赋值srcAsset，并使其跟随targetNode自动释放，用法如下
-     * mySprite.spriteFrame = AssignWith(otherSpriteFrame, mySpriteNode);
-     * @param srcAsset 用于赋值的资源，如cc.SpriteFrame、cc.Texture等等
-     * @param targetNode 
-     * @param autoCreate 
-     */
-    public static assignWith(srcAsset: cc.Asset, targetNode: cc.Node, autoCreate?: boolean): any {
+    /**
+    * 赋值srcAsset，并使其跟随targetNode自动释放，用法如下
+    * mySprite.spriteFrame = AssignWith(otherSpriteFrame, mySpriteNode);
+    * @param srcAsset 用于赋值的资源，如cc.SpriteFrame、cc.Texture等等
+    * @param targetNode 
+    * @param autoCreate 
+    */
+    public static assignWith(srcAsset: Asset, targetNode: Node, autoCreate?: boolean): any {
         let keeper = ResUtil.getResKeeper(targetNode, autoCreate);
-        if (keeper && srcAsset instanceof cc.Asset) {
+        if (keeper && srcAsset instanceof Asset) {
             keeper.cacheAsset(srcAsset);
             return srcAsset;
         } else {
@@ -150,8 +71,8 @@ export class ResUtil {
      * 实例化一个prefab，并带自动释放功能
      * @param prefab 要实例化的预制
      */
-    public static instantiate(prefab: cc.Prefab): cc.Node {
-        let node = cc.instantiate(prefab);
+    public static instantiate(prefab: Prefab): Node {
+        let node = instantiate(prefab);
         let keeper = ResUtil.getResKeeper(node, true);
         if (keeper) {
             keeper.cacheAsset(prefab);
@@ -159,17 +80,6 @@ export class ResUtil {
         return node;
     }
 
-    /**
-     * 获取一系列节点依赖的资源
-     */
-    public static getNodesDepends(nodes: cc.Node[]): Set<string> {
-        let ret: Set<string> = new Set<string>();
-        for (let i = 0; i < nodes.length; i++) {
-            visitNode(nodes[i], ret)
-        }
-        return ret;
-    }
-	
     /**
      * 从字符串中查找第N个字符
      * @param str 目标字符串
@@ -197,10 +107,10 @@ export class ResUtil {
     static getCallStack(popCount: number): string {
         // 严格模式无法访问 arguments.callee.caller 获取堆栈，只能先用Error的stack
         let ret = (new Error()).stack;
-        let pos = ResUtil.findCharPos(ret, '\n', popCount);
+        let pos = ResUtil.findCharPos(ret!, '\n', popCount);
         if (pos > 0) {
-            ret = ret.slice(pos);
+            ret = ret!.slice(pos);
         }
-        return ret;
+        return ret!;
     }
 }

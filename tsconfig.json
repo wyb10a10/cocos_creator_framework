@@ -1,17 +1,6 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "lib": [ "dom", "es6", "es2015.promise" ],
-    "target": "es5",
-    "experimentalDecorators": true,
-    "skipLibCheck": true
-  },
-  "exclude": [
-    "node_modules",
-    "library",
-    "local",
-    "temp",
-    "build",
-    "settings"
-  ]
+  /* Base configuration. Do not edit this field. */
+  "extends": "./temp/tsconfig.cocos.json" 
+
+  /* Add your custom configuration here. */
 }

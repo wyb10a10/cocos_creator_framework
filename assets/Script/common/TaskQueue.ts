@@ -11,11 +11,10 @@
 *   2018-5-7 by 宝爷
 */
 
-
 // 任务结束回调
 export type TaskFinishCallback = () => void;
 // 任务执行回调
-export type TaskCallback = (TaskFinishCallback) => void;
+export type TaskCallback = (TaskFinishCallback : TaskFinishCallback) => void;
 
 class TaskInfo {
     public task: TaskCallback;
@@ -27,7 +26,7 @@ class TaskInfo {
 }
 
 export class TaskQueue {
-    private _curTask: TaskInfo = null;
+    private _curTask: TaskInfo | null = null;
     private _taskQueue: TaskInfo[] = Array<TaskInfo>();
 
     // 添加一个任务，如果当前没有任务在执行，该任务会立即执行，否则进入队列等待
@@ -69,7 +68,7 @@ export class TaskQueue {
 }
 
 export class TaskManager {
-    private static _instance: TaskManager = null;
+    private static _instance: TaskManager | null= null;
     private _taskQueues: { [key: number]: TaskQueue } = {}
 
     public static getInstance(): TaskManager {

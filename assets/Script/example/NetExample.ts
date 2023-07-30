@@ -2,23 +2,26 @@ import { WebSock } from "../network/WebSock";
 import { NetManager } from "../network/NetManager";
 import { NetNode } from "../network/NetNode";
 import { DefStringProtocol, NetData, INetworkTips } from "../network/NetInterface";
+import { Component, Label, _decorator, view, director, Node, RichText } from "cc";
 
-
-
-const { ccclass, property } = cc._decorator;
+const { ccclass, property } = _decorator;
 
 class NetTips implements INetworkTips {
-    private getLabel(): cc.Label {
+    private getLabel(): Label {
         let label = null;
-        let node = cc.director.getScene().getChildByName("@net_tip_label");
-        if (node) {
-            label = node.getComponent(cc.Label);
-        } else {
-            node = new cc.Node("@net_tip_label");
-            label = node.addComponent(cc.Label);
-            node.setPosition(cc.winSize.width / 2, cc.winSize.height / 2);
+        let winSize = view.getCanvasSize();
+        let scene = director.getScene();
+        if (scene) {
+            let node = scene.getChildByName("@net_tip_label");
+            if (node) {
+                label = node.getComponent(Label);
+            } else {
+                let node = new Node("@net_tip_label");
+                label = node.addComponent(Label);
+                node.setPosition(winSize.width / 2, winSize.height / 2);
+            }    
         }
-        return label;
+        return label!;
     }
 
     connectTips(isShow: boolean): void {
@@ -50,13 +53,13 @@ class NetTips implements INetworkTips {
 }
 
 @ccclass
-export default class NetExample extends cc.Component {
-    @property(cc.Label)
-    textLabel: cc.Label = null;
-    @property(cc.Label)
-    urlLabel: cc.Label = null;
-    @property(cc.RichText)
-    msgLabel: cc.RichText = null;
+export default class NetExample extends Component {
+    @property(Label)
+    textLabel: Label = null!;
+    @property(Label)
+    urlLabel: Label = null!;
+    @property(RichText)
+    msgLabel: RichText = null!;
     private lineCount: number = 0;
 
     onLoad() {

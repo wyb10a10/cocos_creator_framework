@@ -1,8 +1,9 @@
 import { UIView } from "../../ui/UIView";
 import { uiManager } from "../../ui/UIManager";
 import { UIID } from "../UIExample";
+import { _decorator } from "cc";
 
-const {ccclass, property} = cc._decorator;
+const {ccclass} = _decorator;
 
 @ccclass
 export default class UILogin extends UIView {

@@ -1,4 +1,5 @@
-import { ResKeeper } from "../res/ResKeeper";
+import { Enum, _decorator } from "cc";
+import { ResKeeper} from "../res/ResKeeper";
 
 /**
  * UIView界面基础类
@@ -19,7 +20,7 @@ import { ResKeeper } from "../res/ResKeeper";
  * 2018-8-28 by 宝爷
  */
 
-const { ccclass, property } = cc._decorator;
+const { ccclass, property } = _decorator;
 
 /** 界面展示类型 */
 export enum UIShowTypes {
@@ -41,7 +42,7 @@ export class UIView extends ResKeeper {
     @property
     cache: boolean = false;
     /** 界面显示类型 */
-    @property({ type: cc.Enum(UIShowTypes) })
+    @property({ type: Enum(UIShowTypes) })
     showType: UIShowTypes = UIShowTypes.UISingle;
 
     /** 界面id */
@@ -54,7 +55,7 @@ export class UIView extends ResKeeper {
      * 当界面被创建时回调，生命周期内只调用
      * @param args 可变参数
      */
-    public init(...args): void {
+    public init(...args : any): void {
 
     }
 
@@ -63,7 +64,7 @@ export class UIView extends ResKeeper {
      * @param fromUI 从哪个UI打开的
      * @param args 可变参数
      */
-    public onOpen(fromUI: number, ...args): void {
+    public onOpen(fromUI: number, ...args : any): void {
 
     }
 
@@ -86,7 +87,7 @@ export class UIView extends ResKeeper {
      * @param preID 前一个ui
      * @param args 可变参数，
      */
-    public onTop(preID: number, ...args): void {
+    public onTop(preID: number, ...args : any): void {
 
     }
 }

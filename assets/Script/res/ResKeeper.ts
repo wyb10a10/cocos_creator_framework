@@ -1,4 +1,5 @@
-import ResLoader, { CompletedCallback, ProcessCallback } from "./ResLoader";
+import { Asset, Component, _decorator } from "cc";
+import { AssetType, CompleteCallback, ProgressCallback, resLoader } from "./ResLoader";
 /**
  * 资源引用类
  * 1. 提供加载功能，并记录加载过的资源
@@ -7,12 +8,12 @@ import ResLoader, { CompletedCallback, ProcessCallback } from "./ResLoader";
  * 
  * 2019-12-13 by 宝爷
  */
-const { ccclass } = cc._decorator;
+const { ccclass } = _decorator;
 
 @ccclass
-export class ResKeeper extends cc.Component {
+export class ResKeeper extends Component {
 
-    private resCache = new Set<cc.Asset>();
+    private resCache = new Set<Asset>();
 
     /**
      * 开始加载资源
@@ -22,51 +23,24 @@ export class ResKeeper extends cc.Component {
      * @param onProgess     加载进度回调
      * @param onCompleted   加载完成回调
      */
-    public load(url: string, onCompleted: CompletedCallback);
-    public load(url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public load(url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(url: string[], onCompleted: CompletedCallback);
-    public load(url: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(url: string[], type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public load(url: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string, type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string, type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string[], onCompleted: CompletedCallback);
-    public load(bundle: string, url: string[], onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string[], type: typeof cc.Asset, onCompleted: CompletedCallback);
-    public load(bundle: string, url: string[], type: typeof cc.Asset, onProgess: ProcessCallback, onCompleted: CompletedCallback);
-    public load() {
-        // 最后一个参数是加载完成回调
-        if (arguments.length < 2 || typeof arguments[arguments.length - 1] != "function") {
-            console.error(`load faile, completed callback not found`);
-            return;
-        }
-        // 包装完成回调，添加自动缓存功能
-        let finishCallback = arguments[arguments.length - 1];
-        arguments[arguments.length - 1] = (error, resource) => {
-            if (!error) {
-                if (resource instanceof Array) {
-                    resource.forEach(element => {
-                        this.cacheAsset(element);
-                    });
-                } else {
-                    this.cacheAsset(resource);
-                }
-            }
-            finishCallback();
-        }
+    public load<T extends Asset>(bundleName: string, paths: string | string[], type: AssetType<T> | null, onProgress: ProgressCallback | null, onComplete: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(bundleName: string, paths: string | string[], onProgress: ProgressCallback | null, onComplete: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(bundleName: string, paths: string | string[], onComplete?: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(bundleName: string, paths: string | string[], type: AssetType<T> | null, onComplete?: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(paths: string | string[], type: AssetType<T> | null, onProgress: ProgressCallback | null, onComplete: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(paths: string | string[], onProgress: ProgressCallback | null, onComplete: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(paths: string | string[], onComplete?: CompleteCallback<T> | null): void;
+    public load<T extends Asset>(paths: string | string[], type: AssetType<T> | null, onComplete?: CompleteCallback<T> | null): void;
+    public load(...args: any) {
         // 调用加载接口
-        ResLoader.load.apply(ResLoader, arguments);
+        resLoader.load.apply(resLoader, args);
     }
 
     /**
      * 缓存资源
      * @param asset 
      */
-    public cacheAsset(asset: cc.Asset) {
+    public cacheAsset(asset: Asset) {
         if (!this.resCache.has(asset)) {
             asset.addRef();
             this.resCache.add(asset);

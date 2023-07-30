@@ -1,0 +1,14 @@
+{
+  "name": "cocos_creator_framework",
+  "type": "3d",
+  "uuid": "a4efa050-a00e-416a-a32a-1d947807d57e",
+  "version": "3.5.1",
+  "creator": {
+    "version": "3.5.1"
+  },
+  "dependencies": {
+    "@types/ws": "^8.5.3",
+    "http": "^0.0.1-security",
+    "ws": "^8.8.1"
+  }
+}

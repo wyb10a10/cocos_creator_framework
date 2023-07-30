@@ -1,4 +1,4 @@
-import { ISocket, NetData } from "./NetInterface";
+import { ISocket, MessageFunc, NetData } from "./NetInterface";
 
 /*
 *   WebSocket封装
@@ -9,13 +9,15 @@ import { ISocket, NetData } from "./NetInterface";
 *   2018-5-14 by 宝爷
 */
 
-export class WebSock implements ISocket {
-    private _ws: WebSocket = null;              // websocket对象
+type Connected =  (event : any) => void;
 
-    onConnected: (event) => void = null;
-    onMessage: (msg) => void = null;
-    onError: (event) => void = null;
-    onClosed: (event) => void = null;
+export class WebSock implements ISocket {
+    private _ws: WebSocket | null = null;              // websocket对象
+
+    onConnected = null;
+    onMessage = null;
+    onError = null;
+    onClosed = null;
 
     connect(options: any) {
         if (this._ws) {
@@ -38,7 +40,8 @@ export class WebSock implements ISocket {
         this._ws = new WebSocket(url);
         this._ws.binaryType = options.binaryType ? options.binaryType : "arraybuffer";
         this._ws.onmessage = (event) => {
-            this.onMessage(event.data);
+            let onMessage : MessageFunc = this.onMessage!;
+            onMessage(event.data);
         };
         this._ws.onopen = this.onConnected;
         this._ws.onerror = this.onError;
@@ -46,16 +49,17 @@ export class WebSock implements ISocket {
         return true;
     }
 
-    send(buffer: NetData) {
-        if (this._ws.readyState == WebSocket.OPEN)
-        {
+    send(buffer: NetData) : number {
+        if (this._ws && this._ws.readyState == WebSocket.OPEN) {
             this._ws.send(buffer);
-            return true;
+            return 1;
         }
-        return false;
+        return -1;
     }
 
     close(code?: number, reason?: string) {
-        this._ws.close(code, reason);
+        if(this._ws) {
+            this._ws.close(code, reason);
+        }
     }
 }

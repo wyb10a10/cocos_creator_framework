@@ -1,5 +1,6 @@
 import { UIConf, uiManager } from "../ui/UIManager";
 import { resLoader } from "../res/ResLoader";
+import { Component, _decorator } from "cc";
 
 // Learn TypeScript:
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/typescript.html
@@ -11,7 +12,7 @@ import { resLoader } from "../res/ResLoader";
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-const { ccclass, property } = cc._decorator;
+const { ccclass, property } = _decorator;
 
 export enum UIID {
     UILogin,
@@ -28,7 +29,7 @@ export let UICF: { [key: number]: UIConf } = {
 }
 
 @ccclass
-export default class UIExample extends cc.Component {
+export default class UIExample extends Component {
 
     start() {
         uiManager.initUIConf(UICF);

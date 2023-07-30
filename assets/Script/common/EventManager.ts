@@ -5,13 +5,15 @@
 */
 export type EventManagerCallFunc = (eventName: string, eventData: any) => void;
 
+import { log, warn } from "cc";
+
 interface CallBackTarget {
     callBack: EventManagerCallFunc,
     target: any,
 }
 
 export class EventManager {
-    private static instance: EventManager = null;
+    private static instance: EventManager | null = null;
     public static getInstance(): EventManager {
         if (!this.instance) {
             this.instance = new EventManager();
@@ -44,12 +46,12 @@ export class EventManager {
 
     addEventListener(eventName: string, callBack: EventManagerCallFunc, target?: any): boolean {
         if (!eventName) {
-            cc.warn("eventName is empty" + eventName);
-            return;
+            warn("eventName is empty" + eventName);
+            return false;
         }
 
         if (null == callBack) {
-            cc.log('addEventListener callBack is nil');
+            log('addEventListener callBack is nil');
             return false;
         }
         let callTarget: CallBackTarget = { callBack: callBack, target: target };
@@ -68,12 +70,12 @@ export class EventManager {
 
     setEventListener(eventName: string, callBack: EventManagerCallFunc, target?: any): boolean {
         if (!eventName) {
-            cc.warn("eventName is empty" + eventName);
-            return;
+            warn("eventName is empty" + eventName);
+            return false;
         }
 
         if (null == callBack) {
-            cc.log('setEventListener callBack is nil');
+            log('setEventListener callBack is nil');
             return false;
         }
         let callTarget: CallBackTarget = { callBack: callBack, target: target };

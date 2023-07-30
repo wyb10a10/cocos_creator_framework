@@ -1,14 +1,16 @@
 import { UIView } from "../../ui/UIView";
 import { uiManager } from "../../ui/UIManager";
 import { UIID } from "../UIExample";
+import { Sprite, _decorator } from "cc";
+import { SpriteFrame } from "cc";
 
-const {ccclass, property} = cc._decorator;
+const {ccclass, property} = _decorator;
 
 @ccclass
 export default class UIHall extends UIView {
 
-    @property({type : cc.Sprite})
-    weapon: cc.Sprite = null;
+    @property({type : Sprite})
+    weapon: Sprite | null = null;
 
     public onBag() {
         uiManager.open(UIID.UIBag);
@@ -18,7 +20,7 @@ export default class UIHall extends UIView {
         uiManager.open(UIID.UINotice);
     }
 
-    public onTop(preID: number, item: cc.SpriteFrame) {
-        this.weapon.spriteFrame = item;
+    public onTop(preID: number, item: SpriteFrame) {
+        this.weapon!.spriteFrame = item;
     }
 }

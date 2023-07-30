@@ -1,24 +1,8 @@
-import { Component, Label, _decorator, view, director, Node, RichText, tween, Tween, math, randomRange, Vec3, Quat, ModelComponent, Color } from "cc";
-import { TestArrayLinkReplicator, TestArrayReplicator, TestSimpleArrayReplicator, TestSimpleArrayReplicatorVersion } from "../sync/ArrayReplicator";
+import { Component, _decorator, Node, tween, randomRange, Vec3, ModelComponent, Color } from "cc";
 import { getReplicateMark, ReplicatedOption } from "../sync/ReplicateMark";
-import { getReplicator, replicated, replicatedClass } from "../sync/SyncUtil";
-import { TestSimpleSetReplicator } from "../sync/SetReplicator";
-import { TestHashReplicator, TestSimpleHashReplicator } from "../sync/HashReplicator";
+import { getReplicator } from "../sync/SyncUtil";
 
 const { ccclass, property } = _decorator;
-
-class A {
-    @replicated()
-    a: number = 0;
-    @replicated()
-    b: number = 1;
-}
-
-@replicatedClass()
-class B {
-    a : number = 1;
-    b : number = 2;
-}
 
 @ccclass
 export default class SyncExample extends Component {
@@ -29,36 +13,7 @@ export default class SyncExample extends Component {
     lastVersion = 0;
 
     onLoad() {
-        let a = new A();
-        a.a = 12;
-        let b = new B();
-        // 先生成第一版初始数据之后才能应用变化
-        let replicatorB = getReplicator(b, true);
-        b.b = 64;
-        let diff1 = getReplicator(a, true)?.genDiff(0, 1);
-        console.log(diff1);
-        let diff2 = replicatorB?.genDiff(0, 1);
-        console.log(diff2);
-        //let diff = genDiff(a, 0, 1);
-        //console.log(diff);
-
-        this.makeObjectReplicated()
-
-        //TestSimpleArrayReplicator();
-        console.log("==============");
-        //TestSimpleArrayReplicatorVersion();
-        console.log("==============");
-        //TestArrayReplicator();
-        console.log("==============");
-        //TestArrayLinkReplicator();
-        //TestSimpleSetReplicator();
-        //TestSimpleHashReplicator();
-        TestHashReplicator();
-        /*let vec = new Vec3(Vec3.ZERO);
-        makeObjectReplicated(vec);
-        vec.x = 123;
-        let diff =  getReplicateObject(vec).genDiff(this.lastVersion, this.lastVersion + 1);
-        console.log(`vec diff ${diff}`);*/
+        this.makeObjectReplicated();
     }
 
     makeObjectReplicated() {

@@ -5,12 +5,13 @@ import { director, _decorator, Component, Label, Node, Prefab } from "cc";
 import { ResLeakChecker } from "../res/ResLeakChecker";
 import { resLoader } from "../res/ResLoader";
 import { ResUtil } from "../res/ResUtil";
+import { CCBoolean } from "cc";
 
 const { ccclass, property } = _decorator;
 
 @ccclass
 export default class NetExample extends Component {
-    @property(Boolean)
+    @property(CCBoolean)
     resUtilMode = true;
     @property(Node)
     attachNode: Node | null = null;
@@ -23,7 +24,7 @@ export default class NetExample extends Component {
     }
 
     onAdd() {
-        resLoader.load("prefabDir/HelloWorld", Prefab, (error, prefab) => {
+        resLoader.load("prefabDir/HelloWorld", Prefab, (error: any, prefab: Prefab) => {
             if (!error) {
                 let myNode = ResUtil.instantiate(prefab);
                 myNode.parent = this.attachNode;
@@ -40,11 +41,15 @@ export default class NetExample extends Component {
     }
 
     onAssign() {
-        resLoader.load("images/test/spriteFrame", SpriteFrame, (error, sp) => {
-            this.checker.traceAsset(sp);
+        resLoader.load("images/test/spriteFrame", SpriteFrame, (error: Error | null, sp: SpriteFrame | null) => {
+            if (error) {
+                console.error(error);
+                return;
+            }
+            this.checker.traceAsset(sp!);
             if (this.attachNode!.children.length > 0) {
                 let targetNode = this.attachNode!.children[this.attachNode!.children.length - 1];
-                targetNode.getComponent(Sprite)!.spriteFrame = ResUtil.assignWith(sp, targetNode, true);
+                targetNode.getComponent(Sprite)!.spriteFrame = ResUtil.assignWith(sp!, targetNode, true);
             }
         });
     }

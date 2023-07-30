@@ -17,6 +17,8 @@ export enum ReplicateType {
     REPLICATE_SIMPLE_ARRAY = 2, // 简单数组, 不支持嵌套 
     REPLICATE_ARRAY = 3,        // 简单结构体数组, 支持嵌套，用于cc.Vec3等简单结构体
     REPLICATE_LINK_ARRAY = 4,   // 引用对象数组, 支持嵌套，用于复杂对象
+    REPLICATE_SIMPLE_HASH = 5,  // 简单Hash, 不支持嵌套
+    REPLICATE_HASH = 6,         // 简单结构体Hash, 支持嵌套，用于cc.Vec3等简单结构体
 }
 
 /**
@@ -47,7 +49,7 @@ export interface ObjectReplicatedOption {
     /** 同步类型 */
     Type?: ReplicateType;
     /** 构造函数，当数组需要创建新元素的时候指定 */
-    Constructor?: Consturctor;
+    Constructor?: Consturctor<any>;
 }
 
 /**

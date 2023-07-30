@@ -32,8 +32,8 @@ export default class NetExample extends Component {
 
     onUnloadRes() {
         // 释放动态加载的资源
-        this.attachNode!.destroyAllChildren();
-        resources.release("prefabDir/HelloWorld");
+        this.attachNode.destroyAllChildren();
+        cc.loader.releaseRes("prefabDir/HelloWorld");
     }
 
     onMyLoadRes() {
@@ -62,10 +62,10 @@ export default class NetExample extends Component {
     }
 
     onMyUnloadRes() {
-        this.attachNode?.destroyAllChildren();
-        if (this.ress.length > 0) {
-            for (let item of this.ress) {
-                item.decRef(true);
+        this.attachNode.destroyAllChildren();
+        if (this.ress) {
+            for(let item of this.ress) {
+                ResLoader.release(item);
             }
             this.ress = [];
         }
@@ -85,8 +85,8 @@ export default class NetExample extends Component {
     }
 
     onUnloadRemote() {
-        this.attachNode!.destroyAllChildren();
-        this.remoteRes!.decRef();
+        this.attachNode.destroyAllChildren();
+        this.remoteRes.decRef();
     }
 
     onDump() {

@@ -5,6 +5,7 @@ import { sp } from "cc";
 import { SpriteFrame } from "cc";
 import { Component, Node, Label, Asset, Prefab, _decorator, instantiate, resources } from "cc";
 import { resLoader } from "../res/ResLoader";
+import { Texture2D } from "cc";
 
 const { ccclass, property } = _decorator;
 
@@ -32,8 +33,8 @@ export default class NetExample extends Component {
 
     onUnloadRes() {
         // 释放动态加载的资源
-        this.attachNode.destroyAllChildren();
-        cc.loader.releaseRes("prefabDir/HelloWorld");
+        this.attachNode?.destroyAllChildren();
+        resources.release("prefabDir/HelloWorld", Prefab);
     }
 
     onMyLoadRes() {
@@ -41,7 +42,7 @@ export default class NetExample extends Component {
             console.log(`this.ress.length is ${this.ress.length}`);
             return;
         }
-        resLoader.loadDir("prefabDir", Prefab, (error, prefabs) => {
+        resLoader.loadDir("prefabDir", Prefab, (error: any, prefabs: string | any[]) => {
             if (!error) {
                 this.ress.push(...prefabs);
                 for (let i = 0; i < prefabs.length; ++i) {
@@ -49,7 +50,7 @@ export default class NetExample extends Component {
                 }
             }
         });
-        resLoader.load("alien/alien-pro", sp.SkeletonData, (err, spineAsset)=> {
+        resLoader.load("alien/alien-pro", sp.SkeletonData, (err: any, spineAsset: sp.SkeletonData)=> {
             if (!err) {
                 let node = new Node();
                 node.parent = this.attachNode;
@@ -62,17 +63,17 @@ export default class NetExample extends Component {
     }
 
     onMyUnloadRes() {
-        this.attachNode.destroyAllChildren();
+        this.attachNode?.destroyAllChildren();
         if (this.ress) {
             for(let item of this.ress) {
-                ResLoader.release(item);
+                assetManager.releaseAsset(item);
             }
             this.ress = [];
         }
     }
 
     onLoadRemote() {
-        resLoader.load("http://tools.itharbors.com/christmas/res/tree.png", (err, res) => {
+        resLoader.load("http://tools.itharbors.com/christmas/res/tree.png", (err: any, res: Texture2D | null) => {
             if (err || !res) return;
             this.remoteRes = res;
             let spriteFrame = new SpriteFrame();
@@ -85,8 +86,8 @@ export default class NetExample extends Component {
     }
 
     onUnloadRemote() {
-        this.attachNode.destroyAllChildren();
-        this.remoteRes.decRef();
+        this.attachNode?.destroyAllChildren();
+        this.remoteRes?.decRef();
     }
 
     onDump() {

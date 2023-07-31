@@ -1,0 +1,280 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929",
+  "files": [],
+  "subMetas": {
+    "65692": {
+      "importer": "gltf-mesh",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@65692",
+      "displayName": "",
+      "id": "65692",
+      "name": "SM_Veh_Car_Muscle_Glass.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c0be4": {
+      "importer": "gltf-mesh",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@c0be4",
+      "displayName": "",
+      "id": "c0be4",
+      "name": "SM_Veh_Car_Muscle_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c96ab": {
+      "importer": "gltf-mesh",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@c96ab",
+      "displayName": "",
+      "id": "c96ab",
+      "name": "SM_Veh_Car_Muscle_Wheel_rl.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c7c5e": {
+      "importer": "gltf-mesh",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@c7c5e",
+      "displayName": "",
+      "id": "c7c5e",
+      "name": "SM_Veh_Car_Muscle_Wheel_rr.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "911db": {
+      "importer": "gltf-mesh",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@911db",
+      "displayName": "",
+      "id": "911db",
+      "name": "SM_Veh_Car_Muscle_Wheel_fl.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6d969": {
+      "importer": "gltf-mesh",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@6d969",
+      "displayName": "",
+      "id": "6d969",
+      "name": "SM_Veh_Car_Muscle_Wheel_fr.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a1e66": {
+      "importer": "gltf-mesh",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@a1e66",
+      "displayName": "",
+      "id": "a1e66",
+      "name": "SM_Veh_Car_Muscle_SteeringW.mesh",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d51a9": {
+      "importer": "gltf-mesh",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@d51a9",
+      "displayName": "",
+      "id": "d51a9",
+      "name": "SM_Veh_Car_Muscle_Plates.mesh",
+      "userData": {
+        "gltfIndex": 7
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "458dd": {
+      "importer": "gltf-material",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@458dd",
+      "displayName": "",
+      "id": "458dd",
+      "name": "Mat_Glass_01.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "c0916": {
+      "importer": "gltf-scene",
+      "uuid": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@c0916",
+      "displayName": "",
+      "id": "c0916",
+      "name": "SM_Veh_Car_Muscle_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "8be5ecd9-5d1b-4326-95f3-4c38f8379929@c0916",
+    "assetFinder": {
+      "meshes": [
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@c0be4",
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@65692",
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@c96ab",
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@c7c5e",
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@911db",
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@6d969",
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@a1e66",
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@d51a9"
+      ],
+      "skeletons": [],
+      "textures": [
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@4d57f",
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@099b0"
+      ],
+      "materials": [
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@627b1",
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@458dd"
+      ],
+      "scenes": [
+        "8be5ecd9-5d1b-4326-95f3-4c38f8379929@c0916"
+      ]
+    }
+  }
+}

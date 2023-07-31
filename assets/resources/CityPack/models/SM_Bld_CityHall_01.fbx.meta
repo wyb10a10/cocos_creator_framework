@@ -1,0 +1,137 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "4e864b9b-59c3-4fd6-b860-52cd5f5d8036",
+  "files": [],
+  "subMetas": {
+    "50d73": {
+      "importer": "gltf-mesh",
+      "uuid": "4e864b9b-59c3-4fd6-b860-52cd5f5d8036@50d73",
+      "displayName": "",
+      "id": "50d73",
+      "name": "SM_Bld_CityHall_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "4e864b9b-59c3-4fd6-b860-52cd5f5d8036@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "4e864b9b-59c3-4fd6-b860-52cd5f5d8036@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "4e864b9b-59c3-4fd6-b860-52cd5f5d8036@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "03fa2": {
+      "importer": "gltf-scene",
+      "uuid": "4e864b9b-59c3-4fd6-b860-52cd5f5d8036@03fa2",
+      "displayName": "",
+      "id": "03fa2",
+      "name": "SM_Bld_CityHall_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "4e864b9b-59c3-4fd6-b860-52cd5f5d8036@03fa2",
+    "assetFinder": {
+      "meshes": [
+        "4e864b9b-59c3-4fd6-b860-52cd5f5d8036@50d73"
+      ],
+      "skeletons": [],
+      "textures": [
+        "4e864b9b-59c3-4fd6-b860-52cd5f5d8036@4d57f",
+        "4e864b9b-59c3-4fd6-b860-52cd5f5d8036@099b0"
+      ],
+      "materials": [
+        "4e864b9b-59c3-4fd6-b860-52cd5f5d8036@627b1"
+      ],
+      "scenes": [
+        "4e864b9b-59c3-4fd6-b860-52cd5f5d8036@03fa2"
+      ]
+    }
+  }
+}

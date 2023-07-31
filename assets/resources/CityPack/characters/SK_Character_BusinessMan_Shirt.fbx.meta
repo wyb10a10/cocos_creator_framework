@@ -1,0 +1,168 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb",
+  "files": [
+    "__original-animation-0.cconb"
+  ],
+  "subMetas": {
+    "91ee0": {
+      "importer": "gltf-mesh",
+      "uuid": "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb@91ee0",
+      "displayName": "",
+      "id": "91ee0",
+      "name": "Character_BusinessMan_Shirt.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "73b7f": {
+      "importer": "gltf-animation",
+      "uuid": "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb@73b7f",
+      "displayName": "",
+      "id": "73b7f",
+      "name": "Take 001.animation",
+      "userData": {
+        "gltfIndex": 0,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 0.7666666507720947
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    },
+    "438fe": {
+      "importer": "gltf-skeleton",
+      "uuid": "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb@438fe",
+      "displayName": "",
+      "id": "438fe",
+      "name": "UnnamedSkeleton.skeleton",
+      "userData": {
+        "gltfIndex": 0,
+        "jointsLength": 48
+      },
+      "ver": "1.0.1",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d9c4e": {
+      "importer": "texture",
+      "uuid": "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb@d9c4e",
+      "displayName": "",
+      "id": "d9c4e",
+      "name": "file283.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_C.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b904f": {
+      "importer": "gltf-material",
+      "uuid": "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb@b904f",
+      "displayName": "",
+      "id": "b904f",
+      "name": "lambert14.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "ab79f": {
+      "importer": "gltf-scene",
+      "uuid": "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb@ab79f",
+      "displayName": "",
+      "id": "ab79f",
+      "name": "SK_Character_BusinessMan_Shirt.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file283",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_C.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "animationImportSettings": [
+      {
+        "name": "Take 001",
+        "duration": 0.7666666507720947,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "Take 001",
+            "from": 0,
+            "to": 0.7666666507720947,
+            "wrapMode": 2
+          }
+        ]
+      }
+    ],
+    "redirect": "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb@ab79f",
+    "assetFinder": {
+      "meshes": [
+        "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb@91ee0"
+      ],
+      "skeletons": [
+        "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb@438fe"
+      ],
+      "textures": [
+        "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb@d9c4e"
+      ],
+      "materials": [
+        "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb@b904f"
+      ],
+      "scenes": [
+        "38ebd225-461f-4ba6-9eaa-e2445fa9bcbb@ab79f"
+      ]
+    }
+  }
+}

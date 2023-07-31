@@ -1,0 +1,137 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "ae0d55a2-8d02-4ded-8e9b-ac87eff0e301",
+  "files": [],
+  "subMetas": {
+    "f8af3": {
+      "importer": "gltf-mesh",
+      "uuid": "ae0d55a2-8d02-4ded-8e9b-ac87eff0e301@f8af3",
+      "displayName": "",
+      "id": "f8af3",
+      "name": "SM_Prop_Roof_Aircon_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "ae0d55a2-8d02-4ded-8e9b-ac87eff0e301@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "ae0d55a2-8d02-4ded-8e9b-ac87eff0e301@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "ae0d55a2-8d02-4ded-8e9b-ac87eff0e301@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "1d4a7": {
+      "importer": "gltf-scene",
+      "uuid": "ae0d55a2-8d02-4ded-8e9b-ac87eff0e301@1d4a7",
+      "displayName": "",
+      "id": "1d4a7",
+      "name": "SM_Prop_Roof_Aircon_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "ae0d55a2-8d02-4ded-8e9b-ac87eff0e301@1d4a7",
+    "assetFinder": {
+      "meshes": [
+        "ae0d55a2-8d02-4ded-8e9b-ac87eff0e301@f8af3"
+      ],
+      "skeletons": [],
+      "textures": [
+        "ae0d55a2-8d02-4ded-8e9b-ac87eff0e301@4d57f",
+        "ae0d55a2-8d02-4ded-8e9b-ac87eff0e301@099b0"
+      ],
+      "materials": [
+        "ae0d55a2-8d02-4ded-8e9b-ac87eff0e301@627b1"
+      ],
+      "scenes": [
+        "ae0d55a2-8d02-4ded-8e9b-ac87eff0e301@1d4a7"
+      ]
+    }
+  }
+}

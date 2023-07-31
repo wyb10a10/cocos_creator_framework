@@ -1,0 +1,168 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4",
+  "files": [
+    "__original-animation-0.cconb"
+  ],
+  "subMetas": {
+    "01e02": {
+      "importer": "gltf-mesh",
+      "uuid": "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@01e02",
+      "displayName": "",
+      "id": "01e02",
+      "name": "Character_Female_Jacket.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "73b7f": {
+      "importer": "gltf-animation",
+      "uuid": "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@73b7f",
+      "displayName": "",
+      "id": "73b7f",
+      "name": "Take 001.animation",
+      "userData": {
+        "gltfIndex": 0,
+        "wrapMode": 2,
+        "sample": 30,
+        "span": {
+          "from": 0,
+          "to": 0.7666666507720947
+        },
+        "events": []
+      },
+      "ver": "1.0.16",
+      "imported": true,
+      "files": [
+        ".cconb"
+      ],
+      "subMetas": {}
+    },
+    "438fe": {
+      "importer": "gltf-skeleton",
+      "uuid": "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@438fe",
+      "displayName": "",
+      "id": "438fe",
+      "name": "UnnamedSkeleton.skeleton",
+      "userData": {
+        "gltfIndex": 0,
+        "jointsLength": 48
+      },
+      "ver": "1.0.1",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d9c4e": {
+      "importer": "texture",
+      "uuid": "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@d9c4e",
+      "displayName": "",
+      "id": "d9c4e",
+      "name": "file283.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_C.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b904f": {
+      "importer": "gltf-material",
+      "uuid": "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@b904f",
+      "displayName": "",
+      "id": "b904f",
+      "name": "lambert14.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "549b6": {
+      "importer": "gltf-scene",
+      "uuid": "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@549b6",
+      "displayName": "",
+      "id": "549b6",
+      "name": "SK_Character_Female_Jacket.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file283",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_C.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "animationImportSettings": [
+      {
+        "name": "Take 001",
+        "duration": 0.7666666507720947,
+        "fps": 30,
+        "splits": [
+          {
+            "name": "Take 001",
+            "from": 0,
+            "to": 0.7666666507720947,
+            "wrapMode": 2
+          }
+        ]
+      }
+    ],
+    "redirect": "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@549b6",
+    "assetFinder": {
+      "meshes": [
+        "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@01e02"
+      ],
+      "skeletons": [
+        "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@438fe"
+      ],
+      "textures": [
+        "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@d9c4e"
+      ],
+      "materials": [
+        "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@b904f"
+      ],
+      "scenes": [
+        "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@549b6"
+      ]
+    }
+  }
+}

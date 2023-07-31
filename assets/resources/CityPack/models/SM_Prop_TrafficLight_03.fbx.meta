@@ -1,0 +1,137 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "3751154e-41e6-4147-89d9-d20fbc4b114b",
+  "files": [],
+  "subMetas": {
+    "ca350": {
+      "importer": "gltf-mesh",
+      "uuid": "3751154e-41e6-4147-89d9-d20fbc4b114b@ca350",
+      "displayName": "",
+      "id": "ca350",
+      "name": "SM_Prop_TrafficLight_03.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "3751154e-41e6-4147-89d9-d20fbc4b114b@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "3751154e-41e6-4147-89d9-d20fbc4b114b@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "3751154e-41e6-4147-89d9-d20fbc4b114b@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "720b9": {
+      "importer": "gltf-scene",
+      "uuid": "3751154e-41e6-4147-89d9-d20fbc4b114b@720b9",
+      "displayName": "",
+      "id": "720b9",
+      "name": "SM_Prop_TrafficLight_03.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "3751154e-41e6-4147-89d9-d20fbc4b114b@720b9",
+    "assetFinder": {
+      "meshes": [
+        "3751154e-41e6-4147-89d9-d20fbc4b114b@ca350"
+      ],
+      "skeletons": [],
+      "textures": [
+        "3751154e-41e6-4147-89d9-d20fbc4b114b@4d57f",
+        "3751154e-41e6-4147-89d9-d20fbc4b114b@099b0"
+      ],
+      "materials": [
+        "3751154e-41e6-4147-89d9-d20fbc4b114b@627b1"
+      ],
+      "scenes": [
+        "3751154e-41e6-4147-89d9-d20fbc4b114b@720b9"
+      ]
+    }
+  }
+}

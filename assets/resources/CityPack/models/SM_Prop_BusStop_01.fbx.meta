@@ -1,0 +1,172 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e",
+  "files": [],
+  "subMetas": {
+    "da341": {
+      "importer": "gltf-mesh",
+      "uuid": "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@da341",
+      "displayName": "",
+      "id": "da341",
+      "name": "SM_Prop_BusStop_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "9136e": {
+      "importer": "gltf-mesh",
+      "uuid": "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@9136e",
+      "displayName": "",
+      "id": "9136e",
+      "name": "SM_Prop_BusStop_01_Glass.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "458dd": {
+      "importer": "gltf-material",
+      "uuid": "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@458dd",
+      "displayName": "",
+      "id": "458dd",
+      "name": "Mat_Glass_01.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4a250": {
+      "importer": "gltf-scene",
+      "uuid": "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@4a250",
+      "displayName": "",
+      "id": "4a250",
+      "name": "SM_Prop_BusStop_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@4a250",
+    "assetFinder": {
+      "meshes": [
+        "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@da341",
+        "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@9136e"
+      ],
+      "skeletons": [],
+      "textures": [
+        "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@4d57f",
+        "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@099b0"
+      ],
+      "materials": [
+        "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@627b1",
+        "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@458dd"
+      ],
+      "scenes": [
+        "dd8ef8e5-dce9-48dc-9d3b-dd1459d5542e@4a250"
+      ]
+    }
+  }
+}

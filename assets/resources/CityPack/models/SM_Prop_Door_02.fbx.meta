@@ -1,0 +1,137 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "d73a0c2c-8883-475b-b20e-d446eba5aa34",
+  "files": [],
+  "subMetas": {
+    "6b68e": {
+      "importer": "gltf-mesh",
+      "uuid": "d73a0c2c-8883-475b-b20e-d446eba5aa34@6b68e",
+      "displayName": "",
+      "id": "6b68e",
+      "name": "SM_Prop_Door_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "d73a0c2c-8883-475b-b20e-d446eba5aa34@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "d73a0c2c-8883-475b-b20e-d446eba5aa34@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "d73a0c2c-8883-475b-b20e-d446eba5aa34@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3865f": {
+      "importer": "gltf-scene",
+      "uuid": "d73a0c2c-8883-475b-b20e-d446eba5aa34@3865f",
+      "displayName": "",
+      "id": "3865f",
+      "name": "SM_Prop_Door_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "d73a0c2c-8883-475b-b20e-d446eba5aa34@3865f",
+    "assetFinder": {
+      "meshes": [
+        "d73a0c2c-8883-475b-b20e-d446eba5aa34@6b68e"
+      ],
+      "skeletons": [],
+      "textures": [
+        "d73a0c2c-8883-475b-b20e-d446eba5aa34@4d57f",
+        "d73a0c2c-8883-475b-b20e-d446eba5aa34@099b0"
+      ],
+      "materials": [
+        "d73a0c2c-8883-475b-b20e-d446eba5aa34@627b1"
+      ],
+      "scenes": [
+        "d73a0c2c-8883-475b-b20e-d446eba5aa34@3865f"
+      ]
+    }
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "54ee6d7f-08b2-4a52-9f29-1349811ef902",
+  "files": [],
+  "subMetas": {
+    "2afdd": {
+      "importer": "gltf-mesh",
+      "uuid": "54ee6d7f-08b2-4a52-9f29-1349811ef902@2afdd",
+      "displayName": "",
+      "id": "2afdd",
+      "name": "SM_Bld_Apartment_Stairs_Planter_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "54ee6d7f-08b2-4a52-9f29-1349811ef902@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "54ee6d7f-08b2-4a52-9f29-1349811ef902@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "54ee6d7f-08b2-4a52-9f29-1349811ef902@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "941ab": {
+      "importer": "gltf-scene",
+      "uuid": "54ee6d7f-08b2-4a52-9f29-1349811ef902@941ab",
+      "displayName": "",
+      "id": "941ab",
+      "name": "SM_Bld_Apartment_Stairs_Planter_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "54ee6d7f-08b2-4a52-9f29-1349811ef902@941ab",
+    "assetFinder": {
+      "meshes": [
+        "54ee6d7f-08b2-4a52-9f29-1349811ef902@2afdd"
+      ],
+      "skeletons": [],
+      "textures": [
+        "54ee6d7f-08b2-4a52-9f29-1349811ef902@4d57f",
+        "54ee6d7f-08b2-4a52-9f29-1349811ef902@099b0"
+      ],
+      "materials": [
+        "54ee6d7f-08b2-4a52-9f29-1349811ef902@627b1"
+      ],
+      "scenes": [
+        "54ee6d7f-08b2-4a52-9f29-1349811ef902@941ab"
+      ]
+    }
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "43cb2b1a-6386-4b00-8456-68a34e85fbc7",
+  "files": [],
+  "subMetas": {
+    "06ff0": {
+      "importer": "gltf-mesh",
+      "uuid": "43cb2b1a-6386-4b00-8456-68a34e85fbc7@06ff0",
+      "displayName": "",
+      "id": "06ff0",
+      "name": "SM_Prop_Power_Cables_02.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "43cb2b1a-6386-4b00-8456-68a34e85fbc7@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "43cb2b1a-6386-4b00-8456-68a34e85fbc7@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "43cb2b1a-6386-4b00-8456-68a34e85fbc7@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "7716a": {
+      "importer": "gltf-scene",
+      "uuid": "43cb2b1a-6386-4b00-8456-68a34e85fbc7@7716a",
+      "displayName": "",
+      "id": "7716a",
+      "name": "SM_Prop_Power_Cables_02.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "43cb2b1a-6386-4b00-8456-68a34e85fbc7@7716a",
+    "assetFinder": {
+      "meshes": [
+        "43cb2b1a-6386-4b00-8456-68a34e85fbc7@06ff0"
+      ],
+      "skeletons": [],
+      "textures": [
+        "43cb2b1a-6386-4b00-8456-68a34e85fbc7@4d57f",
+        "43cb2b1a-6386-4b00-8456-68a34e85fbc7@099b0"
+      ],
+      "materials": [
+        "43cb2b1a-6386-4b00-8456-68a34e85fbc7@627b1"
+      ],
+      "scenes": [
+        "43cb2b1a-6386-4b00-8456-68a34e85fbc7@7716a"
+      ]
+    }
+  }
+}

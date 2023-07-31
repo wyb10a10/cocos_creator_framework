@@ -1,0 +1,172 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "b7d6efd8-609a-4aa1-bb86-e254ecdb3532",
+  "files": [],
+  "subMetas": {
+    "ac029": {
+      "importer": "gltf-mesh",
+      "uuid": "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@ac029",
+      "displayName": "",
+      "id": "ac029",
+      "name": "SM_Bld_OfficeRound_Base_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b2333": {
+      "importer": "gltf-mesh",
+      "uuid": "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@b2333",
+      "displayName": "",
+      "id": "b2333",
+      "name": "SM_Bld_OfficeRound_Base_01_Glass.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "458dd": {
+      "importer": "gltf-material",
+      "uuid": "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@458dd",
+      "displayName": "",
+      "id": "458dd",
+      "name": "Mat_Glass_01.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "0c9e2": {
+      "importer": "gltf-scene",
+      "uuid": "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@0c9e2",
+      "displayName": "",
+      "id": "0c9e2",
+      "name": "SM_Bld_OfficeRound_Base_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@0c9e2",
+    "assetFinder": {
+      "meshes": [
+        "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@ac029",
+        "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@b2333"
+      ],
+      "skeletons": [],
+      "textures": [
+        "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@4d57f",
+        "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@099b0"
+      ],
+      "materials": [
+        "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@627b1",
+        "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@458dd"
+      ],
+      "scenes": [
+        "b7d6efd8-609a-4aa1-bb86-e254ecdb3532@0c9e2"
+      ]
+    }
+  }
+}

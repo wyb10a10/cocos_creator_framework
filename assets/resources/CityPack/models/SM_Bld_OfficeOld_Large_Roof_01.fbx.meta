@@ -1,0 +1,137 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "78ac6752-8a44-478f-871c-9f728e2cfe7d",
+  "files": [],
+  "subMetas": {
+    "0905c": {
+      "importer": "gltf-mesh",
+      "uuid": "78ac6752-8a44-478f-871c-9f728e2cfe7d@0905c",
+      "displayName": "",
+      "id": "0905c",
+      "name": "SM_Bld_OfficeOld_Large_Roof_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "78ac6752-8a44-478f-871c-9f728e2cfe7d@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "78ac6752-8a44-478f-871c-9f728e2cfe7d@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "78ac6752-8a44-478f-871c-9f728e2cfe7d@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "212ea": {
+      "importer": "gltf-scene",
+      "uuid": "78ac6752-8a44-478f-871c-9f728e2cfe7d@212ea",
+      "displayName": "",
+      "id": "212ea",
+      "name": "SM_Bld_OfficeOld_Large_Roof_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "78ac6752-8a44-478f-871c-9f728e2cfe7d@212ea",
+    "assetFinder": {
+      "meshes": [
+        "78ac6752-8a44-478f-871c-9f728e2cfe7d@0905c"
+      ],
+      "skeletons": [],
+      "textures": [
+        "78ac6752-8a44-478f-871c-9f728e2cfe7d@4d57f",
+        "78ac6752-8a44-478f-871c-9f728e2cfe7d@099b0"
+      ],
+      "materials": [
+        "78ac6752-8a44-478f-871c-9f728e2cfe7d@627b1"
+      ],
+      "scenes": [
+        "78ac6752-8a44-478f-871c-9f728e2cfe7d@212ea"
+      ]
+    }
+  }
+}

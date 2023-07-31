@@ -1,0 +1,137 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "b2070f6c-367a-4ff8-8bef-4af13cf3b09d",
+  "files": [],
+  "subMetas": {
+    "52578": {
+      "importer": "gltf-mesh",
+      "uuid": "b2070f6c-367a-4ff8-8bef-4af13cf3b09d@52578",
+      "displayName": "",
+      "id": "52578",
+      "name": "SM_Prop_Sign_Barber_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "b2070f6c-367a-4ff8-8bef-4af13cf3b09d@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "b2070f6c-367a-4ff8-8bef-4af13cf3b09d@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "b2070f6c-367a-4ff8-8bef-4af13cf3b09d@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "61daa": {
+      "importer": "gltf-scene",
+      "uuid": "b2070f6c-367a-4ff8-8bef-4af13cf3b09d@61daa",
+      "displayName": "",
+      "id": "61daa",
+      "name": "SM_Prop_Sign_Barber_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "b2070f6c-367a-4ff8-8bef-4af13cf3b09d@61daa",
+    "assetFinder": {
+      "meshes": [
+        "b2070f6c-367a-4ff8-8bef-4af13cf3b09d@52578"
+      ],
+      "skeletons": [],
+      "textures": [
+        "b2070f6c-367a-4ff8-8bef-4af13cf3b09d@4d57f",
+        "b2070f6c-367a-4ff8-8bef-4af13cf3b09d@099b0"
+      ],
+      "materials": [
+        "b2070f6c-367a-4ff8-8bef-4af13cf3b09d@627b1"
+      ],
+      "scenes": [
+        "b2070f6c-367a-4ff8-8bef-4af13cf3b09d@61daa"
+      ]
+    }
+  }
+}

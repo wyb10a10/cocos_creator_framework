@@ -1,0 +1,352 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7",
+  "files": [],
+  "subMetas": {
+    "79402": {
+      "importer": "gltf-mesh",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@79402",
+      "displayName": "",
+      "id": "79402",
+      "name": "SM_Veh_Car_Ambo_01.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "02885": {
+      "importer": "gltf-mesh",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@02885",
+      "displayName": "",
+      "id": "02885",
+      "name": "SM_Veh_Car_Ambo_Door_l.mesh",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "5159f": {
+      "importer": "gltf-mesh",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@5159f",
+      "displayName": "",
+      "id": "5159f",
+      "name": "SM_Veh_Car_Ambo_Door_l_Glass.mesh",
+      "userData": {
+        "gltfIndex": 2
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "21e8d": {
+      "importer": "gltf-mesh",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@21e8d",
+      "displayName": "",
+      "id": "21e8d",
+      "name": "SM_Veh_Car_Ambo_Door_r.mesh",
+      "userData": {
+        "gltfIndex": 3
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "90c2c": {
+      "importer": "gltf-mesh",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@90c2c",
+      "displayName": "",
+      "id": "90c2c",
+      "name": "SM_Veh_Car_Ambo_Door_r_Glass.mesh",
+      "userData": {
+        "gltfIndex": 4
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "035c8": {
+      "importer": "gltf-mesh",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@035c8",
+      "displayName": "",
+      "id": "035c8",
+      "name": "SM_Veh_Car_Ambo_Glass.mesh",
+      "userData": {
+        "gltfIndex": 5
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "799cd": {
+      "importer": "gltf-mesh",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@799cd",
+      "displayName": "",
+      "id": "799cd",
+      "name": "SM_Veh_Car_Ambo_Wheel_fl.mesh",
+      "userData": {
+        "gltfIndex": 6
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "2f910": {
+      "importer": "gltf-mesh",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@2f910",
+      "displayName": "",
+      "id": "2f910",
+      "name": "SM_Veh_Car_Ambo_Wheel_rl.mesh",
+      "userData": {
+        "gltfIndex": 7
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3bb02": {
+      "importer": "gltf-mesh",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@3bb02",
+      "displayName": "",
+      "id": "3bb02",
+      "name": "SM_Veh_Car_Ambo_Wheel_fr.mesh",
+      "userData": {
+        "gltfIndex": 8
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "06fff": {
+      "importer": "gltf-mesh",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@06fff",
+      "displayName": "",
+      "id": "06fff",
+      "name": "SM_Veh_Car_Ambo_Wheel_rr.mesh",
+      "userData": {
+        "gltfIndex": 9
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b7a65": {
+      "importer": "gltf-mesh",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@b7a65",
+      "displayName": "",
+      "id": "b7a65",
+      "name": "SM_Veh_Car_Ambo_SteeringW.mesh",
+      "userData": {
+        "gltfIndex": 10
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "34d4f": {
+      "importer": "gltf-mesh",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@34d4f",
+      "displayName": "",
+      "id": "34d4f",
+      "name": "SM_Veh_Car_Ambo_Plates.mesh",
+      "userData": {
+        "gltfIndex": 11
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "458dd": {
+      "importer": "gltf-material",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@458dd",
+      "displayName": "",
+      "id": "458dd",
+      "name": "Mat_Glass_01.material",
+      "userData": {
+        "gltfIndex": 1
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "dffff": {
+      "importer": "gltf-scene",
+      "uuid": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@dffff",
+      "displayName": "",
+      "id": "dffff",
+      "name": "SM_Veh_Car_Ambo_01.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@dffff",
+    "assetFinder": {
+      "meshes": [
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@79402",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@02885",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@5159f",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@21e8d",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@90c2c",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@035c8",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@799cd",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@2f910",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@3bb02",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@06fff",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@b7a65",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@34d4f"
+      ],
+      "skeletons": [],
+      "textures": [
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@4d57f",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@099b0"
+      ],
+      "materials": [
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@627b1",
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@458dd"
+      ],
+      "scenes": [
+        "20fc8fe4-0a1e-474d-8cec-1ffac47107b7@dffff"
+      ]
+    }
+  }
+}

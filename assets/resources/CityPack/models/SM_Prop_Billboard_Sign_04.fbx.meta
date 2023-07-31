@@ -1,0 +1,109 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "e867cfd5-1534-4627-8408-56d6bb3c9b91",
+  "files": [],
+  "subMetas": {
+    "4f410": {
+      "importer": "gltf-mesh",
+      "uuid": "e867cfd5-1534-4627-8408-56d6bb3c9b91@4f410",
+      "displayName": "",
+      "id": "4f410",
+      "name": "SM_Prop_Billboard_Sign_04.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "8eead": {
+      "importer": "texture",
+      "uuid": "e867cfd5-1534-4627-8408-56d6bb3c9b91@8eead",
+      "displayName": "",
+      "id": "8eead",
+      "name": "file1012.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/BillboardAds.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cf7ad": {
+      "importer": "gltf-material",
+      "uuid": "e867cfd5-1534-4627-8408-56d6bb3c9b91@cf7ad",
+      "displayName": "",
+      "id": "cf7ad",
+      "name": "Mat_Billboard_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "52f02": {
+      "importer": "gltf-scene",
+      "uuid": "e867cfd5-1534-4627-8408-56d6bb3c9b91@52f02",
+      "displayName": "",
+      "id": "52f02",
+      "name": "SM_Prop_Billboard_Sign_04.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1012",
+        "uri": "db://assets/resources/CityPack/textures/BillboardAds.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "e867cfd5-1534-4627-8408-56d6bb3c9b91@52f02",
+    "assetFinder": {
+      "meshes": [
+        "e867cfd5-1534-4627-8408-56d6bb3c9b91@4f410"
+      ],
+      "skeletons": [],
+      "textures": [
+        "e867cfd5-1534-4627-8408-56d6bb3c9b91@8eead"
+      ],
+      "materials": [
+        "e867cfd5-1534-4627-8408-56d6bb3c9b91@cf7ad"
+      ],
+      "scenes": [
+        "e867cfd5-1534-4627-8408-56d6bb3c9b91@52f02"
+      ]
+    }
+  }
+}

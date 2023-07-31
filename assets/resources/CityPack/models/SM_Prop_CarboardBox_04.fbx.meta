@@ -1,0 +1,137 @@
+{
+  "ver": "2.3.4",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "22dc03ef-b81a-46e7-8f21-975945a2d954",
+  "files": [],
+  "subMetas": {
+    "634a7": {
+      "importer": "gltf-mesh",
+      "uuid": "22dc03ef-b81a-46e7-8f21-975945a2d954@634a7",
+      "displayName": "",
+      "id": "634a7",
+      "name": "SM_Prop_CarboardBox_04.mesh",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "4d57f": {
+      "importer": "texture",
+      "uuid": "22dc03ef-b81a-46e7-8f21-975945a2d954@4d57f",
+      "displayName": "",
+      "id": "4d57f",
+      "name": "file1011.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "099b0": {
+      "importer": "texture",
+      "uuid": "22dc03ef-b81a-46e7-8f21-975945a2d954@099b0",
+      "displayName": "",
+      "id": "099b0",
+      "name": "file1009.texture",
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      },
+      "ver": "1.0.22",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "627b1": {
+      "importer": "gltf-material",
+      "uuid": "22dc03ef-b81a-46e7-8f21-975945a2d954@627b1",
+      "displayName": "",
+      "id": "627b1",
+      "name": "Mat_Base_01.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "59d6e": {
+      "importer": "gltf-scene",
+      "uuid": "22dc03ef-b81a-46e7-8f21-975945a2d954@59d6e",
+      "displayName": "",
+      "id": "59d6e",
+      "name": "SM_Prop_CarboardBox_04.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "file1011",
+        "uri": "db://assets/resources/CityPack/textures/Emissive_01.png"
+      },
+      {
+        "name": "file1009",
+        "uri": "db://assets/resources/CityPack/textures/PolygonCity_Texture_01_A.png"
+      }
+    ],
+    "legacyFbxImporter": false,
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "redirect": "22dc03ef-b81a-46e7-8f21-975945a2d954@59d6e",
+    "assetFinder": {
+      "meshes": [
+        "22dc03ef-b81a-46e7-8f21-975945a2d954@634a7"
+      ],
+      "skeletons": [],
+      "textures": [
+        "22dc03ef-b81a-46e7-8f21-975945a2d954@4d57f",
+        "22dc03ef-b81a-46e7-8f21-975945a2d954@099b0"
+      ],
+      "materials": [
+        "22dc03ef-b81a-46e7-8f21-975945a2d954@627b1"
+      ],
+      "scenes": [
+        "22dc03ef-b81a-46e7-8f21-975945a2d954@59d6e"
+      ]
+    }
+  }
+}

@@ -1,5 +1,4 @@
 import { UIConf, uiManager } from "../ui/UIManager";
-import { resLoader } from "../res/ResLoader";
 import { Component, _decorator } from "cc";
 
 // Learn TypeScript:

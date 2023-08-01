@@ -1,30 +1,50 @@
-/* global CC_EDITOR */
-import { _decorator, Component, Node, assetManager } from 'cc';
-const { ccclass, property, executeInEditMode } = _decorator;
+import { _decorator, Component, Node } from 'cc';
+import { ServerReplicator } from './ServerReplicator';
+const { ccclass, property } = _decorator;
 
 @ccclass('NodeSync')
-@executeInEditMode
-export default class NodeSync extends Component {
+export class NodeSync extends Component {
+    @property
+    public instanceId: number = -1;
 
-    @property({ tooltip: "Prefab 资源路径", readonly: true })
-    public myStringVar: string = '';
+    @property
+    public prefabPath: string = '';
 
-    onLoad() {
-        if (CC_EDITOR) {
-            this.updatePrefabPath();
-        }
-        console.log("NodeSync onLoad");
+    public childrenNodeSync: NodeSync[] = [];
+
+    public setInstanceId(id: number) {
+        this.instanceId = id;
     }
 
-    updatePrefabPath() {
-        let uuid = this.node.uuid;
-        let asset = assetManager.assets.get(uuid);
+    public setPrefabPath(path: string) {
+        this.prefabPath = path;
+    }
 
-        if (asset) {
-            let url = asset.nativeUrl;
-            this.myStringVar = url;
-        } else {
-            this.myStringVar = "";
+    public addChildNodeSync(nodeSync: NodeSync) {
+        this.childrenNodeSync.push(nodeSync);
+    }
+
+    onEnable() {
+        this.registerToParent();
+    }
+
+    private registerToParent() {
+        let currentNode: Node | null = this.node.parent;
+        while (currentNode) {
+            const serverReplicator = currentNode.getComponent(ServerReplicator);
+            if (serverReplicator) {
+                serverReplicator.registerNodeSync(this);
+                break;
+            }
+
+            const parentNodeSync = currentNode.getComponent(NodeSync);
+            if (parentNodeSync) {
+                parentNodeSync.addChildNodeSync(this);
+                this.setInstanceId(parentNodeSync.instanceId);
+                break;
+            }
+
+            currentNode = currentNode.parent;
         }
     }
 }

@@ -16,8 +16,8 @@ export class ServerReplicator extends Component {
         const nodeSync = instance.getComponent(NodeSync);
         if (nodeSync) {
             nodeSync.setInstanceId(this.instanceCounter++);
-            nodeSync.setPrefabPath(`path/to/prefab/${prefab.name}`);
             this.node.addChild(instance);
+            console.log(`create instance ${nodeSync.instanceId}`);
         }
     }
 
@@ -38,6 +38,5 @@ export class ServerReplicator extends Component {
         if (nodeSync.instanceId === -1) {
             nodeSync.setInstanceId(this.instanceCounter++);
         }
-        nodeSync.setPrefabPath(`path/to/prefab/${nodeSync.node.name}`);
     }
 }

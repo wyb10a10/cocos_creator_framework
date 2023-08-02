@@ -23,10 +23,12 @@ export class SyncUI extends Component {
     }
 
     private onCreateButtonClick() {
+        console.log("create button click");
         this.serverReplicator?.createRandomPrefab();
     }
 
     private async onSyncButtonClick() {
+        console.log("sync button click");
         const syncData = this.serverReplicator?.generateSyncData();
         if (syncData) {
             await this.clientReplicator?.syncInstances(syncData);

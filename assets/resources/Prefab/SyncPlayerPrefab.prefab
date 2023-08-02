@@ -28,10 +28,13 @@
     "_components": [
       {
         "__id__": 105
+      },
+      {
+        "__id__": 107
       }
     ],
     "_prefab": {
-      "__id__": 107
+      "__id__": 109
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -137,6 +140,7 @@
     "_shadowReceivingMode": 1,
     "_shadowBias": 0,
     "_shadowNormalBias": 0,
+    "_reflectionProbeId": -1,
     "_enableMorph": true,
     "_skeleton": {
       "__uuid__": "c159eb0a-a3c2-44ec-8563-144c4fe4a8a4@438fe",
@@ -3094,6 +3098,25 @@
     "fileId": "eaaa1znBBYfaQ9P2pxfZY5"
   },
   {
+    "__type__": "c2990j8KTBMboE8EMAhvEx1",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 108
+    },
+    "instanceId": -1,
+    "prefabPath": "Prefab/SyncPlayerPrefab",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "82Ua3ym/VEW6/7Zb7/LTrS"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -3102,6 +3125,7 @@
       "__id__": 0
     },
     "fileId": "2fG8Na7jNW/pP9PVna3fd9",
+    "instance": null,
     "targetOverrides": null
   }
 ]

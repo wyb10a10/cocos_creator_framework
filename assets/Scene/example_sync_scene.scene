@@ -422,7 +422,12 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "prefabs": [],
+    "prefabs": [
+      {
+        "__uuid__": "b4fbe877-80a3-4f7c-969c-fac3aa757846",
+        "__expectedType__": "cc.Prefab"
+      }
+    ],
     "_id": "4fy9wY5GhDioLOut+GKiPu"
   },
   {

@@ -70,6 +70,8 @@ export class DynamicPropertyPanel extends Component {
             const buttonLabel = buttonNode.addComponent(Label);
             buttonLabel.string = 'Toggle';
         }
+
+        console.log('init ui');
     }
 
     private _togglePropertyPanel(): void {
@@ -80,12 +82,13 @@ export class DynamicPropertyPanel extends Component {
     }
 
     private _setupProperties(): void {
-        const spriteComponent = this.targetNode?.getComponent(Sprite);
-        if (spriteComponent) {
-            this._properties.set('color', spriteComponent.color);
-            this._properties.set('size', spriteComponent.name);
+        if (!this.targetNode) {
+            return;
         }
-        // 在这里添加更多属性
+
+        this._properties.set('name', this.targetNode.name);
+        this._properties.set('position', this.targetNode.position);
+        this._properties.set('rotation', this.targetNode.eulerAngles);
     }
 
     private _updateProperties(): void {

@@ -12,6 +12,7 @@ export default class NodeReplicator implements IReplicator {
     private target: Node;
     private replicators: Map<string, IReplicator> = new Map();
     private version: number = 0;
+    private lastCheckVersion: number = 0;
 
     constructor(target: Node) {
         this.target = target;
@@ -37,6 +38,7 @@ export default class NodeReplicator implements IReplicator {
     }
 
     private isReplicated(component: Component): boolean {
+        // TODO:是否需要检查component本身是否有ReplicateMark
         if (getReplicateMark(component.constructor, false)) {
             return true;
         }
@@ -60,6 +62,15 @@ export default class NodeReplicator implements IReplicator {
     }
 
     genDiff(fromVersion: number, toVersion: number): any {
+        if (toVersion < fromVersion || this.target === null) {
+            return false;
+        }
+        let needScan = this.lastCheckVersion < toVersion;
+        // 如果不需要扫描，且最终版本小于fromVersion，则直接返回
+        if (!needScan && fromVersion > this.version) {
+            return false;
+        }
+
         const diff: any = {};
 
         for (const [key, replicator] of this.replicators) {
@@ -69,7 +80,13 @@ export default class NodeReplicator implements IReplicator {
             }
         }
 
-        return Object.keys(diff).length > 0 ? diff : false;
+        this.lastCheckVersion = toVersion;
+
+        if (Object.keys(diff).length > 0) {
+            this.version = toVersion;
+            return diff;
+        }
+        return false;
     }
 
     applyDiff(diff: any): void {

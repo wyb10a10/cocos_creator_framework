@@ -50,7 +50,12 @@ export function getReplicator(target: any, autoCreator: boolean = false, mark?: 
         if (!mark) {
             mark = getReplicateMark(target.constructor, true);
             // 当类装饰器作用时，如果属性还未生成，则需要使用类的实例进行初始化
-            mark.initMark(target);
+            if (mark) {
+                mark.initMark(target);
+            } else {
+                console.warn(`getReplicator error, ${target.constructor.name} not found in ReplicateMark`);
+                return null;
+            }
         }
         ret = createReplicator(target, mark);
         if (ret) {
@@ -77,6 +82,10 @@ function makePropertyReplicatedMark(cls: any, propertyKey: string, descriptor?: 
     if (descriptor) {
         // 获取这个类的同步标记
         let markObj = getReplicateMark(cls, true);
+        if (!markObj) {
+            console.warn(`makePropertyReplicatedMark error, ${cls} not found in ReplicateMark`);
+            return;
+        }
         // 初始化默认值def
         if ('initializer' in descriptor && typeof descriptor['initializer'] == 'function') {
             let def = (descriptor as any).initializer();
@@ -97,7 +106,7 @@ function makePropertyReplicatedMark(cls: any, propertyKey: string, descriptor?: 
  * @param cls 
  * @param option 
  */
-function makeObjectReplicatedMark(cls: any, option?: ObjectReplicatedOption): ReplicateMark {
+function makeObjectReplicatedMark(cls: any, option?: ObjectReplicatedOption): ReplicateMark | undefined {
     return getReplicateMark(cls, true, option);
 }
 

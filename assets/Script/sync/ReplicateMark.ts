@@ -66,8 +66,8 @@ export interface ReplicateMarkInfo {
  * @param target 要修饰的类对象
  * @returns ReplicateMark
  */
-export function getReplicateMark(target: any, autoCreator: boolean = true, option?: ObjectReplicatedOption): ReplicateMark {
-    let ret: ReplicateMark = target[REPLICATE_MARK_INDEX];
+export function getReplicateMark(target: any, autoCreator: boolean = true, option?: ObjectReplicatedOption): ReplicateMark | undefined {
+    let ret: ReplicateMark | undefined = target[REPLICATE_MARK_INDEX];
     if (!ret && autoCreator) {
         ret = new ReplicateMark(target, option);
         Object.defineProperty(target, REPLICATE_MARK_INDEX, {

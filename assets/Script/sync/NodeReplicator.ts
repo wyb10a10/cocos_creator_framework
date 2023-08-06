@@ -1,0 +1,92 @@
+import { Node, Component } from 'cc';
+import { IReplicator } from './SyncUtil';
+import { createReplicator } from './ReplicatorFactory';
+import { getReplicateMark } from './ReplicateMark';
+
+class NodeReplicator implements IReplicator {
+    private target: Node;
+    private replicators: Map<string, IReplicator> = new Map();
+    private version: number = 0;
+
+    constructor(target: Node) {
+        this.target = target;
+        this.scanNode(target);
+    }
+
+    private scanNode(node: Node): void {
+        for (const component of node.components) {
+            if (this.isReplicated(component)) {
+                const key = this.getComponentKey(node, component);
+                const replicator = createReplicator(component);
+                if (replicator) {
+                    this.replicators.set(key, replicator);
+                } else {
+                    console.error(`NodeReplicator scanNode error, key: ${key}`);
+                }
+            }
+        }
+
+        for (const child of node.children) {
+            this.scanNode(child);
+        }
+    }
+
+    private isReplicated(component: Component): boolean {
+        if (getReplicateMark(component.constructor, false)) {
+            return true;
+        }
+        return false;
+    }
+
+    private getComponentKey(node: Node, component: Component): string {
+        return `${this.getNodePath(node)}:${component.constructor.name}`;
+    }
+
+    private getNodePath(node: Node): string {
+        let path = node.name;
+        let current = node.parent;
+    
+        while (current) {
+            path = `${current.name}/${path}`;
+            current = current.parent;
+        }
+    
+        return path;
+    }
+
+    genDiff(fromVersion: number, toVersion: number): any {
+        const diff: any = {};
+
+        for (const [key, replicator] of this.replicators) {
+            const componentDiff = replicator.genDiff(fromVersion, toVersion);
+            if (componentDiff) {
+                diff[key] = componentDiff;
+            }
+        }
+
+        return Object.keys(diff).length > 0 ? diff : false;
+    }
+
+    applyDiff(diff: any): void {
+        for (const key in diff) {
+            const replicator = this.replicators.get(key);
+            if (replicator) {
+                replicator.applyDiff(diff[key]);
+            } else {
+                console.error(`NodeReplicator applyDiff error, key: ${key}`);
+            }
+        }
+    }
+
+    getVersion(): number {
+        return this.version;
+    }
+
+    getTarget(): Node {
+        return this.target;
+    }
+
+    setTarget(target: Node): void {
+        this.target = target;
+    }
+}

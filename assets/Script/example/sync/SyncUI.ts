@@ -1,6 +1,6 @@
 import { _decorator, Component, Button } from 'cc';
-import { ServerReplicator } from '../../sync/ServerReplicator';
-import { ClientReplicator } from '../../sync/ClientReplicator';
+import { ServerReplicator } from '../../sync/components/ServerReplicator';
+import ClientReplicator from '../../sync/components/ClientReplicator';
 const { ccclass, property } = _decorator;
 
 @ccclass('SyncUI')

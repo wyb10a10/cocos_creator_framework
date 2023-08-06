@@ -3,7 +3,12 @@ import { IReplicator } from './SyncUtil';
 import { createReplicator } from './ReplicatorFactory';
 import { getReplicateMark } from './ReplicateMark';
 
-class NodeReplicator implements IReplicator {
+/**
+ * NodeReplicator用于管理当前节点及其子节点的所有标记为同步的组件
+ * 维护这些组件的Replicator，以及生成Diff
+ * NodeReplicator当前的版本不支持节点和组件的动态添加和删除
+ */
+export default class NodeReplicator implements IReplicator {
     private target: Node;
     private replicators: Map<string, IReplicator> = new Map();
     private version: number = 0;

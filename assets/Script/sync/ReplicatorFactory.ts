@@ -1,4 +1,4 @@
-import { Vec3 } from "cc";
+import { Vec3, Node } from "cc";
 import { ArrayLinkReplicator, ArrayReplicator, SimpleArrayReplicator } from "./ArrayReplicator";
 import { CCVec3Replicator } from "./CocosReplicator";
 import { ReplicateScanner } from "./DiffScaner";
@@ -7,6 +7,7 @@ import ReplicateMark, { ReplicateType } from "./ReplicateMark";
 import { IReplicator, isSimpleType } from "./SyncUtil";
 import { SimpleSetReplicator } from "./SetReplicator";
 import { HashReplicator, SimpleHashReplicator } from "./HashReplicator";
+import NodeReplicator from "./NodeReplicator";
 
 export function createReplicator(target: any, mark?: ReplicateMark): IReplicator | null {
     // 根据target的类型和mark参数决定创建哪种类型的Replicator
@@ -33,6 +34,8 @@ export function createReplicator(target: any, mark?: ReplicateMark): IReplicator
         return null;
     } else if (target instanceof Vec3) {
         return new CCVec3Replicator(target);
+    } else if (target instanceof Node) {
+        return new NodeReplicator(target);
     } else if (target instanceof Set) {
         return new SimpleSetReplicator(target, mark);
     } else if (target instanceof Map) {

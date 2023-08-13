@@ -426,6 +426,14 @@
       {
         "__uuid__": "b4fbe877-80a3-4f7c-969c-fac3aa757846",
         "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "cf379138-1f7f-4cee-84d2-4d7a71b98f94",
+        "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "fc4b58c9-e6a4-4392-9c90-1f10d66e95b4",
+        "__expectedType__": "cc.Prefab"
       }
     ],
     "_id": "4fy9wY5GhDioLOut+GKiPu"

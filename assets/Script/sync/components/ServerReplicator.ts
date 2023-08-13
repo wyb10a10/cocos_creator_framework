@@ -8,6 +8,7 @@ export class ServerReplicator extends Component {
     public prefabs: Prefab[] = [];
 
     private instanceCounter: number = 0;
+    private serverVersion: number = 0;
 
     public createRandomPrefab() {
         const randomIndex = Math.floor(Math.random() * this.prefabs.length);
@@ -16,9 +17,24 @@ export class ServerReplicator extends Component {
         const nodeSync = instance.getComponent(NodeSync);
         if (nodeSync) {
             nodeSync.setInstanceId(this.instanceCounter++);
-            this.node.addChild(instance);
-            console.log(`create instance ${nodeSync.instanceId}`);
+            // 随机位置在-3到3之间
+            instance.setPosition(Math.random() * 6 - 3, 0, Math.random() * 6 - 3);
+            let node: Node | null = this.node;
+            const childNode = this.getRandomChildNode();
+            if (this.node.children.length > 2 && childNode) {
+                node = childNode;
+            }
+            node.addChild(instance);
+            console.log(`create instance ${nodeSync.instanceId} counter ${this.instanceCounter}`);
         }
+    }
+
+    public getRandomChildNode(): Node | null {
+        if (this.node.children.length > 0) {
+            const randomIndex = Math.floor(Math.random() * this.node.children.length);
+            return this.node.children[randomIndex];
+        }
+        return null;
     }
 
     public generateSyncData(): any {

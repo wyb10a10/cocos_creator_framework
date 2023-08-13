@@ -33,6 +33,7 @@ export class ClientReplicator extends Component {
                 }
             }
             instanceNode.setPosition(new Vec3(data.position.x, data.position.y, data.position.z));
+            console.log(`sync instance ${data.instanceId}`);
         }
     }
 }

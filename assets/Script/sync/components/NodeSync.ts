@@ -69,7 +69,6 @@ export class NodeSync extends Component {
             const parentNodeSync = currentNode.getComponent(NodeSync);
             if (parentNodeSync) {
                 parentNodeSync.addChildNodeSync(this);
-                this.setInstanceId(parentNodeSync.instanceId);
                 break;
             }
 

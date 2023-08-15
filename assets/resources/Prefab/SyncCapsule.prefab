@@ -24,10 +24,13 @@
       },
       {
         "__id__": 5
+      },
+      {
+        "__id__": 7
       }
     ],
     "_prefab": {
-      "__id__": 7
+      "__id__": 9
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -135,6 +138,24 @@
   {
     "__type__": "cc.CompPrefabInfo",
     "fileId": "c4t1Er5TVHMZZoErUvdfHi"
+  },
+  {
+    "__type__": "38e43XxKnZFLbKI7dJoX0cG",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 8
+    },
+    "cubeName": "cube",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "a6KpcLc2FFUoAOlGuxScvJ"
   },
   {
     "__type__": "cc.PrefabInfo",

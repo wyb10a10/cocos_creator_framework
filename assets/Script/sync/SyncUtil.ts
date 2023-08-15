@@ -117,7 +117,8 @@ function makeObjectReplicatedMark(cls: any, option?: ObjectReplicatedOption): Re
 export function replicated(option?: ReplicatedOption) {
     // 真正的装饰器
     return (target: any, propertyKey: string, descriptor?: PropertyDescriptor) => {
-        return makePropertyReplicatedMark(target, propertyKey, descriptor, option);
+        let cls = target.constructor ? target.constructor : target;
+        return makePropertyReplicatedMark(cls, propertyKey, descriptor, option);
     };
 }
 

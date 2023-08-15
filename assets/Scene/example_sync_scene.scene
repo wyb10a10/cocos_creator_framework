@@ -411,6 +411,7 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "cubeName": "cube",
     "_id": "c23znRhDZPRa49AI40a2/T"
   },
   {
@@ -424,7 +425,7 @@
     "__prefab": null,
     "prefabs": [
       {
-        "__uuid__": "b4fbe877-80a3-4f7c-969c-fac3aa757846",
+        "__uuid__": "fc4b58c9-e6a4-4392-9c90-1f10d66e95b4",
         "__expectedType__": "cc.Prefab"
       },
       {
@@ -600,6 +601,7 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "cubeName": "cube",
     "_id": "21I+sEcu1Bs5F0+PxRySKo"
   },
   {

@@ -26,10 +26,12 @@ export default class NodeReplicator implements IReplicator {
                 const replicator = createReplicator(component);
                 if (replicator) {
                     this.replicators.set(key, replicator);
+                    console.log(`NodeReplicator scanNode, key: ${key}`);
                 } else {
                     console.error(`NodeReplicator scanNode error, key: ${key}`);
                 }
             }
+            console.log(`NodeReplicator scanNode, component: ${component.constructor.name}`);
         }
 
         for (const child of node.children) {

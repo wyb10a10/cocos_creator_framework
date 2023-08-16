@@ -429,7 +429,7 @@
         "__expectedType__": "cc.Prefab"
       },
       {
-        "__uuid__": "cf379138-1f7f-4cee-84d2-4d7a71b98f94",
+        "__uuid__": "fc4b58c9-e6a4-4392-9c90-1f10d66e95b4",
         "__expectedType__": "cc.Prefab"
       },
       {
@@ -441,7 +441,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "client",
+    "_name": "server",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1

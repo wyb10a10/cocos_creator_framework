@@ -3,7 +3,7 @@ import { ArrayLinkReplicator, ArrayReplicator, SimpleArrayReplicator } from "./A
 import { CCVec3Replicator } from "./CocosReplicator";
 import { ReplicateScanner } from "./DiffScaner";
 import { ReplicateTrigger } from "./DiffTrigger";
-import ReplicateMark, { ReplicateType } from "./ReplicateMark";
+import ReplicateMark, { ReplicateType, getReplicateMark } from "./ReplicateMark";
 import { IReplicator, isSimpleType } from "./SyncUtil";
 import { SimpleSetReplicator } from "./SetReplicator";
 import { HashReplicator, SimpleHashReplicator } from "./HashReplicator";
@@ -61,6 +61,10 @@ export function createReplicator(target: any, mark?: ReplicateMark): IReplicator
         }
         return null;
     } else if (target instanceof Object) {
+        if (!mark) {
+            // 尝试从类的定义中获取ReplicateMark
+            mark = getReplicateMark(target.constructor, false);
+        }
         if (mark) {
             let objMark = mark.getObjMark();
             if (objMark && objMark.Type == ReplicateType.REPLICATE_TRIGGER) {

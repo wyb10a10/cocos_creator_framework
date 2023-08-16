@@ -160,6 +160,10 @@ export default class ReplicateMark {
             // 如果没有指定SyncProperty，则添加所有属性到标记中
             // 使用Keys遍历，避免遍历到其原型属性导致无限递归
             for (let key of Object.keys(cls)) {
+                // 跳过__开头的属性
+                if (key.indexOf("__") == 0) {
+                    continue;
+                }
                 this.addMark(key, cls[key]);
             }
         }

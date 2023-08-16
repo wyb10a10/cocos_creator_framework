@@ -8,7 +8,7 @@ export class ServerReplicator extends Component {
     public prefabs: Prefab[] = [];
 
     private instanceCounter: number = 0;
-    private serverVersion: number = 0;
+    private serverVersion: number = -1;
 
     public createRandomPrefab() {
         const randomIndex = Math.floor(Math.random() * this.prefabs.length);
@@ -44,9 +44,11 @@ export class ServerReplicator extends Component {
             syncData.push({
                 instanceId: nodeSync.instanceId,
                 prefabPath: nodeSync.prefabPath,
-                position: nodeSync.node.position
+                position: nodeSync.node.position,
+                data: nodeSync.genDiff(this.serverVersion, ++this.serverVersion),
             });
         }
+        console.log(`generate sync data ${JSON.stringify(syncData)}`);
         return syncData;
     }
 

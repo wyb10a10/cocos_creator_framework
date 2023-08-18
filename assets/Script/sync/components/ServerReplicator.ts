@@ -8,7 +8,7 @@ export class ServerReplicator extends Component {
     public prefabs: Prefab[] = [];
 
     private instanceCounter: number = 0;
-    private serverVersion: number = -1;
+    private serverVersion: number = 0;
 
     public createRandomPrefab() {
         const randomIndex = Math.floor(Math.random() * this.prefabs.length);

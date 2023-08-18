@@ -66,10 +66,10 @@ export interface ReplicateMarkInfo {
  * @param target 要修饰的类对象
  * @returns ReplicateMark
  */
-export function getReplicateMark(target: any, autoCreator: boolean = true, option?: ObjectReplicatedOption): ReplicateMark | undefined {
+export function getReplicateMark(target: any, autoCreator: boolean = true, option?: ObjectReplicatedOption, autoScan?: boolean): ReplicateMark | undefined {
     let ret: ReplicateMark | undefined = target[REPLICATE_MARK_INDEX];
     if (!ret && autoCreator) {
-        ret = new ReplicateMark(target, option);
+        ret = new ReplicateMark(target, option, autoScan);
         Object.defineProperty(target, REPLICATE_MARK_INDEX, {
             value: ret,
             enumerable: false,
@@ -91,13 +91,13 @@ export default class ReplicateMark {
     private defaultMark = false;
     private cls: any;
 
-    public constructor(cls: any, objMark?: ObjectReplicatedOption) {
+    public constructor(cls: any, objMark?: ObjectReplicatedOption, autoScan?: boolean) {
         this.cls = cls;
         this.objMark = objMark;
         // 如果明确指定了syncProperty
         // 或cls存在成员变量，才执行initMark
         // 其他情况表示，cls还未被初始化
-        if ((objMark && objMark.SyncProperty) || Object.keys(cls).length > 0) {
+        if ((objMark && objMark.SyncProperty) || (autoScan && Object.keys(cls).length > 0)) {
             this.initMark();
         }
     }

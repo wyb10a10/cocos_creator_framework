@@ -9,6 +9,6 @@
   "dependencies": {
     "@types/ws": "^8.5.3",
     "http": "^0.0.1-security",
-    "ws": "^8.8.1"
+    "ws": "^8.17.1"
   }
 }
